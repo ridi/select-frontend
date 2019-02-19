@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 import { Button, Icon } from '@ridi/rsg';
+import { ConnectedBookListPreview } from 'app/components/BookListPreview';
 import { setDisableScroll } from 'app/utils/utils';
-import { ConnectedAvailableBooks } from './AvailableBooks';
 
 export class InAppIntro extends React.Component {
   public componentDidMount() {
@@ -14,7 +14,7 @@ export class InAppIntro extends React.Component {
   public render() {
     return (
       <>
-        <ConnectedAvailableBooks hidePageTitle={true} />
+        <ConnectedBookListPreview />
         <div className="InAppIntro_Overlay">
           <div className="InAppIntro_Overlay_BG" />
           <div className="InAppIntro_Overlay_Main">

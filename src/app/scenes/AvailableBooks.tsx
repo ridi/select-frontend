@@ -27,10 +27,7 @@ interface CollectionDispatchProps {
 }
 
 type RouteProps = RouteComponentProps<{}>;
-type OwnProps = RouteProps & {
-  hidePageTitle?: boolean;
-};
-type Props = CollectionStateProps & CollectionDispatchProps & OwnProps;
+type Props = CollectionStateProps & RouteProps & ReturnType<typeof mapDispatchToProps>;
 
 interface State {
   isInitialized: boolean;
@@ -88,7 +85,7 @@ export class AvailableBooks extends React.Component<Props> {
     return (
       <main className="SceneWrapper">
         <Helmet title="서비스 도서 목록 - 리디셀렉트" />
-        {!hidePageTitle && <ConnectedPageHeader pageTitle="서비스 도서 목록" />}
+        <ConnectedPageHeader pageTitle="서비스 도서 목록" />
         {(
           !this.state.isInitialized || !this.isFetched(page) || isNaN(page)
         ) ? (
