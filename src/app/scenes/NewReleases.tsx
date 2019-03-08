@@ -34,6 +34,11 @@ export class NewReleases extends React.Component<Props> {
 
   public componentDidMount() {
     this.initialDispatchTimeout = window.setTimeout(() => {
+      const { dispatchLoadNewReleases, newReleases } = this.props;
+      if (!(newReleases && newReleases.itemListByPage[0] && newReleases.itemListByPage[0].isFetched)) {
+        dispatchLoadNewReleases(0);
+      }
+
       this.initialDispatchTimeout = null;
       this.setState({ isInitialized: true });
     });
@@ -58,23 +63,34 @@ export class NewReleases extends React.Component<Props> {
         ) ? (
           <GridBookListSkeleton />
         ) : (
-          <ConnectedListWithPagination
-            isFetched={(page) =>
-              newReleases &&
-              newReleases.itemListByPage[page] &&
-              newReleases.itemListByPage[page].isFetched
-            }
-            fetch={(page) => dispatchLoadNewReleases(page)}
-            itemCount={newReleases ? newReleases.itemCount : undefined}
-            buildPaginationURL={(page: number) => `/new-releases?page=${page}`}
-            renderPlaceholder={() => (<GridBookListSkeleton />)}
-            renderItems={(page) => (
-              <ConnectedGridBookList
-                pageTitleForTracking="recent"
-                books={newReleases.itemListByPage[page].itemList.map((id) => books[id].book!)}
-              />
-            )}
-          />
+          <>
+            <ConnectedGridBookList
+              pageTitleForTracking="recent"
+              books={newReleases.itemListByPage[0].itemList.map((id) => books[id].book!)}
+            />
+          </>
+          // <ConnectedGridBookList
+          //   pageTitleForTracking="recent"
+          //   books={newReleases.itemListByPage[page].itemList.map((id) => books[id].book!)}
+          // />
+          // <ConnectedListWithPagination />
+          // <ConnectedListWithPagination
+          //   isFetched={(page) =>
+          //     newReleases &&
+          //     newReleases.itemListByPage[page] &&
+          //     newReleases.itemListByPage[page].isFetched
+          //   }
+          //   fetch={(page) => dispatchLoadNewReleases(page)}
+          //   itemCount={newReleases ? newReleases.itemCount : undefined}
+          //   buildPaginationURL={(page: number) => `/new-releases?page=${page}`}
+          //   renderPlaceholder={() => (<GridBookListSkeleton />)}
+          //   renderItems={(page) => (
+          //     <ConnectedGridBookList
+          //       pageTitleForTracking="recent"
+          //       books={newReleases.itemListByPage[page].itemList.map((id) => books[id].book!)}
+          //     />
+          //   )}
+          // />
         )}
       </main>
     );
