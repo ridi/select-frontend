@@ -24,19 +24,26 @@ type Props = CollectionStateProps & CollectionDispatchProps & OwnProps;
 
 interface State {
   isInitialized: boolean;
+  page: number;
 }
 
 export class NewReleases extends React.Component<Props> {
   private initialDispatchTimeout?: number | null;
   public state: State = {
     isInitialized: false,
+    page: 0,
   };
+
+  private isFetched = (page: number) => {
+    const { newReleases } = this.props;
+    return (newReleases && newReleases.itemListByPage[page] && newReleases.itemListByPage[page].isFetched);
+  }
 
   public componentDidMount() {
     this.initialDispatchTimeout = window.setTimeout(() => {
-      const { dispatchLoadNewReleases, newReleases } = this.props;
-      if (!(newReleases && newReleases.itemListByPage[0] && newReleases.itemListByPage[0].isFetched)) {
-        dispatchLoadNewReleases(0);
+      const { dispatchLoadNewReleases } = this.props;
+      if (!this.isFetched(this.state.page)) {
+        dispatchLoadNewReleases(this.state.page);
       }
 
       this.initialDispatchTimeout = null;
@@ -54,19 +61,20 @@ export class NewReleases extends React.Component<Props> {
 
   public render() {
     const { dispatchLoadNewReleases, newReleases, books } = this.props;
+    const { page } = this.state;
     return (
       <main className="SceneWrapper">
         <Helmet title="최신 업데이트 - 리디셀렉트" />
         <PCPageHeader pageTitle="최신 업데이트" />
         {(
-          !this.state.isInitialized
+          !this.state.isInitialized || !this.isFetched(page) || Number.isNaN(page)
         ) ? (
           <GridBookListSkeleton />
         ) : (
           <>
             <ConnectedGridBookList
               pageTitleForTracking="recent"
-              books={newReleases.itemListByPage[0].itemList.map((id) => books[id].book!)}
+              books={newReleases.itemListByPage[page].itemList.map((id) => books[id].book!)}
             />
           </>
           // <ConnectedGridBookList
