@@ -32,12 +32,14 @@ type Props = CollectionStateProps & CollectionDispatchProps & OwnProps;
 
 interface State {
   isInitialized: boolean;
+  page: number;
 }
 
 export class NewReleases extends React.Component<Props> {
   private initialDispatchTimeout?: number | null;
   public state: State = {
     isInitialized: false,
+    page: 0,
   };
 
   private isFetched = (page: number) => {
