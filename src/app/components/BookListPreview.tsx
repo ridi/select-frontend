@@ -5,12 +5,12 @@ import { DTOBookThumbnail } from 'app/components';
 import { ThumbnailSize } from 'app/components/BookThumbnail';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { Book, BookState } from 'app/services/book';
-import { Actions, ReservedSelectionState } from 'app/services/selection';
+import { Actions, ReservedCollectionState } from 'app/services/collection';
 import { RidiSelectState } from 'app/store';
 import MediaQuery from 'react-responsive';
 
 interface BookListPreviewStateProps {
-  availableBooks: ReservedSelectionState;
+  availableBooks: ReservedCollectionState;
   books: BookState;
 }
 
@@ -84,13 +84,13 @@ export class BookListPreview extends React.Component<Props> {
 
 const mapStateToProps = (rootState: RidiSelectState): BookListPreviewStateProps => {
   return {
-    availableBooks: rootState.selectionsById.popular,
+    availableBooks: rootState.collectionsById.popular,
     books: rootState.booksById,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    dispatchLoadAvailableBooks: () => dispatch(Actions.loadSelectionRequest({ selectionId: 'popular', page: 1 })),
+    dispatchLoadAvailableBooks: () => dispatch(Actions.loadCollectionRequest({ collectionId: 'popular', page: 1 })),
   };
 };
 export const ConnectedBookListPreview = connect(mapStateToProps, mapDispatchToProps)(BookListPreview);
