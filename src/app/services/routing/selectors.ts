@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 import { RidiSelectState } from 'app/store';
 
-export const selectSearch = (state: RidiSelectState, props: any) => state.router.location!.search || '';
+export const selectSearch = (state: RidiSelectState) => state.router.location!.search || '';
 
 export const getPageQuery = createSelector(
   [selectSearch],

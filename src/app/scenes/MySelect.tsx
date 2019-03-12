@@ -264,11 +264,11 @@ class MySelect extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RidiSelectState, props: {}): StateProps => {
+const mapStateToProps = (state: RidiSelectState): StateProps => {
   return {
     mySelectBooks: state.mySelect.mySelectBooks,
     deletionFetchStatus: state.mySelect.deletionFetchStatus,
-    page: getPageQuery(state, props),
+    page: getPageQuery(state),
   };
 };
 

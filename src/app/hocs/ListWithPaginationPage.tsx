@@ -77,7 +77,7 @@ export class ListWithPaginationPage extends React.Component<Props> {
               <h2 className="a11y">{page} 페이지</h2>
               {renderItems(page)}
             </section>
-            {/* {itemCount > 0 && <MediaQuery maxWidth={840}>
+            {itemCount > 0 && <MediaQuery maxWidth={840}>
               {(isMobile) => <Pagination
                 currentPage={page}
                 isMobile={isMobile}
@@ -89,7 +89,7 @@ export class ListWithPaginationPage extends React.Component<Props> {
                   }),
                 }}
               />}
-            </MediaQuery>} */}
+            </MediaQuery>}
             {children}
           </>
         )}
@@ -98,9 +98,9 @@ export class ListWithPaginationPage extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = (state: RidiSelectState, props: OwnProps): StateProps => {
+const mapStateToProps = (state: RidiSelectState): StateProps => {
   return {
-    page: getPageQuery(state, props),
+    page: getPageQuery(state),
   };
 };
 

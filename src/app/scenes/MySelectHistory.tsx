@@ -210,10 +210,10 @@ class MySelectHistory extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RidiSelectState, props: {}): StateProps => {
+const mapStateToProps = (state: RidiSelectState): StateProps => {
   return {
     mySelectHistory: state.user.mySelectHistory,
-    page: getPageQuery(state, props),
+    page: getPageQuery(state),
   };
 };
 
