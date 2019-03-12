@@ -16,6 +16,11 @@ import { getPageQuery } from 'app/services/routing/selectors';
 
 import { RidiSelectState } from 'app/store';
 
+import { Pagination } from 'app/components/Pagination';
+import { getPageQuery } from 'app/services/routing/selectors';
+import MediaQuery from 'react-responsive';
+import { Link, LinkProps } from 'react-router-dom';
+
 interface CollectionStateProps {
   newReleases: ReservedCollectionState;
   books: BookState;
@@ -32,14 +37,12 @@ type Props = CollectionStateProps & CollectionDispatchProps & OwnProps;
 
 interface State {
   isInitialized: boolean;
-  page: number;
 }
 
 export class NewReleases extends React.Component<Props> {
   private initialDispatchTimeout?: number | null;
   public state: State = {
     isInitialized: false,
-    page: 0,
   };
 
   private isFetched = (page: number) => {
