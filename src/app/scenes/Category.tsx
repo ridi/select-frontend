@@ -14,12 +14,17 @@ import { Actions as categoryActions } from 'app/services/category';
 import { getIdFromLocationSearch, isValidNumber } from 'app/services/category/utils';
 import { RidiSelectState } from 'app/store';
 
+import { Pagination } from 'app/components/Pagination';
+import { getPageQuery } from 'app/services/routing/selectors';
+import { Link, LinkProps } from 'react-router-dom';
+
 interface CategoryStateProps {
   isCategoryListFetched: boolean;
   categoryList: CategoryState[];
   categoryId: number;
   category: CategoryCollectionState;
   books: BookState;
+  page: number;
 }
 
 type Props = CategoryStateProps & ReturnType<typeof mapDispatchToProps>;
@@ -33,6 +38,11 @@ export class Category extends React.Component<Props, State> {
   public state: State = {
     isInitialized: false,
   };
+
+  private isFetched = (page: number) => {
+    const { category } = this.props;
+    return category && category.itemListByPage[page] && category.itemListByPage[page].isFetched;
+  }
 
   private renderSelectBox() {
     const { categoryId, categoryList = [] } = this.props;
@@ -63,15 +73,25 @@ export class Category extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
-    const { categoryId } = this.props;
+    const { categoryId, page,
+      isCategoryListFetched,
+      dispatchCacheCategoryId,
+      dispatchInitializeCategoriesWhole,
+      dispatchLoadCategoryBooks } = this.props;
+
     this.initialDispatchTimeout = window.setTimeout(() => {
       if (isValidNumber(categoryId)) {
-        this.props.dispatchCacheCategoryId(categoryId);
+        dispatchCacheCategoryId(categoryId);
       }
-      this.props.dispatchInitializeCategoriesWhole(
-        !this.props.isCategoryListFetched,
+      dispatchInitializeCategoriesWhole(
+        !isCategoryListFetched,
         !isValidNumber(categoryId),
       );
+
+      if (!this.isFetched(page)) {
+        dispatchLoadCategoryBooks(categoryId, page);
+      }
+
       this.initialDispatchTimeout = null;
       this.setState({ isInitialized: true });
     });
@@ -81,6 +101,14 @@ export class Category extends React.Component<Props, State> {
     const { categoryId } = this.props;
     if (this.state.isInitialized && isValidNumber(categoryId) && prevProps.categoryId !== categoryId) {
       this.props.dispatchCacheCategoryId(categoryId);
+    }
+
+    if (prevProps.page !== this.props.page) {
+      const { dispatchLoadCategoryBooks, page } = this.props;
+
+      if (!this.isFetched(page)) {
+        dispatchLoadCategoryBooks(categoryId, page);
+      }
     }
   }
 
@@ -99,43 +127,54 @@ export class Category extends React.Component<Props, State> {
       categoryId,
       dispatchLoadCategoryBooks,
       isCategoryListFetched,
+      page,
     } = this.props;
+
+    const selectBoxTemplate = (isValidNumber(categoryId) && this.renderSelectBox());
     return (
       <main className="SceneWrapper">
         <Helmet title="카테고리 - 리디셀렉트" />
         <PCPageHeader pageTitle="카테고리">
-          {isValidNumber(categoryId) && this.renderSelectBox()}
+          {selectBoxTemplate}
         </PCPageHeader>
         <MediaQuery maxWidth={840}>
           {(isMobile) => isMobile
             && (
             <div className="Category_Header GridBookList">
-              {isValidNumber(categoryId) && this.renderSelectBox()}
+              {selectBoxTemplate}
             </div>
           )}
         </MediaQuery>
         {(
-          !this.state.isInitialized ||
-          !isCategoryListFetched ||
-          !isValidNumber(categoryId)
+          !this.state.isInitialized || !isCategoryListFetched || !isValidNumber(categoryId)
         ) ? (
           <GridBookListSkeleton />
         ) : (
-          <ConnectedListWithPagination
-            isFetched={(page) => category && category.itemListByPage[page] && category.itemListByPage[page].isFetched}
-            fetch={(page) => dispatchLoadCategoryBooks(categoryId, page)}
-            itemCount={category ? category.itemCount : undefined}
-            buildPaginationURL={(p: number) => `/categories?id=${categoryId}&page=${p}`}
-            renderPlaceholder={() => (<GridBookListSkeleton />)}
-            _key={categoryId.toString()}
-            renderItems={(page) => (
-              <ConnectedGridBookList
-                pageTitleForTracking="category"
-                filterForTracking={categoryId.toString()}
-                books={category.itemListByPage[page].itemList.map((id) => books[id].book!)}
-              />
-            )}
-          />
+          <>
+
+          {/* <ConnectedGridBookList
+            pageTitleForTracking="category"
+            filterForTracking={categoryId.toString()}
+            books={category.itemListByPage[page].itemList.map((id) => books[id].book!)}
+          /> */}
+          {/* <Pagination /> */}
+          </>
+
+          // <ConnectedListWithPagination
+          //   isFetched={(page) => category && category.itemListByPage[page] && category.itemListByPage[page].isFetched}
+          //   fetch={(page) => dispatchLoadCategoryBooks(categoryId, page)}
+          //   itemCount={category ? category.itemCount : undefined}
+          //   buildPaginationURL={(p: number) => `/categories?id=${categoryId}&page=${p}`}
+          //   renderPlaceholder={() => (<GridBookListSkeleton />)}
+          //   _key={categoryId.toString()}
+          //   renderItems={(page) => (
+          //     <ConnectedGridBookList
+          //       pageTitleForTracking="category"
+          //       filterForTracking={categoryId.toString()}
+          //       books={category.itemListByPage[page].itemList.map((id) => books[id].book!)}
+          //     />
+          //   )}
+          // />
         )}
       </main>
     );
@@ -149,6 +188,7 @@ const mapStateToProps = (rootState: RidiSelectState): CategoryStateProps => {
     categoryId: Number(getIdFromLocationSearch(rootState.router.location!.search)),
     category: rootState.categoriesById[Number(getIdFromLocationSearch(rootState.router.location!.search))],
     books: rootState.booksById,
+    page: getPageQuery(rootState),
   };
 };
 

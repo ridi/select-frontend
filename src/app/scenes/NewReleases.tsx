@@ -7,6 +7,7 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { Dispatch } from 'redux';
 
 import { Pagination } from 'app/components/Pagination';
 import { getPageQuery } from 'app/services/routing/selectors';
@@ -119,7 +120,7 @@ const mapStateToProps = (rootState: RidiSelectState): CollectionStateProps => {
     page: getPageQuery(rootState),
   };
 };
-const mapDispatchToProps = (dispatch: any): CollectionDispatchProps => {
+const mapDispatchToProps = (dispatch: Dispatch): CollectionDispatchProps => {
   return {
     dispatchLoadNewReleases: (page: number) => dispatch(Actions.loadCollectionRequest({ collectionId: 'recent', page })),
   };

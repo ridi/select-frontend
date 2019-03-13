@@ -14,6 +14,7 @@ import { Helmet } from 'react-helmet';
 interface CollectionStateProps {
   availableBooks: ReservedCollectionState;
   books: BookState;
+  page: number;
 }
 
 type RouteProps = RouteComponentProps<{}>;
