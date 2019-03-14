@@ -1,18 +1,20 @@
-import { ConnectedGridBookList, PCPageHeader } from 'app/components';
-import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
-import { BookState } from 'app/services/book';
-import { Actions, ReservedCollectionState } from 'app/services/collection';
-import { RidiSelectState } from 'app/store';
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
+import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
+import { ConnectedGridBookList, PCPageHeader } from 'app/components';
 import { Pagination } from 'app/components/Pagination';
+import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
+
+import { BookState } from 'app/services/book';
+import { Actions, ReservedCollectionState } from 'app/services/collection';
 import { getPageQuery } from 'app/services/routing/selectors';
-import MediaQuery from 'react-responsive';
-import { Link, LinkProps } from 'react-router-dom';
+
+import { RidiSelectState } from 'app/store';
 
 interface CollectionStateProps {
   newReleases: ReservedCollectionState;
@@ -55,14 +57,15 @@ export class NewReleases extends React.Component<Props> {
     });
   }
 
-  public componentDidUpdate(prevProps: Props) {
-    if (prevProps.page !== this.props.page) {
-      const { dispatchLoadNewReleases, page } = this.props;
+  public shouldComponentUpdate(nextProps: Props) {
+    if (nextProps.page !== this.props.page) {
+      const { dispatchLoadNewReleases, page } = nextProps;
 
       if (!this.isFetched(page)) {
         dispatchLoadNewReleases(page);
       }
     }
+    return true;
   }
 
   public componentWillUnmount() {
@@ -75,14 +78,14 @@ export class NewReleases extends React.Component<Props> {
 
   public render() {
     const { newReleases, books, page } = this.props;
-    const itemCount: number = newReleases.itemCount === undefined ? 0 : newReleases.itemCount;
+    const itemCount: number = newReleases.itemCount ? newReleases.itemCount : 0;
     const itemCountPerPage: number = 24;
     return (
       <main className="SceneWrapper">
         <Helmet title="최신 업데이트 - 리디셀렉트" />
         <PCPageHeader pageTitle="최신 업데이트" />
         {(
-          !this.state.isInitialized || !this.isFetched(page) || Number.isNaN(page)
+          !this.state.isInitialized || !this.isFetched(page) || isNaN(page)
         ) ? (
           <GridBookListSkeleton />
         ) : (
