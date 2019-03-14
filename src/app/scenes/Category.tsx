@@ -97,19 +97,22 @@ export class Category extends React.Component<Props, State> {
     });
   }
 
-  public componentDidUpdate(prevProps: Props) {
-    const { categoryId } = this.props;
-    if (this.state.isInitialized && isValidNumber(categoryId) && prevProps.categoryId !== categoryId) {
-      this.props.dispatchCacheCategoryId(categoryId);
+  public shouldComponentUpdate(nextProps: Props, nextState: State) {
+    const { categoryId, dispatchCacheCategoryId } = nextProps;
+    const { isInitialized } = nextState;
+    if (isInitialized && isValidNumber(categoryId) && this.props.categoryId !== categoryId) {
+      dispatchCacheCategoryId(categoryId);
     }
 
-    if (prevProps.page !== this.props.page) {
-      const { dispatchLoadCategoryBooks, page } = this.props;
-
+    if (nextProps.page !== this.props.page ||
+        nextProps.categoryId !== this.props.categoryId
+      ) {
+      const { dispatchLoadCategoryBooks, page } = nextProps;
       if (!this.isFetched(page)) {
         dispatchLoadCategoryBooks(categoryId, page);
       }
     }
+    return true;
   }
 
   public componentWillUnmount() {
@@ -125,10 +128,11 @@ export class Category extends React.Component<Props, State> {
       books,
       category,
       categoryId,
-      dispatchLoadCategoryBooks,
       isCategoryListFetched,
       page,
     } = this.props;
+    const itemCount: any  = category ? category.itemCount : 0;
+    const itemCountPerPage: number = 24;
 
     const selectBoxTemplate = (isValidNumber(categoryId) && this.renderSelectBox());
     return (
@@ -146,35 +150,32 @@ export class Category extends React.Component<Props, State> {
           )}
         </MediaQuery>
         {(
-          !this.state.isInitialized || !isCategoryListFetched || !isValidNumber(categoryId)
+          !this.state.isInitialized || !isCategoryListFetched || !isValidNumber(categoryId) || !this.isFetched(page)
         ) ? (
           <GridBookListSkeleton />
         ) : (
           <>
-
-          {/* <ConnectedGridBookList
+          <ConnectedGridBookList
             pageTitleForTracking="category"
             filterForTracking={categoryId.toString()}
             books={category.itemListByPage[page].itemList.map((id) => books[id].book!)}
-          /> */}
-          {/* <Pagination /> */}
+          />
+          {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={840}>
+            {
+              (isMobile) => <Pagination
+                currentPage={page}
+                totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                isMobile={isMobile}
+                item={{
+                  el: Link,
+                  getProps: (p): LinkProps => ({
+                    to: `/categories?id=${categoryId}&page=${p}`,
+                  }),
+                }}
+              />
+            }
+          </MediaQuery>}
           </>
-
-          // <ConnectedListWithPagination
-          //   isFetched={(page) => category && category.itemListByPage[page] && category.itemListByPage[page].isFetched}
-          //   fetch={(page) => dispatchLoadCategoryBooks(categoryId, page)}
-          //   itemCount={category ? category.itemCount : undefined}
-          //   buildPaginationURL={(p: number) => `/categories?id=${categoryId}&page=${p}`}
-          //   renderPlaceholder={() => (<GridBookListSkeleton />)}
-          //   _key={categoryId.toString()}
-          //   renderItems={(page) => (
-          //     <ConnectedGridBookList
-          //       pageTitleForTracking="category"
-          //       filterForTracking={categoryId.toString()}
-          //       books={category.itemListByPage[page].itemList.map((id) => books[id].book!)}
-          //     />
-          //   )}
-          // />
         )}
       </main>
     );
