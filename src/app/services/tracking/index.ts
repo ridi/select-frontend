@@ -1,4 +1,4 @@
-import { createAction, createReducer } from 'redux-act';
+import { createAction } from 'redux-act';
 
 import { BookId } from 'app/types';
 export interface DefaultTrackingParams {
@@ -25,7 +25,3 @@ export const Actions = {
     trackingParams: TrakcingCustomEventParams,
   }>('trackMySelectAdded'),
 };
-
-export const INITIAL_STATE = {};
-
-export const trackingReducer = createReducer<typeof INITIAL_STATE>({}, INITIAL_STATE);
