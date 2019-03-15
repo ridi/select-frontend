@@ -1,51 +1,119 @@
 import * as React from 'react';
-
-import { ConnectedPageHeader } from 'app/components';
-import { ConnectedGridBookList } from 'app/components/GridBookList';
-import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
-import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
-import { BookState } from 'app/services/book';
-import { Actions, ChartCollectionState } from 'app/services/collection';
-import { RidiSelectState } from 'app/store';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
+import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { Link, LinkProps } from 'react-router-dom';
+import { Dispatch } from 'redux';
+
+import { ConnectedGridBookList, ConnectedPageHeader } from 'app/components';
+import { Pagination } from 'app/components/Pagination';
+import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
+
+import { BookState } from 'app/services/book';
+import { Actions, ChartCollectionState } from 'app/services/collection';
+import { getPageQuery } from 'app/services/routing/selectors';
+
+import { RidiSelectState } from 'app/store';
 
 interface CollectionStateProps {
   collection: ChartCollectionState;
   books: BookState;
+  page: number;
+}
+
+interface CollectionDispatchProps {
+  dispatchLoadNewReleases: (page: number) => ReturnType<typeof Actions.loadCollectionRequest>;
+}
+interface State {
+  isInitialized: boolean;
 }
 
 type RouteProps = RouteComponentProps<{}>;
 type OwnProps = RouteProps;
-type Props = CollectionStateProps & OwnProps & ReturnType<typeof mapDispatchToProps>;
+type Props = CollectionStateProps & CollectionDispatchProps & OwnProps;
 
 export class Charts extends React.Component<Props> {
+  private initialDispatchTimeout?: number | null;
+  public state: State = {
+    isInitialized: false,
+  };
+
+  private isFetched = (page: number) => {
+    const { collection } = this.props;
+    return (collection && collection.itemListByPage[page] && collection.itemListByPage[page].isFetched);
+  }
+
+  public componentDidMount() {
+    this.initialDispatchTimeout = window.setTimeout(() => {
+      const { dispatchLoadNewReleases, page } = this.props;
+      if (!this.isFetched(page)) {
+        dispatchLoadNewReleases(page);
+      }
+
+      this.initialDispatchTimeout = null;
+      this.setState({ isInitialized: true });
+    });
+  }
+
+  public shouldComponentUpdate(nextProps: Props) {
+    if (nextProps.page !== this.props.page) {
+      const { dispatchLoadNewReleases, page } = nextProps;
+
+      if (!this.isFetched(page)) {
+        dispatchLoadNewReleases(page);
+      }
+    }
+
+    return true;
+  }
+
+  public componentWillUnmount() {
+    if (this.initialDispatchTimeout) {
+      window.clearTimeout(this.initialDispatchTimeout);
+      this.initialDispatchTimeout = null;
+      this.setState({ isInitialized: true });
+    }
+  }
+
   public render() {
-    const { dispatchLoadNewReleases, collection, books } = this.props;
+    const { collection, books, page } = this.props;
+    const itemCount: number = collection.itemCount ? collection.itemCount : 0;
+    const itemCountPerPage: number = 24;
     return (
       <main className="SceneWrapper">
         <Helmet title="인기 도서 - 리디셀렉트" />
         <ConnectedPageHeader pageTitle="인기 도서" />
-        <ConnectedListWithPagination
-          isFetched={(page) =>
-            collection &&
-            collection.itemListByPage[page] &&
-            collection.itemListByPage[page].isFetched
-          }
-          fetch={(page) => dispatchLoadNewReleases(page)}
-          itemCount={collection ? collection.itemCount : undefined}
-          buildPaginationURL={(page: number) => `/charts?page=${page}`}
-          renderPlaceholder={() => (<GridBookListSkeleton displayRanking={true} />)}
-          renderItems={(page) => (
+        {(
+          !this.state.isInitialized || !this.isFetched(page) || isNaN(page)
+        ) ? (
+          <GridBookListSkeleton displayRanking={true} />
+        ) : (
+          <>
             <ConnectedGridBookList
               pageTitleForTracking="popular"
               books={collection.itemListByPage[page].itemList.map((id) => books[id].book!)}
               isChart={true}
               page={page}
             />
-          )}
-        />
+            {itemCount > 0 && <MediaQuery maxWidth={840}>
+              {
+                (isMobile) => <Pagination
+                  currentPage={page}
+                  totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                  isMobile={isMobile}
+                  item={{
+                    el: Link,
+                    getProps: (p): LinkProps => ({
+                      to: `/charts?page=${p}`,
+                    }),
+                  }}
+                />
+              }
+            </MediaQuery>}
+          </>
+
+        )}
       </main>
     );
   }
@@ -55,9 +123,10 @@ const mapStateToProps = (rootState: RidiSelectState): CollectionStateProps => {
   return {
     collection: rootState.collectionsById.popular,
     books: rootState.booksById,
+    page: getPageQuery(rootState),
   };
 };
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     dispatchLoadNewReleases: (page: number) => dispatch(Actions.loadCollectionRequest({ collectionId: 'popular', page })),
   };
