@@ -8,7 +8,7 @@ import { all, call, put, take, takeEvery } from 'redux-saga/effects';
 export function* loadCollection({ payload }: ReturnType<typeof Actions.loadCollectionRequest>) {
   const { page, collectionId } = payload!;
   try {
-    if (Number.isNaN(page)) {
+    if (isNaN(page)) {
       throw FetchErrorFlag.UNEXPECTED_PAGE_PARAMS;
     }
     const response: CollectionResponse = yield call(requestCollection, collectionId, page);
@@ -42,5 +42,8 @@ export function* watchCollectionFailure() {
 }
 
 export function* collectionsRootSaga() {
-  yield all([watchLoadCollection()]);
+  yield all([
+    watchLoadCollection(),
+    watchCollectionFailure(),
+  ]);
 }

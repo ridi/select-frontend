@@ -175,6 +175,13 @@ class MySelect extends React.Component<Props, State> {
     dispatchResetMySelectPageFetchedStatus(page);
   }
 
+  public shouldComponentUpdate(nextProps: Props) {
+    if (isNaN(nextProps.page)) {
+      return false;
+    }
+    return true;
+  }
+
   public renderBooks(books: MySelectBook[]) {
     return (
       <div>

@@ -29,7 +29,7 @@ import { getIsIosInApp, selectIsInApp } from '../environment/selectors';
 export function* loadMySelectList({ payload }: ReturnType<typeof Actions.loadMySelectRequest>) {
   const { page } = payload;
   try {
-    if (Number.isNaN(page)) {
+    if (isNaN(page)) {
       throw FetchErrorFlag.UNEXPECTED_PAGE_PARAMS;
     }
     const response: MySelectListResponse = yield call(requestMySelectList, page);
@@ -164,5 +164,11 @@ export function* watchAddMySelectSuccess() {
 }
 
 export function* mySelectRootSaga() {
-  yield all([watchLoadMySelectList(), watchDeleteMySelect(), watchAddMySelect(), watchAddMySelectSuccess()]);
+  yield all([
+    watchLoadMySelectList(),
+    watchDeleteMySelect(),
+    watchAddMySelect(),
+    watchAddMySelectSuccess(),
+    watchLoadMySelectFailure(),
+  ]);
 }
