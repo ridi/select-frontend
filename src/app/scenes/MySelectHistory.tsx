@@ -2,18 +2,19 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
-import { Link, LinkProps, RouteComponentProps, withRouter } from 'react-router-dom';
+import { Link, LinkProps } from 'react-router-dom';
 
-import { Button, CheckBox, Empty } from '@ridi/rsg';
-import { ConnectedPageHeader } from 'app/components';
-import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
+import { ConnectedPageHeader, DTOBookThumbnail } from 'app/components';
 import { Pagination } from 'app/components/Pagination';
 import { FetchStatusFlag } from 'app/constants';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
+
 import { MySelectBook } from 'app/services/mySelect';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { Actions, MySelectHistroyState } from 'app/services/user';
 import { RidiSelectState } from 'app/store';
+
+import { Button, CheckBox, Empty } from '@ridi/rsg';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import toast from 'app/utils/toast';
 
