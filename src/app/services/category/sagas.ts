@@ -115,5 +115,6 @@ export function* categoryRootSaga() {
     watchInitializeWhole(),
     watchCacheCategoryId(),
     watchLoadCategoryBooks(),
+    watchCategoryBooksFailure(),
   ]);
 }
