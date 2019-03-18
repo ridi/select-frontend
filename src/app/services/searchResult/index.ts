@@ -1,9 +1,10 @@
 import { createAction, createReducer } from 'redux-act';
 
-import { FetchStatusFlag } from 'app/constants';
+import { FetchErrorFlag, FetchStatusFlag } from 'app/constants';
 import { Book } from 'app/services/book';
 import { SearchResultReponse } from 'app/services/searchResult/requests';
 import { BookId, Paginated } from 'app/types';
+import { AxiosError } from 'axios';
 
 export const Actions = {
   queryKeywordRequest: createAction<{
@@ -18,6 +19,7 @@ export const Actions = {
   queryKeywordFailure: createAction<{
     keyword: string,
     page: number,
+    error: AxiosError | FetchErrorFlag,
   }>('queryKeywordFailure'),
 };
 
