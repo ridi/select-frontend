@@ -102,9 +102,9 @@ export function* watchCategoryBooksFailure() {
     const { payload: { page, error } }: ReturnType<typeof Actions.loadCategoryBooksFailure> = yield take(Actions.loadCategoryBooksFailure.getType());
     if (error === FetchErrorFlag.UNEXPECTED_PAGE_PARAMS || page === 1) {
       toast.failureMessage('없는 페이지입니다. 다시 시도해주세요.');
-      return;
+    } else if (!page) {
+      toast.failureMessage();
     }
-    toast.failureMessage();
   }
 }
 

@@ -1,10 +1,12 @@
 import { store } from 'app/store';
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import axiosRetry, { isNetworkOrIdempotentRequestError } from 'axios-retry';
 
 import env from 'app/config/env';
+import history from 'app/config/history';
 import { Actions as ServiceStatusActions } from 'app/services/serviceStatus';
 import createRefreshTokenInstance from 'app/utils/refreshToken';
+import { updateQueryStringParam } from 'app/utils/request';
 
 const instance = axios.create({
   baseURL: env.SELECT_API,
@@ -38,7 +40,16 @@ instance.interceptors.response.use(
         return refreshTokenInstance
           .post('/ridi/token/')
           .then(() => instance.request(config));
-      } else if (Math.floor(status / 100) === 5 && data.status === 'maintenance') { // TODO: 서비스 이용이 불가능한 엔드포인트만 에러페이지로 렌더링되도록 변경
+      } else if (status === 404) {
+        const { params = {} } = config;
+        if (
+          params.page && (Number(params.page) > 1 || Number(params.page) < 1)
+        ) {
+          history.replace(`?${updateQueryStringParam('page', 1)}`);
+          return Promise.reject(error);
+        }
+      } else if (Math.floor(status / 100) === 5 && data.status === 'maintenance') {
+        // TODO: 서비스 이용이 불가능한 엔드포인트만 에러페이지로 렌더링되도록 변경
         store.dispatch(ServiceStatusActions.setState({
           status,
           data,

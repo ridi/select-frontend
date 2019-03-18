@@ -146,9 +146,9 @@ export function* watchLoadMySelectFailure() {
     const { payload: { error, page } }: ReturnType<typeof Actions.loadMySelectFailure> = yield take(Actions.loadMySelectFailure.getType());
     if (error === FetchErrorFlag.UNEXPECTED_PAGE_PARAMS || page === 1) {
       toast.failureMessage('없는 페이지입니다. 다시 시도해주세요.');
-      return;
+    } else if (!page) {
+      toast.failureMessage();
     }
-    toast.failureMessage();
   }
 }
 
