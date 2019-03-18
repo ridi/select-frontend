@@ -136,7 +136,12 @@ class MySelect extends React.Component<Props, State> {
 
   public componentDidUpdate(prevProps: Props) {
     const { dispatchResetMySelectPageFetchedStatus, mySelectBooks, page } = this.props;
-    if (prevProps.page !== page) {
+    if (
+      prevProps.page !== page &&
+      prevProps.mySelectBooks &&
+      prevProps.mySelectBooks.itemListByPage[prevProps.page] &&
+      prevProps.mySelectBooks.itemListByPage[prevProps.page].isFetched
+    ) {
       this.setState({
         bookInputs: {},
       });
@@ -173,13 +178,6 @@ class MySelect extends React.Component<Props, State> {
       this.setState({ isInitialized: false });
     }
     dispatchResetMySelectPageFetchedStatus(page);
-  }
-
-  public shouldComponentUpdate(nextProps: Props) {
-    if (isNaN(nextProps.page)) {
-      return false;
-    }
-    return true;
   }
 
   public renderBooks(books: MySelectBook[]) {
