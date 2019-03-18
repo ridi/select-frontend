@@ -16,13 +16,6 @@ import { getPageQuery } from 'app/services/routing/selectors';
 
 import { RidiSelectState } from 'app/store';
 
-import { Pagination } from 'app/components/Pagination';
-import { getPageQuery } from 'app/services/routing/selectors';
-import MediaQuery from 'react-responsive';
-import { Link, LinkProps } from 'react-router-dom';
-
-import { RidiSelectState } from 'app/store';
-
 interface CollectionStateProps {
   newReleases: ReservedCollectionState;
   books: BookState;
