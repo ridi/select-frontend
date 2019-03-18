@@ -1,21 +1,26 @@
-import { Button, CheckBox, Empty } from '@ridi/rsg';
-import { PCPageHeader } from 'app/components';
-import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
-import { FetchStatusFlag } from 'app/constants';
-import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
-import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
-import { MySelectBook, PaginatedMySelectBooks } from 'app/services/mySelect';
-import { Actions } from 'app/services/mySelect';
-import { BookIdsPair } from 'app/services/mySelect/requests';
-import { getPageQuery } from 'app/services/routing/selectors';
-import { RidiSelectState } from 'app/store';
-import { downloadBooksInRidiselect } from 'app/utils/downloadUserBook';
-import toast from 'app/utils/toast';
-import { stringifyAuthors } from 'app/utils/utils';
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import MediaQuery from 'react-responsive';
+import { Link, LinkProps } from 'react-router-dom';
+import { Dispatch } from 'redux';
+
+import { DTOBookThumbnail, PCPageHeader } from 'app/components';
+import { Pagination } from 'app/components/Pagination';
+import { FetchStatusFlag } from 'app/constants';
+
+import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
+
+import { Actions, MySelectBook, PaginatedMySelectBooks } from 'app/services/mySelect';
+import { BookIdsPair } from 'app/services/mySelect/requests';
+import { getPageQuery } from 'app/services/routing/selectors';
+import { RidiSelectState } from 'app/store';
+
+import { downloadBooksInRidiselect } from 'app/utils/downloadUserBook';
+import toast from 'app/utils/toast';
+import { stringifyAuthors } from 'app/utils/utils';
+
+import { Button, CheckBox, Empty } from '@ridi/rsg';
 
 interface StateProps {
   mySelectBooks: PaginatedMySelectBooks;
@@ -100,11 +105,34 @@ class MySelect extends React.Component<Props, State> {
     return Object.keys(bookInputs).length > 0 && books.every((book) => bookInputs[book.mySelectBookId]);
   }
 
+  private isFetched = (page: number) => {
+    const { mySelectBooks } = this.props;
+    return (mySelectBooks && mySelectBooks.itemListByPage[page] && mySelectBooks.itemListByPage[page].isFetched);
+  }
+
   public componentDidMount() {
     this.initialDispatchTimeout = window.setTimeout(() => {
+
+      const { dispatchLoadMySelectRequest, page } = this.props;
+      if (!this.isFetched(page)) {
+        dispatchLoadMySelectRequest(page);
+      }
+
       this.initialDispatchTimeout = null;
       this.setState({ isInitialized: true });
     });
+  }
+
+  public shouldComponentUpdate(nextProps: Props) {
+    if (nextProps.page !== this.props.page) {
+      const { dispatchLoadMySelectRequest, page } = nextProps;
+
+      if (!this.isFetched(page)) {
+        dispatchLoadMySelectRequest(page);
+      }
+    }
+
+    return true;
   }
 
   public componentDidUpdate(prevProps: Props) {
@@ -199,64 +227,71 @@ class MySelect extends React.Component<Props, State> {
     );
   }
   public render() {
-    const { mySelectBooks, dispatchLoadMySelectRequest } = this.props;
+    const { mySelectBooks, page } = this.props;
+
+    const itemCount: number = mySelectBooks.itemCount ? mySelectBooks.itemCount : 0;
+    const itemCountPerPage: number = mySelectBooks.size;
+
     return (
       <main className="SceneWrapper">
         <Helmet title="마이 셀렉트 - 리디셀렉트" />
         <div className="PageMySelect">
-          {!this.state.isInitialized ? (
+          {!this.state.isInitialized || !this.isFetched(page) || isNaN(page) ? (
             <LandscapeBookListSkeleton hasCheckbox={true} />
           ) : (
-            <ConnectedListWithPagination
-              isFetched={(page: number) =>
-                mySelectBooks &&
-                mySelectBooks.itemListByPage[page] &&
-                mySelectBooks.itemListByPage[page].isFetched
-              }
-              fetch={(page: number) => dispatchLoadMySelectRequest(page)}
-              itemCount={mySelectBooks ? mySelectBooks.itemCount : undefined}
-              itemCountPerPage={mySelectBooks.size}
-              buildPaginationURL={(page: number) => `/my-select?page=${page}`}
-              renderPlaceholder={() => (<LandscapeBookListSkeleton hasCheckbox={true} />)}
-              renderItems={(page: number) =>
-                mySelectBooks.itemCount === 0 ? (
-                  <Empty description="마이 셀렉트에 등록된 도서가 없습니다." iconName="book_1" />
-                ) : (
-                  <>
-                    <PCPageHeader pageTitle="마이 셀렉트" />
-                    <div className="PageMySelect">
-                      <div className="MySelectControls">
-                        <div className="MySelectControls_CheckBoxWrapper">
-                          <CheckBox
-                            className="MySelectControls_CheckBox"
-                            checked={this.areEveryBookChecked()}
-                            onChange={this.handleSelectAllCheckBoxChange}
-                          >
-                            전체 선택
-                          </CheckBox>
-                        </div>
-                        <Button
-                          onClick={this.handleDeleteButtonClick}
-                          className="MySelectControls_Button"
-                          outline={true}
-                          spinner={this.props.deletionFetchStatus === FetchStatusFlag.FETCHING}
+            <>
+              { mySelectBooks.itemCount === 0 ? (
+                <Empty description="마이 셀렉트에 등록된 도서가 없습니다." iconName="book_1" />
+              ) : (
+                <>
+                  <PCPageHeader pageTitle="마이 셀렉트" />
+                  <div className="PageMySelect">
+                    <div className="MySelectControls">
+                      <div className="MySelectControls_CheckBoxWrapper">
+                        <CheckBox
+                          className="MySelectControls_CheckBox"
+                          checked={this.areEveryBookChecked()}
+                          onChange={this.handleSelectAllCheckBoxChange}
                         >
-                          선택 삭제
-                        </Button>
-                        <Button
-                          className="MySelectControls_Button"
-                          color="blue"
-                          onClick={this.handleDownloadSelectedBooksButtonClick}
-                        >
-                          다운로드
-                        </Button>
-                      </div>
-                      {this.renderBooks(mySelectBooks.itemListByPage[page].itemList)}
+                          전체 선택
+                        </CheckBox>
                     </div>
-                  </>
-                )
-              }
-            />
+                    <Button
+                      onClick={this.handleDeleteButtonClick}
+                      className="MySelectControls_Button"
+                      outline={true}
+                      spinner={this.props.deletionFetchStatus === FetchStatusFlag.FETCHING}
+                    >
+                      선택 삭제
+                    </Button>
+                    <Button
+                      className="MySelectControls_Button"
+                      color="blue"
+                      onClick={this.handleDownloadSelectedBooksButtonClick}
+                    >
+                      다운로드
+                    </Button>
+                  </div>
+                  {this.renderBooks(mySelectBooks.itemListByPage[page].itemList)}
+                </div>
+                <MediaQuery maxWidth={840}>
+                  {
+                    (isMobile) => <Pagination
+                      currentPage={page}
+                      totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                      isMobile={isMobile}
+                      item={{
+                        el: Link,
+                        getProps: (p): LinkProps => ({
+                          to: `/my-select?page=${p}`,
+                        }),
+                      }}
+                    />
+                  }
+                </MediaQuery>
+              </>
+              )}
+            </>
           )}
         </div>
       </main>
@@ -272,7 +307,7 @@ const mapStateToProps = (state: RidiSelectState): StateProps => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     dispatchLoadMySelectRequest: (page: number) =>
       dispatch(Actions.loadMySelectRequest({ page })),
