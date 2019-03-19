@@ -11,7 +11,6 @@ import {
   requestMySelectList,
   UserRidiSelectBookResponse,
 } from 'app/services/mySelect/requests';
-import { Actions as MySelectHistoryActions } from 'app/services/user';
 
 import { reqeustMySelectHistory } from 'app/services/user/requests';
 
@@ -19,6 +18,7 @@ import { Actions as TrackingActions } from 'app/services/tracking';
 import { RidiSelectState } from 'app/store';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
 import { getNotAvailableConvertDate } from 'app/utils/expiredDate';
+import { paginationErrorCallback } from 'app/utils/pageParamsErrorHelper';
 import { updateQueryStringParam } from 'app/utils/request';
 import toast from 'app/utils/toast';
 import { AxiosResponse } from 'axios';
@@ -144,14 +144,7 @@ export function* watchAddMySelect() {
 export function* watchLoadMySelectFailure() {
   while (true) {
     const { payload: { error, page } }: ReturnType<typeof Actions.loadMySelectFailure> = yield take(Actions.loadMySelectFailure.getType());
-    if (error === FetchErrorFlag.UNEXPECTED_PAGE_PARAMS) {
-      toast.failureMessage('없는 페이지입니다. 첫번째 페이지로 이동합니다.');
-      history.replace(`?${updateQueryStringParam('page', 1)}`);
-    } else if (page === 1) {
-      toast.failureMessage('없는 페이지입니다. 다시 시도해주세요.');
-    } else if (!page) {
-      toast.failureMessage();
-    }
+    paginationErrorCallback(error, page);
   }
 }
 

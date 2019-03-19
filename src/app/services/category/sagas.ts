@@ -9,6 +9,7 @@ import { Actions, Category } from 'app/services/category';
 import { CategoryBooksResponse, requestCategoryBooks, requestCategoryList } from 'app/services/category/requests';
 import { localStorageManager } from 'app/services/category/utils';
 import { RidiSelectState } from 'app/store';
+import { paginationErrorCallback } from 'app/utils/pageParamsErrorHelper';
 import { updateQueryStringParam } from 'app/utils/request';
 import toast from 'app/utils/toast';
 import showMessageForRequestError from 'app/utils/toastHelper';
@@ -102,14 +103,7 @@ export function* watchLoadCategoryBooks() {
 export function* watchCategoryBooksFailure() {
   while (true) {
     const { payload: { page, error } }: ReturnType<typeof Actions.loadCategoryBooksFailure> = yield take(Actions.loadCategoryBooksFailure.getType());
-    if (error === FetchErrorFlag.UNEXPECTED_PAGE_PARAMS) {
-      toast.failureMessage('없는 페이지입니다. 첫번째 페이지로 이동합니다.');
-      history.replace(`?${updateQueryStringParam('page', 1)}`);
-    } else if (page === 1) {
-      toast.failureMessage('없는 페이지입니다. 다시 시도해주세요.');
-    } else if (!page) {
-      toast.failureMessage();
-    }
+    paginationErrorCallback(error, page);
   }
 }
 
