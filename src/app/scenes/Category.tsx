@@ -41,7 +41,7 @@ export class Category extends React.Component<Props, State> {
 
   private isFetched = (page: number) => {
     const { category } = this.props;
-    return category && category.itemListByPage[page] && category.itemListByPage[page].isFetched;
+    return (category && category.itemListByPage[page] && category.itemListByPage[page].isFetched);
   }
 
   private renderSelectBox() {
@@ -100,15 +100,21 @@ export class Category extends React.Component<Props, State> {
   public shouldComponentUpdate(nextProps: Props, nextState: State) {
     const { categoryId, dispatchCacheCategoryId } = nextProps;
     const { isInitialized } = nextState;
+
     if (isInitialized && isValidNumber(categoryId) && this.props.categoryId !== categoryId) {
       dispatchCacheCategoryId(categoryId);
+    }
+
+    if (!isValidNumber(categoryId)) {
+      return true;
     }
 
     if (nextProps.page !== this.props.page ||
         nextProps.categoryId !== this.props.categoryId
       ) {
-      const { dispatchLoadCategoryBooks, page } = nextProps;
-      if (!this.isFetched(page)) {
+      const { dispatchLoadCategoryBooks, page, category } = nextProps;
+
+      if (!(category && category.itemListByPage[page] && category.itemListByPage[page].isFetched)) {
         dispatchLoadCategoryBooks(categoryId, page);
       }
     }
