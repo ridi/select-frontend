@@ -53,10 +53,10 @@ $ git flow feature start branch_name
 
 ## Deployment
 
-* `develop` 브랜치가 개발용 호스트(https://select.ridi.io)는 자동으로 배포됩니다.
+* `develop` 브랜치로 머지되면 개발용 호스트(https://select.ridi.io)에 자동으로 배포됩니다.
 
 
-* `master` 브랜치는, 프로덕션 환경(https://select.ridibooks.com)에 PRE-RELEASE 상태로 배포됩니다.
+* `master` 브랜치는 프로덕션 환경(https://select.ridibooks.com)에 PRE-RELEASE 상태로 배포됩니다.
   > Hotfix 브랜치를 `master` 브랜치에 머지했다면 해당 브랜치를 `develop` 브랜치에도 머지해주세요.
   >
   > semi-linear history 규칙에 의해 Gitlab MR을 이용하기 어렵습니다.
