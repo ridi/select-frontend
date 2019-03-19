@@ -1,5 +1,5 @@
 import { store } from 'app/store';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosError } from 'axios';
 import axiosRetry, { isNetworkOrIdempotentRequestError } from 'axios-retry';
 
 import env from 'app/config/env';
