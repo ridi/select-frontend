@@ -67,9 +67,8 @@
       &::before {
         position: absolute;
         top: 0;
-        right: 1px;
-        left: 1px;
         height: 100%;
+        width: 100%;
         background-color: rgba(0, 0, 0, .5);
         content: '';
         transition: background-color 200ms linear;

@@ -142,7 +142,6 @@ export class BigBannerCarousel extends React.Component<Props, State> {
                     style={{
                       width: isMobile ? '100%' : PC_BANNER_WIDTH,
                       height: isMobile ? '100%' : 'auto',
-                      margin: !isMobile ? '0 1px' : 0,
                     }}
                   />
                   <span className="a11y">배너 링크</span>
