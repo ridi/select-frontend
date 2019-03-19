@@ -1,13 +1,10 @@
 import { all, call, put, take, takeEvery } from 'redux-saga/effects';
 
-import history from 'app/config/history';
 import { FetchErrorFlag } from 'app/constants';
 import { Actions as BookActions } from 'app/services/book';
 import { Actions } from 'app/services/searchResult';
 import { requestSearchResult, SearchResultReponse } from 'app/services/searchResult/requests';
 import { paginationErrorCallback } from 'app/utils/pageParamsErrorHelper';
-import { updateQueryStringParam } from 'app/utils/request';
-import toast from 'app/utils/toast';
 
 export function* queryKeyword({ payload }: ReturnType<typeof Actions.queryKeywordRequest>) {
   const { page, keyword } = payload;

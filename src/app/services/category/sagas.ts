@@ -3,15 +3,12 @@ import * as qs from 'qs';
 import { replace } from 'react-router-redux';
 import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
 
-import history from 'app/config/history';
 import { Actions as BookActions } from 'app/services/book';
 import { Actions, Category } from 'app/services/category';
 import { CategoryBooksResponse, requestCategoryBooks, requestCategoryList } from 'app/services/category/requests';
 import { localStorageManager } from 'app/services/category/utils';
 import { RidiSelectState } from 'app/store';
 import { paginationErrorCallback } from 'app/utils/pageParamsErrorHelper';
-import { updateQueryStringParam } from 'app/utils/request';
-import toast from 'app/utils/toast';
 import showMessageForRequestError from 'app/utils/toastHelper';
 
 export async function loadCategoryList() {
