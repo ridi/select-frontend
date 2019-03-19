@@ -1,11 +1,8 @@
-import history from 'app/config/history';
 import { FetchErrorFlag } from 'app/constants';
 import { Actions as BookActions } from 'app/services/book';
 import { Actions } from 'app/services/collection';
 import { CollectionResponse, requestCollection } from 'app/services/collection/requests';
 import { paginationErrorCallback } from 'app/utils/pageParamsErrorHelper';
-import { updateQueryStringParam } from 'app/utils/request';
-import toast from 'app/utils/toast';
 import { all, call, put, take, takeEvery } from 'redux-saga/effects';
 
 export function* loadCollection({ payload }: ReturnType<typeof Actions.loadCollectionRequest>) {

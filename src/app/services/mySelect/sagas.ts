@@ -19,7 +19,6 @@ import { RidiSelectState } from 'app/store';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
 import { getNotAvailableConvertDate } from 'app/utils/expiredDate';
 import { paginationErrorCallback } from 'app/utils/pageParamsErrorHelper';
-import { updateQueryStringParam } from 'app/utils/request';
 import toast from 'app/utils/toast';
 import { AxiosResponse } from 'axios';
 import { keyBy } from 'lodash-es';
