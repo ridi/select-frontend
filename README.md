@@ -43,7 +43,7 @@ $ docker-compose up --build [--force-recreate]
 
 ```sh
 $ brew install git-flow-avh
-$ git flow feature start branch_name
+$ git flow [feature/hotfix/...] start {branch_name}
 ```
 
 **Merge는 Gitlab MR 기능을 사용합니다.**
