@@ -78,7 +78,6 @@ export class AvailableBooks extends React.Component<Props> {
 
   public render() {
     const { availableBooks, books, page } = this.props;
-    const hidePageTitle = false;
     const itemCount: number = availableBooks.itemCount ? availableBooks.itemCount : 0;
     const itemCountPerPage: number = 24;
 

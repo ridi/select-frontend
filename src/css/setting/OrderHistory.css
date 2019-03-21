@@ -3,6 +3,11 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  padding-bottom: 40px;
+
+  @media (--pc-screen) {
+    padding-bottom: 60px;
+  }  
 }
 .OrderHistoryItem {
   display: table;

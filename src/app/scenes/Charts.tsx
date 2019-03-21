@@ -30,8 +30,7 @@ interface State {
 }
 
 type RouteProps = RouteComponentProps<{}>;
-type OwnProps = RouteProps;
-type Props = CollectionStateProps & CollectionDispatchProps & OwnProps;
+type Props = CollectionStateProps & CollectionDispatchProps & RouteProps;
 
 export class Charts extends React.Component<Props> {
   private initialDispatchTimeout?: number | null;
@@ -112,7 +111,6 @@ export class Charts extends React.Component<Props> {
               }
             </MediaQuery>}
           </>
-
         )}
       </main>
     );

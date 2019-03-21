@@ -39,85 +39,87 @@ export const Pagination: React.SFC<PaginationProps> = (props) => {
 
   if (totalPages === 1) { return null; }
   return (
-    <nav aria-label="페이지 내비게이션">
-      <h2 className="a11y indent_hidden">페이지 내비게이션</h2>
-      <ul className="Pagination">
-        {(!isMobile && isDisplayGoPrev) && (
-          <>
+    <div className="PaginationWrapper">
+      <nav aria-label="페이지 내비게이션">
+        <h2 className="a11y indent_hidden">페이지 내비게이션</h2>
+        <ul className="Pagination">
+          {(!isMobile && isDisplayGoPrev) && (
+            <>
+              <Button
+                component={el}
+                color="gray"
+                outline={true}
+                className="Pagination_Button museoSans"
+                aria-label="첫 페이지"
+                {...getProps(1)}
+              >
+                처음
+              </Button>
+              <span className="Pagination_Dots">
+                <Icon name="dotdotdot" className="Pagination_DeviderIcon" />
+              </span>
+            </>
+          )}
+          {isDisplayGoPrev && (
             <Button
               component={el}
               color="gray"
               outline={true}
               className="Pagination_Button museoSans"
-              aria-label="첫 페이지"
-              {...getProps(1)}
+              aria-label="이전 페이지"
+              {...getProps(startPageNum - buttonRangeCount)}
             >
-              처음
+              <Icon name="arrow_8_left" className="Pagination_GoPrevIcon" />
             </Button>
-            <span className="Pagination_Dots">
-              <Icon name="dotdotdot" className="Pagination_DeviderIcon" />
-            </span>
-          </>
-        )}
-        {isDisplayGoPrev && (
-          <Button
-            component={el}
-            color="gray"
-            outline={true}
-            className="Pagination_Button museoSans"
-            aria-label="이전 페이지"
-            {...getProps(startPageNum - buttonRangeCount)}
+          )}
+          <Group
+            className="Pagination_Group"
           >
-            <Icon name="arrow_8_left" className="Pagination_GoPrevIcon" />
-          </Button>
-        )}
-        <Group
-          className="Pagination_Group"
-        >
-          {pageNumbers.map((pageNumber) => (
-            <Button
-              component={el}
-              className="Pagination_Button museoSans RUIGroup_Element"
-              color={currentPage === pageNumber ? 'blue' : 'gray'}
-              outline={!(currentPage === pageNumber)}
-              aria-label={`${pageNumber} 페이지`}
-              key={pageNumber}
-              {...getProps(pageNumber)}
-            >
-              {pageNumber}
-            </Button>
-          ))}
-        </Group>
-        {isDisplayGoNext && (
-          <Button
-            component={el}
-            color="gray"
-            outline={true}
-            className="Pagination_Button museoSans"
-            aria-label="다음 페이지"
-            {...getProps(endPageNum + 1)}
-          >
-            <Icon name="arrow_8_right" className="Pagination_GoNextIcon" />
-          </Button>
-        )}
-        {(!isMobile && isDisplayGoNext) && (
-          <>
-            <span className="Pagination_Dots">
-              <Icon name="dotdotdot" className="Pagination_DeviderIcon" />
-            </span>
+            {pageNumbers.map((pageNumber) => (
+              <Button
+                component={el}
+                className="Pagination_Button museoSans RUIGroup_Element"
+                color={currentPage === pageNumber ? 'blue' : 'gray'}
+                outline={!(currentPage === pageNumber)}
+                aria-label={`${pageNumber} 페이지`}
+                key={pageNumber}
+                {...getProps(pageNumber)}
+              >
+                {pageNumber}
+              </Button>
+            ))}
+          </Group>
+          {isDisplayGoNext && (
             <Button
               component={el}
               color="gray"
               outline={true}
               className="Pagination_Button museoSans"
-              aria-label="마지막 페이지"
-              {...getProps(totalPages)}
+              aria-label="다음 페이지"
+              {...getProps(endPageNum + 1)}
             >
-              마지막
+              <Icon name="arrow_8_right" className="Pagination_GoNextIcon" />
             </Button>
-          </>
-        )}
-      </ul>
-    </nav>
+          )}
+          {(!isMobile && isDisplayGoNext) && (
+            <>
+              <span className="Pagination_Dots">
+                <Icon name="dotdotdot" className="Pagination_DeviderIcon" />
+              </span>
+              <Button
+                component={el}
+                color="gray"
+                outline={true}
+                className="Pagination_Button museoSans"
+                aria-label="마지막 페이지"
+                {...getProps(totalPages)}
+              >
+                마지막
+              </Button>
+            </>
+          )}
+        </ul>
+      </nav>
+    </div>
   );
 };
