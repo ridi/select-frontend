@@ -1,0 +1,43 @@
+.PageMaintenance {
+  text-align: center;
+  padding: 82px 0;
+}
+.MaintenanceTitle {
+  font-size: 26px;
+  font-weight: 700;
+  color: #000;
+}
+.MaintenanceSubTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+}
+.MaintenanceDescription {
+  margin-top: 16px;
+  padding: 0 22px;
+  font-size: 15px;
+  color: #000;
+  line-height: 1.8em;
+}
+.MaintenanceDescription_Box {
+  padding: 30px 20px;
+  background: #eee;
+  max-width: 560px;
+  margin: 24px auto 0 auto;
+}
+.MaintenanceDescription_Text {
+  margin-top: 10px;
+  margin-bottom: 30px;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.8em;
+}
+.MaintenanceDescription_ServiceList {
+  margin-top: 10px;
+  list-style: none;
+}
+.MaintenanceDescription_ServiceItem {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.8em;
+}

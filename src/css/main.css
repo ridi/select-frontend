@@ -17,6 +17,7 @@
 @import 'base/InlineHorizontalBookList.css';
 @import 'base/GridBookList.css';
 @import 'base/ErrorPage.css';
+@import 'base/MaintenancePage.css';
 @import 'base/TextTruncate.css';
 @import 'intro/intro.css';
 @import 'home/index.css';
