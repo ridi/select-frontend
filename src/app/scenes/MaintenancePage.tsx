@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { ConnectedErrorPageHeader } from 'app/components/ErrorPageHeader';
+import { ConnectedCompactPageHeader } from 'app/components/CompactPageHeader';
 
 export const MaintenacePage: React.SFC = () => (
   <main className="SceneWrapper">
-    <ConnectedErrorPageHeader />
+    <ConnectedCompactPageHeader />
     <section className="PageMaintenance">
       <h2 className="MaintenanceTitle">점검 안내</h2>
       <div className="MaintenanceDescription MaintenanceDescription_Box">

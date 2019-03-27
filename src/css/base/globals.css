@@ -232,7 +232,7 @@ main.SceneWrapper {
   }
 }
 
-.PageError_Header {
+.CompactPageHeader {
   border-bottom: 1px solid #cddce5;
   text-align: center;
   font-size: 13px;
@@ -241,11 +241,11 @@ main.SceneWrapper {
   top: 0;
   width: 100%;
 }
-.PageError_Header_Link {
+.CompactPageHeader_Link {
   display: inline-block;
   padding: 20px 14px 14px;
 }
-.PageError_Header_Logo {
+.CompactPageHeader_Logo {
   width: 95px;
   height: 15px;
   fill: var(--dodgerblue_50);
