@@ -7,12 +7,11 @@ import { HelmetWithTitle } from 'app/components';
 import { ConnectedCompactPageHeader } from 'app/components/CompactPageHeader';
 import history from 'app/config/history';
 import { PageTitleText } from 'app/constants';
-import { Actions as ServiceStatusActions, errorResponseData, errorResponseStatus } from 'app/services/serviceStatus';
+import { Actions as ServiceStatusActions, errorResponseStatus } from 'app/services/serviceStatus';
 import { RidiSelectState } from 'app/store';
 
 interface ErrorPageStateProps {
   responseState?: errorResponseStatus;
-  responseData?: errorResponseData;
 }
 
 export class ErrorPage extends React.Component<ErrorPageStateProps & ReturnType<typeof mapDispatchToProps>> {
@@ -98,7 +97,6 @@ export class ErrorPage extends React.Component<ErrorPageStateProps & ReturnType<
   public render() {
     const {
       responseState = 404,
-      responseData,
     } = this.props;
 
     return (
@@ -116,26 +114,16 @@ export class ErrorPage extends React.Component<ErrorPageStateProps & ReturnType<
             ), [
               this.renderBackButton(),
               this.renderHomeButton(),
+            ]) : this.renderErrorContext((
+              <>
+                <strong>지금은 접속이 어렵습니다.</strong><br />
+                현재 오류 복구에 최선을 다하고 있으니,<br />
+                잠시 후 다시 접속해주세요.
+              </>
+            ), [
+              this.renderReloadButton(),
+              this.renderHomeButton(),
             ])
-            : responseData !== 'maintenance' ?
-              this.renderErrorContext((
-                <>
-                  <strong>지금은 접속이 어렵습니다.</strong><br />
-                  현재 오류 복구에 최선을 다하고 있으니,<br />
-                  잠시 후 다시 접속해주세요.
-                </>
-              ), [
-                this.renderReloadButton(),
-                this.renderHomeButton(),
-              ]) :
-              this.renderErrorContext((
-                <p className="Error_Description">
-                  <strong>시스템 점검 안내</strong><br />
-                  보다 나은 서비스를 제공해 드리기 위한 시스템 점검으로, 이용에 불편함을 드리게 된 점 양해 부탁드립니다.<br />
-                  언제나 편리하고 즐겁게 리디셀렉트를 이용하실 수 있도록 최선을 다하겠습니다.<br />
-                  감사합니다.
-                </p>
-              ))
           }
         </section>
       </main>
@@ -146,7 +134,6 @@ export class ErrorPage extends React.Component<ErrorPageStateProps & ReturnType<
 const mapStateToProps = (state: RidiSelectState): ErrorPageStateProps => {
   return {
     responseState: state.serviceStatus.errorResponseState,
-    responseData: state.serviceStatus.errorResponseData,
   };
 };
 
