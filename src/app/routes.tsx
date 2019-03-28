@@ -7,7 +7,7 @@ import { ConnectedRouter } from 'react-router-redux';
 
 import { ConnectedFooter, ConnectedGNB, ConnectedLNB } from 'app/components';
 import { ConnectedSplashScreen } from 'app/components/SplashScreen';
-import { errorResponseStatus } from 'app/services/serviceStatus';
+import { errorResponseData, errorResponseStatus } from 'app/services/serviceStatus';
 
 import history from 'app/config/history';
 import {
@@ -47,6 +47,7 @@ export interface Props {
   isFetching: boolean;
   isSubscribing: boolean;
   errorResponseState?: errorResponseStatus;
+  errorResponse?: errorResponseData;
 }
 
 export const inAppGnbRoutes = [
@@ -71,10 +72,10 @@ export const PrimaryRoutes = [
 ];
 
 export const Routes: React.SFC<Props> = (props) => {
-  const { errorResponseState } = props;
+  const { errorResponseState, errorResponse } = props;
 
   if (errorResponseState) {
-    return errorResponseState === 503 ? <MaintenacePage /> : <ConnectedErrorPage />;
+    return errorResponse === 'maintenance' ? <MaintenacePage /> : <ConnectedErrorPage />;
   }
 
   return (
@@ -189,6 +190,7 @@ const mapStateToProps = (rootState: RidiSelectState): Props => ({
   isFetching: rootState.user.isFetching,
   isSubscribing: rootState.user.isSubscribing,
   errorResponseState: rootState.serviceStatus.errorResponseState,
+  errorResponse: rootState.serviceStatus.errorResponseData,
 });
 
 export const ConnectedRoutes = connect(mapStateToProps)(Routes);
