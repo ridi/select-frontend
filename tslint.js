@@ -8,7 +8,6 @@ module.exports = {
     'jsx-no-lambda': false,
     'max-line-length': [true, 180],
     'no-empty': [true, 'allow-empty-functions'],
-    'no-unused-variable': true,
     'jsx-self-close': false,
   },
   'linterOptions': {

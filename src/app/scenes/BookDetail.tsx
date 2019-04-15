@@ -55,6 +55,7 @@ import { BookId, TextWithLF } from 'app/types';
 
 // Utils
 import { BookDetailHeader } from 'app/components/BookDetail/BookDetailHeader';
+import { BookDetailMovieTrailer } from 'app/components/BookDetail/BookDetailMovieTrailer';
 import { BookDetailNotice } from 'app/components/BookDetail/BookDetailNotice';
 import { BookDetailOverlay } from 'app/components/BookDetail/BookDetailOverlay';
 import { BookDetailAuthor, BookDetailCategory, BookDetailDownload,
@@ -407,7 +408,7 @@ export class BookDetail extends React.Component<Props, State> {
                 <BookDetailNotice noticeList={noticeList} />
               </section>
             }
-            {introVideoUrl && this.renderMovieTrailer(introVideoUrl, isMobile)}
+            {introVideoUrl && <BookDetailMovieTrailer videoUrl={introVideoUrl} isMobile={isMobile} />}
             {introduction ? (
               <section className="PageBookDetail_Panel">
                 <h2 className="PageBookDetail_PanelTitle">책 소개</h2>
