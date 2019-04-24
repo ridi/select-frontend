@@ -39,7 +39,7 @@ export const Actions = {
   loadCategoryBooksFailure: createAction<{
     categoryId: number,
     page: number,
-    error: AxiosError | FetchErrorFlag,
+    error: AxiosError & FetchErrorFlag,
   }>('loadCategoryBooksFailure'),
 };
 

@@ -65,7 +65,7 @@ export const Actions = {
   loadCollectionFailure: createAction<{
     collectionId: CollectionId,
     page: number,
-    error: AxiosError | FetchErrorFlag,
+    error: AxiosError & FetchErrorFlag,
   }>('loadCollectionSuccess'),
 };
 

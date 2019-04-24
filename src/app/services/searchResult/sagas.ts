@@ -28,7 +28,7 @@ export function* watchQueryKeyword() {
 export function* watchQueryKeywordFailure() {
   while (true) {
     const { payload: { page, error } }: ReturnType<typeof Actions.queryKeywordFailure> = yield take(Actions.queryKeywordFailure.getType());
-    paginationErrorCallback(error, page);
+    paginationErrorCallback(error, 'page', page);
   }
 }
 

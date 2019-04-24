@@ -19,7 +19,7 @@ export const Actions = {
   queryKeywordFailure: createAction<{
     keyword: string,
     page: number,
-    error: AxiosError | FetchErrorFlag,
+    error: AxiosError & FetchErrorFlag,
   }>('queryKeywordFailure'),
 };
 
