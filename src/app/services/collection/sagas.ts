@@ -33,7 +33,7 @@ export function* watchCollectionFailure() {
     if (collectionId === 'hotRelease') { // hotRelease의 경우 홈 화면에서만 섹션이 노출되고 아직 전체보기 페이지가 없어서 페이지네이션의 개념이 없음
       return;
     }
-    paginationErrorCallback(error, page);
+    paginationErrorCallback(error, 'page', page);
   }
 }
 

@@ -19,6 +19,7 @@ import { RidiSelectState } from 'app/store';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
 import { getNotAvailableConvertDate } from 'app/utils/expiredDate';
 import { paginationErrorCallback } from 'app/utils/pageParamsErrorHelper';
+import { updateQueryStringParam } from 'app/utils/request';
 import toast from 'app/utils/toast';
 import { AxiosResponse } from 'axios';
 import { keyBy } from 'lodash-es';
@@ -143,7 +144,7 @@ export function* watchAddMySelect() {
 export function* watchLoadMySelectFailure() {
   while (true) {
     const { payload: { error, page } }: ReturnType<typeof Actions.loadMySelectFailure> = yield take(Actions.loadMySelectFailure.getType());
-    paginationErrorCallback(error, page);
+    paginationErrorCallback(error, 'page', page);
   }
 }
 

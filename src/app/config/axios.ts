@@ -40,14 +40,6 @@ instance.interceptors.response.use(
         return refreshTokenInstance
           .post('/ridi/token/')
           .then(() => instance.request(config));
-      } else if (status === 404) {
-        const { params = {} } = config;
-        if (
-          params.page && (Number(params.page) > 1 || Number(params.page) < 1)
-        ) {
-          history.replace(`?${updateQueryStringParam('page', 1)}`);
-          return Promise.reject(error);
-        }
       } else if (Math.floor(status / 100) === 5 && data.status === 'maintenance') {
         // TODO: 서비스 이용이 불가능한 엔드포인트만 에러페이지로 렌더링되도록 변경
         store.dispatch(ServiceStatusActions.setState({

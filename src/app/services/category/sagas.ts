@@ -100,7 +100,7 @@ export function* watchLoadCategoryBooks() {
 export function* watchCategoryBooksFailure() {
   while (true) {
     const { payload: { page, error } }: ReturnType<typeof Actions.loadCategoryBooksFailure> = yield take(Actions.loadCategoryBooksFailure.getType());
-    paginationErrorCallback(error, page);
+    paginationErrorCallback(error, 'page', page);
   }
 }
 
