@@ -1,0 +1,37 @@
+language: node_js
+node_js:
+  - "8"
+
+cache:
+  yarn: true
+  directories:
+    - node_modules
+
+before_script: yarn test
+
+jobs:
+  include:
+    - stage: build
+      name: "test"
+      if: branch = develop
+      script: yarn build
+      env:
+        - RIDIBOOKS_HOST=dev.ridi.io
+        - ACCOUNT_SERVER_HOST=account.dev.ridi.io
+        - OAUTH2_CLIENT_ID=${DEV_OAUTH2_CLIENT_ID}
+    -
+      name: "staging"
+      if: branch = master
+      script: yarn build
+      env:
+        - RIDIBOOKS_HOST=ridibooks.com
+        - ACCOUNT_SERVER_HOST=account.ridibooks.com
+        - OAUTH2_CLIENT_ID=${PROD_OAUTH2_CLIENT_ID}
+    -
+      name: "prod"
+      if: tag IS present
+      script: yarn build
+      env:
+        - RIDIBOOKS_HOST=ridibooks.com
+        - ACCOUNT_SERVER_HOST=account.ridibooks.com
+        - OAUTH2_CLIENT_ID=${PROD_OAUTH2_CLIENT_ID}
