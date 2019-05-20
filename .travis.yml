@@ -7,7 +7,7 @@ before_script: yarn install --frozen-lockfile
 
 cache:
   yarn: true
-  key: "$CI_COMMIT_REF_SLUG"
+  key: "$TRAVIS_PULL_REQUEST_SLUG"
   directories:
     - node_modules/
 
@@ -41,22 +41,19 @@ jobs:
         artifacts:
           paths:
             - dist/
-    - stage: deploy
+    - stage: before_deploy
       name: "develop"
-      if: branch = develop AND type = push
+      if: branch = master AND type = push
       image: ridibooks/gitlab-ci-docker-aws
       cache: {}
       before_script: []
       variables:
-        # - S3_STAGING_FILE=s3://${PROD_S3_BUCKET}/staging.html
-        # - S3_RELEASE_CANDIDATE_FILE=s3://${PROD_S3_BUCKET}/releases/${TRAVIS_PULL_REQUEST_SHA}.html
+        - S3_STAGING_FILE=s3://${PROD_S3_BUCKET}/staging.html
+        - S3_RELEASE_CANDIDATE_FILE=s3://${PROD_S3_BUCKET}/releases/${TRAVIS_PULL_REQUEST_SHA}.html
         - S3_RELEASE_PARAMS="--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate"
         - S3_ASSETS_PARAMS="--cache-control public,max-age=31536000"
         - AWS_ACCESS_KEY_ID=${DEV_AWS_ACCESS_KEY_ID}
         - AWS_SECRET_ACCESS_KEY=${DEV_AWS_SECRET_ACCESS_KEY}
-      script:
-        - aws s3 sync dist s3://${DEV_S3_BUCKET} --exclude "staging.html" ${S3_ASSETS_PARAMS}
-        - aws s3 cp s3://${DEV_S3_BUCKET}/index.html s3://${DEV_S3_BUCKET}/index.html ${S3_RELEASE_PARAMS}
       env:
         - name=develop
         - url=https://select.ridi.io
@@ -68,14 +65,11 @@ jobs:
       before_script: []
       variables:
         - S3_STAGING_FILE=s3://${PROD_S3_BUCKET}/staging.html
-        # - S3_RELEASE_CANDIDATE_FILE=s3://${PROD_S3_BUCKET}/releases/${TRAVIS_PULL_REQUEST_SHA}.html
+        - S3_RELEASE_CANDIDATE_FILE=s3://${PROD_S3_BUCKET}/releases/${TRAVIS_PULL_REQUEST_SHA}.html
         - S3_RELEASE_PARAMS="--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate"
         - S3_ASSETS_PARAMS="--cache-control public,max-age=31536000"
         - AWS_ACCESS_KEY_ID=${PROD_AWS_ACCESS_KEY_ID}
         - AWS_SECRET_ACCESS_KEY=${PROD_AWS_SECRET_ACCESS_KEY}
-      script:
-        - aws s3 sync dist s3://${PROD_S3_BUCKET} --exclude "index.html" --exclude "*.map" ${S3_ASSETS_PARAMS}
-        - aws s3 cp ${S3_STAGING_FILE} ${S3_STAGING_FILE} ${S3_RELEASE_PARAMS}
       env:
         - name=staging
         - url=https://select.ridibooks.com
@@ -86,47 +80,42 @@ jobs:
       cache: {}
       before_script: []
       variables:
-        # - S3_STAGING_FILE=s3://${PROD_S3_BUCKET}/staging.html
+        - S3_STAGING_FILE=s3://${PROD_S3_BUCKET}/staging.html
         - S3_RELEASE_CANDIDATE_FILE=s3://${PROD_S3_BUCKET}/releases/${TRAVIS_PULL_REQUEST_SHA}.html
         - S3_RELEASE_PARAMS="--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate"
-        # - S3_ASSETS_PARAMS="--cache-control public,max-age=31536000"
+        - S3_ASSETS_PARAMS="--cache-control public,max-age=31536000"
         - AWS_ACCESS_KEY_ID=${PROD_AWS_ACCESS_KEY_ID}
         - AWS_SECRET_ACCESS_KEY=${PROD_AWS_SECRET_ACCESS_KEY}
-      script:
-        - aws s3 cp ${S3_RELEASE_CANDIDATE_FILE} s3://${PROD_S3_BUCKET}/index.html ${S3_RELEASE_PARAMS}
       env:
         - name=production
         - url=https://select.ridibooks.com
     -
-      if: branch = master AND type = push
+      if: branch = /release\/.*/ AND type = push
       name: "release-candidate"
       image: ridibooks/gitlab-ci-docker-aws
       cache: {}
       before_script: []
       variables:
-        # - S3_STAGING_FILE=s3://${PROD_S3_BUCKET}/staging.html
+        - S3_STAGING_FILE=s3://${PROD_S3_BUCKET}/staging.html
         - S3_RELEASE_CANDIDATE_FILE=s3://${PROD_S3_BUCKET}/releases/${TRAVIS_PULL_REQUEST_SHA}.html
-        # - S3_RELEASE_PARAMS="--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate"
+        - S3_RELEASE_PARAMS="--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate"
         - S3_ASSETS_PARAMS="--cache-control public,max-age=31536000"
         - AWS_ACCESS_KEY_ID=${PROD_AWS_ACCESS_KEY_ID}
         - AWS_SECRET_ACCESS_KEY=${PROD_AWS_SECRET_ACCESS_KEY}
-      script:
-        - aws s3 sync dist s3://${PROD_S3_BUCKET} --exclude "*.html" --exclude "*.map" ${S3_ASSETS_PARAMS}
-        - aws s3 cp dist/index.html ${S3_RELEASE_CANDIDATE_FILE}
     -
       name: "sourcemaps"
       image: getsentry/sentry-cli
       cache: {}
       before_script: []
-      if: branch = master AND type = push
+      if: branch = /release\/.*/ AND type = push
       variables:
         SENTRY_LOG_LEVEL: debug
       script:
         - sentry-cli releases new ${TRAVIS_PULL_REQUEST_SHA}
-        - sentry-cli releases files ${TRAVIS_PULL_REQUEST_SHA} upload-sourcemaps ${CI_PROJECT_DIR}/dist/*.map
+        - sentry-cli releases files ${TRAVIS_PULL_REQUEST_SHA} upload-sourcemaps ${TRAVIS_BUILD_DIR}/dist/*.map
         - sentry-cli releases finalize ${TRAVIS_PULL_REQUEST_SHA}
     -
-      if: branch = master AND type = push
+      if: branch = /release\/.*/ AND type = push
       name: "serverless"
       variables:
         - AWS_ACCESS_KEY_ID=${SLS_AWS_ACCESS_KEY_ID}
@@ -139,4 +128,26 @@ jobs:
         - yarn serverless deploy --stage production -v
 
 deploy:
-  - provider: s3
+  - provider: script
+    on:
+      branch: master
+    script:  # dev
+      - aws s3 sync dist s3://${DEV_S3_BUCKET} --exclude "staging.html" ${S3_ASSETS_PARAMS}
+      - aws s3 cp s3://${DEV_S3_BUCKET}/index.html s3://${DEV_S3_BUCKET}/index.html ${S3_RELEASE_PARAMS}
+  - provider: script
+    on:
+      branch: master
+    script: # staging
+      - aws s3 sync dist s3://${PROD_S3_BUCKET} --exclude "index.html" --exclude "*.map" ${S3_ASSETS_PARAMS}
+      - aws s3 cp ${S3_STAGING_FILE} ${S3_STAGING_FILE} ${S3_RELEASE_PARAMS}
+  - provider: script
+    on:
+      branch: /release\/.*/
+    script: #production
+      - aws s3 cp ${S3_RELEASE_CANDIDATE_FILE} s3://${PROD_S3_BUCKET}/index.html ${S3_RELEASE_PARAMS}
+  - provider: script
+    on:
+      branch: /release\/.*/
+    script: #release-candidate
+      - aws s3 sync dist s3://${PROD_S3_BUCKET} --exclude "*.html" --exclude "*.map" ${S3_ASSETS_PARAMS}
+        - aws s3 cp dist/index.html ${S3_RELEASE_CANDIDATE_FILE}
