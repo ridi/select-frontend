@@ -14,7 +14,7 @@ cache:
 jobs:
   include:
     - stage: build
-      if: branch = develop
+      if: branch = develop AND type = push
       name: "build:dev"
       script:
         - unset ASSET_PATH
@@ -33,7 +33,7 @@ jobs:
           paths:
             - dist/
     -
-      if: branch IN (master, /release\/.*/, /hotfix\/.*/)
+      if: branch IN (master, /release\/.*/, /hotfix\/.*/) AND type = push
       name: "build:prod"
       script:
         - yarn build
@@ -43,7 +43,7 @@ jobs:
             - dist/
     - stage: deploy
       name: "develop"
-      if: branch = develop
+      if: branch = develop AND type = push
       image: ridibooks/gitlab-ci-docker-aws
       cache: {}
       before_script: []
@@ -61,7 +61,7 @@ jobs:
         - name=develop
         - url=https://select.ridi.io
     -
-      if: branch = master
+      if: branch = master AND type = push
       name: "staging"
       image: ridibooks/gitlab-ci-docker-aws
       cache: {}
@@ -80,7 +80,7 @@ jobs:
         - name=staging
         - url=https://select.ridibooks.com
     -
-      if: branch = /release\/.*/
+      if: branch = /release\/.*/ AND type = push
       name: "production"
       image: ridibooks/gitlab-ci-docker-aws
       cache: {}
@@ -99,7 +99,7 @@ jobs:
         - url=https://select.ridibooks.com
 
     -
-      if: branch = master
+      if: branch = master AND type = push
       name: "release-candidate"
       image: ridibooks/gitlab-ci-docker-aws
       cache: {}
@@ -129,7 +129,7 @@ jobs:
         - sentry-cli releases files ${CI_COMMIT_SHA} upload-sourcemaps ${CI_PROJECT_DIR}/dist/*.map
         - sentry-cli releases finalize ${CI_COMMIT_SHA}
     -
-      if: branch = master
+      if: branch = master AND type = push
       name: "serverless"
       variables:
         - AWS_ACCESS_KEY_ID=${SLS_AWS_ACCESS_KEY_ID}
