@@ -97,7 +97,6 @@ jobs:
       env:
         - name=production
         - url=https://select.ridibooks.com
-
     -
       if: branch = master AND type = push
       name: "release-candidate"
@@ -119,9 +118,7 @@ jobs:
       image: getsentry/sentry-cli
       cache: {}
       before_script: []
-      branches:
-        only:
-          - master
+      if: branch = master AND type = push
       variables:
         SENTRY_LOG_LEVEL: debug
       script:
