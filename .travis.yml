@@ -49,7 +49,7 @@ jobs:
       before_script: []
       variables:
         - S3_STAGING_FILE=s3://${PROD_S3_BUCKET}/staging.html
-        - S3_RELEASE_CANDIDATE_FILE=s3://${PROD_S3_BUCKET}/releases/${CI_COMMIT_SHA}.html
+        - S3_RELEASE_CANDIDATE_FILE=s3://${PROD_S3_BUCKET}/releases/${TRAVIS_PULL_REQUEST_SLUG}.html
         - S3_RELEASE_PARAMS="--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate"
         - S3_ASSETS_PARAMS="--cache-control public,max-age=31536000"
         - AWS_ACCESS_KEY_ID=${DEV_AWS_ACCESS_KEY_ID}
@@ -68,7 +68,7 @@ jobs:
       before_script: []
       variables:
         - S3_STAGING_FILE=s3://${PROD_S3_BUCKET}/staging.html
-        - S3_RELEASE_CANDIDATE_FILE=s3://${PROD_S3_BUCKET}/releases/${CI_COMMIT_SHA}.html
+        - S3_RELEASE_CANDIDATE_FILE=s3://${PROD_S3_BUCKET}/releases/${TRAVIS_PULL_REQUEST_SLUG}.html
         - S3_RELEASE_PARAMS="--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate"
         - S3_ASSETS_PARAMS="--cache-control public,max-age=31536000"
         - AWS_ACCESS_KEY_ID=${PROD_AWS_ACCESS_KEY_ID}
@@ -87,7 +87,7 @@ jobs:
       before_script: []
       variables:
         - S3_STAGING_FILE=s3://${PROD_S3_BUCKET}/staging.html
-        - S3_RELEASE_CANDIDATE_FILE=s3://${PROD_S3_BUCKET}/releases/${CI_COMMIT_SHA}.html
+        - S3_RELEASE_CANDIDATE_FILE=s3://${PROD_S3_BUCKET}/releases/${TRAVIS_PULL_REQUEST_SLUG}.html
         - S3_RELEASE_PARAMS="--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate"
         - S3_ASSETS_PARAMS="--cache-control public,max-age=31536000"
         - AWS_ACCESS_KEY_ID=${PROD_AWS_ACCESS_KEY_ID}
@@ -105,7 +105,7 @@ jobs:
       before_script: []
       variables:
         - S3_STAGING_FILE=s3://${PROD_S3_BUCKET}/staging.html
-        - S3_RELEASE_CANDIDATE_FILE=s3://${PROD_S3_BUCKET}/releases/${CI_COMMIT_SHA}.html
+        - S3_RELEASE_CANDIDATE_FILE=s3://${PROD_S3_BUCKET}/releases/${TRAVIS_PULL_REQUEST_SLUG}.html
         - S3_RELEASE_PARAMS="--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate"
         - S3_ASSETS_PARAMS="--cache-control public,max-age=31536000"
         - AWS_ACCESS_KEY_ID=${PROD_AWS_ACCESS_KEY_ID}
@@ -122,9 +122,9 @@ jobs:
       variables:
         SENTRY_LOG_LEVEL: debug
       script:
-        - sentry-cli releases new ${CI_COMMIT_SHA}
-        - sentry-cli releases files ${CI_COMMIT_SHA} upload-sourcemaps ${CI_PROJECT_DIR}/dist/*.map
-        - sentry-cli releases finalize ${CI_COMMIT_SHA}
+        - sentry-cli releases new ${TRAVIS_PULL_REQUEST_SLUG}
+        - sentry-cli releases files ${TRAVIS_PULL_REQUEST_SLUG} upload-sourcemaps ${CI_PROJECT_DIR}/dist/*.map
+        - sentry-cli releases finalize ${TRAVIS_PULL_REQUEST_SLUG}
     -
       if: branch = master AND type = push
       name: "serverless"
