@@ -1,0 +1,62 @@
+version: 2.0
+jobs:
+  build: &build
+    docker:
+      - image: node:carbon-alpine
+  build-prestep: &build-steps
+    - save_cache:
+      key: $CIRCLE_PR_NUMBER # TODO: key 이름.... REF_SLUG가 없어서 일단 PR Number
+      paths:
+        - node_modules/
+    - run:
+      name: "install yarn packages"
+      command: yarn install --frozen-lockfile
+  deploy: &deploy
+    docker:
+      - image: ridibooks/gitlab-ci-docker-aws
+  develop-build:
+    <<: *build
+    branches:
+      only:
+        - develop
+    steps:
+      <<: *build-prestep
+      - run:
+        name: "devlop build"
+        command: |
+          yarn webpack
+      - store_artifacts:
+        path: dist/
+      - run:
+        environment:
+          #변수 선언
+  prouction-build:
+    <<: *build
+    branches:
+      only:
+        - master
+    steps:
+      <<: *build-prestep
+      - run:
+        name: "production build"
+        command: |
+          yarn build
+      - store_artifacts:
+        path: dist/
+      - run:
+        environment:
+          #변수 선언
+  test-deploy:
+    <<: *deploy
+    branches:
+      only:
+        - master
+    steps:
+
+      - run:
+
+  production-deploy:
+    <<: *deploy
+    branches:
+      only:
+        - /release\/.*/
