@@ -17,15 +17,16 @@ jobs:
     docker:
       - image:
   deploy-environment: &deploy-environment
-    S3_STAGING_FILE: s3://${PROD_S3_BUCKET}/staging.html
-    S3_RELEASE_CANDIDATE_FILE: s3://${PROD_S3_BUCKET}/releases/${CIRCLE_SHA1}.html
-    S3_RELEASE_PARAMS: "--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate"
-    S3_ASSETS_PARAMS: "--cache-control public,max-age=31536000"
+    - run:
+      environment:
+        S3_STAGING_FILE: s3://${PROD_S3_BUCKET}/staging.html
+        S3_RELEASE_CANDIDATE_FILE: s3://${PROD_S3_BUCKET}/releases/${CIRCLE_SHA1}.html
+        S3_RELEASE_PARAMS: "--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate"
+        S3_ASSETS_PARAMS: "--cache-control public,max-age=31536000"
   develop-build:
     <<: *build
     branches:
-      only:
-        - develop
+      only: develop
     steps:
       <<: *build-prestep
       - run:
@@ -48,8 +49,7 @@ jobs:
   prouction-build:
     <<: *build
     branches:
-      only:
-        - master
+      only: master
     steps:
       <<: *build-prestep
       - run:
@@ -64,12 +64,9 @@ jobs:
   test-deploy:
     <<: *deploy
     branches:
-      only:
-        - master
+      only: master
     steps:
-      - run: # 변수 설정
-        environment:
-          <<: *deploy-environment
+      <<: *deploy-environment
       # dev 배포 ------------------------------------
       - aws-s3/sync:
         from: dist
@@ -111,12 +108,9 @@ jobs:
   production-deploy:
     <<: *deploy
     branches:
-      only:
-        - /release\/.*/
+      only: /release\/.*/
     steps:
-      - run: # prod 변수 설정
-        environment:
-          <<: *deploy-environment
+      <<: *deploy-environment
       - aws-s3/copy:
         from: ${S3_RELEASE_CANDIDATE_FILE}
         to: s3://${PROD_S3_BUCKET}/index.html
@@ -136,11 +130,9 @@ jobs:
           sentry-cli releases files ${CIRCLE_SHA1} upload-sourcemaps ${HOME}/dist/*.map
           sentry-cli releases finalize ${CIRCLE_SHA1}
   serverless:
+    <<: *build
     branches:
-      only:
-        - master
-    docker:
-      - image: node:carbon-alpine
+      only: master
     steps:
       - run:
         environment:
