@@ -6,7 +6,7 @@ build: &build
   docker:
     - image: node:carbon-alpine
 
-build-prestep: &build-steps
+build-prestep: &build_prestep
   - save_cache:
     key: ${CIRCLE_BRANCH}
     paths:
@@ -15,7 +15,7 @@ build-prestep: &build-steps
     name: "install yarn packages"
     command: yarn install --frozen-lockfile
 
-deploy-environment: &deploy-environment
+deploy-environment: &deploy_environment
   - run:
     environment:
       S3_STAGING_FILE: s3://${PROD_S3_BUCKET}/staging.html
@@ -23,18 +23,18 @@ deploy-environment: &deploy-environment
       S3_RELEASE_PARAMS: "--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate"
       S3_ASSETS_PARAMS: "--cache-control public,max-age=31536000"
 
-develop-aws-key: &develop-aws-key
+develop-aws-key: &develop_aws_key
   aws-access-key-id: ${DEV_AWS_ACCESS_KEY_ID}
   aws-secret-access-key: ${DEV_AWS_SECRET_ACCESS_KEY}
 
-production-aws-key: &production-aws-key
+production-aws-key: &production_aws_key
   aws-access-key-id: ${PROD_AWS_ACCESS_KEY_ID}
   aws-secret-access-key: ${PROD_AWS_SECRET_ACCESS_KEY}
 
-production-sync: &production-sync
+production-sync: &production_sync
   from: dist
   to: s3://${PROD_S3_BUCKET}
-  <<: *production-aws-key
+  <<: *production_aws_key
 
 jobs:
   develop-build:
@@ -42,7 +42,7 @@ jobs:
     branches:
       only: develop
     steps:
-      <<: *build-prestep
+      <<: *build_prestep
       - run:
         name: "devlop build"
         command: |
@@ -65,7 +65,7 @@ jobs:
     branches:
       only: master
     steps:
-      <<: *build-prestep
+      <<: *build_prestep
       - run:
         name: "production build"
         command: |
@@ -79,44 +79,44 @@ jobs:
     branches:
       only: master
     steps:
-      <<: *deploy-environment
+      <<: *deploy_environment
       # dev 배포 ------------------------------------
       - aws-s3/sync:
         from: dist
         to: s3://${DEV_S3_BUCKET}
-        <<: *develop-aws-key
+        <<: *develop_aws_key
         arguments: --exclude "staging.html" ${S3_ASSETS_PARAMS}
       - aws-s3/copy:
         from: s3://${DEV_S3_BUCKET}/index.html
         to: s3://${DEV_S3_BUCKET}/index.html
-        <<: *develop-aws-key
+        <<: *develop_aws_key
         arguments: ${S3_RELEASE_PARAMS}
       # staging 배포 ------------------------------------
       - aws-s3/sync:
-        <<: *production-sync
+        <<: *production_sync
         arguments: --exclude "index.html" --exclude "*.map" ${S3_ASSETS_PARAMS}
       - aws-s3/copy:
         from: $S3_STAGING_FILE
         to: $S3_STAGING_FILE
-        <<: *production-aws-key
+        <<: *production_aws_key
         arguments: ${S3_RELEASE_PARAMS}
       # candidate 배포 ------------------------------------
       - aws-s3/sync:
-        <<: *production-sync
+        <<: *production_sync
         arguments: --exclude "*.html" --exclude "*.map" ${S3_ASSETS_PARAMS}
       - aws-s3/copy:
         from: dist/index.html
         to: ${S3_RELEASE_CANDIDATE_FILE}
-        <<: *production-aws-key
+        <<: *production_aws_key
   production-deploy:
     branches:
       only: /release\/.*/
     steps:
-      <<: *deploy-environment
+      <<: *deploy_environment
       - aws-s3/copy:
         from: ${S3_RELEASE_CANDIDATE_FILE}
         to: s3://${PROD_S3_BUCKET}/index.html
-        <<: *production-aws-key
+        <<: *production_aws_key
         arguments: ${S3_RELEASE_PARAMS}
   sourcemaps:
     docker:
