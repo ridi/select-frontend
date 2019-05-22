@@ -155,31 +155,19 @@ jobs:
 
 workflows:
   version: 2
-    dev-build:
-      filters:
-        branches:
-          only: develop
+    build-and-deploy:
       jobs:
         - develop-build
-    prod-build:
-      filters:
-        branches:
-          only: master
-      jobs:
         - prouction-build
-    test-deployment:
-      filters:
-        branches:
-          only: master
-      requires:
-        - prod-build
-      jobs:
-        - test-deploy
-    prod-deployment:
-      filters:
-        branches:
-          only: /release\/.*/
-      jobs:
+        - test-deploy:
+          requires:
+            - prod-build
         - production-deploy
+          requires:
+            - prod-build
         - sourcemaps
+          requires:
+            - prod-build
         - serverless
+          requires:
+            - prod-build
