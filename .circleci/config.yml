@@ -5,6 +5,7 @@ orbs:
 set_default_excuter: &set_default_excuter
   docker:
     - image: node:carbon-alpine
+  working_directory: ~/select-frontend
 
 build_save_cache: &build_save_cache
   save_cache:
@@ -115,6 +116,7 @@ jobs:
   sourcemaps:
     docker:
       - image: getsentry/sentry-cli
+    working_directory: ~/select-frontend
     steps:
       - run:
           environment:
