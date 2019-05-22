@@ -62,7 +62,7 @@ jobs:
           PAY_URL: https://pay.ridi.io
           ACCOUNT_API: https://account.dev.ridi.io
           OAUTH2_CLIENT_ID: ${DEV_OAUTH2_CLIENT_ID}
-  prouction-build:
+  production-build:
     <<: *set_default_excuter
     branches:
       only: master
@@ -158,16 +158,16 @@ workflows:
   build-and-deploy:
     jobs:
       - develop-build
-      - prouction-build
+      - production-build
       - test-deploy:
-        requires:
-          - prouction-build
-      - production-deploy
-        requires:
-          - prouction-build
-      - sourcemaps
-        requires:
-          - prouction-build
-      - serverless
-        requires:
-          - prouction-build
+          requires:
+            - production-build
+      - production-deploy:
+          requires:
+            - production-build
+      - sourcemaps:
+          requires:
+            - production-build
+      - serverless:
+          requires:
+            - production-build
