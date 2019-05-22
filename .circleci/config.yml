@@ -161,13 +161,13 @@ workflows:
       - prouction-build
       - test-deploy:
         requires:
-          - prod-build
+          - prouction-build
       - production-deploy
         requires:
-          - prod-build
+          - prouction-build
       - sourcemaps
         requires:
-          - prod-build
+          - prouction-build
       - serverless
         requires:
-          - prod-build
+          - prouction-build
