@@ -6,17 +6,18 @@ build: &build
   docker:
     - image: node:carbon-alpine
 
-build-prestep: &build_prestep
-  - save_cache:
+build_save_cache: &build_save_cache
+  save_cache:
     key: ${CIRCLE_BRANCH}
-    paths:
-      - node_modules/
-  - run:
+    paths: node_modules/
+
+install_yarn_packages: &install_yarn_packages
+  run:
     name: "install yarn packages"
     command: yarn install --frozen-lockfile
 
 deploy-environment: &deploy_environment
-  - run:
+  run:
     environment:
       S3_STAGING_FILE: s3://${PROD_S3_BUCKET}/staging.html
       S3_RELEASE_CANDIDATE_FILE: s3://${PROD_S3_BUCKET}/releases/${CIRCLE_SHA1}.html
@@ -42,7 +43,8 @@ jobs:
     branches:
       only: develop
     steps:
-      <<: *build_prestep
+      - *build_save_cache
+      - *install_yarn_packages
       - run:
         name: "devlop build"
         command: |
@@ -65,7 +67,8 @@ jobs:
     branches:
       only: master
     steps:
-      <<: *build_prestep
+      - *build_save_cache
+      - *install_yarn_packages
       - run:
         name: "production build"
         command: |
@@ -79,7 +82,7 @@ jobs:
     branches:
       only: master
     steps:
-      <<: *deploy_environment
+      - *deploy_environment
       # dev 배포 ------------------------------------
       - aws-s3/sync:
         from: dist
@@ -112,7 +115,7 @@ jobs:
     branches:
       only: /release\/.*/
     steps:
-      <<: *deploy_environment
+      - *deploy_environment
       - aws-s3/copy:
         from: ${S3_RELEASE_CANDIDATE_FILE}
         to: s3://${PROD_S3_BUCKET}/index.html
