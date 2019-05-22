@@ -152,3 +152,34 @@ jobs:
       - run:
         name: run serverless deploy script
         command: yarn serverless deploy --stage production -v
+
+workflows:
+  version: 2
+    dev-build:
+      filters:
+        branches:
+          only: develop
+      jobs:
+        - develop-build
+    prod-build:
+      filters:
+        branches:
+          only: master
+      jobs:
+        - prouction-build
+    test-deployment:
+      filters:
+        branches:
+          only: master
+      requires:
+        - prod-build
+      jobs:
+        - test-deploy
+    prod-deployment:
+      filters:
+        branches:
+          only: /release\/.*/
+      jobs:
+        - production-deploy
+        - sourcemaps
+        - serverless
