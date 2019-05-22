@@ -43,6 +43,7 @@ jobs:
   develop-build:
     <<: *set_default_excuter
     steps:
+      - checkout
       - *build_save_cache
       - *install_yarn_packages
       - run:
@@ -62,6 +63,7 @@ jobs:
       - store_artifacts:
           path: dist/
   production-build:
+    - checkout
     <<: *set_default_excuter
     steps:
       - *build_save_cache
