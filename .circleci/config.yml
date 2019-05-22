@@ -40,8 +40,6 @@ production_sync: &production_sync
 jobs:
   develop-build:
     <<: *set_default_excuter
-    branches:
-      only: develop
     steps:
       - *build_save_cache
       - *install_yarn_packages
@@ -64,8 +62,6 @@ jobs:
           OAUTH2_CLIENT_ID: ${DEV_OAUTH2_CLIENT_ID}
   production-build:
     <<: *set_default_excuter
-    branches:
-      only: master
     steps:
       - *build_save_cache
       - *install_yarn_packages
@@ -80,8 +76,6 @@ jobs:
           #변수 선언
   test-deploy:
     <<: *set_default_excuter
-    branches:
-      only: master
     steps:
       - *deploy_environment
       # dev 배포 ------------------------------------
@@ -114,8 +108,6 @@ jobs:
         <<: *production_aws_key
   production-deploy:
     <<: *set_default_excuter
-    branches:
-      only: /release\/.*/
     steps:
       - *deploy_environment
       - aws-s3/copy:
@@ -137,8 +129,6 @@ jobs:
           sentry-cli releases finalize ${CIRCLE_SHA1}
   serverless:
     <<: *set_default_excuter
-    branches:
-      only: master
     steps:
       - run:
         environment:
@@ -155,13 +145,24 @@ jobs:
 
 workflows:
   version: 2
-  build-and-deploy:
+  build-develop-env:
     jobs:
       - develop-build
-      - production-build
+  build-and-deploy-test-env:
+    jobs:
+      - production-build:
+          filters:
+            branches:
+              only: master
       - test-deploy:
           requires:
             - production-build
+  deploy-production:
+    jobs:
+      - production-build:
+          filters:
+            branches:
+              only: /release\/.*/
       - production-deploy:
           requires:
             - production-build
