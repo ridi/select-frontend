@@ -155,19 +155,19 @@ jobs:
 
 workflows:
   version: 2
-    build-and-deploy:
-      jobs:
-        - develop-build
-        - prouction-build
-        - test-deploy:
-          requires:
-            - prod-build
-        - production-deploy
-          requires:
-            - prod-build
-        - sourcemaps
-          requires:
-            - prod-build
-        - serverless
-          requires:
-            - prod-build
+  build-and-deploy:
+    jobs:
+      - develop-build
+      - prouction-build
+      - test-deploy:
+        requires:
+          - prod-build
+      - production-deploy
+        requires:
+          - prod-build
+      - sourcemaps
+        requires:
+          - prod-build
+      - serverless
+        requires:
+          - prod-build
