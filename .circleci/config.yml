@@ -23,6 +23,7 @@ deploy_environment: &deploy_environment
       S3_RELEASE_CANDIDATE_FILE: s3://${PROD_S3_BUCKET}/releases/${CIRCLE_SHA1}.html
       S3_RELEASE_PARAMS: "--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate"
       S3_ASSETS_PARAMS: "--cache-control public,max-age=31536000"
+    command: echo 'set s3 variables'
 
 develop_aws_key: &develop_aws_key
   aws-access-key-id: ${DEV_AWS_ACCESS_KEY_ID}
@@ -45,13 +46,6 @@ jobs:
       - *install_yarn_packages
       - run:
           name: "devlop build"
-          command: |
-            unset ASSET_PATH
-            unset SENTRY_DSN
-            yarn webpack
-      - store_artifacts:
-          path: dist/
-      - run:
           environment:
             SELECT_URL: https://select.ridi.io
             SELECT_API: https://select-api.dev.ridi.io
@@ -60,6 +54,12 @@ jobs:
             PAY_URL: https://pay.ridi.io
             ACCOUNT_API: https://account.dev.ridi.io
             OAUTH2_CLIENT_ID: ${DEV_OAUTH2_CLIENT_ID}
+          command: |
+            unset ASSET_PATH
+            unset SENTRY_DSN
+            yarn webpack
+      - store_artifacts:
+          path: dist/
   production-build:
     <<: *set_default_excuter
     steps:
@@ -71,9 +71,6 @@ jobs:
             yarn build
       - store_artifacts:
           path: dist/
-      - run:
-          environment:
-            #변수 선언
   test-deploy:
     <<: *set_default_excuter
     steps:
@@ -131,11 +128,10 @@ jobs:
     <<: *set_default_excuter
     steps:
       - run:
+          name: "before serverless deploy script"
           environment:
             AWS_ACCESS_KEY_ID: ${SLS_AWS_ACCESS_KEY_ID}
             AWS_SECRET_ACCESS_KEY: ${SLS_AWS_SECRET_ACCESS_KEY}
-      - run:
-          name: "before serverless deploy script"
           command: |
             cd serverless
             yarn install --frozen-lockfile
