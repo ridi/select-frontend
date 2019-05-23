@@ -131,26 +131,25 @@ jobs:
           <<: *production_aws_key
           arguments: ${S3_RELEASE_PARAMS}
   sourcemaps:
+    environment:
+      SENTRY_LOG_LEVEL: debug
     docker:
       - image: getsentry/sentry-cli
     working_directory: ~/select-frontend
     steps:
-      - run:
-          environment:
-            SENTRY_LOG_LEVEL: debug
       - deploy:
           command: |
             sentry-cli releases new ${CIRCLE_SHA1}
             sentry-cli releases files ${CIRCLE_SHA1} upload-sourcemaps ${HOME}/dist/*.map
             sentry-cli releases finalize ${CIRCLE_SHA1}
   serverless:
+    environment:
+      AWS_ACCESS_KEY_ID: ${SLS_AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${SLS_AWS_SECRET_ACCESS_KEY}
     <<: *set_default_excuter
     steps:
       - run:
           name: "before serverless deploy script"
-          environment:
-            AWS_ACCESS_KEY_ID: ${SLS_AWS_ACCESS_KEY_ID}
-            AWS_SECRET_ACCESS_KEY: ${SLS_AWS_SECRET_ACCESS_KEY}
           command: |
             cd serverless
             yarn install --frozen-lockfile
