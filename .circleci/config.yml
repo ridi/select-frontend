@@ -23,11 +23,8 @@ install_yarn_packages: &install_yarn_packages
 
 deploy_environment: &deploy_environment
   environment:
-    # S3_STAGING_FILE: s3://${PROD_S3_BUCKET}/staging.html
-    # S3_RELEASE_CANDIDATE_FILE: s3://${PROD_S3_BUCKET}/releases/${CIRCLE_SHA1}.html
-    S3_STAGING_FILE: ''
-    S3_RELEASE_CANDIDATE_FILE: ''
-    # TODO: 테스트 중에는 aws 관련 key 안넣도록 임시 키 할당
+    S3_STAGING_FILE: s3://${PROD_S3_BUCKET}/staging.html
+    S3_RELEASE_CANDIDATE_FILE: s3://${PROD_S3_BUCKET}/releases/${CIRCLE_SHA1}.html
     S3_RELEASE_PARAMS: "--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate"
     S3_ASSETS_PARAMS: "--cache-control public,max-age=31536000"
 
@@ -38,9 +35,8 @@ develop_aws_key: &develop_aws_key
 production_aws_key: &production_aws_key
   # aws-access-key-id: ${PROD_AWS_ACCESS_KEY_ID}
   # aws-secret-access-key: ${PROD_AWS_SECRET_ACCESS_KEY}
-  aws-access-key-id: 'aaaaaa'
-  aws-secret-access-key: 'bbbbbbb'
-  # TODO: 테스트 중에는 aws access key 안넣도록 임시 키 할당
+  aws-access-key-id: ${CIRCLE_TAG} # TODO: 테스트 중에는 aws access key 안넣도록 임시 키 할당
+  aws-secret-access-key: ${CIRCLE_TAG} # TODO: 테스트 중에는 aws access key 안넣도록 임시 키 할당
 
 production_sync: &production_sync
   from: dist
@@ -158,7 +154,7 @@ workflows:
   build-develop-env:
     jobs:
       - develop-build
-  build-and-deploy-test-env:
+  build-and-deploy-test-env: # 프로덕션 빌드 후 select.ridi.io & staging 배포 & candidate 배포
     jobs:
       - production-build:
           filters:
@@ -167,7 +163,7 @@ workflows:
       - test-deploy:
           requires:
             - production-build
-  deploy-production:
+  deploy-production: # 프로덕션 빌드 후 production 배포 (candidate to production copy) & sourcemaps, serverless 배포
     jobs:
       - production-build:
           filters:
