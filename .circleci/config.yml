@@ -2,6 +2,12 @@ version: 2.1
 orbs:
   aws-s3: circleci/aws-s3@1.0.9
 
+environment:
+  DEBUG: true
+
+# -------------------------------------------------------------------------
+# jobs definition ---------------------------------------------------------
+# -------------------------------------------------------------------------
 set_default_excuter: &set_default_excuter
   docker:
     - image: node:carbon-alpine
@@ -35,14 +41,17 @@ develop_aws_key: &develop_aws_key
 production_aws_key: &production_aws_key
   # aws-access-key-id: ${PROD_AWS_ACCESS_KEY_ID}
   # aws-secret-access-key: ${PROD_AWS_SECRET_ACCESS_KEY}
-  aws-access-key-id: ${CIRCLE_TAG} # TODO: 테스트 중에는 aws access key 안넣도록 임시 키 할당
-  aws-secret-access-key: ${CIRCLE_TAG} # TODO: 테스트 중에는 aws access key 안넣도록 임시 키 할당
+  aws-access-key-id: ${DEV_AWS_ACCESS_KEY_ID} # TODO: 테스트 중에는 aws access key 안넣도록 임시로 dev 키 할당
+  aws-secret-access-key: ${DEV_AWS_SECRET_ACCESS_KEY} # TODO: 테스트 중에는 aws access key 안넣도록 임시로 dev 키 할당
 
 production_sync: &production_sync
   from: dist
   to: s3://${PROD_S3_BUCKET}
   <<: *production_aws_key
 
+# -------------------------------------------------------------------------
+# jobs definition ---------------------------------------------------------
+# -------------------------------------------------------------------------
 jobs:
   develop-build:
     environment:
@@ -100,8 +109,8 @@ jobs:
           <<: *production_sync
           arguments: --exclude "index.html" --exclude "*.map" ${S3_ASSETS_PARAMS}
       - aws-s3/copy:
-          from: $S3_STAGING_FILE
-          to: $S3_STAGING_FILE
+          from: ${S3_STAGING_FILE}
+          to: ${S3_STAGING_FILE}
           <<: *production_aws_key
           arguments: ${S3_RELEASE_PARAMS}
       # candidate 배포 ------------------------------------
@@ -149,6 +158,9 @@ jobs:
           name: run serverless deploy script
           command: yarn serverless deploy --stage production -v
 
+# -------------------------------------------------------------------------
+# workflows definition ----------------------------------------------------
+# -------------------------------------------------------------------------
 workflows:
   version: 2
   build-develop-env:
