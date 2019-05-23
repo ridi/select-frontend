@@ -32,9 +32,14 @@ commands:
         default: yarn build
     steps:
       - checkout
-      - *restore_saved_cache
-      - *install_yarn_packages
-      - *save_build_cache
+      - restore_cache:
+          key: select-frontend-{{ checksum "package.json" }}
+      - run:
+          name: "install yarn packages"
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: select-frontend-{{ checksum "package.json" }}
+          paths: node_modules/
       - run:
           name: "<< parameters.build_type >> build"
           command: << parameters.run_command >>
@@ -44,20 +49,6 @@ commands:
 # -------------------------------------------------------------------------
 # reusable blocks definition ----------------------------------------------
 # -------------------------------------------------------------------------
-restore_saved_cache: &restore_saved_cache
-  restore_cache:
-    key: select-frontend-{{ checksum "package.json" }}
-
-save_build_cache: &save_build_cache
-  save_cache:
-    key: select-frontend-{{ checksum "package.json" }}
-    paths: node_modules/
-
-install_yarn_packages: &install_yarn_packages
-  run:
-    name: "install yarn packages"
-    command: yarn install --frozen-lockfile
-
 develop_aws_key: &develop_aws_key
   aws-access-key-id: DEV_AWS_ACCESS_KEY_ID
   aws-secret-access-key: DEV_AWS_SECRET_ACCESS_KEY
