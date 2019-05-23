@@ -42,7 +42,8 @@ commands:
           paths: node_modules/
       - run:
           name: "<< parameters.build_type >> build"
-          command: <<# parameters.run_command >><< parameters.run_command >><</ parameters.run_command >>
+          command: |
+            <<# parameters.run_command >><< parameters.run_command >><</ parameters.run_command >>
       - store_artifacts:
           path: dist/
 
