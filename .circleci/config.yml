@@ -2,17 +2,48 @@ version: 2.1
 orbs:
   aws-s3: circleci/aws-s3@1.0.9
 
-environment:
-  DEBUG: true
+# -------------------------------------------------------------------------
+# reusable excutors and commands definition -------------------------------
+# -------------------------------------------------------------------------
+executors:
+  default_excuter: # build reusable excuter
+    docker:
+      - image: node:carbon-alpine
+    working_directory: ~/select-frontend
+  deploy_excuter: # deploy reusable excuter
+    docker:
+      - image: node:carbon-alpine
+    working_directory: ~/select-frontend
+    environment:
+      S3_STAGING_FILE: s3://${PROD_S3_BUCKET}/staging.html
+      S3_RELEASE_CANDIDATE_FILE: s3://${PROD_S3_BUCKET}/releases/${CIRCLE_SHA1}.html
+      S3_RELEASE_PARAMS: "--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate"
+      S3_ASSETS_PARAMS: "--cache-control public,max-age=31536000"
+
+commands:
+  common-build-process:
+    description: "common build process for dev and production"
+    parameters:
+      build_type:
+        type: string
+        default: production
+      run_command:
+        type: string
+        default: yarn build
+    steps:
+      - checkout
+      - *restore_saved_cache
+      - *install_yarn_packages
+      - *save_build_cache
+      - run:
+          name: "<< parameters.build_type >> build"
+          command: << parameters.run_command >>
+      - store_artifacts:
+          path: dist/
 
 # -------------------------------------------------------------------------
-# jobs definition ---------------------------------------------------------
+# reusable blocks definition ----------------------------------------------
 # -------------------------------------------------------------------------
-set_default_excuter: &set_default_excuter
-  docker:
-    - image: node:carbon-alpine
-  working_directory: ~/select-frontend
-
 restore_saved_cache: &restore_saved_cache
   restore_cache:
     key: select-frontend-{{ checksum "package.json" }}
@@ -26,13 +57,6 @@ install_yarn_packages: &install_yarn_packages
   run:
     name: "install yarn packages"
     command: yarn install --frozen-lockfile
-
-deploy_environment: &deploy_environment
-  environment:
-    S3_STAGING_FILE: s3://${PROD_S3_BUCKET}/staging.html
-    S3_RELEASE_CANDIDATE_FILE: s3://${PROD_S3_BUCKET}/releases/${CIRCLE_SHA1}.html
-    S3_RELEASE_PARAMS: "--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate"
-    S3_ASSETS_PARAMS: "--cache-control public,max-age=31536000"
 
 develop_aws_key: &develop_aws_key
   aws-access-key-id: DEV_AWS_ACCESS_KEY_ID
@@ -62,36 +86,22 @@ jobs:
       PAY_URL: https://pay.ridi.io
       ACCOUNT_API: https://account.dev.ridi.io
       OAUTH2_CLIENT_ID: ${DEV_OAUTH2_CLIENT_ID}
-    <<: *set_default_excuter
+    executor: default_excuter
     steps:
-      - checkout
-      - *restore_saved_cache
-      - *install_yarn_packages
-      - *save_build_cache
-      - run:
-          name: "devlop build"
-          command: |
-            unset ASSET_PATH
-            unset SENTRY_DSN
+      - common-build-process:
+          build_type: "develop"
+          run_command: |
+            unset ASSET_PATH \
+            unset SENTRY_DSN \
             yarn webpack
-      - store_artifacts:
-          path: dist/
   production-build:
-    <<: *set_default_excuter
+    executor: default_excuter
     steps:
-      - checkout
-      - *restore_saved_cache
-      - *install_yarn_packages
-      - *save_build_cache
-      - run:
-          name: "production build"
-          command: |
-            yarn build
-      - store_artifacts:
-          path: dist/
+      - common-build-process:
+          build_type: "production"
+          run_command: yarn build
   test-deploy:
-    <<: *deploy_environment
-    <<: *set_default_excuter
+    executor: deploy_excuter
     steps:
       # dev 배포 ------------------------------------
       - aws-s3/sync:
@@ -99,7 +109,7 @@ jobs:
           to: s3://${DEV_S3_BUCKET}
           <<: *develop_aws_key
           arguments: |
-            --exclude "staging.html"
+            --exclude "staging.html" \
             ${S3_ASSETS_PARAMS}
       - aws-s3/copy:
           from: s3://${DEV_S3_BUCKET}/index.html
@@ -110,8 +120,8 @@ jobs:
       - aws-s3/sync:
           <<: *production_sync
           arguments: |
-            --exclude "index.html"
-            --exclude "*.map"
+            --exclude "index.html" \
+            --exclude "*.map" \
             ${S3_ASSETS_PARAMS}
       - aws-s3/copy:
           from: ${S3_STAGING_FILE}
@@ -122,16 +132,15 @@ jobs:
       - aws-s3/sync:
           <<: *production_sync
           arguments: |
-            --exclude "*.html"
-            --exclude "*.map"
+            --exclude "*.html" \
+            --exclude "*.map" \
             ${S3_ASSETS_PARAMS}
       - aws-s3/copy:
           from: dist/index.html
           to: ${S3_RELEASE_CANDIDATE_FILE}
           <<: *production_aws_key
   production-deploy:
-    <<: *deploy_environment
-    <<: *set_default_excuter
+    executor: deploy_excuter
     steps:
       - aws-s3/copy:
           from: ${S3_RELEASE_CANDIDATE_FILE}
@@ -154,7 +163,7 @@ jobs:
     environment:
       AWS_ACCESS_KEY_ID: ${SLS_AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${SLS_AWS_SECRET_ACCESS_KEY}
-    <<: *set_default_excuter
+    executor: default_excuter
     steps:
       - run:
           name: "before serverless deploy script"
