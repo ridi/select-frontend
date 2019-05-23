@@ -1,4 +1,4 @@
-version: 2.0
+version: 2.1
 orbs:
   aws-s3: circleci/aws-s3@1.0.9
 
@@ -22,13 +22,14 @@ install_yarn_packages: &install_yarn_packages
     command: yarn install --frozen-lockfile
 
 deploy_environment: &deploy_environment
-  run:
-    environment:
-      S3_STAGING_FILE: s3://${PROD_S3_BUCKET}/staging.html
-      S3_RELEASE_CANDIDATE_FILE: s3://${PROD_S3_BUCKET}/releases/${CIRCLE_SHA1}.html
-      S3_RELEASE_PARAMS: "--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate"
-      S3_ASSETS_PARAMS: "--cache-control public,max-age=31536000"
-    command: echo 'set s3 variables'
+  environment:
+    # S3_STAGING_FILE: s3://${PROD_S3_BUCKET}/staging.html
+    # S3_RELEASE_CANDIDATE_FILE: s3://${PROD_S3_BUCKET}/releases/${CIRCLE_SHA1}.html
+    S3_STAGING_FILE: ''
+    S3_RELEASE_CANDIDATE_FILE: ''
+    # TODO: 테스트 중에는 aws 관련 key 안넣도록 임시 키 할당
+    S3_RELEASE_PARAMS: "--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate"
+    S3_ASSETS_PARAMS: "--cache-control public,max-age=31536000"
 
 develop_aws_key: &develop_aws_key
   aws-access-key-id: ${DEV_AWS_ACCESS_KEY_ID}
@@ -37,9 +38,9 @@ develop_aws_key: &develop_aws_key
 production_aws_key: &production_aws_key
   # aws-access-key-id: ${PROD_AWS_ACCESS_KEY_ID}
   # aws-secret-access-key: ${PROD_AWS_SECRET_ACCESS_KEY}
-  # TODO: 테스트 중에는 aws access key 안넣도록 임시 키 할당
   aws-access-key-id: 'aaaaaa'
   aws-secret-access-key: 'bbbbbbb'
+  # TODO: 테스트 중에는 aws access key 안넣도록 임시 키 할당
 
 production_sync: &production_sync
   from: dist
@@ -48,6 +49,14 @@ production_sync: &production_sync
 
 jobs:
   develop-build:
+    environment:
+      SELECT_URL: https://select.ridi.io
+      SELECT_API: https://select-api.dev.ridi.io
+      STORE_URL: https://master.test.ridi.io
+      STORE_API: https://master.test.ridi.io
+      PAY_URL: https://pay.ridi.io
+      ACCOUNT_API: https://account.dev.ridi.io
+      OAUTH2_CLIENT_ID: ${DEV_OAUTH2_CLIENT_ID}
     <<: *set_default_excuter
     steps:
       - checkout
@@ -56,14 +65,6 @@ jobs:
       - *save_build_cache
       - run:
           name: "devlop build"
-          environment:
-            SELECT_URL: https://select.ridi.io
-            SELECT_API: https://select-api.dev.ridi.io
-            STORE_URL: https://master.test.ridi.io
-            STORE_API: https://master.test.ridi.io
-            PAY_URL: https://pay.ridi.io
-            ACCOUNT_API: https://account.dev.ridi.io
-            OAUTH2_CLIENT_ID: ${DEV_OAUTH2_CLIENT_ID}
           command: |
             unset ASSET_PATH
             unset SENTRY_DSN
@@ -84,9 +85,9 @@ jobs:
       - store_artifacts:
           path: dist/
   test-deploy:
+    <<: *deploy_environment
     <<: *set_default_excuter
     steps:
-      - *deploy_environment
       # dev 배포 ------------------------------------
       - aws-s3/sync:
           from: dist
@@ -116,9 +117,9 @@ jobs:
           to: ${S3_RELEASE_CANDIDATE_FILE}
           <<: *production_aws_key
   production-deploy:
+    <<: *deploy_environment
     <<: *set_default_excuter
     steps:
-      - *deploy_environment
       - aws-s3/copy:
           from: ${S3_RELEASE_CANDIDATE_FILE}
           to: s3://${PROD_S3_BUCKET}/index.html
