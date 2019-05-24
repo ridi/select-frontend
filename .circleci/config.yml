@@ -48,10 +48,10 @@ commands:
       - run:
           name: "<< parameters.build_type >> build"
           command: << parameters.run_command >>
-      # - persist_to_workspace:
-      #     root: .
-      #     paths:
-      #       - dist/
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist/
 
 # -------------------------------------------------------------------------
 # reusable blocks definition ----------------------------------------------
@@ -185,13 +185,9 @@ workflows:
   deploy-test: # deploy test
     jobs:
       - production-build
-      - wait-approval: # 사용자의 approval을 대기하기 위한 용도
-          type: approval
-          requires:
-            - production-build
       - test-deploy:
           requires:
-            - wait-approval
+            - production-build
   build-develop-env:
     jobs:
       - develop-build:
@@ -203,8 +199,13 @@ workflows:
       - production-build:
           filters:
             branches:
-              only: master
+              only:
+                - master
       - test-deploy:
+          filters:
+            branches:
+              only:
+                - master
           requires:
             - production-build
   deploy-production: # 프로덕션 빌드 후 production 배포 (candidate to production copy) & sourcemaps, serverless 배포
@@ -212,17 +213,34 @@ workflows:
       - production-build:
           filters:
             branches:
-              only: /release\/.*/
+              only:
+                - /release\/.*/
       - wait-approval: # 사용자의 approval을 대기하기 위한 용도
           type: approval
+          filters:
+            branches:
+              only:
+                - /release\/.*/
           requires:
             - production-build
       - production-deploy:
+          filters:
+            branches:
+              only:
+                - /release\/.*/
           requires:
             - wait-approval
       - sourcemaps:
+          filters:
+            branches:
+              only:
+                - /release\/.*/
           requires:
             - production-build
       - serverless:
+          filters:
+            branches:
+              only:
+                - /release\/.*/
           requires:
             - production-build
