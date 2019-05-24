@@ -42,8 +42,7 @@ commands:
           paths: node_modules/
       - run:
           name: "<< parameters.build_type >> build"
-          command: |
-            <<# parameters.run_command >><< parameters.run_command >><</ parameters.run_command >>
+          command: << parameters.run_command >>
       - store_artifacts:
           path: dist/
 
@@ -82,10 +81,7 @@ jobs:
     steps:
       - common-build-process:
           build_type: "develop"
-          run_command: |
-            unset ASSET_PATH \
-            unset SENTRY_DSN \
-            yarn webpack
+          run_command: unset ASSET_PATH && unset SENTRY_DSN && yarn webpack
   production-build:
     executor: default_excuter
     steps:
