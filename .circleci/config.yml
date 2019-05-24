@@ -13,10 +13,9 @@ executors:
   deploy_excuter: # deploy reusable excuter
     docker:
       - image: node:carbon-alpine
-    working_directory: ~/select-frontend
     environment:
       S3_STAGING_FILE: s3://${PROD_S3_BUCKET}/staging.html
-      S3_RELEASE_CANDIDATE_FILE: s3://${PROD_S3_BUCKET}/releases/${CIRCLE_SHA1}.html
+      S3_RELEASE_CANDIDATE_FILE: s3://${PROD_S3_BUCKET}/releases/{{ .Environment.CIRCLE_SHA1 }}.html
       S3_RELEASE_PARAMS: "--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate"
       S3_ASSETS_PARAMS: "--cache-control public,max-age=31536000"
 
@@ -33,18 +32,24 @@ commands:
     steps:
       - checkout
       - restore_cache:
-          key: select-frontend-{{ checksum "package.json" }}
+          keys:
+            - select-frontend-{{ checksum "yarn.lock" }}
+            - select-frontend-{{ .Environment.CIRCLE_BRANCH }}
       - run:
           name: "install yarn packages"
           command: yarn install --frozen-lockfile
       - save_cache:
-          key: select-frontend-{{ checksum "package.json" }}
+          keys:
+            - select-frontend-{{ checksum "yarn.lock" }}
+            - select-frontend-{{ .Environment.CIRCLE_BRANCH }}
           paths: node_modules/
       - run:
           name: "<< parameters.build_type >> build"
           command: << parameters.run_command >>
-      - store_artifacts:
-          path: dist/
+      - persist_to_workspace:
+          root: workspace
+          paths:
+            - dist/
 
 # -------------------------------------------------------------------------
 # reusable blocks definition ----------------------------------------------
@@ -91,6 +96,8 @@ jobs:
   test-deploy:
     executor: deploy_excuter
     steps:
+      - attach_workspace:
+          at: /tmp/workspace
       # dev 배포 ------------------------------------
       - aws-s3/sync:
           from: dist
@@ -130,6 +137,8 @@ jobs:
   production-deploy:
     executor: deploy_excuter
     steps:
+      - attach_workspace:
+          at: /tmp/workspace
       - aws-s3/copy:
           from: ${S3_RELEASE_CANDIDATE_FILE}
           to: s3://${PROD_S3_BUCKET}/index.html
@@ -142,17 +151,21 @@ jobs:
       - image: getsentry/sentry-cli
     working_directory: ~/select-frontend
     steps:
+      - attach_workspace:
+          at: /tmp/workspace
       - deploy:
           command: |
-            sentry-cli releases new ${CIRCLE_SHA1}
-            sentry-cli releases files ${CIRCLE_SHA1} upload-sourcemaps ${HOME}/dist/*.map
-            sentry-cli releases finalize ${CIRCLE_SHA1}
+            sentry-cli releases new ${.Environment.CIRCLE_SHA1}
+            sentry-cli releases files ${.Environment.CIRCLE_SHA1} upload-sourcemaps ${HOME}/dist/*.map
+            sentry-cli releases finalize ${.Environment.CIRCLE_SHA1}
   serverless:
     environment:
       AWS_ACCESS_KEY_ID: ${SLS_AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${SLS_AWS_SECRET_ACCESS_KEY}
     executor: default_excuter
     steps:
+      - attach_workspace:
+          at: /tmp/workspace
       - run:
           name: "before serverless deploy script"
           command: |
@@ -185,9 +198,13 @@ workflows:
           filters:
             branches:
               only: /release\/.*/
-      - production-deploy:
+      - wait-approval: # 사용자의 approval을 대기하기 위한 용도
+          type: approval
           requires:
             - production-build
+      - production-deploy:
+          requires:
+            - wait-approval
       - sourcemaps:
           requires:
             - production-build
