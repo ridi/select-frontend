@@ -12,7 +12,7 @@ executors:
     working_directory: ~/select-frontend
   deploy_excuter: # deploy reusable excuter
     docker:
-      - image: node:carbon-alpine
+      - image: circleci/python
     environment:
       S3_STAGING_FILE: s3://${PROD_S3_BUCKET}/staging.html
       S3_RELEASE_CANDIDATE_FILE: s3://${PROD_S3_BUCKET}/releases/${CIRCLE_SHA1}.html
