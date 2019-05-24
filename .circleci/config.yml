@@ -155,7 +155,7 @@ jobs:
       - deploy:
           command: |
             sentry-cli releases new ${CIRCLE_SHA1}
-            sentry-cli releases files ${CIRCLE_SHA1} upload-sourcemaps ${HOME}/dist/*.map
+            sentry-cli releases files ${CIRCLE_SHA1} upload-sourcemaps ${CIRCLE_WORKING_DIRECTORY}/dist/*.map
             sentry-cli releases finalize ${CIRCLE_SHA1}
   serverless:
     environment:
