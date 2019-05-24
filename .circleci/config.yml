@@ -46,7 +46,7 @@ commands:
           name: "<< parameters.build_type >> build"
           command: << parameters.run_command >>
       - persist_to_workspace:
-          root: ${CIRCLE_WORKING_DIRECTORY}
+          root: /
           paths:
             - dist/
 
