@@ -114,28 +114,28 @@ jobs:
           <<: *develop_aws_key
           arguments: ${S3_RELEASE_PARAMS}
       # staging 배포 ------------------------------------
-      - aws-s3/sync:
-          <<: *production_sync
-          arguments: |
-            --exclude "index.html" \
-            --exclude "*.map" \
-            ${S3_ASSETS_PARAMS}
-      - aws-s3/copy:
-          from: ${S3_STAGING_FILE}
-          to: ${S3_STAGING_FILE}
-          <<: *production_aws_key
-          arguments: ${S3_RELEASE_PARAMS}
+      # - aws-s3/sync:
+      #     <<: *production_sync
+      #     arguments: |
+      #       --exclude "index.html" \
+      #       --exclude "*.map" \
+      #       ${S3_ASSETS_PARAMS}
+      # - aws-s3/copy:
+      #     from: ${S3_STAGING_FILE}
+      #     to: ${S3_STAGING_FILE}
+      #     <<: *production_aws_key
+      #     arguments: ${S3_RELEASE_PARAMS}
       # candidate 배포 ------------------------------------
-      - aws-s3/sync:
-          <<: *production_sync
-          arguments: |
-            --exclude "*.html" \
-            --exclude "*.map" \
-            ${S3_ASSETS_PARAMS}
-      - aws-s3/copy:
-          from: dist/index.html
-          to: ${S3_RELEASE_CANDIDATE_FILE}
-          <<: *production_aws_key
+      # - aws-s3/sync:
+      #     <<: *production_sync
+      #     arguments: |
+      #       --exclude "*.html" \
+      #       --exclude "*.map" \
+      #       ${S3_ASSETS_PARAMS}
+      # - aws-s3/copy:
+      #     from: dist/index.html
+      #     to: ${S3_RELEASE_CANDIDATE_FILE}
+      #     <<: *production_aws_key
   production-deploy:
     executor: deploy_excuter
     steps:
@@ -182,9 +182,18 @@ jobs:
 # -------------------------------------------------------------------------
 workflows:
   version: 2
+  deploy-test: # deploy test
+    jobs:
+      - production-build
+      - test-deploy:
+          requires:
+            - production-build
   build-develop-env:
     jobs:
-      - develop-build
+      - develop-build:
+          filters:
+              branches:
+                only: develop
   build-and-deploy-test-env: # 프로덕션 빌드 후 select.ridi.io & staging 배포 & candidate 배포
     jobs:
       - production-build:
