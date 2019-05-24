@@ -15,7 +15,7 @@ executors:
       - image: node:carbon-alpine
     environment:
       S3_STAGING_FILE: s3://${PROD_S3_BUCKET}/staging.html
-      S3_RELEASE_CANDIDATE_FILE: s3://${PROD_S3_BUCKET}/releases/${ .Environment.CIRCLE_SHA1 }.html
+      S3_RELEASE_CANDIDATE_FILE: s3://${PROD_S3_BUCKET}/releases/${CIRCLE_SHA1}.html
       S3_RELEASE_PARAMS: "--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate"
       S3_ASSETS_PARAMS: "--cache-control public,max-age=31536000"
 
@@ -33,15 +33,14 @@ commands:
       - checkout
       - restore_cache:
           keys:
-            - select-frontend-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - select-frontend-{{ .Branch }}-
+            - select-frontend-{{ checksum "yarn.lock" }}
             - select-frontend-
       - run:
           name: "install yarn packages"
           command: yarn install --frozen-lockfile
       - save_cache:
           key:
-            - select-frontend-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - select-frontend-{{ checksum "yarn.lock" }}
           paths: node_modules/
       - run:
           name: "<< parameters.build_type >> build"
@@ -155,9 +154,9 @@ jobs:
           at: /tmp/workspace
       - deploy:
           command: |
-            sentry-cli releases new ${.Environment.CIRCLE_SHA1}
-            sentry-cli releases files ${.Environment.CIRCLE_SHA1} upload-sourcemaps ${HOME}/dist/*.map
-            sentry-cli releases finalize ${.Environment.CIRCLE_SHA1}
+            sentry-cli releases new ${CIRCLE_SHA1}
+            sentry-cli releases files ${CIRCLE_SHA1} upload-sourcemaps ${HOME}/dist/*.map
+            sentry-cli releases finalize ${CIRCLE_SHA1}
   serverless:
     environment:
       AWS_ACCESS_KEY_ID: ${SLS_AWS_ACCESS_KEY_ID}
