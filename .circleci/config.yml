@@ -31,6 +31,9 @@ commands:
         default: yarn build
     steps:
       - checkout
+      - run:
+          name: "set ca-certificates no cache"
+          commands: apk add --no-cache ca-certificates
       - restore_cache:
           keys:
             - select-frontend-{{ .Branch }}-{{ checksum "yarn.lock" }}
