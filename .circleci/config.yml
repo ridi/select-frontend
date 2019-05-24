@@ -46,7 +46,7 @@ commands:
           name: "<< parameters.build_type >> build"
           command: << parameters.run_command >>
       - persist_to_workspace:
-          root: workspace
+          root: working_directory
           paths:
             - dist/
 
@@ -96,7 +96,7 @@ jobs:
     executor: deploy_excuter
     steps:
       - attach_workspace:
-          at: /tmp/workspace
+          at: /select-frontend
       # dev 배포 ------------------------------------
       - aws-s3/sync:
           from: dist
@@ -137,7 +137,7 @@ jobs:
     executor: deploy_excuter
     steps:
       - attach_workspace:
-          at: /tmp/workspace
+          at: /select-frontend
       - aws-s3/copy:
           from: ${S3_RELEASE_CANDIDATE_FILE}
           to: s3://${PROD_S3_BUCKET}/index.html
@@ -151,7 +151,7 @@ jobs:
     working_directory: ~/select-frontend
     steps:
       - attach_workspace:
-          at: /tmp/workspace
+          at: /select-frontend
       - deploy:
           command: |
             sentry-cli releases new ${CIRCLE_SHA1}
@@ -164,7 +164,7 @@ jobs:
     executor: default_excuter
     steps:
       - attach_workspace:
-          at: /tmp/workspace
+          at: /select-frontend
       - run:
           name: "before serverless deploy script"
           command: |
