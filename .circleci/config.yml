@@ -76,6 +76,7 @@ production_sync: &production_sync
 # jobs definition ---------------------------------------------------------
 # -------------------------------------------------------------------------
 jobs:
+  # build jobs ----------------------------------
   develop-build:
     environment:
       SELECT_URL: https://select.ridi.io
@@ -96,62 +97,74 @@ jobs:
       - common-build-process:
           build_type: "production"
           run_command: yarn build
-  develop-deploy:
-    executor: deploy_excuter
+  # deploy jobs ----------------------------------
+  deploy:
+    excutor: deploy_excuter
+    parameters:
+      dev:
+        type: boolean
+        default: false
+      staging:
+        type: boolean
+        default: false
+      prod:
+        type: boolean
+        default: false
     steps:
       - attach_workspace:
           at: .
       # dev 배포 ------------------------------------
-      - aws-s3/sync:
-          from: dist
-          to: s3://${DEV_S3_BUCKET}
-          <<: *develop_aws_key
-          arguments: |
-            --exclude "staging.html" \
-            ${S3_ASSETS_PARAMS}
-      - aws-s3/copy:
-          from: s3://${DEV_S3_BUCKET}/index.html
-          to: s3://${DEV_S3_BUCKET}/index.html
-          <<: *develop_aws_key
-          arguments: ${S3_RELEASE_PARAMS}
-  staging-deploy:
-    executor: deploy_excuter
-    steps:
-      - attach_workspace:
-          at: .
-      # staging 배포 ------------------------------------
-      - aws-s3/sync:
-          <<: *production_sync
-          arguments: |
-            --exclude "index.html" \
-            --exclude "*.map" \
-            ${S3_ASSETS_PARAMS}
-      - aws-s3/copy:
-          from: ${S3_STAGING_FILE}
-          to: ${S3_STAGING_FILE}
-          <<: *production_aws_key
-          arguments: ${S3_RELEASE_PARAMS}
-      # candidate 배포 ------------------------------------
-      - aws-s3/sync:
-          <<: *production_sync
-          arguments: |
-            --exclude "*.html" \
-            --exclude "*.map" \
-            ${S3_ASSETS_PARAMS}
-      - aws-s3/copy:
-          from: dist/index.html
-          to: ${S3_RELEASE_CANDIDATE_FILE}
-          <<: *production_aws_key
-  production-deploy:
-    executor: deploy_excuter
-    steps:
-      - attach_workspace:
-          at: .
-      - aws-s3/copy:
-          from: ${S3_RELEASE_CANDIDATE_FILE}
-          to: s3://${PROD_S3_BUCKET}/index.html
-          <<: *production_aws_key
-          arguments: ${S3_RELEASE_PARAMS}
+      - when:
+          condition: <<parameters.dev>>
+          steps:
+            - aws-s3/sync:
+                from: dist
+                to: s3://${DEV_S3_BUCKET}
+                <<: *develop_aws_key
+                arguments: |
+                  --exclude "staging.html" \
+                  ${S3_ASSETS_PARAMS}
+            - aws-s3/copy:
+                from: s3://${DEV_S3_BUCKET}/index.html
+                to: s3://${DEV_S3_BUCKET}/index.html
+                <<: *develop_aws_key
+                arguments: ${S3_RELEASE_PARAMS}
+      # staging & candidate 배포 ------------------------------------
+      - when:
+          condition: <<parameters.staging>>
+          steps:
+            # staging 배포 ------------------------------------
+            - aws-s3/sync:
+                <<: *production_sync
+                arguments: |
+                  --exclude "index.html" \
+                  --exclude "*.map" \
+                  ${S3_ASSETS_PARAMS}
+            - aws-s3/copy:
+                from: ${S3_STAGING_FILE}
+                to: ${S3_STAGING_FILE}
+                <<: *production_aws_key
+                arguments: ${S3_RELEASE_PARAMS}
+            # candidate 배포 ------------------------------------
+            - aws-s3/sync:
+                <<: *production_sync
+                arguments: |
+                  --exclude "*.html" \
+                  --exclude "*.map" \
+                  ${S3_ASSETS_PARAMS}
+            - aws-s3/copy:
+                from: dist/index.html
+                to: ${S3_RELEASE_CANDIDATE_FILE}
+                <<: *production_aws_key
+      # production 배포 ------------------------------------
+      - when:
+          condition: <<parameters.prod>>
+          steps:
+            - aws-s3/copy:
+                from: ${S3_RELEASE_CANDIDATE_FILE}
+                to: s3://${PROD_S3_BUCKET}/index.html
+                <<: *production_aws_key
+                arguments: ${S3_RELEASE_PARAMS}
   sourcemaps:
     environment:
       SENTRY_LOG_LEVEL: debug
@@ -200,17 +213,19 @@ workflows:
             branches:
               only:
                 - master
-      - develop-deploy:
+      - deploy:
           requires:
             - develop-build
+          dev: true
       - production-build: # 프로덕션 빌드 후 staging 배포 & candidate 배포
           filters:
             branches:
               only:
                 - master
-      - staging-deploy:
+      - deploy:
           requires:
             - production-build
+          staging: true
   deploy-production: # 프로덕션 빌드 후 production 배포 (candidate to production copy) & sourcemaps, serverless 배포
     jobs:
       - production-build:
@@ -222,9 +237,10 @@ workflows:
           type: approval
           requires:
             - production-build
-      - production-deploy:
+      - deploy:
           requires:
             - wait-approval
+          prod: true
       - sourcemaps:
           requires:
             - production-build
