@@ -172,8 +172,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${SLS_AWS_SECRET_ACCESS_KEY}
     executor: default_excuter
     steps:
-      - attach_workspace:
-          at: .
+      - checkout
       - run:
           name: "before serverless deploy script"
           command: |
@@ -188,12 +187,6 @@ jobs:
 # -------------------------------------------------------------------------
 workflows:
   version: 2
-  deploy-test: # deploy test
-    jobs:
-      - develop-build
-      - develop-deploy:
-          requires:
-            - develop-build
   build-develop-env:
     jobs:
       - develop-build:
@@ -208,10 +201,6 @@ workflows:
               only:
                 - master
       - develop-deploy:
-          filters:
-            branches:
-              only:
-                - master
           requires:
             - develop-build
       - production-build: # 프로덕션 빌드 후 staging 배포 & candidate 배포
@@ -220,10 +209,6 @@ workflows:
               only:
                 - master
       - staging-deploy:
-          filters:
-            branches:
-              only:
-                - master
           requires:
             - production-build
   deploy-production: # 프로덕션 빌드 후 production 배포 (candidate to production copy) & sourcemaps, serverless 배포
@@ -235,30 +220,14 @@ workflows:
                 - /release\/.*/
       - wait-approval: # 사용자의 approval을 대기하기 위한 용도
           type: approval
-          filters:
-            branches:
-              only:
-                - /release\/.*/
           requires:
             - production-build
       - production-deploy:
-          filters:
-            branches:
-              only:
-                - /release\/.*/
           requires:
             - wait-approval
       - sourcemaps:
-          filters:
-            branches:
-              only:
-                - /release\/.*/
           requires:
             - production-build
       - serverless:
-          filters:
-            branches:
-              only:
-                - /release\/.*/
           requires:
             - production-build
