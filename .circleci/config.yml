@@ -96,7 +96,7 @@ jobs:
       - common-build-process:
           build_type: "production"
           run_command: yarn build
-  test-deploy:
+  develop-deploy:
     executor: deploy_excuter
     steps:
       - attach_workspace:
@@ -114,29 +114,34 @@ jobs:
           to: s3://${DEV_S3_BUCKET}/index.html
           <<: *develop_aws_key
           arguments: ${S3_RELEASE_PARAMS}
+  staging-deploy:
+    executor: deploy_excuter
+    steps:
+      - attach_workspace:
+          at: .
       # staging 배포 ------------------------------------
-      # - aws-s3/sync:
-      #     <<: *production_sync
-      #     arguments: |
-      #       --exclude "index.html" \
-      #       --exclude "*.map" \
-      #       ${S3_ASSETS_PARAMS}
-      # - aws-s3/copy:
-      #     from: ${S3_STAGING_FILE}
-      #     to: ${S3_STAGING_FILE}
-      #     <<: *production_aws_key
-      #     arguments: ${S3_RELEASE_PARAMS}
+      - aws-s3/sync:
+          <<: *production_sync
+          arguments: |
+            --exclude "index.html" \
+            --exclude "*.map" \
+            ${S3_ASSETS_PARAMS}
+      - aws-s3/copy:
+          from: ${S3_STAGING_FILE}
+          to: ${S3_STAGING_FILE}
+          <<: *production_aws_key
+          arguments: ${S3_RELEASE_PARAMS}
       # candidate 배포 ------------------------------------
-      # - aws-s3/sync:
-      #     <<: *production_sync
-      #     arguments: |
-      #       --exclude "*.html" \
-      #       --exclude "*.map" \
-      #       ${S3_ASSETS_PARAMS}
-      # - aws-s3/copy:
-      #     from: dist/index.html
-      #     to: ${S3_RELEASE_CANDIDATE_FILE}
-      #     <<: *production_aws_key
+      - aws-s3/sync:
+          <<: *production_sync
+          arguments: |
+            --exclude "*.html" \
+            --exclude "*.map" \
+            ${S3_ASSETS_PARAMS}
+      - aws-s3/copy:
+          from: dist/index.html
+          to: ${S3_RELEASE_CANDIDATE_FILE}
+          <<: *production_aws_key
   production-deploy:
     executor: deploy_excuter
     steps:
@@ -185,24 +190,36 @@ workflows:
   version: 2
   deploy-test: # deploy test
     jobs:
-      - production-build
-      - test-deploy:
+      - develop-build
+      - develop-deploy:
           requires:
-            - production-build
+            - develop-build
   build-develop-env:
     jobs:
       - develop-build:
           filters:
               branches:
                 only: develop
-  build-and-deploy-test-env: # 프로덕션 빌드 후 select.ridi.io & staging 배포 & candidate 배포
+  build-and-deploy-test-env:
     jobs:
-      - production-build:
+      - develop-build: # develop 빌드 후 select.ridi.io 배포
           filters:
             branches:
               only:
                 - master
-      - test-deploy:
+      - develop-deploy:
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - develop-build
+      - production-build: # 프로덕션 빌드 후 staging 배포 & candidate 배포
+          filters:
+            branches:
+              only:
+                - master
+      - staging-deploy:
           filters:
             branches:
               only:
