@@ -10,7 +10,7 @@ executors:
     docker:
       - image: node:carbon-alpine
     working_directory: ~/select-frontend
-  deploy_excuter: # deploy reusable excuter
+  deploy_executer: # deploy reusable excuter
     docker:
       - image: circleci/python
     environment:
@@ -45,7 +45,7 @@ commands:
           command: yarn install --frozen-lockfile
       - save_cache:
           key: select-frontend-{{ .Branch }}-{{ checksum "yarn.lock" }}
-          paths: node_modules/
+          paths: ~/.cache/yarn
       - run:
           name: "<< parameters.build_type >> build"
           command: << parameters.run_command >>
@@ -99,7 +99,7 @@ jobs:
           run_command: yarn build
   # deploy jobs ----------------------------------
   deploy:
-    excutor: deploy_excuter
+    executor: deploy_executer
     parameters:
       dev:
         type: boolean
