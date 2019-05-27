@@ -89,7 +89,7 @@
     width: 200px;
     height: 34px;
     margin: 0 0 34px;
-    background-color: rgba(0,0,0,.3);
+    background-color: var(--lightsteelblue_10);
   }
   @media (--pc-screen) {
     & .HomeSection_HotRelease_Contents {

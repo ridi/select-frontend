@@ -1,6 +1,6 @@
 :root {
-  --pc-hotRelease-section-height: 433px;
-  --inline-120-hotRelease-section-height: 340px;
+  --pc-hotRelease-section-height: 420px;
+  --inline-120-hotRelease-section-height: 326px;
   --inline-110-hotRelease-section-height: 326px;
 }
 @custom-media --hotRelease-slider-view (min-width: 901px);

@@ -62,7 +62,7 @@
 .HotReleaseBookList_Item_Skeleton {
   width: var(--book-width-mobile);
   & .Skeleton {
-    background-color: rgba(0,0,0,.3);
+    background-color: var(--lightsteelblue_10);
   }
   @media (--pc-screen) {
     width: 140PX;
