@@ -89,7 +89,7 @@
     width: 200px;
     height: 34px;
     margin: 0 0 34px;
-    background-color: var(--slategray_20);
+    background-color: var(--slategray_10);
   }
   @media (--pc-screen) {
     & .HomeSection_HotRelease_Contents {

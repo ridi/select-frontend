@@ -10,7 +10,7 @@
   box-sizing: border-box;
   background-color: rgba(242,244,245,.5);
   & .Skeleton {
-    background-color: var(--slategray_20);
+    background-color: var(--slategray_10);
   }
   @media (--mobile-screen) {
     height: var(--inline-110-hotRelease-section-height);
@@ -82,7 +82,6 @@
 .HomeSection_HotRelease_Contents {
   position: relative;
   box-sizing: border-box;
-  /* background: url(../images/hot_release_bg@2x.jpg) center center no-repeat; */
   background-size: 870px 473px;
   @media (--mobile-screen) {
     height: var(--inline-110-hotRelease-section-height);
