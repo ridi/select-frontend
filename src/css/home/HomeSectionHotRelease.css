@@ -8,9 +8,10 @@
 
 .HomeSection_HotRelease {
   box-sizing: border-box;
-  background-color: var(--lightsteelblue_5);
+  background-color: var(--slategray_5);
+  opacity: 0.5;
   & .Skeleton {
-    background-color: #f1f1f3;
+    background-color: var(--slategray_20);
   }
   @media (--mobile-screen) {
     height: var(--inline-110-hotRelease-section-height);
@@ -97,9 +98,19 @@
     margin: 0 auto;
     & .Slider_ControlButton_Left {
       left: -178px;
+      border: none;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+      background-color: #ffffff;
     }
     & .Slider_ControlButton_Right {
       right: -178px;
+      border: none;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+      background-color: #ffffff;
+    }
+
+    & .Slider_ControlIcon {
+      fill: var(--slategray_50);
     }
   }
   @media (--hotRelease-inline-view) {
