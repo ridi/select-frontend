@@ -18,6 +18,7 @@ executors:
       S3_RELEASE_CANDIDATE_FILE: s3://${PROD_S3_BUCKET}/releases/${CIRCLE_SHA1}.html
       S3_RELEASE_PARAMS: "--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate"
       S3_ASSETS_PARAMS: "--cache-control public,max-age=31536000"
+      AWS_REGION: ${AWS_DEFAULT_REGION}
 
 commands:
   common-build-process:
