@@ -8,9 +8,9 @@
 
 .HomeSection_HotRelease {
   box-sizing: border-box;
-  background-color: var(--bluegray_90);
+  background-color: var(--lightsteelblue_5);
   & .Skeleton {
-    background-color: #111a27;
+    background-color: #f1f1f3;
   }
   @media (--mobile-screen) {
     height: var(--inline-110-hotRelease-section-height);
@@ -70,19 +70,19 @@
     margin: 0;
     font-size: 14px;
     font-weight: 700;
-    color: #fff;
+    color: #000;
     transition: opacity .2s;
   }
   & .InlineHorizontalBookList_Author {
     padding-top: 4px;
     font-size: 13px;
-    color: var(--slategray_30);
+    color: var(--slategray_50);
   }
 }
 .HomeSection_HotRelease_Contents {
   position: relative;
   box-sizing: border-box;
-  background: url(../images/hot_release_bg@2x.jpg) center center no-repeat;
+  /* background: url(../images/hot_release_bg@2x.jpg) center center no-repeat; */
   background-size: 870px 473px;
   @media (--mobile-screen) {
     height: var(--inline-110-hotRelease-section-height);
@@ -107,13 +107,13 @@
   }
 }
 .HomeSection_HotRelease_Title {
-  padding-top: 45px;
+  padding: 45px 0 0 10px;
   font-size: 24px;
   line-height: 21px;
   letter-spacing: -.3px;
-  color: #fff;
+  color: #000;
   @media (--hotRelease-inline-view) {
-    padding-top: 30px;
+    padding: 30px 0 0 0;
     font-size: 16px;
     font-weight: 700;
     line-height: 17px;
@@ -161,7 +161,7 @@
   padding-top: 8px;
   font-size: 15px;
   line-height: 20px;
-  color: #fff;
+  color: #000;
   font-weight: 700;
 }
 .HomeSection_HotRelease_Book_Author {
@@ -169,7 +169,7 @@
   padding-top: 2px;
   line-height: 20px;
   font-size: 14px;
-  color: var(--slategray_30);
+  color: var(--slategray_50);
 }
 
 .HotRelease_Navigator {
@@ -188,7 +188,7 @@
       height: 3px;
       padding: 0;
       border: 0;
-      background: rgba(209, 213, 217, 0.4);
+      background: var(--slategray_30);
       font-size: 0;
       opacity: .3;
       cursor: pointer;
@@ -204,7 +204,8 @@
 
     &.slick-active {
       & > button {
-        background: #d1d5d9;
+        background: var(--slategray_30);
+        opacity: 1;
       }
     }
 
