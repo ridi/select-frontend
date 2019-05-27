@@ -8,8 +8,7 @@
 
 .HomeSection_HotRelease {
   box-sizing: border-box;
-  background-color: var(--slategray_5);
-  opacity: 0.5;
+  background-color: rgba(242,244,245,.5);
   & .Skeleton {
     background-color: var(--slategray_20);
   }
