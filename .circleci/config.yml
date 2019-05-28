@@ -212,9 +212,11 @@ workflows:
   version: 2
   dev-build-deploy-test:
     jobs:
-      - build: # develop 빌드 후 select.ridi.io 배포
+      - build:
+          name: build-develop
           dev: true
       - deploy:
+          name: deploy-develop
           requires:
             - build
           dev: true
@@ -227,29 +229,34 @@ workflows:
           dev: true
   build-and-deploy-test-env:
     jobs:
-      - build: # develop 빌드 후 select.ridi.io 배포
+      - build:
+          name: build-develop
           filters:
             branches:
               only:
                 - master
           dev: true
       - deploy:
+          name: deploy-develop
           requires:
             - build
           dev: true
-      - build: # 프로덕션 빌드 후 staging 배포 & candidate 배포
+      - build:
+          name: build-production
           filters:
             branches:
               only:
                 - master
           prod: true
       - deploy:
+          name: deploy-staging
           requires:
             - build
           staging: true
   deploy-production: # 프로덕션 빌드 후 production 배포 (candidate to production copy) & sourcemaps, serverless 배포
     jobs:
       - build:
+          name: build-production
           filters:
             branches:
               only:
@@ -260,6 +267,7 @@ workflows:
           requires:
             - build
       - deploy:
+          name: deploy-production
           requires:
             - wait-approval
           prod: true
