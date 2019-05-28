@@ -66,37 +66,43 @@ production_aws_key: &production_aws_key
   # aws-secret-access-key: PROD_AWS_SECRET_ACCESS_KEY
   aws-access-key-id: DEV_AWS_ACCESS_KEY_ID # TODO: 테스트 중에는 aws access key 안넣도록 임시로 dev 키 할당
   aws-secret-access-key: DEV_AWS_SECRET_ACCESS_KEY # TODO: 테스트 중에는 aws access key 안넣도록 임시로 dev 키 할당
-
-production_sync: &production_sync
-  from: dist
-  to: s3://${PROD_S3_BUCKET}
-  <<: *production_aws_key
-
 # -------------------------------------------------------------------------
 # jobs definition ---------------------------------------------------------
 # -------------------------------------------------------------------------
 jobs:
   # build jobs ----------------------------------
-  develop-build:
-    environment:
-      SELECT_URL: https://select.ridi.io
-      SELECT_API: https://select-api.dev.ridi.io
-      STORE_URL: https://master.test.ridi.io
-      STORE_API: https://master.test.ridi.io
-      PAY_URL: https://pay.ridi.io
-      ACCOUNT_API: https://account.dev.ridi.io
-      OAUTH2_CLIENT_ID: ${DEV_OAUTH2_CLIENT_ID}
+  build:
+    parameters:
+      dev:
+        type: boolean
+        default: false
+      prod:
+        type: boolean
+        default: false
     executor: default_excuter
     steps:
-      - common-build-process:
-          build_type: "develop"
-          run_command: unset ASSET_PATH && unset SENTRY_DSN && yarn webpack
-  production-build:
-    executor: default_excuter
-    steps:
-      - common-build-process:
-          build_type: "production"
-          run_command: yarn build
+      - when:
+          condition: <<parameters.dev>>
+          stpes:
+            - run:
+                name: Set develop build Environment Variables
+                command: |
+                  echo 'export SELECT_URL="https://select.ridi.io"' >> $BASH_ENV
+                  echo 'export SELECT_API="https://select-api.dev.ridi.io"' >> $BASH_ENV
+                  echo 'export STORE_URL="https://master.test.ridi.io"' >> $BASH_ENV
+                  echo 'export STORE_API="https://master.test.ridi.io"' >> $BASH_ENV
+                  echo 'export PAY_URL="https://pay.ridi.io"' >> $BASH_ENV
+                  echo 'export ACCOUNT_API="https://account.dev.ridi.io"' >> $BASH_ENV
+                  echo 'export OAUTH2_CLIENT_ID="$DEV_OAUTH2_CLIENT_ID"' >> $BASH_ENV
+            - common-build-process:
+                build_type: "develop"
+                run_command: unset ASSET_PATH && unset SENTRY_DSN && yarn webpack
+      - when:
+          condition: <<parameters.prod>>
+          steps:
+            - common-build-process:
+                build_type: "production"
+                run_command: yarn build
   # deploy jobs ----------------------------------
   deploy:
     executor: deploy_executer
@@ -135,7 +141,9 @@ jobs:
           steps:
             # staging 배포 ------------------------------------
             - aws-s3/sync:
-                <<: *production_sync
+                from: dist
+                to: s3://${PROD_S3_BUCKET}
+                <<: *production_aws_key
                 arguments: |
                   --exclude "index.html" \
                   --exclude "*.map" \
@@ -147,7 +155,9 @@ jobs:
                 arguments: ${S3_RELEASE_PARAMS}
             # candidate 배포 ------------------------------------
             - aws-s3/sync:
-                <<: *production_sync
+                from: dist
+                to: s3://${PROD_S3_BUCKET}
+                <<: *production_aws_key
                 arguments: |
                   --exclude "*.html" \
                   --exclude "*.map" \
@@ -200,39 +210,51 @@ jobs:
 # -------------------------------------------------------------------------
 workflows:
   version: 2
-  build-develop-env:
+  dev-build-deploy-test:
     jobs:
-      - develop-build:
-          filters:
-              branches:
-                only: develop
-  build-and-deploy-test-env:
-    jobs:
-      - develop-build: # develop 빌드 후 select.ridi.io 배포
-          filters:
-            branches:
-              only:
-                - master
+      - build: # develop 빌드 후 select.ridi.io 배포
+          dev: true
       - deploy:
           requires:
             - develop-build
           dev: true
-      - production-build: # 프로덕션 빌드 후 staging 배포 & candidate 배포
+  build-develop-env:
+    jobs:
+      - build:
+          filters:
+              branches:
+                only: develop
+          dev: true
+  build-and-deploy-test-env:
+    jobs:
+      - build: # develop 빌드 후 select.ridi.io 배포
           filters:
             branches:
               only:
                 - master
+          dev: true
+      - deploy:
+          requires:
+            - develop-build
+          dev: true
+      - build: # 프로덕션 빌드 후 staging 배포 & candidate 배포
+          filters:
+            branches:
+              only:
+                - master
+          prod: true
       - deploy:
           requires:
             - production-build
           staging: true
   deploy-production: # 프로덕션 빌드 후 production 배포 (candidate to production copy) & sourcemaps, serverless 배포
     jobs:
-      - production-build:
+      - build:
           filters:
             branches:
               only:
                 - /release\/.*/
+          prod: true
       - wait-approval: # 사용자의 approval을 대기하기 위한 용도
           type: approval
           requires:
