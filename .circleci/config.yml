@@ -83,7 +83,7 @@ jobs:
       - checkout
       - when:
           condition: << parameters.dev >>
-          stpes:
+          steps:
             - run:
                 command: |
                   echo 'export SELECT_URL="https://select.ridi.io"' >> $BASH_ENV
