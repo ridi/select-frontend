@@ -31,28 +31,9 @@ commands:
         type: string
         default: yarn build
     steps:
-      - checkout
-      - run:
-          name: "set ca-certificates no cache"
-          command: apk add --no-cache ca-certificates
-      - restore_cache:
-          keys:
-            - select-frontend-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - select-frontend-{{ .Branch }}-
-            - select-frontend-
-      - run:
-          name: "install yarn packages"
-          command: yarn install --frozen-lockfile
-      - save_cache:
-          key: select-frontend-{{ .Branch }}-{{ checksum "yarn.lock" }}
-          paths: ~/.cache/yarn
       - run:
           name: "<< parameters.build_type >> build"
           command: << parameters.run_command >>
-      - persist_to_workspace:
-          root: .
-          paths:
-            - dist/
 
 # -------------------------------------------------------------------------
 # reusable blocks definition ----------------------------------------------
@@ -81,6 +62,21 @@ jobs:
         default: false
     executor: default_excuter
     steps:
+      - checkout
+      - run:
+          name: "set ca-certificates no cache"
+          command: apk add --no-cache ca-certificates
+      - restore_cache:
+          keys:
+            - select-frontend-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - select-frontend-{{ .Branch }}-
+            - select-frontend-
+      - run:
+          name: "install yarn packages"
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: select-frontend-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths: ~/.cache/yarn
       - when:
           condition: <<parameters.dev>>
           stpes:
@@ -102,6 +98,10 @@ jobs:
             - common-build-process:
                 build_type: "production"
                 run_command: yarn build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist/
   # deploy jobs ----------------------------------
   deploy:
     executor: deploy_executer
