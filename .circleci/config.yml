@@ -61,10 +61,8 @@ develop_aws_key: &develop_aws_key
   aws-secret-access-key: DEV_AWS_SECRET_ACCESS_KEY
 
 production_aws_key: &production_aws_key
-  # aws-access-key-id: PROD_AWS_ACCESS_KEY_ID
-  # aws-secret-access-key: PROD_AWS_SECRET_ACCESS_KEY
-  aws-access-key-id: DEV_AWS_ACCESS_KEY_ID # TODO: 테스트 중에는 aws access key 안넣도록 임시로 dev 키 할당
-  aws-secret-access-key: DEV_AWS_SECRET_ACCESS_KEY # TODO: 테스트 중에는 aws access key 안넣도록 임시로 dev 키 할당
+  aws-access-key-id: PROD_AWS_ACCESS_KEY_ID
+  aws-secret-access-key: PROD_AWS_SECRET_ACCESS_KEY
 # -------------------------------------------------------------------------
 # jobs definition ---------------------------------------------------------
 # -------------------------------------------------------------------------
@@ -209,14 +207,6 @@ jobs:
 # -------------------------------------------------------------------------
 workflows:
   version: 2
-  dev-build-deploy-test:
-    jobs:
-      - build:
-          dev: true
-      - deploy:
-          requires:
-            - build
-          dev: true
   build-develop-env:
     jobs:
       - build:
