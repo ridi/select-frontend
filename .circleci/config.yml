@@ -85,7 +85,6 @@ jobs:
           condition: <<parameters.dev>>
           stpes:
             - run:
-                name: Set develop build Environment Variables
                 command: |
                   echo 'export SELECT_URL="https://select.ridi.io"' >> $BASH_ENV
                   echo 'export SELECT_API="https://select-api.dev.ridi.io"' >> $BASH_ENV
@@ -184,7 +183,7 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - deploy:
+      - run:
           command: |
             sentry-cli releases new ${CIRCLE_SHA1}
             sentry-cli releases files ${CIRCLE_SHA1} upload-sourcemaps ${CIRCLE_WORKING_DIRECTORY}/dist/*.map
@@ -213,12 +212,10 @@ workflows:
   dev-build-deploy-test:
     jobs:
       - build:
-          name: build-develop
           dev: true
       - deploy:
-          name: deploy-develop
           requires:
-            - build-develop
+            - build
           dev: true
   build-develop-env:
     jobs:
