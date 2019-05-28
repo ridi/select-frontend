@@ -6,11 +6,11 @@ orbs:
 # reusable executors and commands definition -------------------------------
 # -------------------------------------------------------------------------
 executors:
-  default_executer: # build reusable executer
+  default_executor: # build reusable executor
     docker:
       - image: node:carbon-alpine
     working_directory: ~/select-frontend
-  deploy_executer: # deploy reusable executer
+  deploy_executor: # deploy reusable executor
     docker:
       - image: circleci/python
     environment:
@@ -69,7 +69,7 @@ production_aws_key: &production_aws_key
 jobs:
   # build jobs ----------------------------------
   build:
-    executor: default_executer
+    executor: default_executor
     parameters:
       dev:
         type: boolean
@@ -102,7 +102,7 @@ jobs:
                 run_command: yarn build
   # deploy jobs ----------------------------------
   deploy:
-    executor: deploy_executer
+    executor: deploy_executor
     parameters:
       dev:
         type: boolean
@@ -190,7 +190,7 @@ jobs:
     environment:
       AWS_ACCESS_KEY_ID: ${SLS_AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${SLS_AWS_SECRET_ACCESS_KEY}
-    executor: default_executer
+    executor: default_executor
     steps:
       - checkout
       - run:
