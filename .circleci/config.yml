@@ -71,6 +71,7 @@ production_aws_key: &production_aws_key
 jobs:
   # build jobs ----------------------------------
   build:
+    executor: default_excuter
     parameters:
       dev:
         type: boolean
@@ -78,11 +79,10 @@ jobs:
       prod:
         type: boolean
         default: false
-    executor: default_excuter
     steps:
       - checkout
       - when:
-          condition: <<parameters.dev>>
+          condition: << parameters.dev >>
           stpes:
             - run:
                 command: |
@@ -97,7 +97,7 @@ jobs:
                 build_type: "develop"
                 run_command: unset ASSET_PATH && unset SENTRY_DSN && yarn webpack
       - when:
-          condition: <<parameters.prod>>
+          condition: << parameters.prod >>
           steps:
             - common-build-process:
                 build_type: "production"
@@ -120,7 +120,7 @@ jobs:
           at: .
       # dev 배포 ------------------------------------
       - when:
-          condition: <<parameters.dev>>
+          condition: << parameters.dev >>
           steps:
             - aws-s3/sync:
                 from: dist
@@ -136,7 +136,7 @@ jobs:
                 arguments: ${S3_RELEASE_PARAMS}
       # staging & candidate 배포 ------------------------------------
       - when:
-          condition: <<parameters.staging>>
+          condition: << parameters.staging >>
           steps:
             # staging 배포 ------------------------------------
             - aws-s3/sync:
@@ -167,7 +167,7 @@ jobs:
                 <<: *production_aws_key
       # production 배포 ------------------------------------
       - when:
-          condition: <<parameters.prod>>
+          condition: << parameters.prod >>
           steps:
             - aws-s3/copy:
                 from: ${S3_RELEASE_CANDIDATE_FILE}
