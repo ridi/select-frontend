@@ -218,7 +218,7 @@ workflows:
       - deploy:
           name: deploy-develop
           requires:
-            - build
+            - build-develop
           dev: true
   build-develop-env:
     jobs:
@@ -239,7 +239,7 @@ workflows:
       - deploy:
           name: deploy-develop
           requires:
-            - build
+            - build-develop
           dev: true
       - build:
           name: build-production
@@ -251,7 +251,7 @@ workflows:
       - deploy:
           name: deploy-staging
           requires:
-            - build
+            - build-production
           staging: true
   deploy-production: # 프로덕션 빌드 후 production 배포 (candidate to production copy) & sourcemaps, serverless 배포
     jobs:
@@ -265,7 +265,7 @@ workflows:
       - wait-approval: # 사용자의 approval을 대기하기 위한 용도
           type: approval
           requires:
-            - build
+            - build-production
       - deploy:
           name: deploy-production
           requires:
@@ -273,7 +273,7 @@ workflows:
           prod: true
       - sourcemaps:
           requires:
-            - build
+            - build-production
       - serverless:
           requires:
-            - build
+            - build-production
