@@ -3,14 +3,14 @@ orbs:
   aws-s3: circleci/aws-s3@1.0.9
 
 # -------------------------------------------------------------------------
-# reusable excutors and commands definition -------------------------------
+# reusable executors and commands definition -------------------------------
 # -------------------------------------------------------------------------
 executors:
-  default_excuter: # build reusable excuter
+  default_executer: # build reusable executer
     docker:
       - image: node:carbon-alpine
     working_directory: ~/select-frontend
-  deploy_executer: # deploy reusable excuter
+  deploy_executer: # deploy reusable executer
     docker:
       - image: circleci/python
     environment:
@@ -71,7 +71,7 @@ production_aws_key: &production_aws_key
 jobs:
   # build jobs ----------------------------------
   build:
-    executor: default_excuter
+    executor: default_executer
     parameters:
       dev:
         type: boolean
@@ -192,7 +192,7 @@ jobs:
     environment:
       AWS_ACCESS_KEY_ID: ${SLS_AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${SLS_AWS_SECRET_ACCESS_KEY}
-    executor: default_excuter
+    executor: default_executer
     steps:
       - checkout
       - run:
@@ -270,7 +270,7 @@ workflows:
           prod: true
       - sourcemaps:
           requires:
-            - build-production
+            - wait-approval
       - serverless:
           requires:
-            - build-production
+            - wait-approval
