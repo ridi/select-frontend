@@ -60,11 +60,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
     const { PAY_URL, STORE_URL } = this.props.environment;
     const currentLocation = encodeURIComponent(location.href);
 
-    const paymentUrl = encodeURIComponent(`${STORE_URL}/select/payments/ridi-pay/request?return_url=`);
-    const returnUrl = type === 'subscription' ? currentLocation : `${paymentUrl}${currentLocation}`;
-    let locationUrl = type === 'subscription' ?
-    `${PAY_URL}/settings/cards/change?returnUrl=${returnUrl}` :
-    `${PAY_URL}/settings/cards/register?returnUrl=${returnUrl}`;
+    let locationUrl = `${PAY_URL}/settings/cards/change?returnUrl=${currentLocation}`;
 
     if (subscriptionState) {
       const { nextBillDate } = subscriptionState;
@@ -78,8 +74,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
       }
 
       // 해지 예약 상태일 때, 결제 수단 변경 시 카드가 있다면
-      const { cardBrand } = subscriptionState;
-      if (type === 'unsubscription' && cardBrand) {
+      if (type === 'unsubscription') {
         locationUrl = `${STORE_URL}/select/payments/ridi-pay?return_url=${currentLocation}`;
       }
 

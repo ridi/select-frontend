@@ -187,20 +187,15 @@ export function* watchCancelUnsubscription() {
       if (e.response && e.response.data.code === 'DELETED_PAYMENT_METHOD') {
         // toast.failureMessage(e.response.data.message);
         const isIosInApp = getIsIosInApp(state);
-        if (!isIosInApp && confirm('구독했던 카드가 삭제되어 카드 등록 후 구독 해지 예약을 취소할 수 있습니다. 카드를 등록하시겠습니까?')) {
-          const { PAY_URL, STORE_URL } = state.environment;
-          const currentLocation = encodeURIComponent(location.href);
-          // 이미 카드가 등록 되어 있는 경우
-          if (state.user.subscription!.cardBrand) {
-            window.location.href = `${STORE_URL}/select/payments/ridi-pay?return_url=${currentLocation}`;
-            return;
-          }
-          const paymentUrl = `${STORE_URL}/select/payments/ridi-pay/request`;
-          const returnUrl = `${paymentUrl}?return_url=${currentLocation}`;
-          window.location.href = `${PAY_URL}/settings/cards/register?returnUrl=${returnUrl}`;
-        } else {
+        if (isIosInApp) {
           alert('구독했던 카드가 삭제되어 카드 등록 후 구독 해지 예약을 취소할 수 있습니다.');
           return;
+        }
+
+        if (confirm('구독했던 카드가 삭제되어 카드 등록 후 구독 해지 예약을 취소할 수 있습니다. 카드를 등록하시겠습니까?')) {
+          const { STORE_URL } = state.environment;
+          const currentLocation = encodeURIComponent(location.href);
+          window.location.href = `${STORE_URL}/select/payments/ridi-pay?return_url=${currentLocation}`;
         }
       } else {
         showMessageForRequestError(e);
