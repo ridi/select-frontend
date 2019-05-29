@@ -1,122 +1,108 @@
 version: 2.1
 orbs:
   aws-s3: circleci/aws-s3@1.0.9
-
-# -------------------------------------------------------------------------
-# reusable executors and commands definition -------------------------------
-# -------------------------------------------------------------------------
-executors:
-  default_executor: # build reusable executor
-    docker:
-      - image: node:carbon-alpine
-    working_directory: ~/select-frontend
-  deploy_executor: # deploy reusable executor
-    docker:
-      - image: circleci/python
-    environment:
-      S3_STAGING_FILE: s3://${PROD_S3_BUCKET}/staging.html
-      S3_RELEASE_CANDIDATE_FILE: s3://${PROD_S3_BUCKET}/releases/${CIRCLE_SHA1}.html
-      S3_RELEASE_PARAMS: "--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate"
-      S3_ASSETS_PARAMS: "--cache-control public,max-age=31536000"
-      AWS_REGION: ${AWS_DEFAULT_REGION}
-
-commands:
-  common-build-process:
-    description: "common build process for dev and production"
-    parameters:
-      build_type:
-        type: string
-        default: production
-      run_command:
-        type: string
-        default: yarn build
-    steps:
-      - run:
-          name: "set ca-certificates no cache"
-          command: apk add --no-cache ca-certificates
-      - restore_cache:
-          keys:
-            - select-frontend-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - select-frontend-{{ .Branch }}-
-            - select-frontend-
-      - run:
-          name: "install yarn packages"
-          command: yarn install --frozen-lockfile
-      - save_cache:
-          key: select-frontend-{{ .Branch }}-{{ checksum "yarn.lock" }}
-          paths: ~/.cache/yarn
-      - run:
-          name: "<< parameters.build_type >> build"
-          command: << parameters.run_command >>
-      - persist_to_workspace:
-          root: .
-          paths:
-            - dist/
-
-# -------------------------------------------------------------------------
-# reusable blocks definition ----------------------------------------------
-# -------------------------------------------------------------------------
+  slack: circleci/slack@2.5.1
 develop_aws_key: &develop_aws_key
   aws-access-key-id: DEV_AWS_ACCESS_KEY_ID
   aws-secret-access-key: DEV_AWS_SECRET_ACCESS_KEY
-
 production_aws_key: &production_aws_key
   aws-access-key-id: PROD_AWS_ACCESS_KEY_ID
   aws-secret-access-key: PROD_AWS_SECRET_ACCESS_KEY
-# -------------------------------------------------------------------------
-# jobs definition ---------------------------------------------------------
-# -------------------------------------------------------------------------
+commands:
+  install:
+    parameters:
+      key:
+        type: string
+        default: 'select-frontend'
+    steps:
+      - restore_cache:
+          keys:
+            - <<parameters.key>>-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - <<parameters.key>>-{{ .Branch }}-
+            - <<parameters.key>>-
+      - run:
+          name: Install yarn packages
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: <<parameters.key>>-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths: ~/.cache/yarn
+  sentry_upload:
+    steps:
+      - run:
+          command: curl -sL https://sentry.io/get-cli/ | bash
+      - run:
+          command: |
+            sentry-cli releases new ${CIRCLE_SHA1}
+            sentry-cli releases files ${CIRCLE_SHA1} upload-sourcemaps dist/
+            sentry-cli releases finalize ${CIRCLE_SHA1}
+          environment:
+            SENTRY_LOG_LEVEL: debug
 jobs:
-  # build jobs ----------------------------------
   build:
-    executor: default_executor
+    docker:
+      - image: circleci/node:lts
+    working_directory: ~/select-frontend
     parameters:
       dev:
         type: boolean
         default: false
-      prod:
-        type: boolean
-        default: false
     steps:
       - checkout
+      - install
       - when:
           condition: << parameters.dev >>
           steps:
             - run:
                 command: |
-                  echo 'export SELECT_URL="https://select.ridi.io"' >> $BASH_ENV
-                  echo 'export SELECT_API="https://select-api.dev.ridi.io"' >> $BASH_ENV
-                  echo 'export STORE_URL="https://master.test.ridi.io"' >> $BASH_ENV
-                  echo 'export STORE_API="https://master.test.ridi.io"' >> $BASH_ENV
-                  echo 'export PAY_URL="https://pay.ridi.io"' >> $BASH_ENV
-                  echo 'export ACCOUNT_API="https://account.dev.ridi.io"' >> $BASH_ENV
-                  echo 'export OAUTH2_CLIENT_ID="$DEV_OAUTH2_CLIENT_ID"' >> $BASH_ENV
-            - common-build-process:
-                build_type: "develop"
-                run_command: unset ASSET_PATH && unset SENTRY_DSN && yarn webpack
-      - when:
-          condition: << parameters.prod >>
+                  unset ASSET_PATH
+                  unset SENTRY_DSN
+                  yarn webpack
+                environment:
+                  SELECT_URL: https://select.ridi.io
+                  SELECT_API: https://select-api.dev.ridi.io
+                  STORE_URL: https://master.test.ridi.io
+                  STORE_API: https://master.test.ridi.io
+                  PAY_URL: https://pay.ridi.io
+                  ACCOUNT_API: https://account.dev.ridi.io
+                  OAUTH2_CLIENT_ID: $DEV_OAUTH2_CLIENT_ID
+      - unless:
+          condition: << parameters.dev >>
           steps:
-            - common-build-process:
-                build_type: "production"
-                run_command: yarn build
-  # deploy jobs ----------------------------------
+            - run:
+                command: yarn build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist/
   deploy:
-    executor: deploy_executor
+    docker:
+      - image: circleci/python:3.7
+    working_directory: ~/select-frontend
     parameters:
       dev:
         type: boolean
         default: false
-      staging:
+      stage:
         type: boolean
         default: false
       prod:
         type: boolean
         default: false
+    environment:
+      S3_RELEASE_PARAMS: '--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate'
+      S3_ASSETS_PARAMS: '--cache-control public,max-age=31536000'
     steps:
+      - checkout
+      - run:
+          name: Set environment variables
+          command: |
+            export SUBJECT="`git show -s --format=%s -n1 $CIRCLE_SHA1 | sed "s/'/\\\\\'/g"`"
+            export MESSAGE="`git show -s --format=%b $CIRCLE_SHA1 | sed "s/'/\\\\\'/g"`"
+            echo "export GIT_COMMIT_SUBJECT=$'$(echo "$SUBJECT")'" >> $BASH_ENV
+            echo "export GIT_COMMIT_MESSAGE=$'$(echo "$MESSAGE")'" >> $BASH_ENV
+            echo "export GITHUB_COMMIT_URL=\"https://github.com/ridi/select-frontend/commit/$CIRCLE_SHA1\"" >> $BASH_ENV
       - attach_workspace:
           at: .
-      # dev 배포 ------------------------------------
       - when:
           condition: << parameters.dev >>
           steps:
@@ -132,11 +118,17 @@ jobs:
                 to: s3://${DEV_S3_BUCKET}/index.html
                 <<: *develop_aws_key
                 arguments: ${S3_RELEASE_PARAMS}
-      # staging & candidate 배포 ------------------------------------
+            - slack/notify:
+                color: good
+                message: $GIT_COMMIT_MESSAGE
+                title: $GIT_COMMIT_SUBJECT
+                title_link: $GITHUB_COMMIT_URL
+                include_project_field: false
+                include_job_number_field: false
+                webhook: $SLACK_WEBHOOK_DEV
       - when:
-          condition: << parameters.staging >>
+          condition: << parameters.stage >>
           steps:
-            # staging 배포 ------------------------------------
             - aws-s3/sync:
                 from: dist
                 to: s3://${PROD_S3_BUCKET}
@@ -146,121 +138,93 @@ jobs:
                   --exclude "*.map" \
                   ${S3_ASSETS_PARAMS}
             - aws-s3/copy:
-                from: ${S3_STAGING_FILE}
-                to: ${S3_STAGING_FILE}
+                from: s3://${PROD_S3_BUCKET}/staging.html
+                to: s3://${PROD_S3_BUCKET}/staging.html
                 <<: *production_aws_key
                 arguments: ${S3_RELEASE_PARAMS}
-            # candidate 배포 ------------------------------------
+      - when:
+          condition: << parameters.prod >>
+          steps:
             - aws-s3/sync:
                 from: dist
                 to: s3://${PROD_S3_BUCKET}
                 <<: *production_aws_key
                 arguments: |
-                  --exclude "*.html" \
+                  --exclude "staging.html" \
                   --exclude "*.map" \
                   ${S3_ASSETS_PARAMS}
             - aws-s3/copy:
-                from: dist/index.html
-                to: ${S3_RELEASE_CANDIDATE_FILE}
-                <<: *production_aws_key
-      # production 배포 ------------------------------------
-      - when:
-          condition: << parameters.prod >>
-          steps:
-            - aws-s3/copy:
-                from: ${S3_RELEASE_CANDIDATE_FILE}
+                from: s3://${PROD_S3_BUCKET}/index.html
                 to: s3://${PROD_S3_BUCKET}/index.html
                 <<: *production_aws_key
                 arguments: ${S3_RELEASE_PARAMS}
-  sourcemaps:
-    environment:
-      SENTRY_LOG_LEVEL: debug
-    docker:
-      - image: getsentry/sentry-cli
-    working_directory: ~/select-frontend
-    steps:
-      - attach_workspace:
-          at: .
-      - run:
-          command: |
-            sentry-cli releases new ${CIRCLE_SHA1}
-            sentry-cli releases files ${CIRCLE_SHA1} upload-sourcemaps ${CIRCLE_WORKING_DIRECTORY}/dist/*.map
-            sentry-cli releases finalize ${CIRCLE_SHA1}
+            - sentry_upload
+            - slack/notify:
+                color: good
+                message: $GIT_COMMIT_MESSAGE
+                title: $GIT_COMMIT_SUBJECT
+                title_link: $GITHUB_COMMIT_URL
+                include_project_field: false
+                include_job_number_field: false
   serverless:
+    docker:
+      - image: circleci/node:lts
+    working_directory: ~/select-frontend
     environment:
       AWS_ACCESS_KEY_ID: ${SLS_AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${SLS_AWS_SECRET_ACCESS_KEY}
-    executor: default_executor
     steps:
       - checkout
       - run:
-          name: "before serverless deploy script"
-          command: |
-            cd serverless
-            yarn install --frozen-lockfile
-      - run:
-          name: run serverless deploy script
+          command: cd serverless
+      - install:
+          key: select-serverless
+      - deploy:
           command: yarn serverless deploy --stage production -v
-
-# -------------------------------------------------------------------------
-# workflows definition ----------------------------------------------------
-# -------------------------------------------------------------------------
 workflows:
   version: 2
-  build-develop-env:
+  deploy-dev:
     jobs:
       - build:
-          filters:
-              branches:
-                only: develop
-          dev: true
-  build-and-deploy-test-env:
-    jobs:
-      - build:
-          name: build-develop
-          filters:
+          name: build-dev
+          filters: &master_only
             branches:
               only:
                 - master
+                - feature/circle-ci
           dev: true
       - deploy:
-          name: deploy-develop
+          name: deploy-dev
           requires:
-            - build-develop
+            - build-dev
+          filters: *master_only
           dev: true
-      - build:
-          name: build-production
-          filters:
-            branches:
-              only:
-                - master
-          prod: true
-      - deploy:
-          name: deploy-staging
-          requires:
-            - build-production
-          staging: true
-  deploy-production: # 프로덕션 빌드 후 production 배포 (candidate to production copy) & sourcemaps, serverless 배포
+  deploy-stage:
     jobs:
       - build:
-          name: build-production
-          filters:
+          name: build-stage
+          filters: *master_only
+      - deploy:
+          name: deploy-stage
+          requires:
+            - build-stage
+          filters: *master_only
+          stage: true
+  deploy-prod:
+    jobs:
+      - build:
+          name: build-prod
+          filters: &release_only
             branches:
-              only:
-                - /release\/.*/
+              only: release
+      - deploy:
+          name: deploy-prod
+          requires:
+            - build-prod
+          filters: *release_only
           prod: true
-      - wait-approval: # 사용자의 approval을 대기하기 위한 용도
+      - wait-serverless-approval:
           type: approval
-          requires:
-            - build-production
-      - deploy:
-          name: deploy-production
-          requires:
-            - wait-approval
-          prod: true
-      - sourcemaps:
-          requires:
-            - wait-approval
       - serverless:
           requires:
-            - wait-approval
+            - wait-serverless-approval
