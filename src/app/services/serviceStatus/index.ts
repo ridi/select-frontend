@@ -5,7 +5,7 @@ export type ErrorResponseStatus = number;
 export interface ErrorResponseData {
   period: string;
   status: string;
-  unavailableService: string;
+  unavailableService: string[];
 }
 
 export const Actions = {
