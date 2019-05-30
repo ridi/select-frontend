@@ -185,9 +185,7 @@ export function* watchCancelUnsubscription() {
     } catch (e) {
       yield put(Actions.cancelUnsubscriptionFailure());
       if (e.response && e.response.data.code === 'DELETED_PAYMENT_METHOD') {
-        // toast.failureMessage(e.response.data.message);
-        const isIosInApp = getIsIosInApp(state);
-        if (isIosInApp) {
+        if (getIsIosInApp(state)) {
           alert('구독했던 카드가 삭제되어 카드 등록 후 구독 해지 예약을 취소할 수 있습니다.');
           return;
         }

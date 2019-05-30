@@ -24,7 +24,7 @@ interface Props {
 }
 
 const RidibooksLogoIcon = (props: { className: string; }) => (
-  <svg enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" {...props}>
+  <svg enableBackground="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" {...props}>
     {/* tslint:disable:max-line-length */}
     <g fill="#fff">
       <path d="m10.311 13.259h1.04c.126 0 .173-.047.173-.173v-5.002c0-.126-.047-.174-.173-.174h-1.04c-.127 0-.174.047-.174.174v5.002c.001.126.048.173.174.173z"/>
