@@ -7,7 +7,7 @@ import { ConnectedRouter } from 'react-router-redux';
 
 import { ConnectedFooter, ConnectedGNB, ConnectedLNB } from 'app/components';
 import { ConnectedSplashScreen } from 'app/components/SplashScreen';
-import { errorResponseData, errorResponseStatus } from 'app/services/serviceStatus';
+import { ErrorResponseData, ErrorResponseStatus } from 'app/services/serviceStatus';
 
 import history from 'app/config/history';
 import {
@@ -21,6 +21,7 @@ import {
   ConnectedGuide,
   ConnectedHome,
   ConnectedIntro,
+  ConnectedMaintenancePage,
   ConnectedManageSubscription,
   ConnectedMySelect,
   ConnectedMySelectHistory,
@@ -40,7 +41,6 @@ import {
   PrivateRoute,
 } from 'app/hocs';
 import { RidiSelectState } from 'app/store';
-import { MaintenacePage } from './scenes/MaintenancePage';
 import { getIsAndroidInApp, selectIsInApp } from './services/environment/selectors';
 
 export interface Props {
@@ -48,8 +48,8 @@ export interface Props {
   IsAndroidInApp: boolean;
   isFetching: boolean;
   isSubscribing: boolean;
-  errorResponseState?: errorResponseStatus;
-  errorResponse?: errorResponseData;
+  errorResponseState?: ErrorResponseStatus;
+  errorResponse?: ErrorResponseData;
 }
 
 export const inAppGnbRoutes = [
@@ -77,7 +77,7 @@ export const Routes: React.SFC<Props> = (props) => {
   const { errorResponseState, errorResponse } = props;
 
   if (errorResponseState) {
-    return errorResponse === 'maintenance' ? <MaintenacePage /> : <ConnectedErrorPage />;
+    return errorResponse && errorResponse.status === 'maintenance' ? <ConnectedMaintenancePage /> : <ConnectedErrorPage />;
   }
 
   return (
