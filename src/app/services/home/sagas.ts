@@ -37,7 +37,11 @@ export function* watchLoadHome() {
         isIosInApp: getIsIosInApp(state),
       }));
     } catch (e) {
+      const { data } = e.response;
       yield put(Actions.loadHomeFailure());
+      if (data && data.status === 'maintenance') {
+        return;
+      }
       showMessageForRequestError(e);
     }
   }

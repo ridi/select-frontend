@@ -101,7 +101,11 @@ export function* loadMySelectHistory({ payload }: ReturnType<typeof Actions.load
 
     yield put(Actions.loadMySelectHistorySuccess({ page, response }));
   } catch (e) {
+    const { data } = e.response;
     yield put(Actions.loadMySelectHistoryFailure({ page }));
+    if (data && data.status === 'maintenance') {
+      return;
+    }
     showMessageForRequestError(e);
   }
 }
