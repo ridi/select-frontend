@@ -188,8 +188,9 @@ jobs:
       - checkout
       - run:
           command: "echo $PWD"
-      - install:
-          key: select-serverless
+      - run:
+          name: Install yarn packages
+          command: yarn install --frozen-lockfile
       - run:
           command: yarn serverless -v
 workflows:
