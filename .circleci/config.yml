@@ -190,8 +190,8 @@ jobs:
           command: "echo $PWD"
       - install:
           key: select-serverless
-      - deploy:
-          command: yarn serverless -h
+      - run:
+          command: yarn serverless -v
 workflows:
   version: 2
   serverless-test:
