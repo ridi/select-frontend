@@ -190,12 +190,12 @@ jobs:
           command: "echo $PWD"
       - run:
           name: Install yarn packages
-          command: yarn install
+          command: cd serverless && yarn install
       - run:
           name: scan currentDir
           command: "echo $(ls -al)"
       - run:
-          command: yarn serverless -v
+          command: cd serverless && yarn serverless -v
 workflows:
   version: 2
   serverless-test:
