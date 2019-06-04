@@ -187,11 +187,15 @@ jobs:
     steps:
       - checkout
       - run:
-          command: |
-            "echo $PWD"
-            yarn install
-            "echo $(ls -d */)"
-            yarn serverless -v
+          command: "echo $PWD"
+      - run:
+          name: Install yarn packages
+          command: yarn install
+      - run:
+          name: scan currentDir
+          command: "echo $(ls -d .)"
+      - run:
+          command: yarn serverless -v
 workflows:
   version: 2
   serverless-test:
