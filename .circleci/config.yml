@@ -200,7 +200,7 @@ workflows:
   serverless-test:
     jobs:
       - serverless-test
-      -build:
+      - build:
         dev: true
   deploy-dev:
     jobs:
