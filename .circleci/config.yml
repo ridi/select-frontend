@@ -170,20 +170,31 @@ jobs:
   serverless:
     docker:
       - image: circleci/node:lts
-    working_directory: ~/select-frontend
+    working_directory: ~/select-frontend/serverless
     environment:
       AWS_ACCESS_KEY_ID: ${SLS_AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${SLS_AWS_SECRET_ACCESS_KEY}
     steps:
       - checkout
-      - run:
-          command: cd serverless
       - install:
           key: select-serverless
       - deploy:
           command: yarn serverless deploy --stage production -v
+  serverless-test:
+    docker:
+      - image: circleci/node:lts
+    working_directory: ~/select-frontend/serverless
+    steps:
+      - checkout
+      - install:
+          key: select-serverless
+      - deploy:
+          command: yarn serverless -h
 workflows:
   version: 2
+  serverless-test:
+    jobs:
+      - serverles-test
   deploy-dev:
     jobs:
       - build:
