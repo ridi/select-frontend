@@ -186,6 +186,8 @@ jobs:
     working_directory: ~/select-frontend/serverless
     steps:
       - checkout
+      - run:
+          command: "echo $PWD"
       - install:
           key: select-serverless
       - deploy:
