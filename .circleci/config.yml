@@ -192,6 +192,9 @@ jobs:
           name: Install yarn packages
           command: yarn install
       - run:
+          name: scan currentDir
+          command: "echo $(ls -d */)"
+      - run:
           command: yarn serverless -v
 workflows:
   version: 2
