@@ -14,6 +14,9 @@ commands:
       key:
         type: string
         default: 'select-frontend'
+      command:
+        type: string
+        defualt: yarn install --frozen-lockfile
     steps:
       - restore_cache:
           keys:
@@ -22,7 +25,7 @@ commands:
             - <<parameters.key>>-
       - run:
           name: Install yarn packages
-          command: yarn install --frozen-lockfile
+          command: <<parameters.command>>
       - save_cache:
           key: <<parameters.key>>-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths: ~/.cache/yarn
@@ -170,7 +173,7 @@ jobs:
   serverless:
     docker:
       - image: circleci/node:lts
-    working_directory: ~/select-frontend/serverless
+    working_directory: ~/select-frontend
     environment:
       AWS_ACCESS_KEY_ID: ${SLS_AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${SLS_AWS_SECRET_ACCESS_KEY}
@@ -178,29 +181,27 @@ jobs:
       - checkout
       - install:
           key: select-serverless
+          command: cd serverless && yarn install --frozen-lockfile
       - deploy:
-          command: yarn serverless deploy --stage production -v
+          command: cd serverless && yarn serverless deploy --stage production -v
   serverless-test:
     docker:
       - image: circleci/node:lts
-    working_directory: ~/select-frontend/serverless
+    working_directory: ~/select-frontend
     steps:
       - checkout
-      - run:
-          command: "echo $PWD"
-      - run:
-          name: Install yarn packages
-          command: cd serverless && yarn install
-      - run:
-          name: scan currentDir
-          command: "echo $(ls -al)"
-      - run:
+      - install:
+          key: select-serverless
+          command: cd serverless && yarn install --frozen-lockfile
+      - deploy:
           command: cd serverless && yarn serverless -v
 workflows:
   version: 2
   serverless-test:
     jobs:
       - serverless-test
+      -build:
+        dev: true
   deploy-dev:
     jobs:
       - build:
