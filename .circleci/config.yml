@@ -190,7 +190,7 @@ jobs:
           command: "echo $PWD"
       - run:
           name: Install yarn packages
-          command: yarn install --frozen-lockfile
+          command: yarn install
       - run:
           command: yarn serverless -v
 workflows:
