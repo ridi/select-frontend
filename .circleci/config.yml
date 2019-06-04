@@ -194,7 +194,7 @@ workflows:
   version: 2
   serverless-test:
     jobs:
-      - serverles-test
+      - serverless-test
   deploy-dev:
     jobs:
       - build:
