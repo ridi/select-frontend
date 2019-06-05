@@ -82,7 +82,7 @@
     "@ridi/event-tracker": "^0.5.8",
     "@ridi/object-case-converter": "^2.0.4",
     "@ridi/rsg": "^2.0.18",
-    "axios": "^0.18.0",
+    "axios": "^0.19.0",
     "axios-retry": "^3.1.1",
     "classnames": "^2.2.6",
     "core-js": "^2.6.1",

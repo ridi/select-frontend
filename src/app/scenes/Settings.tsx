@@ -166,7 +166,9 @@ export class Settings extends React.PureComponent<SettingProps> {
               결제 내역
             </Link>
           </li>
-        {!isIosInApp &&
+        { subscriptionState &&
+          subscriptionState.isUsingRidipay &&
+          !isIosInApp &&
           <li className="SettingMenu_Item">
             <a className="SettingMenu_Link" href={`${env.PAY_URL}`}>
               <CardIconComponent className="SettingMenu_Icon SettingMenu_Card_Icon" />

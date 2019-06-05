@@ -52,7 +52,7 @@ export function* watchLoadSubscription() {
     try {
       const response: SubscriptionResponse = yield call(requestSubscription);
       // Response의 결제 타입이 신용카드일 경우 사용자의 PayInfo를 가져옴
-      if (response.paymentMethod === '신용카드') {
+      if (response.isUsingRidipay) {
         try {
           const payInfoResponse = yield call(requestPayInfo);
           if (payInfoResponse.data.payment_methods.cards) {
@@ -66,6 +66,8 @@ export function* watchLoadSubscription() {
         } finally {
           yield put(Actions.loadSubscriptionSuccess({ response }));
         }
+      } else {
+        yield put(Actions.loadSubscriptionSuccess({ response }));
       }
     } catch (e) {
       yield put(Actions.loadSubscriptionFailure());

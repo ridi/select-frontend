@@ -14,15 +14,30 @@ commands:
       key:
         type: string
         default: 'select-frontend'
+      service_build:
+        type: boolean
+        default: false
+      serverless_build:
+        type: boolean
+        default: false
     steps:
       - restore_cache:
           keys:
             - <<parameters.key>>-{{ .Branch }}-{{ checksum "yarn.lock" }}
             - <<parameters.key>>-{{ .Branch }}-
             - <<parameters.key>>-
-      - run:
-          name: Install yarn packages
-          command: yarn install --frozen-lockfile
+      - when:
+          condition: << parameters.service_build >>
+          steps:
+            - run:
+                name: Install yarn packages
+                command: yarn install --frozen-lockfile
+      - when:
+          condition: << parameters.serverless_build >>
+          steps:
+            - run:
+                name: Install yarn packages
+                command: cd serverless && yarn install --frozen-lockfile
       - save_cache:
           key: <<parameters.key>>-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths: ~/.cache/yarn
@@ -48,7 +63,8 @@ jobs:
         default: false
     steps:
       - checkout
-      - install
+      - install:
+          service_build: true
       - when:
           condition: << parameters.dev >>
           steps:
@@ -176,12 +192,11 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${SLS_AWS_SECRET_ACCESS_KEY}
     steps:
       - checkout
-      - run:
-          command: cd serverless
       - install:
           key: select-serverless
+          serverless_build: true
       - deploy:
-          command: yarn serverless deploy --stage production -v
+          command: cd serverless && yarn serverless deploy --stage production -v
 workflows:
   version: 2
   deploy-dev:

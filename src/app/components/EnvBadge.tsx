@@ -28,9 +28,14 @@ export const EnvBadge: React.SFC<EnvBadgeState> = (props) => {
           window.localStorage.removeItem('STORE_API');
           alert('STORE 설정을 기본 상태로 변경했습니다.');
         } else {
-          window.localStorage.setItem('STORE_URL', 'https://change-payment.test.ridi.io');
-          window.localStorage.setItem('STORE_API', 'https://change-payment.test.ridi.io');
-          alert('STORE 설정을 개발중인 URL로 변경했습니다.');
+          window.localStorage.removeItem('STORE_URL');
+          window.localStorage.removeItem('STORE_API');
+          const url = window.prompt('설정하시려는 STORE_URL을 입력해주세요.', undefined);
+          if (url) {
+            window.localStorage.setItem('STORE_URL', url);
+            window.localStorage.setItem('STORE_API', url);
+            alert('STORE 설정을 개발중인 URL로 변경했습니다.');
+          }
         }
         setTest(0);
       }
