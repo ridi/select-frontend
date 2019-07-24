@@ -387,10 +387,10 @@
   top: 90px;
 }
 .SectionFeatured_Reasonable_3 {
-  top: 368px;
+  top: 370px;
 }
 .SectionFeatured_Reasonable_4 {
-  top: 643px;
+  top: 650px;
 }
 .SectionFeatured_Reasonable_5 {
   position: absolute;
@@ -398,14 +398,14 @@
   left: 50%;
   width: 239px;
   height: 420px;
-  margin-left: 175px;
+  margin-left: 171px;
   transition: transform 3s ease-in-out;
   z-index: 6;
   @media (--pc-screen) {
     top: 260px;
     width: 350px;
     height: auto;
-    margin-left: -68px;
+    margin-left: -60px;
   }
 }
 
