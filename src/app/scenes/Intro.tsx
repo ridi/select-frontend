@@ -280,7 +280,6 @@ export class Intro extends React.Component<Props, IntroPageState> {
                     />
                     <img
                       src={require('images/intro/books_bg_3.jpg')}
-                      // src={isMobile ? require('images/intro/books_bg_3.m.jpg') : require('images/intro/books_bg_3.jpg')}
                       className="SectionFeatured_Reasonable_3"
                     />
                     <img
