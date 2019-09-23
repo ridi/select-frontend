@@ -133,7 +133,7 @@
 .GNBSearchButtonIcon {
   width: 18px;
   height: 18px;
-  fill: #fff;
+  fill: #000;
 }
 .GNBSearchButtonIcon_IosInApp {
   width: 24px;
@@ -163,7 +163,7 @@
   width: 13px;
   height: 13px;
   margin-right: 8px;
-  fill: var(--lightsteelblue_100);
+  fill: black;
   @nest .androidApp & {
     @media (--mobile-screen) {
       top: 50%;

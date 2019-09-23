@@ -90,7 +90,7 @@ export const LNB: React.SFC<MenuStateProps> = (props) => {
         'LnbMenu_Wrapper',
         `LnbMenu_Wrapper-count${filteredMenu.length}`,
       )}
-      style={{ backgroundColor: solidBackgroundColorRGBString }}
+      // style={{ backgroundColor: solidBackgroundColorRGBString }}
     >
       <h2 className="a11y">메인 메뉴</h2>
       <ul className="LnbMenu_List">

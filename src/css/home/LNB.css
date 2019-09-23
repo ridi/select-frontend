@@ -5,8 +5,7 @@
 
 .LnbMenu_Wrapper {
   position: relative;
-  border-bottom: 1px solid var(--bluegray_100);
-  background: var(--bluegray_90);
+  background: #fff;
   z-index: 800;
 
   @nest .iosApp & {
@@ -54,7 +53,7 @@
   text-align: center;
   text-decoration: none;
   & .reset-heading {
-    color: var(--bluegray_10);
+    color: black;
     font-size: 14px;
     font-weight: 400;
     line-height: var(--lnb_mobile_height);
@@ -71,7 +70,7 @@
   &:focus .reset-heading,
   &:active .reset-heading,
   &:visited .reset-heading {
-    color: var(--bluegray_10);
+    color: black;
   }
   @media (hover: hover) {
     &:hover::after {
@@ -87,10 +86,10 @@
   }
   &.LnbMenu_Link-active {
     & .reset-heading {
-      color: #fff;
-      font-weight: 700;
+      color: var(--bluegray_80);
+      font-weight: bold;      
     }
-    &::after {
+    /* &::after {
       height: 3px;
       background: var(--dodgerblue_40);
     }
@@ -105,7 +104,7 @@
         height: 3px;
         background: var(--dodgerblue_40);
       }
-    }
+    } */
   }
   @nest .iosApp & {
     & .reset-heading {

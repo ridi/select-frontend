@@ -9,8 +9,8 @@
 
 .GNBWrapper {
   position: relative;
-  border-bottom: 1px solid var(--bluegray_100);
-  background: var(--bluegray_90);
+  border-bottom: 1px solid var(--slategray_20);
+  background: white;
   z-index: 900;
   @nest .iosApp & {
     position: fixed;
@@ -41,6 +41,8 @@
   width: 100%;
   min-width: var(--min-content-width);
   height: var(--gnb_mobile_height);
+  border-bottom: 1px solid rgba(0,0,0, .15);
+  box-sizing: border-box;
   @nest .androidApp & {
     height: var(--gnb_android_app_height);
   }
@@ -66,7 +68,7 @@
     width: 81px;
     height: 13px;
     vertical-align: top;
-    fill: #fff;
+    fill: #000;
   }
   @media (hover: hover) {
     &:hover {
@@ -223,10 +225,10 @@
   height: 28px;
   margin-top: 7px;
   padding: 0 11px;
-  border: solid 1px rgba(255,255,255,.5);
+  border: solid 1px rgba(0,0,0,.5);
   border-radius: 3px;
   background-color: transparent;
-  color: #fff;
+  color: #000;
   font-size: 13px;
   font-weight: 700;
   letter-spacing: -.5px;
@@ -256,6 +258,7 @@
       max-width: var(--max-pc-content-width);
       height: var(--gnb_pc_height);
       margin: 0 auto;
+      border: none;
       & .GNBLeft {
         & .GNBLogoWrapper {
           height: var(--gnb_pc_height);
@@ -319,4 +322,49 @@
   .GNB_LinkButton.GNB_WebLibrary_Button {
     margin-left: 8px;
   }
+}
+
+.GNBTab {
+  & .GnbTab_Wrapper {
+    position: relative;
+    background-color: white;
+    height: 57px;
+    & ul.GnbTab_List {
+      list-style: none;
+      max-width: 900px;
+      margin: 0 auto;      
+      padding: 0;
+      padding-left: 16px;
+      & li.GnbTab {
+        position: relative;        
+        float: left;      
+        margin-right: 24px;
+        line-height: 24px;
+        padding: 16px 3px 17px 3px;
+        & .GnbTab_Link {
+          text-decoration: none;
+          font-size: 16px;
+          font-weight: 500;
+          letter-spacing: -0.34px;
+          color: var(--slategray_40);          
+          &.GnbTab_Link-active {
+            color: var(--bluegray_80);
+            &::after {
+              position: absolute;
+              content: '';
+              width: 100%;
+              height: 2px;
+              background-color: gray;
+              left: 0;
+              bottom: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+
+
 }
