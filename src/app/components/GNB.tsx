@@ -37,6 +37,28 @@ interface Props {
   isIntro: boolean;
 }
 
+interface GNBTab {
+  name: string;
+  classname: string;
+  pathname: string;
+  active: boolean;
+}
+
+const GNBTabMenus: GNBTab[] = [
+  {
+    name: '도서',
+    classname: 'Books',
+    pathname: '',
+    active: true,
+  },
+  {
+    name: '아티클',
+    classname: 'Article',
+    pathname: '',
+    active: false,
+  },
+];
+
 export class GNB extends React.Component<Props> {
   private renderServiceLink() {
     const { isInApp, BASE_URL_STORE } = this.props;
@@ -70,6 +92,28 @@ export class GNB extends React.Component<Props> {
         />
         <h1 className="a11y">리디셀렉트</h1>
       </Link>
+    );
+  }
+
+  private renderGNBTab() {
+    return (
+      <nav className={'GnbTab_Wrapper'}>
+        <h2 className="a11y">GNB 탭 메뉴</h2>
+        <ul className="GnbTab_List">
+          {GNBTabMenus.map((menu) => (
+            <li className={`GnbTab GnbTab_${menu.classname}`} key={menu.pathname}>
+              <Link
+                className={classNames(['GnbTab_Link', menu.active && 'GnbTab_Link-active'])}
+                to={{
+                  pathname: menu.pathname,
+                }}
+              >
+                <h3 className="reset-heading">{menu.name}</h3>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
     );
   }
 
@@ -211,7 +255,6 @@ export class GNB extends React.Component<Props> {
     return (
       <header
         className={classNames('GNBWrapper', `GNBWrapper-${gnbType}`)}
-        style={{ backgroundColor: backgroundColorRGBString }}
       >
         <div className="GNBContentWrapper">
           <div className="GNBLeft">
@@ -222,6 +265,9 @@ export class GNB extends React.Component<Props> {
             {this.renderGNBSearchButton()}
             {this.renderGNBAccountButtons()}
           </div>
+        </div>
+        <div className="GNBTab">
+          {this.renderGNBTab()}
         </div>
       </header>
     );
