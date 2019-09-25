@@ -134,6 +134,9 @@
   width: 18px;
   height: 18px;
   fill: #000;
+  @nest .GNBSearchWrapper-colored & {
+    fill: #fff;
+  }
 }
 .GNBSearchButtonIcon_IosInApp {
   width: 24px;

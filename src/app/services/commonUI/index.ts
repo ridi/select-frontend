@@ -19,12 +19,15 @@ export const Actions = {
   updateFooterTheme: createAction<{
     theme: FooterTheme,
   }>('updateFooterTheme'),
+  updateGNBTabExpose: createAction<{
+    isGnbTab: boolean,
+  }>('updateGNBTabExpose'),
 };
 
 export const GNB_DEFAULT_COLOR: RGB = {
-  r: 23,
-  g: 32,
-  b: 46,
+  r: 255,
+  g: 255,
+  b: 255,
 };
 export interface RGB {
   r: number;
@@ -59,6 +62,7 @@ export interface CommonUIState {
   gnbColorLevel: GNBColorLevel;
   gnbSearchActiveType: GNBSearchActiveType;
   gnbTransparentType: GNBTransparentType;
+  isGnbTab: boolean;
   footerTheme: FooterTheme;
 }
 
@@ -67,6 +71,7 @@ export const INITIAL_STATE: CommonUIState = {
   gnbColorLevel: GNBColorLevel.DEFAULT,
   gnbSearchActiveType: GNBSearchActiveType.cover,
   gnbTransparentType: GNBTransparentType.default,
+  isGnbTab: true,
   footerTheme: FooterTheme.default,
 };
 
@@ -101,4 +106,9 @@ commonUIReducer.on(Actions.updateGNBTransparent, (state, action) => ({
 commonUIReducer.on(Actions.updateFooterTheme, (state, action) => ({
   ...state,
   footerTheme: action.theme,
+}));
+
+commonUIReducer.on(Actions.updateGNBTabExpose, (state, action) => ({
+  ...state,
+  isGnbTab: action.isGnbTab,
 }));
