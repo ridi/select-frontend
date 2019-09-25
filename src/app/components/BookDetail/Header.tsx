@@ -50,12 +50,14 @@ const BookDetailHeader: React.FunctionComponent<Props> = (props) => {
     transparentBackgroundColorRGBString,
     dispatchUpdateDominantColor,
     dispatchUpdateGNBColor,
+    dispatchUpdateGNBTabExpose,
     children,
   } = props;
 
   const [thumbnailExapnded, setThumbnailExapnded] = React.useState(false);
 
   React.useEffect(() => {
+    dispatchUpdateGNBTabExpose(false);
     if (dominantColor && dominantColor.r && dominantColor.g && dominantColor.b) {
       dispatchUpdateGNBColor(dominantColor);
     } else if (thumbnail) {
@@ -84,6 +86,7 @@ const BookDetailHeader: React.FunctionComponent<Props> = (props) => {
 
     return () => {
       dispatchUpdateGNBColor(GNB_DEFAULT_COLOR);
+      dispatchUpdateGNBTabExpose(true);
     };
   }, [bookId, thumbnail]);
 
@@ -162,6 +165,7 @@ const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailHeaderPorps
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    dispatchUpdateGNBTabExpose: (isGnbTab: boolean) => dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
     dispatchUpdateGNBColor: (color: RGB) => dispatch(CommonUIActions.updateGNBColor({ color })),
     dispatchUpdateDominantColor: (bookId: number, color: RGB) =>
       dispatch(BookActions.updateDominantColor({ bookId, color })),
