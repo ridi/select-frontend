@@ -29,11 +29,17 @@ import {
   NotAvailableBook,
   WrongLocation,
 } from 'app/scenes';
+import {
+  ArticleChannel,
+  ArticleFollow,
+  ArticleHome,
+  ArticleStored,
+} from 'app/scenes/article';
 
 import { RoutePaths } from 'app/constants';
 import {
+  ConnectedAppManager,
   ConnectedPrivateRoute,
-  ConnectedScrollManager,
   RouteBlockLevel,
 } from 'app/hocs';
 import { RidiSelectState } from 'app/store';
@@ -61,6 +67,11 @@ export const LNBRoutes = [
   RoutePaths.NEW_RELEASE,
   RoutePaths.CATEGORY,
   RoutePaths.MY_SELECT,
+
+  RoutePaths.ARTICLE_HOME,
+  RoutePaths.ARTICLE_FOLLOWING,
+  RoutePaths.ARTICLE_CHANNEL,
+  RoutePaths.ARTICLE_STORED,
 ];
 
 export const PrimaryRoutes = [
@@ -70,10 +81,9 @@ export const PrimaryRoutes = [
 
 export const Routes: React.SFC<Props> = (props) => {
   const { errorResponseState } = props;
-
   return !errorResponseState ? (
     <ConnectedRouter history={history}>
-      <ConnectedScrollManager>
+      <ConnectedAppManager>
         <Route
           render={({ location }) => (
             (!props.isRidiApp || (inAppGnbRoutes.includes(location.pathname as RoutePaths))) && <ConnectedGNB />
@@ -159,6 +169,29 @@ export const Routes: React.SFC<Props> = (props) => {
             component={ConnectedClosingReservedBooks}
             {...props}
           />
+
+          {/* 셀렉트 2.0 - Article */}
+          <Route
+            path={RoutePaths.ARTICLE_HOME}
+            component={ArticleHome}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.ARTICLE_FOLLOWING}
+            component={ArticleFollow}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.ARTICLE_CHANNEL}
+            component={ArticleChannel}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.ARTICLE_STORED}
+            component={ArticleStored}
+            {...props}
+          />
+
           <Route
             path={RoutePaths.INTRO}
             exact={true}
@@ -177,7 +210,7 @@ export const Routes: React.SFC<Props> = (props) => {
           />
         </Switch>
         {!props.isRidiApp && <ConnectedFooter />}
-      </ConnectedScrollManager>
+      </ConnectedAppManager>
     </ConnectedRouter>
   ) : <ConnectedErrorPage />;
 };

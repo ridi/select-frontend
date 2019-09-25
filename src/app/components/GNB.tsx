@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { Icon } from '@ridi/rsg';
 import { ConnectedSearch } from 'app/components/Search';
+import { AppStatus } from 'app/services/app';
 import { GNBColorLevel } from 'app/services/commonUI';
 
 import { RoutePaths } from 'app/constants';
@@ -35,27 +36,26 @@ interface Props {
   isLoggedIn: boolean;
   isSubscribing: boolean;
   isIntro: boolean;
+  isGnbTab: boolean;
+  appStatus: AppStatus;
 }
 
 interface GNBTab {
   name: string;
   classname: string;
   pathname: string;
-  active: boolean;
 }
 
 const GNBTabMenus: GNBTab[] = [
   {
     name: '도서',
     classname: 'Books',
-    pathname: '',
-    active: true,
+    pathname: RoutePaths.HOME,
   },
   {
     name: '아티클',
     classname: 'Article',
-    pathname: '',
-    active: false,
+    pathname: RoutePaths.ARTICLE_HOME,
   },
 ];
 
@@ -84,8 +84,13 @@ export class GNB extends React.Component<Props> {
   }
 
   private renderGNBLogo() {
+    const { gnbType } = this.props;
+
     return (
-      <Link className="GNBLogoWrapper" to={RoutePaths.HOME}>
+      <Link
+        className={classNames('GNBLogoWrapper', gnbType === 'dark' && 'GNBLogoDarkColor')}
+        to={RoutePaths.HOME}
+      >
         <Icon
           name="logo_ridiselect_1"
           className="GNBLogo"
@@ -96,17 +101,24 @@ export class GNB extends React.Component<Props> {
   }
 
   private renderGNBTab() {
-    return (
-      <nav className={'GnbTab_Wrapper'}>
+    const {
+      isGnbTab,
+      backgroundColorRGBString,
+      appStatus,
+    } = this.props;
+
+    return isGnbTab && (
+      <nav
+        className={'GnbTab_Wrapper'}
+        style={{ backgroundColor: backgroundColorRGBString }}
+      >
         <h2 className="a11y">GNB 탭 메뉴</h2>
         <ul className="GnbTab_List">
           {GNBTabMenus.map((menu) => (
             <li className={`GnbTab GnbTab_${menu.classname}`} key={menu.pathname}>
               <Link
-                className={classNames(['GnbTab_Link', menu.active && 'GnbTab_Link-active'])}
-                to={{
-                  pathname: menu.pathname,
-                }}
+                className={classNames(['GnbTab_Link', menu.classname === appStatus && 'GnbTab_Link-active'])}
+                to={menu.pathname}
               >
                 <h3 className="reset-heading">{menu.name}</h3>
               </Link>
@@ -118,10 +130,14 @@ export class GNB extends React.Component<Props> {
   }
 
   private renderSettingButton() {
-    const { isIosInApp } = this.props;
+    const { gnbType, isIosInApp } = this.props;
 
     return (
-      <Link className="GNBSettingButton" to="/settings" key="gnb-setting-link-button">
+      <Link
+        className={classNames('GNBSettingButton', gnbType === 'dark' && 'GNBSettingDarkColor')}
+        to="/settings"
+        key="gnb-setting-link-button"
+      >
         <h2 className="a11y">셀렉트 관리</h2>
         {isIosInApp ? (
           // TODO: iosInApp 용 아이콘. 이 외에 사용할 곳이 없어서 별도로 처리할지? 그냥 둘지?
@@ -151,6 +167,7 @@ export class GNB extends React.Component<Props> {
 
   private renderLibraryButton() {
     const {
+      gnbType,
       LIBRARY_URL,
       isInApp,
     } = this.props;
@@ -160,7 +177,7 @@ export class GNB extends React.Component<Props> {
     return (
       <a
         href={LIBRARY_URL}
-        className="GNB_LinkButton GNB_WebLibrary_Button"
+        className={classNames('GNB_LinkButton', 'GNB_WebLibrary_Button', gnbType === 'dark' && 'GNB_LinkButtonDarkColor')}
         key="gnb-web-library-link-button"
       >
       내 서재
@@ -171,6 +188,7 @@ export class GNB extends React.Component<Props> {
   private renderLoginButton() {
     const {
       isInApp,
+      gnbType,
     } = this.props;
 
     if (isInApp) {
@@ -182,7 +200,7 @@ export class GNB extends React.Component<Props> {
       <button
         type="button"
         onClick={() => moveToLogin()}
-        className="GNB_LinkButton"
+        className={classNames('GNB_LinkButton', gnbType === 'dark' && 'GNB_LinkButtonDarkColor')}
       >
         로그인
       </button>
@@ -191,6 +209,7 @@ export class GNB extends React.Component<Props> {
 
   private renderLogoutButton() {
     const {
+      gnbType,
       isInApp,
       BASE_URL_STORE,
       BASE_URL_RIDISELECT,
@@ -203,7 +222,7 @@ export class GNB extends React.Component<Props> {
     return (
       <a
         href={`${BASE_URL_STORE}/account/logout?return_url=${BASE_URL_RIDISELECT}`}
-        className="GNB_LinkButton"
+        className={classNames('GNB_LinkButton', gnbType === 'dark' && 'GNB_LinkButtonDarkColor')}
       >
         <h2 className="reset-heading">로그아웃</h2>
       </a>
@@ -255,6 +274,7 @@ export class GNB extends React.Component<Props> {
     return (
       <header
         className={classNames('GNBWrapper', `GNBWrapper-${gnbType}`)}
+        style={{ backgroundColor: backgroundColorRGBString }}
       >
         <div className="GNBContentWrapper">
           <div className="GNBLeft">
@@ -287,6 +307,8 @@ const mapStateToProps = (rootState: RidiSelectState) => ({
   isIosInApp: getIsIosInApp(rootState),
   isAndroidInApp: getIsAndroidInApp(rootState),
   isIntro: getIsIntro(rootState),
+  isGnbTab: rootState.commonUI.isGnbTab,
+  appStatus: rootState.app.appStatus,
 });
 
 export const ConnectedGNB = connect(mapStateToProps)(GNB);

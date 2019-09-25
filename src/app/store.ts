@@ -11,6 +11,7 @@ import { all } from 'redux-saga/effects';
 import { closingReservedBooksReducer } from './services/closingReservedBooks/index';
 
 import browserHistory from 'app/config/history';
+import { appReducer, AppState } from 'app/services/app';
 import { bookReducer, BookState } from 'app/services/book';
 import { bookRootSaga } from 'app/services/book/sagas';
 import { commonUIReducer, CommonUIState } from 'app/services/commonUI';
@@ -69,6 +70,7 @@ function* rootSaga(dispatch: Dispatch) {
 
 export interface RidiSelectState {
   router: RouterState;
+  app: AppState;
   user: UserState;
   home: HomeState;
   booksById: BookState;
@@ -96,6 +98,7 @@ export const hasCompletedPayletterSubscription = () => !!qs.parse(location.searc
 
 const reducers = combineReducers({
   router: connectRouter(browserHistory),
+  app: appReducer,
   user: userReducer,
   home: homeReducer,
   booksById: bookReducer,

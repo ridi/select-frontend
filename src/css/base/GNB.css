@@ -10,7 +10,7 @@
 .GNBWrapper {
   position: relative;
   border-bottom: 1px solid var(--slategray_20);
-  background: white;
+  background: #fff;
   z-index: 900;
   @nest .iosApp & {
     position: fixed;
@@ -70,6 +70,12 @@
     vertical-align: top;
     fill: #000;
   }
+  &.GNBLogoDarkColor {
+    & .GNBLogo {
+      fill: #fff;
+    }
+  }
+
   @media (hover: hover) {
     &:hover {
       opacity: .8;
@@ -184,7 +190,12 @@
   & .SettingIcon {
     width: 17.5px;
     height: 18px;
-    fill: #fff;
+    fill: #000;
+  }
+  &.GNBSettingDarkColor {
+    & .SettingIcon {
+      fill: #fff;
+    }
   }
   & .SettingIcon_IosInApp {
     width: 24px;
@@ -234,6 +245,10 @@
   letter-spacing: -.5px;
   line-height: 28px;
   text-decoration: none;
+  &.GNB_LinkButtonDarkColor {
+    color: #fff;
+    border: solid 1px rgba(255,255,255,.5);
+  }
 
   & + .GNB_LinkButton {
     margin-left: 4px;
