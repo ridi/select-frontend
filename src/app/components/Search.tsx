@@ -542,7 +542,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
           'GNBSearchWrapper-colored': gnbColorLevel !== GNBColorLevel.DEFAULT,
           'GNBSearchWrapper-typeBlock': gnbSearchActiveType === GNBSearchActiveType.block,
         })}
-        // style={{ background: solidBackgroundColorRGBString }}
+      style={{ background: solidBackgroundColorRGBString }}
         ref={(ref) => { this.searchComponentWrapper = ref; }}
       >
         <button
