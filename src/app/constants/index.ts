@@ -52,4 +52,9 @@ export enum RoutePaths {
   INTRO = '/intro',
   NOT_AVAILABLE_BOOK = '/not-available-book',
   CLOSING_RESERVED_BOOKS = '/closing-reserved-book',
+  /* 셀렉트 2.0 아티클 */
+  ARTICLE_HOME = '/article/home',
+  ARTICLE_FOLLOWING = '/article/follow',
+  ARTICLE_CHANNEL = '/article/channel',
+  ARTICLE_STORED = '/article/store',
 }

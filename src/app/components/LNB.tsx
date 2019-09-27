@@ -1,4 +1,5 @@
 import { RoutePaths } from 'app/constants';
+import { AppStatus } from 'app/services/app';
 import { getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
 import { getIsAndroidInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
@@ -10,6 +11,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 interface MenuStateProps {
+  appStatus: AppStatus;
   isAndroidInApp: boolean;
   isLoggedIn: boolean;
   solidBackgroundColorRGBString: string;
@@ -60,6 +62,33 @@ const menus: Menu[] = [
   },
 ];
 
+const articleMenus: Menu[] = [
+  {
+    name: '홈',
+    classname: 'ArticleHome',
+    pathname: RoutePaths.ARTICLE_HOME,
+    pathRegExp: /\/article\/home/,
+  },
+  {
+    name: '팔로잉',
+    classname: 'ArticleFollowing',
+    pathname: RoutePaths.ARTICLE_FOLLOWING,
+    pathRegExp: /\/article\/follow/,
+  },
+  {
+    name: '전체 채널',
+    classname: 'ArticleChannel',
+    pathname: RoutePaths.ARTICLE_CHANNEL,
+    pathRegExp: /\/article\/channel/,
+  },
+  {
+    name: '좋아한 아티클',
+    classname: 'ArticleStored',
+    pathname: RoutePaths.ARTICLE_STORED,
+    pathRegExp: /\/article\/store/,
+  },
+];
+
 function getLNBMenuSearch(menu: Menu, props: MenuStateProps) {
   const { currentPathname, currentSearch } = props;
   return flow(
@@ -82,8 +111,8 @@ function getFilteredLNBMenu(isAndroidInApp: boolean, isLoggedIn: boolean) {
 }
 
 export const LNB: React.SFC<MenuStateProps> = (props) => {
-  const { isLoggedIn, isAndroidInApp, currentPathname, solidBackgroundColorRGBString } = props;
-  const filteredMenu = getFilteredLNBMenu(isAndroidInApp, isLoggedIn);
+  const { isLoggedIn, isAndroidInApp, currentPathname, solidBackgroundColorRGBString, appStatus } = props;
+  const filteredMenu = appStatus === AppStatus.Books ? getFilteredLNBMenu(isAndroidInApp, isLoggedIn) : articleMenus;
   return (
     <nav
       className={classNames(
@@ -114,6 +143,7 @@ export const LNB: React.SFC<MenuStateProps> = (props) => {
 
 const mapStateToProps = (state: RidiSelectState): MenuStateProps => {
   return {
+    appStatus: state.app.appStatus,
     isLoggedIn: state.user.isLoggedIn,
     isAndroidInApp: getIsAndroidInApp(state),
     solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(state),
