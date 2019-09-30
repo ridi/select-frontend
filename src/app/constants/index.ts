@@ -31,6 +31,11 @@ export enum PageTitleText {
   SETTING = '셀렉트 관리',
   NOT_AVAILABLE_BOOK = '',
   CLOSING_RESERVED_BOOKS = '종료 예정 도서',
+  // 셀렉트 2.0 - 아티클
+  ARTICLE_HOME = '',
+  ARTICLE_FOLLOWING = '',
+  ARTICLE_CHANNEL = '',
+  ARTICLE_STORED = '',
 }
 
 export enum RoutePaths {
