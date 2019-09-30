@@ -85,7 +85,7 @@ export class BigBannerCarousel extends React.Component<Props, State> {
     }
   }
 
-  public componentWillUnmount() {
+  public UNSAFE_componentWillUnmount() {
     if (this.wrapper) {
       this.wrapper.removeEventListener('touchstart', this.handleTouchStart);
       this.wrapper.removeEventListener('touchmove', this.preventTouch);
