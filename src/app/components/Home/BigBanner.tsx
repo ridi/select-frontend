@@ -12,6 +12,8 @@ import Slider from 'react-slick';
 import { BigBannerItem } from './BigBannerItem';
 import { SliderControls } from './SliderControls';
 
+import { AppStatus } from 'app/services/app/index';
+
 const PC_BANNER_WIDTH = 432;
 const PC_MIN_HEIGHT = 288;
 
@@ -81,7 +83,7 @@ export class BigBannerCarousel extends React.Component<Props, State> {
     }
   }
 
-  public componentWillUnmount() {
+  public UNSAFE_componentWillUnmount() {
     if (this.wrapper) {
       this.wrapper.removeEventListener('touchstart', this.handleTouchStart);
       this.wrapper.removeEventListener('touchmove', this.preventTouch);
@@ -91,6 +93,7 @@ export class BigBannerCarousel extends React.Component<Props, State> {
 
   public render() {
     const { fetchedAt, bigBannerList, trackClick } = this.props;
+
     const section = getSectionStringForTracking('home', 'big-banner');
     if (!fetchedAt || bigBannerList.length === 0) {
       return (<BigBannerPlaceholder />);
@@ -159,9 +162,10 @@ export class BigBannerCarousel extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: RidiSelectState): BigBannerStateProps => {
+  const { appStatus } = state.app;
   return {
-    fetchedAt: state.home.fetchedAt,
-    bigBannerList: state.home.bigBannerList,
+    fetchedAt: appStatus === AppStatus.Books ? state.home.fetchedAt : state.articleHome.fetchedAt,
+    bigBannerList: appStatus === AppStatus.Books ? state.home.bigBannerList : state.articleHome.bigBannerList,
   };
 };
 
