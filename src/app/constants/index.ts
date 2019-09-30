@@ -14,6 +14,11 @@ export enum ErrorStatus {
   MAINTENANCE = 'maintenance',
 }
 
+export enum ContentsType {
+  BOOK = 'book_contents',
+  ARTICLE = 'article_contents',
+}
+
 export enum PageTitleText {
   PREFIX = '리디셀렉트',
   HOME = '',
