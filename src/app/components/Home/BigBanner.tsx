@@ -16,7 +16,7 @@ import { SliderControls } from './SliderControls';
 import { AppStatus } from 'app/services/app/index';
 
 const PC_BANNER_WIDTH = 432;
-const PC_MIN_HEIGHT = 288;
+const PC_MIN_HEIGHT = 432;
 
 interface BigBannerStateProps {
   fetchedAt: number | null;

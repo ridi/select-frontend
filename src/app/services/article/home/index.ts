@@ -14,6 +14,11 @@ export const Actions = {
   loadArticleHomeFailure: createAction('loadArticleHomeFailure'),
 };
 
+export enum ArticleSectionType {
+  'CHART' = 'CHART',
+  'LIST' = 'LIST',
+}
+
 export interface ArticleHomeState {
   fetchedAt: number | null;
   fetchStatus: FetchStatusFlag;
