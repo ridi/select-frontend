@@ -1,0 +1,16 @@
+.ArticleHomeSection {
+  padding: 30px 0 0;
+  margin: 0 auto;
+  width: 800px;
+  background-color: #fff;
+  & .ArticleSection_Header {
+    & .ArticleSection_Title {
+      font-family: NotoSansCJKkr;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.38;
+      letter-spacing: -0.5px;
+      color: var(--gray_100);      
+    }
+  }
+}

@@ -1,13 +1,13 @@
+import { HelmetWithTitle } from 'app/components';
+import { ArticleHomeSection } from 'app/components/article/ArticleHome/ArticleHomeSection';
+import { ConnectedBigBannerCarousel } from 'app/components/Home/BigBanner';
+import { PageTitleText } from 'app/constants';
+import { Actions, ArticleSectionType } from 'app/services/article/home';
+import { RidiSelectState } from 'app/store';
 import * as classNames from 'classnames';
 import * as differenceInHours from 'date-fns/difference_in_hours';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { HelmetWithTitle } from 'app/components';
-import { ConnectedBigBannerCarousel } from 'app/components/Home/BigBanner';
-import { PageTitleText } from 'app/constants';
-import { Actions } from 'app/services/article/home';
-import { RidiSelectState } from 'app/store';
 
 export const ArticleHome: React.FunctionComponent = () => {
   const fetchedAt = useSelector((state: RidiSelectState) => state.articleHome.fetchedAt);
@@ -29,6 +29,7 @@ export const ArticleHome: React.FunctionComponent = () => {
     <HelmetWithTitle titleName={PageTitleText.ARTICLE_HOME} />
     <div className="a11y"><h1>리디셀렉트 아티클 홈</h1></div>
     <ConnectedBigBannerCarousel />
+    <ArticleHomeSection title={'최근 추가된 아티클'} type={ArticleSectionType.LIST} />
     </main>
   );
 };
