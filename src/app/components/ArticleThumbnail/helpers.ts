@@ -4,7 +4,9 @@ export function getThumbnailHeight(width: ThumbnailSize, shape: ThumbnailShape =
   if (shape === ThumbnailShape.SQUARE) {
     return width;
   }
-  if (width === 154) {
+  if (width === 173) {
+    return 97;
+  } else if (width === 154) {
     return 86;
   } else if (width === 100) {
     return 56;
