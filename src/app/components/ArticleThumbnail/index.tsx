@@ -9,10 +9,11 @@ import { LazyloadWrapper } from 'app/components/LazyloadWrapper';
 interface ArticleThumbnailProps {
   width?: ThumbnailSize;
   thumbnailShape?: ThumbnailShape;
-  imageClassName: string;
+  imageClassName?: string;
   linkUrl: string;
   imageUrl: string;
   articleTitle: string;
+  lazyloadThumbnail?: boolean;
 }
 
 export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = (props) => {
@@ -21,6 +22,7 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
     imageUrl,
     articleTitle,
     imageClassName,
+    lazyloadThumbnail = true,
     width = DEFAULT_THUMBNAIL_SIZE,
     thumbnailShape = ThumbnailShape.RECTANGLE,
   } = props;
@@ -36,7 +38,7 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
         <LazyloadWrapper
           width={width}
           thumbanilShape={thumbnailShape}
-          lazyload={true}
+          lazyload={lazyloadThumbnail}
         >
           <ArticleImage
             className={imageClassName}
