@@ -82,14 +82,14 @@ export const InlineHorizontalBookList: React.FunctionComponent<Props & ReturnTyp
                   {book.title.main}
                 </span>
                 {renderAuthor && (
-                    <span
-                      className="InlineHorizontalBookList_Author"
-                      style={{
-                        width: `${bookThumbnailSize}px`,
-                      }}
-                    >
-                      {stringifyAuthors(book.authors, 2)}
-                    </span>
+                  <span
+                    className="InlineHorizontalBookList_Author"
+                    style={{
+                      width: `${bookThumbnailSize}px`,
+                    }}
+                  >
+                    {stringifyAuthors(book.authors, 2)}
+                  </span>
                 )}
               </Link>
             </>
