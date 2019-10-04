@@ -2,11 +2,14 @@ import { ArticleSectionType } from 'app/services/article/home';
 import { ArticleChartList, ArticleList } from 'app/utils/mockup';
 import * as React from 'react';
 import MediaQuery from 'react-responsive';
+import { ArticleSectionChartList } from '../ArticleSectionChartList';
+import { ArticleSectionList } from '../ArticleSectionList';
 
 interface ArticleHomeSectionProps {
   title: string;
   type: string;
-  articleList: ArticleList[] | ArticleChartList[];
+  articleList?: ArticleList[];
+  articleChartList?: ArticleChartList[];
 }
 
 interface ArticleSectionHeaderProps {
@@ -26,20 +29,23 @@ export const ArticleSectionHeader: React.FunctionComponent<ArticleSectionHeaderP
 };
 
 export const ArticleHomeSection: React.FunctionComponent<ArticleHomeSectionProps> = (props) => {
-  const { title, type } = props;
+  const { title, type, articleList, articleChartList } = props;
+  if (type === ArticleSectionType.CHART) {
 
-  // if(type === ArticleSectionType.LIST) {
-
-  // }
-
-  // if (type === ArticleSectionType.CHART) {
-
-  // }
+    return (
+      <section className="ArticleHomeSection">
+        <ArticleSectionHeader title={title} />
+        {/* 아티클 리스트 */}
+        <ArticleSectionChartList articleList={articleChartList} />
+      </section>
+    );
+  }
 
   return (
     <section className="ArticleHomeSection">
       <ArticleSectionHeader title={title} />
       {/* 아티클 리스트 */}
+      <ArticleSectionList articleList={articleList} />
     </section>
   );
 };
