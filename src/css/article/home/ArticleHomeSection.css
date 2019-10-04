@@ -1,8 +1,19 @@
+.ArticleHome_Panel {
+  border-bottom: 4px solid #e6e8eb;
+  @media (min-width: 841px) {
+    border-bottom: 0px;
+    margin-top: 0;
+  }
+}
 .ArticleHomeSection {
-  padding: 30px 0 0;
-  margin: 0 auto;
-  width: 800px;
+  padding: 30px 20px;
   background-color: #fff;
+
+  @media (min-width: 841px) {
+    padding: 30px 0 0;
+    margin: 0 auto;
+    width: 800px;  
+  }
   & .ArticleSection_Header {
     & .ArticleSection_Title {
       font-family: NotoSansCJKkr;
@@ -13,4 +24,145 @@
       color: var(--gray_100);      
     }
   }
+
+  & .ArticleList_Wrapper {
+    margin-top: 20px;
+    & ul.ArticleList {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      & li {
+        width: 154px;
+        display: inline-block;
+        margin-left: 12px;
+        @media (min-width: 500px) {
+          width: 173px;
+        }
+        @media (--pc-screen) {
+          width: 191px;
+        }
+
+
+        &:first-child {
+          margin-left: 0;
+        }
+        & a {
+          text-decoration: none;
+        }
+        & .Article_Thumbnail {
+          width: 100%;
+          height: 86px;
+          border: 1px solid #eee;
+          box-sizing: border-box;
+        }
+        & .ArticleMeta {
+          margin-top: 10px;
+          & .ArticleTitle {
+            display: block;
+            font-family: NotoSansCJKkr;
+            font-size: 14px;
+            line-height: 1.57;
+            letter-spacing: -0.3px;
+            color: var(--gray_100);          
+          }
+          & .ArticleChannel {
+            margin-top: 4px;
+            display: block;
+            font-family: NotoSansCJKkr;
+            font-size: 13px;
+            letter-spacing: -0.3px;
+            color: var(--slategray_60);          
+          }
+        }
+      }
+    }
+  }
+  & .ArticleChartList_Wrapper {
+    margin-top: 20px;
+    padding: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    display: block;
+    & a {
+      text-decoration: none;
+    }      
+
+    & ol.ArticleChartGroup {
+      display: inline-block;
+      vertical-align: top;
+      margin: 0;
+      padding: 0;
+      & li.Article {
+        display: flex;
+        -webkit-box-align: start;
+        align-items: start;
+        color: inherit;
+        text-decoration: inherit;
+        height: 110px;
+        margin-right: 40px;
+        list-style: none;
+        border-bottom: 1px solid var(--slategray_10);
+        & .pass-through {
+          margin: 0;
+          padding: 0;
+          display: inherit;      
+          height: 100%;    
+          & .ArticleHomeSection_ChartRanking {
+            min-width: 10px;
+            -ms-flex-item-align: center;
+            align-self: center;
+            font-family: Roboto;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.64px;
+            color: var(--gray_100);            
+          }
+          & .Article_Thumbnail {
+            margin-top: 15px;
+            width: 80px;
+            height: 80px;
+            & img {
+              display: block;
+              position: relative;
+              width: 100%;
+              height: 100%;
+              max-height: inherit;
+              border: 1px solid #eee;
+              box-sizing: border-box;         
+            }
+          }
+          & .Article_Meta {
+            -ms-flex-item-align: center;
+            align-self: center;
+            width: 201px;
+            margin: 10px;
+            margin-right: 42px;
+            margin-top: 18px;
+            color: #40474d;
+            font-size: 13px;
+            & .Article_Title {
+              font-family: NotoSansCJKkr;
+              font-size: 15px;
+              font-weight: 500;
+              line-height: 1.53;
+              letter-spacing: -0.5px;
+              color: var(--gray_100);
+            }
+            & .Article_Channel {
+              margin-top: 4px;
+              display: block;
+              font-family: NotoSansCJKkr;
+              font-size: 13px;
+              letter-spacing: -0.3px;
+              color: var(--slategray_60);
+            }
+          }
+        }
+      }      
+    }
+
+  }
+
+
 }
