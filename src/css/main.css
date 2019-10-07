@@ -48,4 +48,6 @@
 
 @import 'test_badge.css';
 
+@import 'article/ArticleGlobal.css';
 @import 'article/home/ArticleHomeSection.css';
+@import 'article/following/ArticleFollowing.css';

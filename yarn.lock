@@ -1280,6 +1280,11 @@
   dependencies:
     tslint-react "^3.4.0"
 
+"@ridi/web-icons@^0.7.1":
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/@ridi/web-icons/-/web-icons-0.7.1.tgz#a722cc2352fe086138a799138df1ba38997cda3d"
+  integrity sha512-9ebPDkdFky99gU3wI9UKqaoxipD/ojrpG7j0YkHWz6DdM7EZbWKIIHLQTRfSH1m269+tLna0C2oOhqtWGi7W1A==
+
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/@samverschueren/stream-to-observable/-/stream-to-observable-0.3.0.tgz#ecdf48d532c58ea477acfcab80348424f8d0662f"
