@@ -1,3 +1,5 @@
+import { number } from 'prop-types';
+
 /** MockUp */
 export interface ArticleList {
   title: string;
@@ -125,5 +127,74 @@ export const ArticleChartsMockUp: ArticleChartList[] = [
     rank: 10,
     articleId: 12345678,
     channelId: 12345678,
+  },
+];
+
+export interface FollowingChannelType {
+  channelId: number;
+  channelName: string;
+  channelThumbnail: string;
+}
+
+export const FollowingChannelMockUp: FollowingChannelType[] = [
+  {
+    channelId: 12345678,
+    channelName: `아웃스탠딩`,
+    channelThumbnail: ``,
+  },
+  {
+    channelId: 12345678,
+    channelName: `임정욱`,
+    channelThumbnail: ``,
+  },
+  {
+    channelId: 12345678,
+    channelName: `비즈니스 인사이드`,
+    channelThumbnail: ``,
+  },
+  {
+    channelId: 12345678,
+    channelName: `Pinch`,
+    channelThumbnail: ``,
+  },
+  {
+    channelId: 12345678,
+    channelName: `겨울서점`,
+    channelThumbnail: ``,
+  },
+  {
+    channelId: 12345678,
+    channelName: `AXIOS`,
+    channelThumbnail: ``,
+  },
+  {
+    channelId: 12345678,
+    channelName: `아웃스탠딩`,
+    channelThumbnail: ``,
+  },
+  {
+    channelId: 12345678,
+    channelName: `임정욱`,
+    channelThumbnail: ``,
+  },
+  {
+    channelId: 12345678,
+    channelName: `비즈니스 인사이드`,
+    channelThumbnail: ``,
+  },
+  {
+    channelId: 12345678,
+    channelName: `Pinch`,
+    channelThumbnail: ``,
+  },
+  {
+    channelId: 12345678,
+    channelName: `겨울서점`,
+    channelThumbnail: ``,
+  },
+  {
+    channelId: 12345678,
+    channelName: `AXIOS`,
+    channelThumbnail: ``,
   },
 ];

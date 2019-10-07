@@ -1,0 +1,46 @@
+.FollowingChannelList {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
+  overflow: auto;
+  & .FollowingChannel {
+    display: inline-block;
+    margin-right: 9px;
+    &:last-child {
+      margin-right: 0px;
+    }
+    & .ChannelItem {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 62px;
+      height: 62px;
+      & .ChannelThumbnail {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 5px;
+        border: 1px solid #eee;
+        border-radius: 999px;
+        box-sizing: border-box;
+      }
+      & .ChannelName {
+        width: 62px;
+        height: 17px;
+        font-family: NotoSansCJKkr;
+        font-size: 11px;
+        letter-spacing: -0.3px;
+        text-align: center;
+        color: var(--slategray_60);
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;  
+        text-align: center;      
+      }
+    }
+  }  
+}
