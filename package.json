@@ -83,6 +83,7 @@
     "@ridi/event-tracker": "^0.7.1",
     "@ridi/object-case-converter": "^2.0.4",
     "@ridi/rsg": "^2.0.18",
+    "@ridi/web-icons": "^0.7.1",
     "@types/react-helmet": "^5.0.10",
     "@types/react-side-effect": "^1.1.1",
     "axios": "^0.19.0",
