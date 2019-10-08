@@ -27,7 +27,7 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
             { groupedArticles.map((article, idxInGroup) => {
                 const index = groupIdx * 3 + idxInGroup;
                 return (
-                  <li key={String(groupIdx) + idxInGroup} className="Article">
+                  <li key={idxInGroup} className="Article">
                     <div className="pass-through">
                       <span className="ArticleHomeSection_ChartRanking">{index + 1}</span>
                       <Link to={''}>
