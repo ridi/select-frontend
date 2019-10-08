@@ -119,7 +119,7 @@
     "redux": "^4.0.1",
     "redux-act": "^1.7.4",
     "redux-logger": "^3.0.6",
-    "redux-saga": "^0.16.2",
+    "redux-saga": "^1.1.1",
     "reselect": "^4.0.0",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",
