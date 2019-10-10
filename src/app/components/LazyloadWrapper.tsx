@@ -5,7 +5,6 @@ import Lazyload from 'react-lazyload';
 import { getThumbnailHeight as getArticleThumbnailHeight } from 'app/components/ArticleThumbnail/helpers';
 import {
   ThumbnailShape as ArticleThumbnailShape,
-  ThumbnailSize as ArticleThumbnailSize,
 } from 'app/components/ArticleThumbnail/types';
 import { DefaultLazyloadPlaceholder } from 'app/components/BookThumbnail/DefaultLazyloadPlaceholder';
 import { getThumbnailHeight as getBookThumbnailHeight } from 'app/components/BookThumbnail/helpers';
@@ -13,7 +12,7 @@ import { ThumbnailSize as BookThumbnailSize } from 'app/components/BookThumbnail
 import { ContentsType } from 'app/constants';
 
 export interface LazyloadWrapperProps {
-  width: BookThumbnailSize | ArticleThumbnailSize;
+  width: BookThumbnailSize | number;
   thumbanilShape?: ArticleThumbnailShape;
   lazyload: boolean;
   placeholder?: JSX.Element;
@@ -38,10 +37,7 @@ export class LazyloadWrapper extends React.Component<LazyloadWrapperProps> {
       height:
         contentsType === ContentsType.BOOK
           ? getBookThumbnailHeight(width as BookThumbnailSize)
-          : getArticleThumbnailHeight(
-              width as ArticleThumbnailSize,
-              thumbanilShape,
-            ),
+          : getArticleThumbnailHeight(width, thumbanilShape),
     };
 
     return lazyload ? (
