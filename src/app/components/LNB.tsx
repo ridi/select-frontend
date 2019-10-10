@@ -83,9 +83,9 @@ const articleMenus: Menu[] = [
   },
   {
     name: '좋아한 아티클',
-    classname: 'ArticleStored',
-    pathname: RoutePaths.ARTICLE_STORED,
-    pathRegExp: /\/article\/store/,
+    classname: 'ArticleFavorite',
+    pathname: RoutePaths.ARTICLE_FAVORITE,
+    pathRegExp: /\/article\/favorite/,
   },
 ];
 
