@@ -40,7 +40,7 @@ export enum PageTitleText {
   ARTICLE_HOME = '',
   ARTICLE_FOLLOWING = '',
   ARTICLE_CHANNEL = '',
-  ARTICLE_STORED = '',
+  ARTICLE_FAVORITE = '',
 }
 
 export enum RoutePaths {
@@ -66,5 +66,5 @@ export enum RoutePaths {
   ARTICLE_HOME = '/article/home',
   ARTICLE_FOLLOWING = '/article/follow',
   ARTICLE_CHANNELS = '/article/channels',
-  ARTICLE_STORED = '/article/store',
+  ARTICLE_FAVORITE = '/article/favorite',
 }

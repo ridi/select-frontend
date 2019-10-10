@@ -31,9 +31,9 @@ import {
 } from 'app/scenes';
 import {
   ArticleChannels,
+  ArticleFavorite,
   ArticleFollow,
   ArticleHome,
-  ArticleStored,
 } from 'app/scenes/article';
 
 import { RoutePaths } from 'app/constants';
@@ -71,7 +71,7 @@ export const LNBRoutes = [
   RoutePaths.ARTICLE_HOME,
   RoutePaths.ARTICLE_FOLLOWING,
   RoutePaths.ARTICLE_CHANNELS,
-  RoutePaths.ARTICLE_STORED,
+  RoutePaths.ARTICLE_FAVORITE,
 ];
 
 export const PrimaryRoutes = [
@@ -187,8 +187,8 @@ export const Routes: React.SFC<Props> = (props) => {
             {...props}
           />
           <Route
-            path={RoutePaths.ARTICLE_STORED}
-            component={ArticleStored}
+            path={RoutePaths.ARTICLE_FAVORITE}
+            component={ArticleFavorite}
             {...props}
           />
 
