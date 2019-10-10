@@ -1,4 +1,4 @@
 export * from './ArticleHome';
 export * from './ArticleFollow';
-export * from './ArticleChannel';
+export * from './ArticleChannels';
 export * from './ArticleStored';
