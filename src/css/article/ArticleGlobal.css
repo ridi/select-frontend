@@ -13,6 +13,16 @@
     background-color: var(--slategray_30);
     padding: 4px;
   }
+  & .Empty_ArticleIcon {
+    padding:0;
+    margin: 0 auto;
+    display: block;
+    width: 40px;
+    height: 35px;
+    margin-bottom: 20px;
+    fill: #e5e8eb;
+    padding: 12.5px 10px;    
+  }
   & .Empty_Description {
     margin: 0;
     padding: 0;    
