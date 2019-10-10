@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 import { ArticleImage } from 'app/components/ArticleThumbnail/ArticleImage';
-import { DEFAULT_THUMBNAIL_SIZE, ThumbnailShape, ThumbnailSize } from 'app/components/ArticleThumbnail/types';
+import { DEFAULT_THUMBNAIL_SIZE, ThumbnailShape } from 'app/components/ArticleThumbnail/types';
 import { LazyloadWrapper } from 'app/components/LazyloadWrapper';
 
 interface ArticleThumbnailProps {
