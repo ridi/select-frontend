@@ -1,16 +1,9 @@
-import { ThumbnailShape, ThumbnailSize } from 'app/components/ArticleThumbnail/types';
+import { ThumbnailShape } from 'app/components/ArticleThumbnail/types';
 
-export function getThumbnailHeight(width: ThumbnailSize, shape: ThumbnailShape = ThumbnailShape.RECTANGLE): number {
+export function getThumbnailHeight(width: number, shape: ThumbnailShape = ThumbnailShape.RECTANGLE): number {
   if (shape === ThumbnailShape.SQUARE) {
     return width;
   }
-  if (width === 173) {
-    return 97;
-  } else if (width === 154) {
-    return 86;
-  } else if (width === 100) {
-    return 56;
-  }
 
-  return width * 1.79;
+  return (width / 16) * 9;
 }

@@ -7,7 +7,7 @@ import { DEFAULT_THUMBNAIL_SIZE, ThumbnailShape, ThumbnailSize } from 'app/compo
 import { LazyloadWrapper } from 'app/components/LazyloadWrapper';
 
 interface ArticleThumbnailProps {
-  width?: ThumbnailSize;
+  width?: number;
   thumbnailShape?: ThumbnailShape;
   imageClassName?: string;
   linkUrl: string;
@@ -23,9 +23,18 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
     articleTitle,
     imageClassName,
     lazyloadThumbnail = true,
-    width = DEFAULT_THUMBNAIL_SIZE,
     thumbnailShape = ThumbnailShape.RECTANGLE,
   } = props;
+
+  const articleThumbRef = React.useRef<HTMLDivElement>(null);
+  const [articleWidth, setArticleWidth] = React.useState(DEFAULT_THUMBNAIL_SIZE);
+
+  React.useEffect(() => {
+    if (articleThumbRef === null || articleThumbRef.current === null) {
+      return;
+    }
+    setArticleWidth(articleThumbRef.current.offsetWidth);
+  }, [articleThumbRef]);
 
   return (
     <div
@@ -33,10 +42,11 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
         'ArticleThumbanil_Wrapper',
         `ArticleThumbanil_Wrapper-${thumbnailShape}`,
       )}
+      ref={articleThumbRef}
     >
       <Link to={linkUrl}>
         <LazyloadWrapper
-          width={width}
+          width={articleWidth}
           thumbanilShape={thumbnailShape}
           lazyload={lazyloadThumbnail}
         >
@@ -44,7 +54,7 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
             className={imageClassName}
             src={imageUrl}
             alt={articleTitle}
-            width={width}
+            width={articleWidth}
             thumbnailShape={thumbnailShape}
           />
         </LazyloadWrapper>
