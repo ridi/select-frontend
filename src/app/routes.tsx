@@ -30,7 +30,7 @@ import {
   WrongLocation,
 } from 'app/scenes';
 import {
-  ArticleChannel,
+  ArticleChannels,
   ArticleFollow,
   ArticleHome,
   ArticleStored,
@@ -70,7 +70,7 @@ export const LNBRoutes = [
 
   RoutePaths.ARTICLE_HOME,
   RoutePaths.ARTICLE_FOLLOWING,
-  RoutePaths.ARTICLE_CHANNEL,
+  RoutePaths.ARTICLE_CHANNELS,
   RoutePaths.ARTICLE_STORED,
 ];
 
@@ -182,8 +182,8 @@ export const Routes: React.SFC<Props> = (props) => {
             {...props}
           />
           <Route
-            path={RoutePaths.ARTICLE_CHANNEL}
-            component={ArticleChannel}
+            path={RoutePaths.ARTICLE_CHANNELS}
+            component={ArticleChannels}
             {...props}
           />
           <Route

@@ -1,0 +1,65 @@
+.ArticlePageChannelList_Wrap {
+  max-width: 800px;
+  margin: 0 auto;
+  & .ArticlePageChannelList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    & .ArticlePageChannel {
+      padding: 20px 18px; 
+      & .Channel_Info {
+        display: flex;
+        align-items: center;
+        & .Channel_Thumbnail {
+          margin-right: 10px;
+          & .Channel_Image {
+            width: 40px;
+            height: 40px;
+            border: solid 1px rgba(0, 0, 0, 0.02);
+          }
+        }
+        & .Channel_Meta {
+          & .Channel_Title {
+            display: block;
+            font-family: NotoSansCJKkr;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: -0.3px;
+            color: var(--gray_100);            
+          }
+          & .Channel_Desc {
+            margin-top: 2px;
+            display: block;
+            font-family: NotoSansCJKkr;
+            font-size: 12px;
+            letter-spacing: -0.3px;
+            color: var(--slategray_60);
+          }
+        }
+        & .Channel_Follow {
+          & .Follow_Icon {
+            width: 10px;
+            height: 10px;
+            fill: #fff;
+            margin-right: 4px;            
+          }
+          margin-left: auto;
+          width: 76px;
+          height: 30px;
+          border-radius: 3px;
+          border: none;
+          background-color: var(--dodgerblue_50);          
+          font-family: NotoSansCJKkr;
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: -0.3px;
+          color: #fff;
+          line-height: 30px;
+        }
+      }
+    }
+
+  }
+
+
+}

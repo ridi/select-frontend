@@ -65,6 +65,6 @@ export enum RoutePaths {
   /* 셀렉트 2.0 아티클 */
   ARTICLE_HOME = '/article/home',
   ARTICLE_FOLLOWING = '/article/follow',
-  ARTICLE_CHANNEL = '/article/channel',
+  ARTICLE_CHANNELS = '/article/channels',
   ARTICLE_STORED = '/article/store',
 }
