@@ -48,8 +48,7 @@ export class LazyloadWrapper extends React.Component<LazyloadWrapperProps> {
         throttle={true}
         resize={true}
         overflow={hasOverflowWrapper}
-        placeholder={
-          placeholder || <DefaultLazyloadPlaceholder size={sizeStyle} />}
+        placeholder={placeholder || <DefaultLazyloadPlaceholder size={sizeStyle} />}
       >
         <div
           className={classNames(
