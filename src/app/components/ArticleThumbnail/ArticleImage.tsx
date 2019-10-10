@@ -1,13 +1,13 @@
 import * as React from 'react';
 
 import { getThumbnailHeight } from 'app/components/ArticleThumbnail/helpers';
-import { ThumbnailShape, ThumbnailSize } from 'app/components/ArticleThumbnail/types';
+import { ThumbnailShape } from 'app/components/ArticleThumbnail/types';
 import * as classNames from 'classnames';
 
 export interface ArticleImageProps {
   src: string;
   alt: string;
-  width: ThumbnailSize;
+  width: number;
   className?: string;
   thumbnailShape: ThumbnailShape;
 }
