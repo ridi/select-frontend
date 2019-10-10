@@ -7,6 +7,10 @@
     padding: 0;
     & .ArticlePageChannel {
       padding: 20px 18px; 
+      @media (--pc-screen) {
+        padding: 30px 18px; 
+      }      
+      border-bottom: 1px solid #e4e8eb;
       & .Channel_Info {
         display: flex;
         align-items: center;

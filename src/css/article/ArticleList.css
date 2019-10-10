@@ -5,22 +5,15 @@
     padding: 0;
     margin: 0;
     & li {
-      width: 154px;
+      width: 50%;
       display: inline-block;
-      margin-left: 12px;
-      @media (min-width: 500px) {
-        width: 173px;
-      }
       @media (--pc-screen) {
-        width: 191px;
-      }
-
-
-      &:first-child {
-        margin-left: 0;
+        width: 25%;        
       }
       & a {
         text-decoration: none;
+        display: block;
+        padding: 6px;
       }
       & .Article_Thumbnail {
         width: 100%;
