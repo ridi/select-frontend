@@ -78,8 +78,8 @@ const articleMenus: Menu[] = [
   {
     name: '전체 채널',
     classname: 'ArticleChannel',
-    pathname: RoutePaths.ARTICLE_CHANNEL,
-    pathRegExp: /\/article\/channel/,
+    pathname: RoutePaths.ARTICLE_CHANNELS,
+    pathRegExp: /\/article\/channels/,
   },
   {
     name: '좋아한 아티클',
