@@ -7,7 +7,6 @@ import { DEFAULT_THUMBNAIL_SIZE, ThumbnailShape } from 'app/components/ArticleTh
 import { LazyloadWrapper } from 'app/components/LazyloadWrapper';
 
 interface ArticleThumbnailProps {
-  width?: number;
   thumbnailShape?: ThumbnailShape;
   imageClassName?: string;
   linkUrl: string;

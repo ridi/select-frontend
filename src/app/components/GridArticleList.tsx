@@ -1,11 +1,10 @@
 import * as React from 'react';
 
 import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
-import { ThumbnailSize } from 'app/components/ArticleThumbnail/types';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { stringifyAuthors } from 'app/utils/utils';
-import { useMediaQuery } from 'react-responsive';
+import MediaQuery from 'react-responsive';
 import { Link } from 'react-router-dom';
 
 interface Props {
@@ -28,55 +27,41 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
   } = props;
   const section = !!pageTitleForTracking ? getSectionStringForTracking(pageTitleForTracking, uiPartTitleForTracking, filterForTracking) : undefined;
 
-  let articleThumbnailSize: ThumbnailSize = 154;
-  if (useMediaQuery({ query: '(min-width: 1600px)' })) {
-    articleThumbnailSize = 191;
-  } else if (useMediaQuery({ query: '(min-width: 800px)' })) {
-    articleThumbnailSize = 173;
-  }
-
   return (
-    <ul className="GridArticleList">
-      {articles.map((article, idx) => (
-        <li className="GridArticleList_Item" key={article.id}>
-          <ConnectedTrackImpression
-            section={section}
-            index={idx}
-            id={article.id}
-          >
-            <ArticleThumbnail
-              linkUrl={`/article/${article.id}`}
-              imageUrl=""
-              articleTitle={article.title}
-              lazyloadThumbnail={lazyloadThumbnail}
-              width={articleThumbnailSize}
-            />
-            <Link
-              to={`/article/${article.id}`}
-              className="GridArticleList_ItemLink"
-            >
-              <span
-                className="GridArticleList_ItemTitle"
-                style={{
-                  width: `${articleThumbnailSize}px`,
-                }}
+    <MediaQuery minWidth={600}>
+      {(isMobile) => (
+        <ul className="GridArticleList">
+          {articles.map((article, idx) => (
+            <li className="GridArticleList_Item" key={article.id}>
+              <ConnectedTrackImpression
+                section={section}
+                index={idx}
+                id={article.id}
               >
-                {article.title}
-              </span>
-              {renderAuthor ? (
-                <span
-                  className="GridArticleList_ItemAuthor"
-                  style={{
-                    width: `${articleThumbnailSize}px`,
-                  }}
+                <ArticleThumbnail
+                  linkUrl={`/article/${article.id}`}
+                  imageUrl=""
+                  articleTitle={article.title}
+                  lazyloadThumbnail={lazyloadThumbnail}
+                />
+                <Link
+                  to={`/article/${article.id}`}
+                  className="GridArticleList_ItemLink"
                 >
-                  {stringifyAuthors(article.authors, 2)}
-                </span>
-              ) : null}
-            </Link>
-          </ConnectedTrackImpression>
-        </li>
-      ))}
-    </ul>
+                  <span className="GridArticleList_ItemTitle">
+                    {article.title}
+                  </span>
+                  {renderAuthor ? (
+                    <span className="GridArticleList_ItemAuthor">
+                      {stringifyAuthors(article.authors, 2)}
+                    </span>
+                  ) : null}
+                </Link>
+              </ConnectedTrackImpression>
+            </li>
+          ))}
+        </ul>
+      )}
+    </MediaQuery>
   );
 };
