@@ -1,0 +1,79 @@
+.ArticleChannelMeta_Wrap {
+  padding: 60px 12px;
+  display: flex;
+  @media (--pc-screen) {
+    max-width: 800px;
+    margin: 0 auto;
+  }      
+
+  & .ArticleChannel_Thumbnail {    
+    margin-right: 18px;
+    & .ArticleChannel_Image {
+      width: 80px;
+      height: 80px;
+      border: 1px solid #eee;
+      box-sizing: border-box;
+    }
+  }
+  & .ArticleChannel_Meta {
+    & .Channel_Title {
+      font-family: NotoSansCJKkr;
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.55;
+      letter-spacing: -0.5px;
+      color: var(--gray_100);      
+      margin: 0;
+      padding: 0;
+    }
+    & .Channel_Desc {
+      margin: 0;
+      margin-top: 10px;
+      font-family: NotoSansCJKkr;
+      font-size: 13px;
+      letter-spacing: -0.3px;
+      color: var(--slategray_90);      
+    }
+    & .Channel_Serial {
+      display: block;
+      margin-top: 4px;
+      font-family: NotoSansCJKkr;
+      font-size: 13px;
+      letter-spacing: -0.3px;
+      color: var(--slategray_50);
+    }
+    & .Channel_Fallowing {
+      display: block;
+      margin-top: 10px;
+      font-family: NotoSansCJKkr;
+      font-size: 13px;
+      letter-spacing: -0.3px;
+      color: var(--dodgerblue_50);
+      & strong {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+        color: var(--dodgerblue_50);        
+      }
+    }
+    & .Fallowing_Button {
+      margin-top: 10px;
+      width: 100px;
+      height: 30px;
+      border-radius: 3px;
+      border: solid 1px var(--dodgerblue_50);
+      background-color: #fff;
+      font-family: NotoSansCJKkr;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--dodgerblue_50);
+      padding: 0;  
+    }
+  }
+
+
+
+
+}
