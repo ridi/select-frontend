@@ -4,9 +4,9 @@
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
     & li {
       width: 50%;
-      display: inline-block;
       @media (--pc-screen) {
         width: 25%;        
       }

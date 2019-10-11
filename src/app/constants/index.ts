@@ -37,10 +37,10 @@ export enum PageTitleText {
   NOT_AVAILABLE_BOOK = '',
   CLOSING_RESERVED_BOOKS = '종료 예정 도서',
   // 셀렉트 2.0 - 아티클
-  ARTICLE_HOME = '',
-  ARTICLE_FOLLOWING = '',
-  ARTICLE_CHANNEL = '',
-  ARTICLE_FAVORITE = '',
+  ARTICLE_HOME = '아티클 홈',
+  ARTICLE_FOLLOWING = '팔로잉',
+  ARTICLE_CHANNEL = '전체 채널',
+  ARTICLE_FAVORITE = '좋아한 아티클',
 }
 
 export enum RoutePaths {
@@ -66,5 +66,7 @@ export enum RoutePaths {
   ARTICLE_HOME = '/article/home',
   ARTICLE_FOLLOWING = '/article/follow',
   ARTICLE_CHANNELS = '/article/channels',
+  ARTICLE_CHANNEL_DETAIL = '/article/channel/:channelId',
   ARTICLE_FAVORITE = '/article/favorite',
+  ARTICLE_DETAIL = '/article/content/:contentId',
 }

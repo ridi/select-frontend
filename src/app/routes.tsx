@@ -30,6 +30,7 @@ import {
   WrongLocation,
 } from 'app/scenes';
 import {
+  ArticleChannelDetail,
   ArticleChannels,
   ArticleFavorite,
   ArticleFollow,
@@ -67,7 +68,7 @@ export const LNBRoutes = [
   RoutePaths.NEW_RELEASE,
   RoutePaths.CATEGORY,
   RoutePaths.MY_SELECT,
-
+  /* 셀렉트 2.0 - 아티클 */
   RoutePaths.ARTICLE_HOME,
   RoutePaths.ARTICLE_FOLLOWING,
   RoutePaths.ARTICLE_CHANNELS,
@@ -189,6 +190,11 @@ export const Routes: React.SFC<Props> = (props) => {
           <Route
             path={RoutePaths.ARTICLE_FAVORITE}
             component={ArticleFavorite}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.ARTICLE_CHANNEL_DETAIL}
+            component={ArticleChannelDetail}
             {...props}
           />
 
