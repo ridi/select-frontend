@@ -19,6 +19,9 @@ import { homeReducer, HomeState } from 'app/services/home';
 import { homeRootSaga } from 'app/services/home/sagas';
 import { userRootSaga } from 'app/services/user/sagas';
 
+import { articleHomeRootSaga } from 'app/services/article/home/sagas';
+import { articleHomeReducer, ArticleHomeState } from './services/article/home';
+
 import { categoryBooksReducer, CategoryBooksState, categoryListReducer, CategoryListState } from 'app/services/category';
 import { categoryRootSaga } from 'app/services/category/sagas';
 import { ClosingReservedBooksState } from 'app/services/closingReservedBooks/index';
@@ -65,6 +68,7 @@ function* rootSaga(dispatch: Dispatch) {
     customHistorySaga(),
     closingReservedBooksRootSaga(),
     serviceStatusSaga(),
+    articleHomeRootSaga(),
   ]);
 }
 
@@ -85,6 +89,8 @@ export interface RidiSelectState {
   environment: EnvironmentState;
   customHistory: CustomHistoryState;
   closingReservedBooks: ClosingReservedBooksState;
+
+  articleHome: ArticleHomeState;
 }
 
 const sagaMiddleware = createSagaMiddleware();
@@ -113,6 +119,8 @@ const reducers = combineReducers({
   environment: environmentReducer,
   customHistory: customHistoryReducer,
   closingReservedBooks: closingReservedBooksReducer,
+
+  articleHome: articleHomeReducer,
 });
 
 const middleware = [
