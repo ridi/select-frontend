@@ -31,25 +31,27 @@
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
-    display: block;
+    display: flex;
     & a {
       text-decoration: none;
     }      
 
     & ol.ArticleChartGroup {
-      display: inline-block;
       vertical-align: top;
       margin: 0;
       padding: 0;
+      margin-right: 20px;
+      &:last-child {
+        margin-right: 0;
+      }
       & li.Article {
         display: flex;
         align-items: start;
         color: inherit;
         text-decoration: inherit;
-        height: 110px;
-        margin-right: 40px;
+        height: 70px;
         list-style: none;
-        border-bottom: 1px solid var(--slategray_10);
+        margin-bottom: 30px;
         & .pass-through {
           margin: 0;
           padding: 0;
@@ -62,12 +64,14 @@
             font-size: 18px;
             font-weight: 700;
             letter-spacing: -0.64px;
-            color: var(--gray_100);            
+            color: var(--gray_100); 
+            margin-right: 10px;           
           }
           & .Article_Thumbnail {
-            margin-top: 15px;
-            width: 80px;
-            height: 80px;
+            width: 60px;
+            height: 60px;
+            margin-right: 10px;
+            align-self: center;
             & img {
               display: block;
               position: relative;
@@ -80,12 +84,12 @@
           }
           & .Article_Meta {
             align-self: center;
-            width: 201px;
-            margin: 10px;
-            margin-right: 42px;
-            margin-top: 18px;
+            width: 182px;
             color: #40474d;
             font-size: 13px;
+            @media (min-width: 601px) {
+              width: 292px;
+            }
             & .Article_Title {
               font-family: NotoSansCJKkr;
               font-size: 15px;
