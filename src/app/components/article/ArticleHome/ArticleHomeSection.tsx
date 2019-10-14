@@ -31,7 +31,6 @@ export const ArticleSectionHeader: React.FunctionComponent<ArticleSectionHeaderP
 export const ArticleHomeSection: React.FunctionComponent<ArticleHomeSectionProps> = (props) => {
   const { title, type, articleList, articleChartList } = props;
   if (type === ArticleSectionType.CHART) {
-
     return (
       <section className="ArticleHomeSection">
         <ArticleSectionHeader title={title} />

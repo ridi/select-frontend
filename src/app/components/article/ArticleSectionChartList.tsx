@@ -1,27 +1,33 @@
 import { ArticleChartList, ArticleList } from 'app/utils/mockUp';
 import * as React from 'react';
+import MediaQuery from 'react-responsive';
 import { Link } from 'react-router-dom';
 
 interface ArticleSectionChartListProps {
   articleList?: ArticleChartList[];
 }
 
-export const groupChartArticle = (groupingUnitCount: number) => (groupedArticles: ArticleList[][], article: ArticleList, idx: number) => {
-  if (idx % groupingUnitCount === 0) {
-    groupedArticles.push([article]);
-  } else {
-    groupedArticles[groupedArticles.length - 1].push(article);
-  }
-  return groupedArticles;
-};
-
 export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChartListProps> = (props) => {
   const { articleList } = props;
+
+  const groupChartActicles = (articles: ArticleChartList[], groupingUnitCount: number) => {
+    const sliceArticleList = articles.slice(0, 6);
+    const groupedArticles: ArticleChartList[][] = [];
+    sliceArticleList.map((article, idx) => {
+      if (idx % groupingUnitCount === 0) {
+        groupedArticles.push([article]);
+      } else {
+        groupedArticles[groupedArticles.length - 1].push(article);
+      }
+    });
+
+    return groupedArticles;
+  };
+
   return (
     <div className="ArticleChartList_Wrapper">
-      { articleList && articleList
-        .slice(0, 6)
-        .reduce(groupChartArticle(3), [])
+      { articleList && articleList &&
+        groupChartActicles(articleList, 3)
         .map( (groupedArticles, groupIdx) => (
           <ol className="ArticleChartGroup" start={groupIdx * 4 + 1} key={groupIdx}>
             { groupedArticles.map((article, idxInGroup) => {
