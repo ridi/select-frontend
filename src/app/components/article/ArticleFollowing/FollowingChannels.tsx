@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { FollowingChannelMockUp } from 'app/utils/mockUp';
+import { FollowingChannelMockUp } from 'app/utils/mockup';
 
 export const FollowingChannels: React.FunctionComponent = () => {
   return (
