@@ -1,0 +1,28 @@
+.ArticleThumbnail_Wrapper {
+  @apply --reset-layout;
+
+  width: 100%;
+}
+
+.ArticleThumbnail_Link {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+
+  @nest .ArticleThumbnail_Wrapper-rectangle & {
+    padding-top: 56.25%;
+  }
+  @nest .ArticleThumbnail_Wrapper-square & {
+    padding-top: 100%;
+  }
+}
+
+.ArticleThumbnail_CoverImage {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  top: 0;
+  left: 0;
+}
+
