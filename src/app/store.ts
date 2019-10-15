@@ -19,8 +19,11 @@ import { homeReducer, HomeState } from 'app/services/home';
 import { homeRootSaga } from 'app/services/home/sagas';
 import { userRootSaga } from 'app/services/user/sagas';
 
-import { articleHomeReducer, ArticleHomeState } from 'app/services/articleHome';
 import { articleHomeRootSaga } from 'app/services/articleHome/sagas';
+import { channelRootSaga } from 'app/services/channel/sagas';
+
+import { articleHomeReducer, ArticleHomeState } from './services/articleHome';
+import { articleChannelListReducer, ArticleChannelListState } from './services/channel';
 
 import { categoryBooksReducer, CategoryBooksState, categoryListReducer, CategoryListState } from 'app/services/category';
 import { categoryRootSaga } from 'app/services/category/sagas';
@@ -69,6 +72,7 @@ function* rootSaga(dispatch: Dispatch) {
     closingReservedBooksRootSaga(),
     serviceStatusSaga(),
     articleHomeRootSaga(),
+    channelRootSaga(),
   ]);
 }
 
@@ -91,6 +95,7 @@ export interface RidiSelectState {
   closingReservedBooks: ClosingReservedBooksState;
 
   articleHome: ArticleHomeState;
+  articleChannel: ArticleChannelListState;
 }
 
 const sagaMiddleware = createSagaMiddleware();
@@ -121,6 +126,7 @@ const reducers = combineReducers({
   closingReservedBooks: closingReservedBooksReducer,
 
   articleHome: articleHomeReducer,
+  articleChannel: articleChannelListReducer,
 });
 
 const middleware = [
