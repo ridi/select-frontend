@@ -1,7 +1,7 @@
 import { HelmetWithTitle } from 'app/components';
 import { ArticleChannelMeta } from 'app/components/article/ArticleChannelDetail/ArticleChannelMeta';
 import { ArticleSectionList } from 'app/components/article/ArticleSectionList';
-import { ArticleChartsMockUp, ArticleListMockUp } from 'app/utils/mockup';
+import { ArticleChartsMockUp, ArticleListMockUp } from 'app/utils/mock';
 import * as classNames from 'classnames';
 import * as React from 'react';
 

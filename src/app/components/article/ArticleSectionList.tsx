@@ -1,4 +1,4 @@
-import { ArticleList } from 'app/utils/mockUp';
+import { ArticleList } from 'app/utils/mock';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 

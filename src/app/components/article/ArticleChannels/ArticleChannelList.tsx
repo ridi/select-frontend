@@ -1,6 +1,6 @@
 import { Icon } from '@ridi/rsg';
 import { ArticleSectionList } from 'app/components/article/ArticleSectionList';
-import { ArticleChartsMockUp, ArticleListMockUp } from 'app/utils/mockup';
+import { ArticleChartsMockUp, ArticleListMockUp } from 'app/utils/mock';
 import * as React from 'react';
 
 export const ArticleChannelList: React.FunctionComponent = () => {

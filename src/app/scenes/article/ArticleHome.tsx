@@ -4,7 +4,7 @@ import { ConnectedBigBannerCarousel } from 'app/components/Home/BigBanner';
 import { PageTitleText } from 'app/constants';
 import { Actions, ArticleSectionType } from 'app/services/article/home';
 import { RidiSelectState } from 'app/store';
-import { ArticleChartsMockUp, ArticleListMockUp } from 'app/utils/mockup';
+import { ArticleChartsMockUp, ArticleListMockUp } from 'app/utils/mock';
 import * as classNames from 'classnames';
 import * as differenceInHours from 'date-fns/difference_in_hours';
 import * as React from 'react';
