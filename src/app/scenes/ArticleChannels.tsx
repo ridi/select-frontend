@@ -1,5 +1,5 @@
 import { HelmetWithTitle } from 'app/components';
-import { ArticleChannelList } from 'app/components/article/ArticleChannels/ArticleChannelList';
+import { ArticleChannelList } from 'app/components/ArticleChannels/ArticleChannelList';
 import { PageTitleText } from 'app/constants';
 import * as classNames from 'classnames';
 import * as React from 'react';

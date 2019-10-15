@@ -1,4 +1,4 @@
-import { EmptyArticleFavorite } from 'app/components/article/ArticleFavorite/EmptyArticleFavorite';
+import { EmptyArticleFavorite } from 'app/components/ArticleFavorite/EmptyArticleFavorite';
 import * as classNames from 'classnames';
 import * as React from 'react';
 

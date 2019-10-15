@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { HelmetWithTitle } from 'app/components';
-import { ArticleHomeSection } from 'app/components/article/ArticleHome/ArticleHomeSection';
+import { ArticleHomeSection } from 'app/components/ArticleHome/ArticleHomeSection';
 import { ConnectedBigBannerCarousel } from 'app/components/Home/BigBanner';
 import { PageTitleText } from 'app/constants';
 import { Actions, ArticleSectionType } from 'app/services/articleHome';

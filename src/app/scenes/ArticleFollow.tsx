@@ -1,6 +1,6 @@
 import { HelmetWithTitle } from 'app/components';
-import { EmptyArticleFollowing } from 'app/components/article/ArticleFollowing/EmptyArticleFollowing';
-import { FollowingChannels } from 'app/components/article/ArticleFollowing/FollowingChannels';
+import { EmptyArticleFollowing } from 'app/components/ArticleFollowing/EmptyArticleFollowing';
+import { FollowingChannels } from 'app/components/ArticleFollowing/FollowingChannels';
 import { PageTitleText } from 'app/constants';
 import * as classNames from 'classnames';
 import * as React from 'react';

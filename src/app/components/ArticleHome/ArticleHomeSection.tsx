@@ -1,9 +1,9 @@
+import * as React from 'react';
+
+import { ArticleSectionChartList } from 'app/components/ArticleSectionChartList';
+import { ArticleSectionList } from 'app/components/ArticleSectionList';
 import { ArticleSectionType } from 'app/services/articleHome';
 import { ArticleChartList, ArticleList } from 'app/utils/mockup';
-import * as React from 'react';
-import MediaQuery from 'react-responsive';
-import { ArticleSectionChartList } from '../ArticleSectionChartList';
-import { ArticleSectionList } from '../ArticleSectionList';
 
 interface ArticleHomeSectionProps {
   title: string;
