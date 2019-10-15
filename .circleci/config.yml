@@ -213,13 +213,17 @@ workflows:
           name: deploy-dev
           requires:
             - build-dev
-          filters: *article_master_only
+          filters: *master_only
           dev: true
   deploy-stage:
     jobs:
       - build:
           name: build-stage
-          filters: *master_only
+          filters: &master_only
+            branches:
+              only:
+                - master
+                - feature/circle-ci
       - deploy:
           name: deploy-stage
           requires:
