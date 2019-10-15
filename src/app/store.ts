@@ -19,8 +19,8 @@ import { homeReducer, HomeState } from 'app/services/home';
 import { homeRootSaga } from 'app/services/home/sagas';
 import { userRootSaga } from 'app/services/user/sagas';
 
-import { articleHomeRootSaga } from 'app/services/article/home/sagas';
-import { articleHomeReducer, ArticleHomeState } from './services/article/home';
+import { articleHomeReducer, ArticleHomeState } from 'app/services/articleHome';
+import { articleHomeRootSaga } from 'app/services/articleHome/sagas';
 
 import { categoryBooksReducer, CategoryBooksState, categoryListReducer, CategoryListState } from 'app/services/category';
 import { categoryRootSaga } from 'app/services/category/sagas';
