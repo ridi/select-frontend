@@ -4,7 +4,7 @@
   @apply --reset-list;
 
   display: flex;
-  padding: 20px 14px 0;
+  padding: 0 14px;
   flex-wrap: wrap;
   align-items: flex-start;
 }
@@ -13,7 +13,7 @@
   @apply --reset-layout;
 
   width: 25%;
-  padding: 0 6px;
+  padding: 20px 6px 0;
   flex-direction: column;
   box-sizing: border-box;
 }
