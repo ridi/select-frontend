@@ -1,7 +1,9 @@
-import { Icon } from '@ridi/rsg';
-import { ArticleSectionList } from 'app/components/ArticleSectionList';
-import { ArticleChartsMockUp, ArticleListMockUp } from 'app/utils/mock';
 import * as React from 'react';
+
+import { Icon } from '@ridi/rsg';
+
+import { GridArticleList } from 'app/components/GridArticleList';
+import { ArticleListMockUp } from 'app/utils/mock';
 
 export const ArticleChannelList: React.FunctionComponent = () => {
   return (
@@ -23,7 +25,12 @@ export const ArticleChannelList: React.FunctionComponent = () => {
               </button>
             </div>
             <div className="Channel_ArticleList">
-              <ArticleSectionList articleList={ArticleListMockUp} />
+              <GridArticleList
+                pageTitleForTracking="article-channel-list"
+                uiPartTitleForTracking="article-channel-list-articles"
+                renderAuthor={false}
+                articles={ArticleListMockUp}
+              />
             </div>
           </li>
         </ul>
