@@ -151,7 +151,7 @@
   padding: 0 40px 0 10px;
   border-radius: 3px;
   outline: none;
-  background: var(--bluegray_70);
+  background: var(--slategray_5);
   text-align: left;
   vertical-align: top;
   &.GNBSearchInputWrapper-empty {
@@ -182,15 +182,17 @@
   border: none;
   outline: none;
   background: transparent;
-  color: #fff;
-  font-size: 13px;
   line-height: 32px;
   vertical-align: top;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.3px;
+  color: var(--gray_100);  
 
-  &::-webkit-input-placeholder { color: var(--lightsteelblue_100); }
-  &:-moz-placeholder { color: var(--lightsteelblue_100); }
-  &:-ms-input-placeholder { color: var(--lightsteelblue_100); }
-  &:-moz-placeholder { color: var(--lightsteelblue_100); }
+  &::-webkit-input-placeholder { color: var(--slategray_40); }
+  &:-moz-placeholder { color: var(--slategray_40); }
+  &:-ms-input-placeholder { color: var(--slategray_40); }
+  &:-moz-placeholder { color: var(--slategray_40); }
 }
 .GNBSearchResetButton {
   display: none;
@@ -206,7 +208,7 @@
 .GNBSearchResetButtonIcon {
   width: 12px;
   height: 12px;
-  fill: #fff;
+  fill: #000;
 }
 
 @media (--minimal-mobile-screen) {
@@ -253,6 +255,7 @@
     }
   }
   .GNBSearchWrapper.active {
+    z-index: 1;
     & .dim {
       box-sizing: border-box;
       display: block;
