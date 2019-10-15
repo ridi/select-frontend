@@ -213,7 +213,7 @@ workflows:
           name: deploy-dev
           requires:
             - build-dev
-          filters: *master_only
+          filters: *article_master_only
           dev: true
   deploy-stage:
     jobs:
