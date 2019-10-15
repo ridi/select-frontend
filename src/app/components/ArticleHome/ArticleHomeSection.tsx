@@ -1,14 +1,15 @@
 import * as React from 'react';
 
 import { ArticleSectionChartList } from 'app/components/ArticleSectionChartList';
-import { ArticleSectionList } from 'app/components/ArticleSectionList';
+import { GridArticleList } from 'app/components/GridArticleList';
+import { ArticleResponse } from 'app/services/article/request';
 import { ArticleSectionType } from 'app/services/articleHome';
-import { ArticleChartList, ArticleList } from 'app/utils/mockup';
+import { ArticleChartList } from 'app/utils/mock';
 
 interface ArticleHomeSectionProps {
   title: string;
   type: string;
-  articleList?: ArticleList[];
+  articleList?: ArticleResponse[];
   articleChartList?: ArticleChartList[];
 }
 
@@ -39,12 +40,15 @@ export const ArticleHomeSection: React.FunctionComponent<ArticleHomeSectionProps
       </section>
     );
   }
-
-  return (
+  return !articleList ? null : (
     <section className="ArticleHomeSection">
       <ArticleSectionHeader title={title} />
       {/* 아티클 리스트 */}
-      <ArticleSectionList articleList={articleList} />
+      <GridArticleList
+        pageTitleForTracking="article-home"
+        uiPartTitleForTracking="article-home-section"
+        articles={articleList}
+      />
     </section>
   );
 };

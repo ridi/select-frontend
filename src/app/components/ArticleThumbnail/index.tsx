@@ -1,10 +1,10 @@
 import * as classNames from 'classnames';
 import * as React from 'react';
+import Lazyload from 'react-lazyload';
 import { Link } from 'react-router-dom';
 
 import { ArticleImage } from 'app/components/ArticleThumbnail/ArticleImage';
-import { DEFAULT_THUMBNAIL_SIZE, ThumbnailShape } from 'app/components/ArticleThumbnail/types';
-import { LazyloadWrapper } from 'app/components/LazyloadWrapper';
+import { ThumbnailShape } from 'app/components/ArticleThumbnail/types';
 
 interface ArticleThumbnailProps {
   thumbnailShape?: ThumbnailShape;
@@ -12,7 +12,6 @@ interface ArticleThumbnailProps {
   linkUrl: string;
   imageUrl: string;
   articleTitle: string;
-  lazyloadThumbnail?: boolean;
 }
 
 export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = (props) => {
@@ -21,42 +20,35 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
     imageUrl,
     articleTitle,
     imageClassName,
-    lazyloadThumbnail = true,
     thumbnailShape = ThumbnailShape.RECTANGLE,
   } = props;
-
-  const articleThumbRef = React.useRef<HTMLDivElement>(null);
-  const [articleWidth, setArticleWidth] = React.useState(DEFAULT_THUMBNAIL_SIZE);
-
-  React.useEffect(() => {
-    if (articleThumbRef === null || articleThumbRef.current === null) {
-      return;
-    }
-    setArticleWidth(articleThumbRef.current.offsetWidth);
-  }, [articleThumbRef]);
 
   return (
     <div
       className={classNames(
-        'ArticleThumbanil_Wrapper',
-        `ArticleThumbanil_Wrapper-${thumbnailShape}`,
+        'ArticleThumbnail_Wrapper',
+        `ArticleThumbnail_Wrapper-${thumbnailShape}`,
       )}
-      ref={articleThumbRef}
     >
-      <Link to={linkUrl}>
-        <LazyloadWrapper
-          width={articleWidth}
-          thumbanilShape={thumbnailShape}
-          lazyload={lazyloadThumbnail}
+      <Link
+        className="ArticleThumbnail_Link"
+        to={linkUrl}
+      >
+        <Lazyload
+          offset={100}
+          once={true}
+          throttle={true}
+          resize={true}
+          overflow={false}
+          placeholder={<div />}
         >
           <ArticleImage
             className={imageClassName}
             src={imageUrl}
             alt={articleTitle}
-            width={articleWidth}
             thumbnailShape={thumbnailShape}
           />
-        </LazyloadWrapper>
+        </Lazyload>
       </Link>
     </div>
   );

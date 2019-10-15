@@ -48,6 +48,8 @@
 
 @import 'test_badge.css';
 
+@import 'base/GridArticleList.css';
+@import 'article/ArticleThumbnail.css';
 @import 'article/ArticleGlobal.css';
 @import 'article/ArticleList.css';
 @import 'article/home/ArticleHomeSection.css';

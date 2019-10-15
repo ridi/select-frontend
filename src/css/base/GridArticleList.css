@@ -1,0 +1,25 @@
+
+@custom-media --small-screen-device (max-width: 600px);
+
+.GridArticleList {
+  @apply --reset-list;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.GridArticleList_Item {
+  @apply --reset-layout;
+
+  width: 25%;
+  padding: 0 6px;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+@media (--small-screen-device) {
+  .GridArticleList_Item {
+    width: 50%;
+  }
+}

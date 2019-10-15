@@ -1,13 +1,6 @@
 import { ArticleResponse } from 'app/services/article/request';
 
 /** MockUp */
-export interface ArticleList {
-  title: string;
-  channel: string;
-  articleId: number;
-  channelId: number;
-  thumbUrl: string;
-}
 export interface ArticleChartList {
   title: string;
   channel: string;
@@ -19,7 +12,7 @@ export interface ArticleChartList {
 
 export const ArticleListMockUp: ArticleResponse[] = [
   {
-    id: 12345678,
+    id: 1,
     title: `디지털 시대, '만남'의 의미가 재정의 되고 있습니다`,
     authorId: 11,
     channelId: 12345678,
@@ -35,7 +28,7 @@ export const ArticleListMockUp: ArticleResponse[] = [
     },
   },
   {
-    id: 12345678,
+    id: 2,
     title: `"리더지만 아무것도 몰라요" 초보 리더를 위한 추천 도서`,
     authorId: 11,
     channelId: 12345678,
@@ -51,7 +44,7 @@ export const ArticleListMockUp: ArticleResponse[] = [
     },
   },
   {
-    id: 12345678,
+    id: 3,
     title: `'역덕' 이코노미스트 홍춘옥 작가 인터뷰`,
     authorId: 11,
     channelId: 12345678,
@@ -67,7 +60,7 @@ export const ArticleListMockUp: ArticleResponse[] = [
     },
   },
   {
-    id: 12345678,
+    id: 4,
     title: `손정의에 대한 우려의 목소리가 나오는 5가지 이유`,
     authorId: 11,
     channelId: 12345678,
