@@ -17,7 +17,7 @@ export interface AuthorResponse {
 export interface ArticleResponse {
   id: number;
   title: string;
-  reg_date: DateDTO;
+  regDate: DateDTO;
   lastModified: DateDTO;
   channelId: number;
   thumbnailUrl: string;

@@ -1,3 +1,4 @@
+import { ArticleResponse } from 'app/services/article/request';
 
 /** MockUp */
 export interface ArticleList {
@@ -16,34 +17,70 @@ export interface ArticleChartList {
   channelId: number;
 }
 
-export const ArticleListMockUp: ArticleList[] = [
+export const ArticleListMockUp: ArticleResponse[] = [
   {
+    id: 12345678,
     title: `디지털 시대, '만남'의 의미가 재정의 되고 있습니다`,
-    channel: `아웃스탠딩`,
-    articleId: 12345678,
+    authorId: 11,
     channelId: 12345678,
-    thumbUrl: '',
+    thumbnailUrl: 'https://misc.ridibooks.com/cover/776000358/xxlarge?dpi=xxhdpi',
+    regDate: '2019-10-15T07:20:22+09:00',
+    lastModified: '2019-10-15T07:20:22+09:00',
+    author: {
+      id: 11,
+      name: '윤성원',
+      regDate: '2019-10-15T07:20:22+09:00',
+      lastModified: '2019-10-15T07:20:22+09:00',
+      channelId: 8,
+    },
   },
   {
+    id: 12345678,
     title: `"리더지만 아무것도 몰라요" 초보 리더를 위한 추천 도서`,
-    channel: `디에디트`,
-    articleId: 12345678,
+    authorId: 11,
     channelId: 12345678,
-    thumbUrl: '',
+    thumbnailUrl: 'https://misc.ridibooks.com/cover/776000358/xxlarge?dpi=xxhdpi',
+    regDate: '2019-10-15T07:20:22+09:00',
+    lastModified: '2019-10-15T07:20:22+09:00',
+    author: {
+      id: 11,
+      name: '윤성원',
+      regDate: '2019-10-15T07:20:22+09:00',
+      lastModified: '2019-10-15T07:20:22+09:00',
+      channelId: 8,
+    },
   },
   {
+    id: 12345678,
     title: `'역덕' 이코노미스트 홍춘옥 작가 인터뷰`,
-    channel: `리디셀렉트`,
-    articleId: 12345678,
+    authorId: 11,
     channelId: 12345678,
-    thumbUrl: '',
+    thumbnailUrl: 'https://misc.ridibooks.com/cover/776000358/xxlarge?dpi=xxhdpi',
+    regDate: '2019-10-15T07:20:22+09:00',
+    lastModified: '2019-10-15T07:20:22+09:00',
+    author: {
+      id: 11,
+      name: '윤성원',
+      regDate: '2019-10-15T07:20:22+09:00',
+      lastModified: '2019-10-15T07:20:22+09:00',
+      channelId: 8,
+    },
   },
   {
+    id: 12345678,
     title: `손정의에 대한 우려의 목소리가 나오는 5가지 이유`,
-    channel: `이코노미스트`,
-    articleId: 12345678,
+    authorId: 11,
     channelId: 12345678,
-    thumbUrl: '',
+    thumbnailUrl: 'https://misc.ridibooks.com/cover/776000358/xxlarge?dpi=xxhdpi',
+    regDate: '2019-10-15T07:20:22+09:00',
+    lastModified: '2019-10-15T07:20:22+09:00',
+    author: {
+      id: 11,
+      name: '윤성원',
+      regDate: '2019-10-15T07:20:22+09:00',
+      lastModified: '2019-10-15T07:20:22+09:00',
+      channelId: 8,
+    },
   },
 ];
 export const ArticleChartsMockUp: ArticleChartList[] = [
