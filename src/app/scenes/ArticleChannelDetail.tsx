@@ -1,9 +1,10 @@
-import { HelmetWithTitle } from 'app/components';
-import { ArticleChannelMeta } from 'app/components/ArticleChannelDetail/ArticleChannelMeta';
-import { ArticleSectionList } from 'app/components/ArticleSectionList';
-import { ArticleChartsMockUp, ArticleListMockUp } from 'app/utils/mock';
 import * as classNames from 'classnames';
 import * as React from 'react';
+
+import { HelmetWithTitle } from 'app/components';
+import { ArticleChannelMeta } from 'app/components/ArticleChannelDetail/ArticleChannelMeta';
+import { GridArticleList } from 'app/components/GridArticleList';
+import { ArticleListMockUp } from 'app/utils/mock';
 
 export const ArticleChannelDetail: React.FunctionComponent = () => {
   const title = '아티클 채널';
@@ -17,7 +18,12 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
       <div className="a11y"><h1>리디셀렉트 아티클 채널</h1></div>
       <ArticleChannelMeta />
       <div className="Channel_ArticleList">
-        <ArticleSectionList articleList={ArticleListMockUp} />
+        <GridArticleList
+          pageTitleForTracking="article-channel-detail"
+          uiPartTitleForTracking="article-channel-detail-articles"
+          renderAuthor={false}
+          articles={ArticleListMockUp}
+        />
       </div>
     </main>
   );
