@@ -51,7 +51,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
               </span>
               {renderAuthor && article.author ? (
                 <span className="GridArticleList_ItemAuthor">
-                  article.author.name
+                  {article.author.name}
                 </span>
               ) : null}
             </Link>

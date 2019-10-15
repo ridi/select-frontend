@@ -1,10 +1,10 @@
-
 @custom-media --small-screen-device (max-width: 600px);
 
 .GridArticleList {
   @apply --reset-list;
 
   display: flex;
+  padding: 20px 14px 0;
   flex-wrap: wrap;
   align-items: flex-start;
 }
@@ -22,4 +22,31 @@
   .GridArticleList_Item {
     width: 50%;
   }
+}
+
+.GridArticleList_ItemLink {
+  @apply --reset-font-unlimited;
+
+  display: block;
+  margin-top: 10px;
+  text-decoration: none;
+}
+
+.GridArticleList_ItemTitle {
+  @apply --reset-font-unlimited;
+
+  display: block;
+  font-size: 14px;
+  line-height: 1.57;
+  color: var(--gray_100);
+  font-weight: 600;
+}
+
+.GridArticleList_ItemAuthor {
+  @apply --reset-font-unlimited;
+
+  margin-top: 4px;
+  display: block;
+  font-size: 13px;
+  color: var(--slategray_60);
 }

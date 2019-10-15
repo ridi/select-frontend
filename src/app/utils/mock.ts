@@ -16,7 +16,7 @@ export const ArticleListMockUp: ArticleResponse[] = [
     title: `디지털 시대, '만남'의 의미가 재정의 되고 있습니다`,
     authorId: 11,
     channelId: 12345678,
-    thumbnailUrl: 'https://misc.ridibooks.com/cover/776000358/xxlarge?dpi=xxhdpi',
+    thumbnailUrl: 'https://select-img.ridicdn.net/top_banner/20191011141237_1570770757977.jpg',
     regDate: '2019-10-15T07:20:22+09:00',
     lastModified: '2019-10-15T07:20:22+09:00',
     author: {
@@ -32,7 +32,7 @@ export const ArticleListMockUp: ArticleResponse[] = [
     title: `"리더지만 아무것도 몰라요" 초보 리더를 위한 추천 도서`,
     authorId: 11,
     channelId: 12345678,
-    thumbnailUrl: 'https://misc.ridibooks.com/cover/776000358/xxlarge?dpi=xxhdpi',
+    thumbnailUrl: 'https://select-img.ridicdn.net/top_banner/20191011141237_1570770757977.jpg',
     regDate: '2019-10-15T07:20:22+09:00',
     lastModified: '2019-10-15T07:20:22+09:00',
     author: {
@@ -48,7 +48,7 @@ export const ArticleListMockUp: ArticleResponse[] = [
     title: `'역덕' 이코노미스트 홍춘옥 작가 인터뷰`,
     authorId: 11,
     channelId: 12345678,
-    thumbnailUrl: 'https://misc.ridibooks.com/cover/776000358/xxlarge?dpi=xxhdpi',
+    thumbnailUrl: 'https://select-img.ridicdn.net/top_banner/20191011141237_1570770757977.jpg',
     regDate: '2019-10-15T07:20:22+09:00',
     lastModified: '2019-10-15T07:20:22+09:00',
     author: {
@@ -64,7 +64,7 @@ export const ArticleListMockUp: ArticleResponse[] = [
     title: `손정의에 대한 우려의 목소리가 나오는 5가지 이유`,
     authorId: 11,
     channelId: 12345678,
-    thumbnailUrl: 'https://misc.ridibooks.com/cover/776000358/xxlarge?dpi=xxhdpi',
+    thumbnailUrl: 'https://select-img.ridicdn.net/top_banner/20191011141237_1570770757977.jpg',
     regDate: '2019-10-15T07:20:22+09:00',
     lastModified: '2019-10-15T07:20:22+09:00',
     author: {
