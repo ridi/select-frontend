@@ -1,10 +1,10 @@
 import * as React from 'react';
 
 import { CoverImage } from 'app/components/BookThumbnail/CoverImage';
+import { LazyloadWrapper } from 'app/components/BookThumbnail/LazyloadWrapper';
 import { LinkWrapper } from 'app/components/BookThumbnail/LinkWrapper';
 import { SizeWrapper } from 'app/components/BookThumbnail/SizeWrapper';
 import { DEFAULT_THUMBNAIL_SIZE, ThumbnailSize} from 'app/components/BookThumbnail/types';
-import { LazyloadWrapper } from 'app/components/LazyloadWrapper';
 
 export interface BookThumbnailProps {
   sizeWrapperClassName?: string;
