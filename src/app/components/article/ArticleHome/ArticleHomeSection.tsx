@@ -1,4 +1,4 @@
-import { ArticleSectionType } from 'app/services/article/home';
+import { ArticleSectionType } from 'app/services/articleHome';
 import { ArticleChartList, ArticleList } from 'app/utils/mockup';
 import * as React from 'react';
 import MediaQuery from 'react-responsive';

@@ -2,7 +2,7 @@ import { HelmetWithTitle } from 'app/components';
 import { ArticleHomeSection } from 'app/components/article/ArticleHome/ArticleHomeSection';
 import { ConnectedBigBannerCarousel } from 'app/components/Home/BigBanner';
 import { PageTitleText } from 'app/constants';
-import { Actions, ArticleSectionType } from 'app/services/article/home';
+import { Actions, ArticleSectionType } from 'app/services/articleHome';
 import { RidiSelectState } from 'app/store';
 import { ArticleChartsMockUp, ArticleListMockUp } from 'app/utils/mock';
 
