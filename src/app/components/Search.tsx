@@ -9,6 +9,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, tap, throttleTime } from 'rxjs/operators';
 
 import history from 'app/config/history';
+import { AppStatus } from 'app/services/app';
 
 import { camelize } from '@ridi/object-case-converter';
 import { Icon } from '@ridi/rsg';
@@ -47,6 +48,7 @@ interface SearchStoreProps {
   searchQuery: string;
   isInApp: boolean;
   isIosInApp: boolean;
+  appStatus: AppStatus;
 }
 
 interface SearchCascadedProps {
@@ -520,6 +522,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
       gnbColorLevel,
       solidBackgroundColorRGBString,
       gnbSearchActiveType,
+      appStatus,
     } = this.props;
     const instantSearchResultList = this.state.instantSearchResultsByKeyword[keyword];
     const { enabled, keywordList } = this.state.history;
@@ -574,7 +577,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
             autoCorrect="off"
             autoComplete="off"
             autoCapitalize="off"
-            placeholder="제목, 저자, 출판사 검색"
+            placeholder={appStatus === AppStatus.Books ? '제목, 저자, 출판사 검색' : '아티클 검색'}
             value={keyword}
             ref={(ref) => { this.searchInput = ref; }}
             {...inputEvents}
@@ -637,6 +640,7 @@ const mapStateToProps = (state: RidiSelectState): SearchStoreProps => {
     searchQuery: state.router.location!.search,
     isIosInApp: getIsIosInApp(state),
     isInApp: selectIsInApp(state),
+    appStatus: state.app.appStatus,
   };
 };
 
