@@ -1,13 +1,29 @@
-import { DateDTO } from 'app/types';
+import { camelize } from '@ridi/object-case-converter';
+import request from 'app/config/axios';
+import { ChannelResponse } from 'app/services/articleChannel/request';
+import { ArticleRequestIncludableData, DateDTO } from 'app/types';
+import { AxiosResponse } from 'axios';
 
-export interface ArticleResponse {
+export interface AuthorResponse {
   id: number;
   name: string;
+  description?: string;
   thumbnailUrl?: string;
   regDate: DateDTO;
   lastModified: DateDTO;
-  authorId?: number;
   channelId: number;
+}
+
+export interface ArticleResponse {
+  id: number;
+  title: string;
+  reg_date: DateDTO;
+  lastModified: DateDTO;
+  channelId: number;
+  thumbnailUrl: string;
+  authorId: number;
+  author?: AuthorResponse;
+  channel?: ChannelResponse;
 }
 
 export interface ArticleListResponse {
@@ -17,3 +33,14 @@ export interface ArticleListResponse {
   previous?: string;
   results: ArticleResponse[];
 }
+
+export const requestArticles = (includeData?: ArticleRequestIncludableData[]): Promise<ArticleListResponse> => {
+  let requestUrl = '/article/articles';
+  if (includeData) {
+    requestUrl = `${requestUrl}/?include=${includeData.join('|')}`;
+  }
+  return request({
+    url: requestUrl,
+    method: 'GET',
+  }).then((response) => camelize<AxiosResponse<ArticleListResponse>>(response, { recursive: true }).data);
+};
