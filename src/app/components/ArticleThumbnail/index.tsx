@@ -40,7 +40,7 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
           throttle={true}
           resize={true}
           overflow={false}
-          placeholder={<div />}
+          placeholder={<div className="Skeleton" />}
         >
           <ArticleImage
             className={imageClassName}
