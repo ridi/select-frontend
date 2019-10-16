@@ -82,6 +82,7 @@
     "@babel/polyfill": "^7.2.5",
     "@ridi/event-tracker": "^0.7.1",
     "@ridi/object-case-converter": "^2.0.4",
+    "@ridi/ridi-prosemirror-editor": "^0.0.1",
     "@ridi/rsg": "^2.0.18",
     "@ridi/web-icons": "^0.7.1",
     "@types/react-helmet": "^5.0.10",
