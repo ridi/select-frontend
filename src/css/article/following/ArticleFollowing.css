@@ -12,7 +12,7 @@
     display: inline-block;
     margin-right: 9px;
     &:last-child {
-      margin-right: 0px;
+      margin-right: 0;
     }
     & .ChannelItem {
       display: flex;
@@ -31,16 +31,15 @@
       & .ChannelName {
         width: 62px;
         height: 17px;
-        font-family: NotoSansCJKkr;
+        font-family: NotoSansCJKkr, sans-serif;
         font-size: 11px;
-        letter-spacing: -0.3px;
-        text-align: center;
+        letter-spacing: -.3px;
         color: var(--slategray_60);
         white-space: nowrap;
         text-overflow: ellipsis;
-        overflow: hidden;  
-        text-align: center;      
+        overflow: hidden;
+        text-align: center;
       }
     }
-  }  
+  }
 }
