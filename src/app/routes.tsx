@@ -42,6 +42,7 @@ import {
   RouteBlockLevel,
 } from 'app/hocs';
 import { RidiSelectState } from 'app/store';
+import { ArticleContent } from './scenes/ArticleContent';
 import { selectIsInApp } from './services/environment/selectors';
 
 export interface Props {
@@ -193,6 +194,11 @@ export const Routes: React.SFC<Props> = (props) => {
           <Route
             path={RoutePaths.ARTICLE_CHANNEL_DETAIL}
             component={ArticleChannelDetail}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.ARTICLE_DETAIL}
+            component={ArticleContent}
             {...props}
           />
 
