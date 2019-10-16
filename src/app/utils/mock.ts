@@ -10,9 +10,10 @@ export interface ArticleChartList {
   channelId: number;
 }
 
-export const ArticleListMockUp: ArticleResponse[] = [
-  {
-    id: 1,
+export const ArticleListMockUp: ArticleResponse[] = [];
+for (let articleCnt = 1; articleCnt <= 36; articleCnt += 1) {
+  ArticleListMockUp.push({
+    id: articleCnt,
     title: `디지털 시대, '만남'의 의미가 재정의 되고 있습니다`,
     authorId: 11,
     channelId: 12345678,
@@ -26,56 +27,9 @@ export const ArticleListMockUp: ArticleResponse[] = [
       lastModified: '2019-10-15T07:20:22+09:00',
       channelId: 8,
     },
-  },
-  {
-    id: 2,
-    title: `"리더지만 아무것도 몰라요" 초보 리더를 위한 추천 도서`,
-    authorId: 11,
-    channelId: 12345678,
-    thumbnailUrl: 'https://select-img.ridicdn.net/top_banner/20191011141237_1570770757977.jpg',
-    regDate: '2019-10-15T07:20:22+09:00',
-    lastModified: '2019-10-15T07:20:22+09:00',
-    author: {
-      id: 11,
-      name: '윤성원',
-      regDate: '2019-10-15T07:20:22+09:00',
-      lastModified: '2019-10-15T07:20:22+09:00',
-      channelId: 8,
-    },
-  },
-  {
-    id: 3,
-    title: `'역덕' 이코노미스트 홍춘옥 작가 인터뷰`,
-    authorId: 11,
-    channelId: 12345678,
-    thumbnailUrl: 'https://select-img.ridicdn.net/top_banner/20191011141237_1570770757977.jpg',
-    regDate: '2019-10-15T07:20:22+09:00',
-    lastModified: '2019-10-15T07:20:22+09:00',
-    author: {
-      id: 11,
-      name: '윤성원',
-      regDate: '2019-10-15T07:20:22+09:00',
-      lastModified: '2019-10-15T07:20:22+09:00',
-      channelId: 8,
-    },
-  },
-  {
-    id: 4,
-    title: `손정의에 대한 우려의 목소리가 나오는 5가지 이유`,
-    authorId: 11,
-    channelId: 12345678,
-    thumbnailUrl: 'https://select-img.ridicdn.net/top_banner/20191011141237_1570770757977.jpg',
-    regDate: '2019-10-15T07:20:22+09:00',
-    lastModified: '2019-10-15T07:20:22+09:00',
-    author: {
-      id: 11,
-      name: '윤성원',
-      regDate: '2019-10-15T07:20:22+09:00',
-      lastModified: '2019-10-15T07:20:22+09:00',
-      channelId: 8,
-    },
-  },
-];
+  });
+}
+
 export const ArticleChartsMockUp: ArticleResponse[] = [];
 for (let cnt = 1; cnt <= 18; cnt += 1) {
   ArticleChartsMockUp.push({
@@ -83,7 +37,7 @@ for (let cnt = 1; cnt <= 18; cnt += 1) {
     title: `"리더지만 아무것도 몰라요" 초보 리더를 위한 추천 도서`,
     authorId: 11,
     channelId: 12345678,
-    thumbnailUrl: 'https://select-img.ridicdn.net/top_banner/20191011141237_1570770757977.jpg',
+    thumbnailUrl: 'https://misc.ridibooks.com/cover/776000358/xxlarge?dpi=xxhdpi',
     regDate: '2019-10-15T07:20:22+09:00',
     lastModified: '2019-10-15T07:20:22+09:00',
     author: {
