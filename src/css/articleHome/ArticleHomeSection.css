@@ -1,0 +1,33 @@
+.ArticleHome_Panel {
+  border-bottom: 4px solid #e6e8eb;
+
+  @media (min-width: 841px) {
+    border-bottom: 0;
+    margin-top: 0;
+  }
+}
+
+.ArticleHomeSection {
+  padding: 30px 0;
+  background-color: #fff;
+
+  @media (min-width: 841px) {
+    padding: 30px 0 0;
+    margin: 0 auto;
+    width: 800px;
+  }
+}
+
+.ArticleSection_Header {
+  padding: 0 20px;
+}
+
+.ArticleSection_Title {
+  font-family: var(--defaultFontFamily);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.38;
+  letter-spacing: -.5px;
+  color: var(--gray_100);
+}
+
