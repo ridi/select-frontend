@@ -10,7 +10,7 @@ interface ArticleHomeSectionProps {
   title: string;
   type: string;
   articleList?: ArticleResponse[];
-  articleChartList?: ArticleChartList[];
+  articleChartList?: ArticleResponse[];
 }
 
 interface ArticleSectionHeaderProps {
@@ -47,7 +47,7 @@ export const ArticleHomeSection: React.FunctionComponent<ArticleHomeSectionProps
       <GridArticleList
         pageTitleForTracking="article-home"
         uiPartTitleForTracking="article-home-section"
-        articles={articleList}
+        articles={articleList.slice(0, 4)}
       />
     </section>
   );

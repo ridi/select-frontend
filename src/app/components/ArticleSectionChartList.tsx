@@ -16,9 +16,8 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
   const { articleList } = props;
 
   const groupChartActicles = (articles: ArticleResponse[], groupingUnitCount: number) => {
-    const sliceArticleList = articles.slice(0, 6);
     const groupedArticles: ArticleResponse[][] = [];
-    sliceArticleList.map((article, idx) => {
+    articles.slice(0, 10).map((article, idx) => {
       if (idx % groupingUnitCount === 0) {
         groupedArticles.push([article]);
       } else {
