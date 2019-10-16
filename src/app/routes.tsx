@@ -10,6 +10,11 @@ import { ErrorResponseStatus } from 'app/services/serviceStatus';
 
 import history from 'app/config/history';
 import {
+  ArticleChannelDetail,
+  ArticleChannels,
+  ArticleFavorite,
+  ArticleFollow,
+  ArticleHome,
   ConnectedBookDetail,
   ConnectedCategory,
   ConnectedCharts,
@@ -29,13 +34,6 @@ import {
   NotAvailableBook,
   WrongLocation,
 } from 'app/scenes';
-import {
-  ArticleChannelDetail,
-  ArticleChannels,
-  ArticleFavorite,
-  ArticleFollow,
-  ArticleHome,
-} from 'app/scenes/article';
 
 import { RoutePaths } from 'app/constants';
 import {

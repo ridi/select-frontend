@@ -7,7 +7,7 @@ import * as classNames from 'classnames';
 export interface ArticleImageProps {
   src: string;
   alt: string;
-  width: number;
+  width?: number;
   className?: string;
   thumbnailShape: ThumbnailShape;
 }
@@ -17,8 +17,6 @@ export const ArticleImage: React.FunctionComponent<ArticleImageProps> = (props) 
     className,
     src,
     alt,
-    width,
-    thumbnailShape,
   } = props;
 
   const [isLoaded, setIsLoaded] = React.useState(false);
@@ -42,10 +40,6 @@ export const ArticleImage: React.FunctionComponent<ArticleImageProps> = (props) 
             'CoverImage_Placeholder',
             isLoaded ? 'CoverImage_Placeholder-fadeout' : null,
           )}
-          style={{
-            width,
-            height: getThumbnailHeight(width, thumbnailShape),
-          }}
           onTransitionEnd={() => setIsEndTransition(true)}
         />
       )}

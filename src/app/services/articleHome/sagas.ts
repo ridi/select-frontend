@@ -1,6 +1,6 @@
 import { ErrorStatus } from 'app/constants/index';
-import { Actions } from 'app/services/article/home';
-import { ArticleHomeResponse, requestArticleHome } from 'app/services/article/home/requests';
+import { Actions } from 'app/services/articleHome';
+import { ArticleHomeResponse, requestArticleHome } from 'app/services/articleHome/requests';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import showMessageForRequestError from 'app/utils/toastHelper';
 import { all, call, put, select, takeLeading } from 'redux-saga/effects';

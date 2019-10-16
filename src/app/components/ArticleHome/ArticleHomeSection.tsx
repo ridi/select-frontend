@@ -1,15 +1,16 @@
-import { ArticleSectionType } from 'app/services/article/home';
-import { ArticleChartList, ArticleList } from 'app/utils/mockup';
 import * as React from 'react';
-import MediaQuery from 'react-responsive';
-import { ArticleSectionChartList } from '../ArticleSectionChartList';
-import { ArticleSectionList } from '../ArticleSectionList';
+
+import { ArticleSectionChartList } from 'app/components/ArticleSectionChartList';
+import { GridArticleList } from 'app/components/GridArticleList';
+import { ArticleResponse } from 'app/services/article/request';
+import { ArticleSectionType } from 'app/services/articleHome';
+import { ArticleChartList } from 'app/utils/mock';
 
 interface ArticleHomeSectionProps {
   title: string;
   type: string;
-  articleList?: ArticleList[];
-  articleChartList?: ArticleChartList[];
+  articleList?: ArticleResponse[];
+  articleChartList?: ArticleResponse[];
 }
 
 interface ArticleSectionHeaderProps {
@@ -39,12 +40,15 @@ export const ArticleHomeSection: React.FunctionComponent<ArticleHomeSectionProps
       </section>
     );
   }
-
-  return (
+  return !articleList ? null : (
     <section className="ArticleHomeSection">
       <ArticleSectionHeader title={title} />
       {/* 아티클 리스트 */}
-      <ArticleSectionList articleList={articleList} />
+      <GridArticleList
+        pageTitleForTracking="article-home"
+        uiPartTitleForTracking="article-home-section"
+        articles={articleList.slice(0, 4)}
+      />
     </section>
   );
 };

@@ -48,9 +48,11 @@
 
 @import 'test_badge.css';
 
-@import 'article/ArticleGlobal.css';
-@import 'article/ArticleList.css';
-@import 'article/home/ArticleHomeSection.css';
-@import 'article/following/ArticleFollowing.css';
-@import 'article/channels/ArticleChannels.css';
-@import 'article/channel/ArticleChannel.css';
+@import 'base/ArticlEmpty.css';
+@import 'base/GridArticleList.css';
+@import 'article/ArticleThumbnail.css';
+@import 'articleHome/ArticleHomeSection.css';
+@import 'articleHome/ArticleChartSection.css';
+@import 'articleFollowing/index.css';
+@import 'articleChannel/ArticleChannels.css';
+@import 'articleChannel/ArticleChannel.css';
