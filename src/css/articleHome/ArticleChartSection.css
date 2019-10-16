@@ -33,7 +33,8 @@
 }
 
 .ArticleChartList_Rank {
-  min-width: 10px;
+  width: 18px;
+  text-align: center;
   align-self: center;
   font-family: Roboto, Sans-serif;
   font-size: 18px;
