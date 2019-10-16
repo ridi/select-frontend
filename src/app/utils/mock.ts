@@ -11,13 +11,13 @@ export interface ArticleChartList {
 }
 
 export const ArticleListMockUp: ArticleResponse[] = [];
-for (let articleCnt = 1; articleCnt <= 36; articleCnt += 1) {
+for (let articleCnt = 1; articleCnt <= 16; articleCnt += 1) {
   ArticleListMockUp.push({
     id: articleCnt,
     title: `디지털 시대, '만남'의 의미가 재정의 되고 있습니다`,
     authorId: 11,
     channelId: 12345678,
-    thumbnailUrl: 'https://select-img.ridicdn.net/top_banner/20191011141237_1570770757977.jpg',
+    thumbnailUrl: require(`images/mockImages/articleThumbnail/rectangle_${articleCnt}.jpg`),
     regDate: '2019-10-15T07:20:22+09:00',
     lastModified: '2019-10-15T07:20:22+09:00',
     author: {
@@ -31,13 +31,13 @@ for (let articleCnt = 1; articleCnt <= 36; articleCnt += 1) {
 }
 
 export const ArticleChartsMockUp: ArticleResponse[] = [];
-for (let cnt = 1; cnt <= 18; cnt += 1) {
+for (let cnt = 1; cnt <= 10; cnt += 1) {
   ArticleChartsMockUp.push({
     id: cnt,
     title: `"리더지만 아무것도 몰라요" 초보 리더를 위한 추천 도서`,
     authorId: 11,
     channelId: 12345678,
-    thumbnailUrl: 'https://misc.ridibooks.com/cover/776000358/xxlarge?dpi=xxhdpi',
+    thumbnailUrl: require(`images/mockImages/articleSmallThumbnail/square_${cnt}.jpg`),
     regDate: '2019-10-15T07:20:22+09:00',
     lastModified: '2019-10-15T07:20:22+09:00',
     author: {
