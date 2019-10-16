@@ -48,7 +48,7 @@
 
 @import 'test_badge.css';
 
-@import 'base/ArticlEmpty.css';
+@import 'base/ArticleEmpty.css';
 @import 'base/GridArticleList.css';
 @import 'article/ArticleThumbnail.css';
 @import 'articleHome/ArticleHomeSection.css';
