@@ -1,0 +1,76 @@
+.ArticleChartList_Wrapper {
+  margin-top: 20px;
+  padding: 0 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+}
+
+.ArticleChartGroup {
+  vertical-align: top;
+  margin: 0;
+  padding: 0;
+  margin-right: 20px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.ArticleChartList_Article {
+  display: flex;
+  align-items: start;
+  color: inherit;
+  text-decoration: inherit;
+  height: 70px;
+  list-style: none;
+  margin-bottom: 30px;
+
+  & .ArticleThumbnail_Wrapper {
+    width: 60px;
+  }
+}
+
+.ArticleChartList_Rank {
+  min-width: 10px;
+  align-self: center;
+  font-family: Roboto, Sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -.64px;
+  color: var(--gray_100);
+  margin-right: 10px;
+}
+
+.ArticleChartList_Meta {
+  width: 182px;
+  color: #40474d;
+  padding-left: 10px;
+  font-size: 13px;
+  text-decoration: none;
+  align-self: center;
+  box-sizing: border-box;
+
+  @media (min-width: 601px) {
+    width: 292px;
+  }
+}
+
+.ArticleChartList_Meta_Title {
+  font-family: var(--defaultFontFamily);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.53;
+  letter-spacing: -.5px;
+  color: var(--gray_100);
+}
+
+.ArticleChartList_Meta_Channel {
+  margin-top: 4px;
+  display: block;
+  font-family: var(--defaultFontFamily);
+  font-size: 13px;
+  letter-spacing: -.3px;
+  color: var(--slategray_60);
+}
