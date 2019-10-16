@@ -1,4 +1,4 @@
-import { EmptyArticleFavorite } from 'app/components/ArticleFavorite/EmptyArticleFavorite';
+import { ArticleEmpty } from 'app/components/ArticleEmpty';
 import * as classNames from 'classnames';
 import * as React from 'react';
 
@@ -11,7 +11,10 @@ export const ArticleFavorite: React.FunctionComponent = () => {
         'SceneWrapper_WithLNB',
       )}
     >
-      <EmptyArticleFavorite />
+      <ArticleEmpty
+        iconName="list_1"
+        description="좋아한 아티클이 없습니다."
+      />
     </main>
   );
 };
