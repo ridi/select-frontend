@@ -1,0 +1,15 @@
+.PageArticleContent {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.ArticleContent_Title {
+  font-family: NotoSansCJKkr, sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.33;
+  letter-spacing: -.68px;
+  color: var(--gray_100);
+}
