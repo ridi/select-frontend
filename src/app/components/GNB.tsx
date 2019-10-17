@@ -66,7 +66,7 @@ export class GNB extends React.Component<Props> {
       return;
     }
     return (
-      <ul className="GNBServiceList">
+      <ul className="GNBServiceList" key="GNBServiceList">
         <li className="GNBService">
           <a
             className="GNBServiceLink Ridibooks_Link"
@@ -90,6 +90,7 @@ export class GNB extends React.Component<Props> {
       <Link
         className={classNames('GNBLogoWrapper', gnbType === 'dark' && 'GNBLogoDarkColor')}
         to={RoutePaths.HOME}
+        key="GNBLogoLink"
       >
         <Icon
           name="logo_ridiselect_1"
@@ -115,7 +116,7 @@ export class GNB extends React.Component<Props> {
         <h2 className="a11y">GNB 탭 메뉴</h2>
         <ul className="GnbTab_List">
           {GNBTabMenus.map((menu) => (
-            <li className={`GnbTab GnbTab_${menu.classname}`} key={menu.pathname}>
+            <li className={`GnbTab_Item GnbTab_${menu.classname}`} key={menu.pathname}>
               <Link
                 className={classNames(['GnbTab_Link', menu.classname === appStatus && 'GnbTab_Link-active'])}
                 to={menu.pathname}
@@ -254,14 +255,12 @@ export class GNB extends React.Component<Props> {
     );
   }
 
-  private renderGNBSearchButton() {
+  private renderGNBSearchButton(isMobile: boolean) {
     const {
       isIntro,
     } = this.props;
     return isIntro ? null : (
-      <MediaQuery maxWidth={840}>
-        {(matches) => <ConnectedSearch isMobile={matches} />}
-      </MediaQuery>
+      <ConnectedSearch isMobile={isMobile} />
     );
   }
 
@@ -272,24 +271,34 @@ export class GNB extends React.Component<Props> {
     } = this.props;
 
     return (
-      <header
-        className={classNames('GNBWrapper', `GNBWrapper-${gnbType}`)}
-        style={{ backgroundColor: backgroundColorRGBString }}
-      >
-        <div className="GNBContentWrapper">
-          <div className="GNBLeft">
-            {this.renderGNBLogo()}
-            {this.renderServiceLink()}
-          </div>
-          <div className="GNBRight">
-            {this.renderGNBSearchButton()}
-            {this.renderGNBAccountButtons()}
-          </div>
-        </div>
-        <div className="GNBTab">
-          {this.renderGNBTab()}
-        </div>
-      </header>
+      <MediaQuery maxWidth={840}>
+        {(isMobile) => (
+          <header
+            className={classNames('GNBWrapper', `GNBWrapper-${gnbType}`)}
+            style={{ backgroundColor: backgroundColorRGBString }}
+          >
+            <div className="GNBContentWrapper">
+              <div className="GNBLeft">
+                {isMobile ? (
+                  this.renderGNBTab()
+                ) : [
+                  this.renderGNBLogo(),
+                  this.renderServiceLink(),
+                ]}
+              </div>
+              <div className="GNBRight">
+                {this.renderGNBSearchButton(isMobile)}
+                {this.renderGNBAccountButtons()}
+              </div>
+            </div>
+            {isMobile ? null : (
+              <div className="GNBTab ">
+                {this.renderGNBTab()}
+              </div>
+            )}
+          </header>
+        )}
+      </MediaQuery>
     );
   }
 }
