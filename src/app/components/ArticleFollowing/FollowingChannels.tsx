@@ -1,4 +1,4 @@
-import { followingChannelMockUp } from 'app/utils/mockUp';
+import { FollowingChannelMockUp } from 'app/utils/mock';
 import * as React from 'react';
 
 export const FollowingChannels: React.FunctionComponent = () => {
@@ -6,7 +6,7 @@ export const FollowingChannels: React.FunctionComponent = () => {
     <section>
       <ul className="FollowingChannelList">
         {
-          followingChannelMockUp.map((data, idx) => (
+          FollowingChannelMockUp.map((data, idx) => (
             <li key={idx} className="FollowingChannel">
               <div className="ChannelItem">
                 <img src={data.channelThumbnail} className="ChannelThumbnail" />

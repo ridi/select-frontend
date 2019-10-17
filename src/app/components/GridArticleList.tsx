@@ -31,7 +31,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
   return (
     <ul className="GridArticleList">
       {articles.map((article, idx) => (
-        <li className="GridArticleList_Item" key={article.id}>
+        <li className="GridArticleList_Item" key={idx}>
           <ConnectedTrackImpression
             section={section}
             index={idx}

@@ -2,11 +2,11 @@ import { camelize } from '@ridi/object-case-converter';
 import { AxiosResponse } from 'axios';
 
 import request from 'app/config/axios';
-import { ArticleChannel } from 'app/services/channel';
+import { ArticleChannel } from 'app/services/articleChannel';
 
 export interface ArticleChannelListResponse {
   totalCount: number;
-  data: ArticleChannel[];
+  results: ArticleChannel[];
 }
 
 export const requestArticleChannelList = (): Promise<ArticleChannelListResponse> => (
