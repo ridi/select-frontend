@@ -14,6 +14,7 @@ export  const ArticleContent: React.FunctionComponent = () => {
       ) : null}
       <Article
         json={articleContent.content}
+        classes={['RidiselectArticle']}
         style={{
           background: 'white',
         }}
