@@ -212,7 +212,6 @@
   }
   @nest .androidApp & {
     height: var(--gnb_android_app_height);
-    padding-top: 13.5px;
   }
   @nest .iosApp & {
     height: var(--gnb_ios_app_height);
