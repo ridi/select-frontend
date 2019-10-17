@@ -66,3 +66,24 @@ export function moveToLogin(additionalReturnUrl?: string) {
 
   window.location.replace(`${ STORE_URL }/account/oauth-authorize?fallback=login&return_url=${ returnUrl }`);
 }
+
+export function refineArticleJSON(articleJSON: any) {
+  let articleTitle = null;
+  const articleContent = {
+    type: articleJSON.type,
+    content: new Array(),
+  };
+
+  articleJSON.content.forEach((content: any) => {
+    if (content.type === 'title') {
+      articleTitle = content.content[0].text;
+      return;
+    }
+    articleContent.content.push(content);
+  });
+
+  return {
+    title: articleTitle,
+    content: articleContent,
+  };
+}
