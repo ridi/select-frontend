@@ -19,11 +19,11 @@ import { homeReducer, HomeState } from 'app/services/home';
 import { homeRootSaga } from 'app/services/home/sagas';
 import { userRootSaga } from 'app/services/user/sagas';
 
+import { channelRootSaga } from 'app/services/articleChannel/sagas';
 import { articleHomeRootSaga } from 'app/services/articleHome/sagas';
-import { channelRootSaga } from 'app/services/channel/sagas';
 
+import { articleChannelListReducer, ArticleChannelListState } from './services/articleChannel';
 import { articleHomeReducer, ArticleHomeState } from './services/articleHome';
-import { articleChannelListReducer, ArticleChannelListState } from './services/channel';
 
 import { categoryBooksReducer, CategoryBooksState, categoryListReducer, CategoryListState } from 'app/services/category';
 import { categoryRootSaga } from 'app/services/category/sagas';
