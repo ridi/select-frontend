@@ -3,8 +3,8 @@
 :root {
   --gnb_mobile_height: 57px;
   --gnb_pc_height: 60px;
-  --gnb_android_app_height: 48px;
-  --gnb_ios_app_height: 45px;
+  --gnb_android_app_height: 57px;
+  --gnb_ios_app_height: 52px;
 }
 
 .GNBWrapper {
@@ -265,83 +265,10 @@
   }
 }
 
-@media (--pc-screen) {
-  .GNBWrapper {
-    & .GNBContentWrapper {
-      position: relative;
-      max-width: var(--max-pc-content-width);
-      height: var(--gnb_pc_height);
-      margin: 0 auto;
-      border: none;
-      & .GNBLeft {
-        & .GNBLogoWrapper {
-          height: var(--gnb_pc_height);
-          padding: 22px 10px 0;
-          line-height: var(--gnb_pc_height);
-          & .GNBLogo {
-            width: 100px;
-            height: 16px;
-          }
-        }
-        & .GNBServiceList {
-          height: var(--gnb_pc_height);
-          & .GNBService {
-            height: var(--gnb_pc_height);
-            line-height: calc(var(--gnb_pc_height) - 2px);
-            &::before {
-              top: calc(((var(--gnb_pc_height) - 10px) / 2) + 1px);
-            }
-            & .GNBServiceLink {
-              padding: 26px 0 0 10px;
-            }
-            & .RidibooksLogo {
-              width: 64.1px;
-              height: 9.8px;
-            }
-          }
-        }
-      }
-      & .GNBRight {
-        & .GNBRightButtonWrapper {
-          position: relative;
-          z-index: 901;
-          & .GNBSettingButton {
-            height: var(--gnb_pc_height);
-            padding: calc((var(--gnb_pc_height) - 17.5px) / 2) 10px;
-          }
-        }
-      }
-    }
-  }
-  .GNB_LinkButton {
-    &:not(.GNB_WebLibrary_Button) {
-      height: var(--gnb_pc_height);
-      line-height: 58px;
-      margin-top: 0;
-      font-size: 18px;
-      border: 0!important;
-    }
-    &.GNB_WebLibrary_Button {
-      margin-top: 16px;
-      width: 67px;
-    }
-  }
-}
-
-@media (--minimal-mobile-screen) {
-  .GNBSettingButton {
-    padding: calc((var(--gnb_mobile_height) - 17.5px) / 2) 8px 0;
-  }
-
-  .GNB_LinkButton.GNB_WebLibrary_Button {
-    margin-left: 8px;
-  }
-}
-
 .GnbTab_Wrapper {
   position: relative;
   background-color: white;
-  height: 57px;
+  height: var(--gnb_mobile_height);
 }
 
 .GnbTab_List {
@@ -378,5 +305,84 @@
       left: 0;
       bottom: 0;
     }
+  }
+}
+
+@media (--pc-screen) {
+  .GNBWrapper {
+    & .GNBContentWrapper {
+      position: relative;
+      max-width: var(--max-pc-content-width);
+      height: var(--gnb_pc_height);
+      margin: 0 auto;
+      border: none;
+      & .GNBLeft {
+        & .GNBLogoWrapper {
+          height: var(--gnb_pc_height);
+          padding: 24px 10px 0;
+          line-height: var(--gnb_pc_height);
+          & .GNBLogo {
+            width: 100px;
+            height: 16px;
+          }
+        }
+        & .GNBServiceList {
+          height: var(--gnb_pc_height);
+          & .GNBService {
+            height: var(--gnb_pc_height);
+            line-height: calc(var(--gnb_pc_height) - 2px);
+            &::before {
+              top: calc(((var(--gnb_pc_height) - 10px) / 2) + 3px);
+            }
+            & .GNBServiceLink {
+              padding: 28px 0 0 10px;
+            }
+            & .RidibooksLogo {
+              width: 64.1px;
+              height: 9.8px;
+            }
+          }
+        }
+      }
+      & .GNBRight {
+        & .GNBRightButtonWrapper {
+          position: relative;
+          z-index: 901;
+          & .GNBSettingButton {
+            height: var(--gnb_pc_height);
+            padding: calc(((var(--gnb_pc_height) - 17.5px) / 2) + 2px) 10px;
+          }
+        }
+      }
+    }
+  }
+  .GNB_LinkButton {
+    &:not(.GNB_WebLibrary_Button) {
+      height: var(--gnb_pc_height);
+      line-height: 60px;
+      margin-top: 0;
+      font-size: 18px;
+      border: 0!important;
+    }
+    &.GNB_WebLibrary_Button {
+      margin-top: 18px;
+      width: 67px;
+    }
+  }
+  .GnbTab_Wrapper {
+    height: auto;
+  }
+  .GnbTab_Item {
+    padding: 0 3px 17px 3px;
+  }
+}
+
+@media (--minimal-mobile-screen) {
+  .GNBSettingButton {
+    padding: calc((var(--gnb_mobile_height) - 17.5px) / 2) 8px 0;
+  }
+
+  .GNB_LinkButton.GNB_WebLibrary_Button {
+    margin-left: 8px;
   }
 }
