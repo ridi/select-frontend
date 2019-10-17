@@ -120,7 +120,6 @@
   @nest .androidApp & {
     @media (--mobile-screen) {
       height: var(--gnb_android_app_height);
-      padding-top: calc((var(--gnb_android_app_height) - 18px) / 2);
     }
   }
   @nest .iosApp & {
