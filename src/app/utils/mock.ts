@@ -1,14 +1,6 @@
 import { ArticleResponse } from 'app/services/article/request';
 
 /** MockUp */
-export interface ArticleChartList {
-  title: string;
-  channel: string;
-  thumbUrl: string;
-  rank: number;
-  articleId: number;
-  channelId: number;
-}
 
 export const ArticleListMockUp: ArticleResponse[] = [];
 for (let articleCnt = 1; articleCnt <= 16; articleCnt += 1) {
