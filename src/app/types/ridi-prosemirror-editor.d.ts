@@ -24,6 +24,7 @@ declare module '@ridi/ridi-prosemirror-editor' {
   }
   export const Article: FunctionComponent<{
     json: ArticleContentJSON;
+    classes?: string[]
     style?: AttrbuteOfContent;
   }>;
 }
