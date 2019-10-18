@@ -66,7 +66,7 @@ export class GNB extends React.Component<Props> {
       return;
     }
     return (
-      <ul className="GNBServiceList" key="GNBServiceList">
+      <ul className="GNBServiceList">
         <li className="GNBService">
           <a
             className="GNBServiceLink Ridibooks_Link"
@@ -90,7 +90,6 @@ export class GNB extends React.Component<Props> {
       <Link
         className={classNames('GNBLogoWrapper', gnbType === 'dark' && 'GNBLogoDarkColor')}
         to={RoutePaths.HOME}
-        key="GNBLogoLink"
       >
         <Icon
           name="logo_ridiselect_1"
@@ -281,10 +280,12 @@ export class GNB extends React.Component<Props> {
               <div className="GNBLeft">
                 {isMobile ? (
                   this.renderGNBTab()
-                ) : [
-                  this.renderGNBLogo(),
-                  this.renderServiceLink(),
-                ]}
+                ) : (
+                  <>
+                    {this.renderGNBLogo()}
+                    {this.renderServiceLink()}
+                  </>
+                )}
               </div>
               <div className="GNBRight">
                 {this.renderGNBSearchButton(isMobile)}
