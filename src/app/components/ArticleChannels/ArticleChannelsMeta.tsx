@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom';
 
 export const ArticleChannelsMeta: React.FunctionComponent<ArticleChannel> = (props) => (
   <div className="Channel_Info">
-    <Link to={`/article/channel/${props.id}`}>
+    <Link className="Channel_Link" to={`/article/channel/${props.id}`}>
       <div className="Channel_Thumbnail">
         <img src={props.thumbnailUrl} className="Channel_Image" />
       </div>
     </Link>
     <div className="Channel_Meta">
-      <Link to={`/article/channel/${props.id}`}>
+      <Link className="Channel_Link" to={`/article/channel/${props.id}`}>
         <span className="Channel_Title">{props.name}</span>
       </Link>
       <span className="Channel_Desc">{props.description}</span>
