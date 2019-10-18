@@ -6,7 +6,7 @@ import { all, call, put, takeLeading } from 'redux-saga/effects';
 
 function* loadArticleChannelList() {
   try {
-    const response: ArticleChannelListResponse = yield call(requestArticleChannelList);
+    const response: ArticleChannelListResponse = yield call(requestArticleChannelList, ['articles']);
     yield put(Actions.loadArticleChannelListSuccess({ articleChannelList: response.results, page: 1 }));
   } catch (e) {
     const { data } = e.response;
