@@ -75,8 +75,8 @@ articleChannelListReducer.on(Actions.loadArticleChannelListFailure, (state, { pa
   itemListByPage: {
     ...state.itemListByPage,
     [page]: {
+      ...state.itemListByPage[page],
       fetchStatus: FetchStatusFlag.FETCH_ERROR,
-      itemList: [],
       isFetched: false,
     },
   },

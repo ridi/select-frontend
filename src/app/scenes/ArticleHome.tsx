@@ -32,13 +32,25 @@ export const ArticleHome: React.FunctionComponent = () => {
     <div className="a11y"><h1>리디셀렉트 아티클 홈</h1></div>
     <ConnectedBigBannerCarousel />
     <div className="ArticleHome_Panel">
-      <ArticleHomeSection title={'최근 추가된 아티클'} type={ArticleSectionType.LIST} articleList={ArticleListMockUp} />
+      <ArticleHomeSection
+        title={'최근 추가된 아티클'}
+        type={ArticleSectionType.LIST}
+        articleList={ArticleListMockUp}
+      />
     </div>
     <div className="ArticleHome_Panel">
-      <ArticleHomeSection title={'실시간 인기 아티클'} type={ArticleSectionType.CHART} articleChartList={ArticleChartsMockUp} />
+      <ArticleHomeSection
+        title={'실시간 인기 아티클'}
+        type={ArticleSectionType.CHART}
+        articleChartList={ArticleChartsMockUp}
+      />
     </div>
     <div className="ArticleHome_Panel">
-      <ArticleHomeSection title={'추천 아티클'} type={ArticleSectionType.LIST} articleList={ArticleListMockUp} />
+      <ArticleHomeSection
+        title={'추천 아티클'}
+        type={ArticleSectionType.LIST}
+        articleList={ArticleListMockUp}
+      />
     </div>
     </main>
   );
