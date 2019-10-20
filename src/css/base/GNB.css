@@ -1,10 +1,10 @@
 @import 'Search.css';
 
 :root {
-  --gnb_mobile_height: 44px;
+  --gnb_mobile_height: 57px;
   --gnb_pc_height: 60px;
-  --gnb_android_app_height: 48px;
-  --gnb_ios_app_height: 45px;
+  --gnb_android_app_height: 57px;
+  --gnb_ios_app_height: 52px;
 }
 
 .GNBWrapper {
@@ -41,7 +41,6 @@
   width: 100%;
   min-width: var(--min-content-width);
   height: var(--gnb_mobile_height);
-  border-bottom: 1px solid rgba(0,0,0, .15);
   box-sizing: border-box;
   @nest .androidApp & {
     height: var(--gnb_android_app_height);
@@ -213,7 +212,6 @@
   }
   @nest .androidApp & {
     height: var(--gnb_android_app_height);
-    padding-top: 13.5px;
   }
   @nest .iosApp & {
     height: var(--gnb_ios_app_height);
@@ -234,9 +232,9 @@
 .GNB_LinkButton {
   display: inline-block;
   height: 28px;
-  margin-top: 7px;
+  margin-top: 14px;
   padding: 0 11px;
-  border: solid 1px rgba(0,0,0,.5);
+  border: solid 1px rgba(0, 0, 0, .5);
   border-radius: 3px;
   background-color: transparent;
   color: #000;
@@ -247,7 +245,7 @@
   text-decoration: none;
   &.GNB_LinkButtonDarkColor {
     color: #fff;
-    border: solid 1px rgba(255,255,255,.5);
+    border: solid 1px rgba(255, 255, 255, .5);
   }
 
   & + .GNB_LinkButton {
@@ -266,6 +264,49 @@
   }
 }
 
+.GnbTab_Wrapper {
+  position: relative;
+  background-color: white;
+  height: var(--gnb_mobile_height);
+}
+
+.GnbTab_List {
+  list-style: none;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0;
+  padding-left: 16px;
+}
+
+.GnbTab_Item {
+  position: relative;
+  display: inline-block;
+  margin-right: 24px;
+  line-height: 24px;
+  padding: 16px 3px 17px 3px;
+}
+
+.GnbTab_Link {
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -.34px;
+  color: var(--slategray_40);
+
+  &.GnbTab_Link-active {
+    color: var(--bluegray_80);
+    &::after {
+      position: absolute;
+      content: '';
+      width: 100%;
+      height: 2px;
+      background-color: gray;
+      left: 0;
+      bottom: 0;
+    }
+  }
+}
+
 @media (--pc-screen) {
   .GNBWrapper {
     & .GNBContentWrapper {
@@ -277,7 +318,7 @@
       & .GNBLeft {
         & .GNBLogoWrapper {
           height: var(--gnb_pc_height);
-          padding: 22px 10px 0;
+          padding: 24px 10px 0;
           line-height: var(--gnb_pc_height);
           & .GNBLogo {
             width: 100px;
@@ -290,10 +331,10 @@
             height: var(--gnb_pc_height);
             line-height: calc(var(--gnb_pc_height) - 2px);
             &::before {
-              top: calc(((var(--gnb_pc_height) - 10px) / 2) + 1px);
+              top: calc(((var(--gnb_pc_height) - 10px) / 2) + 3px);
             }
             & .GNBServiceLink {
-              padding: 26px 0 0 10px;
+              padding: 28px 0 0 10px;
             }
             & .RidibooksLogo {
               width: 64.1px;
@@ -308,7 +349,7 @@
           z-index: 901;
           & .GNBSettingButton {
             height: var(--gnb_pc_height);
-            padding: calc((var(--gnb_pc_height) - 17.5px) / 2) 10px;
+            padding: calc(((var(--gnb_pc_height) - 17.5px) / 2) + 2px) 10px;
           }
         }
       }
@@ -317,15 +358,21 @@
   .GNB_LinkButton {
     &:not(.GNB_WebLibrary_Button) {
       height: var(--gnb_pc_height);
-      line-height: 58px;
+      line-height: 60px;
       margin-top: 0;
       font-size: 18px;
       border: 0!important;
     }
     &.GNB_WebLibrary_Button {
-      margin-top: 16px;
+      margin-top: 18px;
       width: 67px;
     }
+  }
+  .GnbTab_Wrapper {
+    height: auto;
+  }
+  .GnbTab_Item {
+    padding: 0 3px 17px 3px;
   }
 }
 
@@ -337,49 +384,4 @@
   .GNB_LinkButton.GNB_WebLibrary_Button {
     margin-left: 8px;
   }
-}
-
-.GNBTab {
-  & .GnbTab_Wrapper {
-    position: relative;
-    background-color: white;
-    height: 57px;
-    & ul.GnbTab_List {
-      list-style: none;
-      max-width: 900px;
-      margin: 0 auto;      
-      padding: 0;
-      padding-left: 16px;
-      & li.GnbTab {
-        position: relative;        
-        float: left;      
-        margin-right: 24px;
-        line-height: 24px;
-        padding: 16px 3px 17px 3px;
-        & .GnbTab_Link {
-          text-decoration: none;
-          font-size: 16px;
-          font-weight: 500;
-          letter-spacing: -0.34px;
-          color: var(--slategray_40);          
-          &.GnbTab_Link-active {
-            color: var(--bluegray_80);
-            &::after {
-              position: absolute;
-              content: '';
-              width: 100%;
-              height: 2px;
-              background-color: gray;
-              left: 0;
-              bottom: 0;
-            }
-          }
-        }
-      }
-    }
-  }
-
-
-
-
 }
