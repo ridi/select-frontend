@@ -1,0 +1,50 @@
+@import '@ridi/rsg/colors/colors.css';
+@import "normalize.css";
+@import 'base/customProperties.css';
+
+
+.RidiselectArticle {
+  &,
+  & p,
+  & span,
+  & div,
+  & h1,
+  & h2,
+  & h3,
+  & h4,
+  & h5,
+  & h6,
+  & a,
+  & strong,
+  & b,
+  & i,
+  & u {
+    @apply --reset-layout;
+
+    font-family: NotoSansCJKkr, sans-serif;
+    line-height: 1.75;
+    letter-spacing: -.3px;
+    color: var(--slategray_90);
+  }
+
+  &,
+  & p,
+  & span,
+  & div,
+  & a {
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  & h1,
+  & h2,
+  & h3,
+  & h4,
+  & h5,
+  & h6 {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.56;
+    letter-spacing: -.34px;
+  }
+}

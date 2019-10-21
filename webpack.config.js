@@ -20,6 +20,7 @@ module.exports = (env, argv) => ({
       '@babel/polyfill',
       './src/app/index.tsx',
       './src/css/main.css',
+      './src/css/articleContentStyle.css',
     ],
   },
   output: {
