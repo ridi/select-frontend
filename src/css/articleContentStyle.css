@@ -53,3 +53,25 @@
     width: 100%;
   }
 }
+
+@media (max-width: 600px) {
+  .RidiselectArticle {
+    & > p,
+    & > span,
+    & > div,
+    & > h1,
+    & > h2,
+    & > h3,
+    & > h4,
+    & > h5,
+    & > h6,
+    & > a,
+    & > strong,
+    & > b,
+    & > i,
+    & > u {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
+}
