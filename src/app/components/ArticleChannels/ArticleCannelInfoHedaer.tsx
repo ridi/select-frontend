@@ -3,16 +3,16 @@ import * as React from 'react';
 
 export const ArticleCannelInfoHeader: React.FunctionComponent = () => {
   return (
-    <div className="Channel_Info">
-      <div className="Channel_Thumbnail">
-        <img src={''} className="Channel_Image" />
+    <div className="ChannelInfoHeader_Wrapper">
+      <div className="ChannelInfoHeader_Thumbnail">
+        <img src={''} className="ChannelInfoHeader_ThumbnailImage" />
       </div>
-      <div className="Channel_Meta">
-        <span className="Channel_Title">이코노미스트</span>
-        <span className="Channel_Desc">다양하고 유익한 경제정보</span>
+      <div className="ChannelInfoHeader_Meta">
+        <span className="ChannelInfoHeader_Title">이코노미스트</span>
+        <span className="ChannelInfoHeader_Desc">다양하고 유익한 경제정보</span>
       </div>
-      <button className="Channel_Follow">
-        <Icon name="plus_1" className="Follow_Icon" />
+      <button className="ChannelInfoHeader_Follow">
+        <Icon name="plus_1" className="ChannelInfoHeader_FollowIcon" />
         팔로우
       </button>
     </div>

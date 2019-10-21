@@ -47,4 +47,8 @@
     line-height: 1.56;
     letter-spacing: -.34px;
   }
+
+  & img {
+    width: 100%;
+  }
 }
