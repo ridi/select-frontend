@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Article } from '@ridi/ridi-prosemirror-editor';
 import { Button } from '@ridi/rsg';
-import { ArticleCannelInfoHeader } from 'app/components/ArticleChannels/ArticleCannelInfoHedaer';
+import { ArticleCannelInfoHeader } from 'app/components/ArticleChannels/ArticleCannelInfoHeader';
 import { testMockJson } from 'app/utils/mock';
 import { refineArticleJSON } from 'app/utils/utils';
 
