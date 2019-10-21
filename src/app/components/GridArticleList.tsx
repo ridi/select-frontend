@@ -4,6 +4,7 @@ import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { ArticleResponse } from 'app/services/article/request';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
+import { articleContentToPath } from 'app/utils/toPath';
 import { stringifyAuthors } from 'app/utils/utils';
 import MediaQuery from 'react-responsive';
 import { Link } from 'react-router-dom';
@@ -38,12 +39,12 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
             id={article.id}
           >
             <ArticleThumbnail
-              linkUrl={`/article/content/${article.id}`}
+              linkUrl={articleContentToPath({ contentId: article.id })}
               imageUrl={article.thumbnailUrl}
               articleTitle={article.title}
             />
             <Link
-              to={`/article/content/${article.id}`}
+              to={articleContentToPath({ contentId: article.id })}
               className="GridArticleList_ItemLink"
             >
               <span className="GridArticleList_ItemTitle">
