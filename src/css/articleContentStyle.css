@@ -42,6 +42,7 @@
   & h4,
   & h5,
   & h6 {
+    padding-top: 10px;
     font-size: 18px;
     font-weight: 700;
     line-height: 1.56;
