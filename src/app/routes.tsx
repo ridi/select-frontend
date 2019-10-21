@@ -197,7 +197,7 @@ export const Routes: React.SFC<Props> = (props) => {
             {...props}
           />
           <Route
-            path={RoutePaths.ARTICLE_DETAIL}
+            path={RoutePaths.ARTICLE_CONTENT}
             component={ArticleContent}
             {...props}
           />
