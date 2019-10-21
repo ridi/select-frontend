@@ -20,3 +20,33 @@
   letter-spacing: -.68px;
   color: var(--gray_100);
 }
+
+.ArticleContent_ButtonsWrapper {
+  @apply --reset-list;
+
+  padding: 60px 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.ArticleContent_ButtonElement {
+  width: 50%;
+  padding-left: 8px;
+  box-sizing: border-box;
+
+  &:first-child {
+    padding-left: 0;
+  }
+}
+
+.ArticleContent_Button {
+  width: 100%;
+  height: 40px;
+}
+
+@media (--mobile-screen) {
+  .ArticleContent_ButtonsWrapper {
+    padding: 30px 0;
+  }
+}
