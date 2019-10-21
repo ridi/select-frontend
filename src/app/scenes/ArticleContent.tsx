@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { Article } from '@ridi/ridi-prosemirror-editor';
+import { Button } from '@ridi/rsg';
 import { ArticleCannelInfoHeader } from 'app/components/ArticleChannels/ArticleCannelInfoHedaer';
 import { testMockJson } from 'app/utils/mock';
 import { refineArticleJSON } from 'app/utils/utils';
@@ -21,6 +22,28 @@ export  const ArticleContent: React.FunctionComponent = () => {
           background: 'white',
         }}
       />
+      <ul className="ArticleContent_ButtonsWrapper">
+        <li className="ArticleContent_ButtonElement">
+          <Button
+            color="gray"
+            size="medium"
+            outline={true}
+            className="ArticleContent_Button ArticleContent_LikeButton"
+          >
+            1,020
+          </Button>
+        </li>
+        <li className="ArticleContent_ButtonElement">
+          <Button
+            color="gray"
+            size="medium"
+            outline={true}
+            className="ArticleContent_Button ArticleContent_ShareButton"
+          >
+            공유하기
+          </Button>
+        </li>
+      </ul>
     </main>
   );
 };
