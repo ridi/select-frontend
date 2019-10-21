@@ -45,8 +45,22 @@
   height: 40px;
 }
 
+@media (max-width: 600px) {
+  .ArticleContent_Title {
+    padding: 30px 20px 0;
+  }
+  .PageArticleContent {
+    & .ChannelInfoHeader_Wrapper {
+      padding: 10px 20px 30px;
+    }
+  }
+  .ArticleContent_ButtonsWrapper {
+    padding: 60px 20px;
+  }
+}
+
 @media (--mobile-screen) {
   .ArticleContent_ButtonsWrapper {
-    padding: 30px 0;
+    padding: 30px 20px;
   }
 }
