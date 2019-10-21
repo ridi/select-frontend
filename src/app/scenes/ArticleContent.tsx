@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Article } from '@ridi/ridi-prosemirror-editor';
-import { Button } from '@ridi/rsg';
+import { Button, Icon } from '@ridi/rsg';
 import { ArticleCannelInfoHeader } from 'app/components/ArticleChannels/ArticleCannelInfoHeader';
 import { testMockJson } from 'app/utils/mock';
 import { refineArticleJSON } from 'app/utils/utils';
@@ -30,6 +30,10 @@ export  const ArticleContent: React.FunctionComponent = () => {
             outline={true}
             className="ArticleContent_Button ArticleContent_LikeButton"
           >
+            <Icon
+              name="heart_1"
+              className="ArticleContent_LikeButton_Icon"
+            />
             1,020
           </Button>
         </li>

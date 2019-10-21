@@ -45,6 +45,13 @@
   height: 40px;
 }
 
+.ArticleContent_LikeButton_Icon {
+  width: 12px;
+  height: 10px;
+  margin-right: 4px;
+  fill: var(--slategray_30);
+}
+
 @media (max-width: 600px) {
   .ArticleContent_Title {
     padding: 30px 20px 0;
