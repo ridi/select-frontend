@@ -3,6 +3,10 @@
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
+
+  & .ChannelInfoHeader_Wrapper {
+    padding: 10px 0 30px;
+  }
 }
 
 .ArticleContent_Title {
