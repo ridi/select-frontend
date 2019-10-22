@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 export const ArticleChannelList: React.FunctionComponent = () => {
   const page = useSelector((state: RidiSelectState) => getPageQuery(state));
-  const articleChannels = useSelector((state: RidiSelectState) => state.articleChannel);
+  const { articleChannels } = useSelector((state: RidiSelectState) => state);
   const dispatch = useDispatch();
 
   const isFetched = () => {

@@ -24,7 +24,8 @@ import { articleHomeRootSaga } from 'app/services/articleHome/sagas';
 
 import { articleReducer, ArticlesState } from 'app/services/article';
 import { articleRootSaga } from 'app/services/article/sagas';
-import { articleChannelListReducer, ArticleChannelListState } from './services/articleChannel';
+import { articleChannelListReducer, ArticleChannelListState,
+  articleChannelReducer, ArticleChannelState } from './services/articleChannel';
 import { articleHomeReducer, ArticleHomeState } from './services/articleHome';
 import { categoryBooksReducer, CategoryBooksState, categoryListReducer, CategoryListState } from 'app/services/category';
 import { categoryRootSaga } from 'app/services/category/sagas';
@@ -97,7 +98,8 @@ export interface RidiSelectState {
   closingReservedBooks: ClosingReservedBooksState;
   articlesById: ArticlesState;
   articleHome: ArticleHomeState;
-  articleChannel: ArticleChannelListState;
+  articleChannels: ArticleChannelListState;
+  articleChannelById: ArticleChannelState;
 }
 
 const sagaMiddleware = createSagaMiddleware();
@@ -129,7 +131,8 @@ const reducers = combineReducers({
 
   articlesById: articleReducer,
   articleHome: articleHomeReducer,
-  articleChannel: articleChannelListReducer,
+  articleChannels: articleChannelListReducer,
+  articleChannelById: articleChannelReducer,
 });
 
 const middleware = [
