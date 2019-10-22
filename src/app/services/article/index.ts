@@ -43,8 +43,7 @@ export interface ArticleStaticState {
   author?: AuthorResponse;
 }
 
-export interface ArticleItemState {
-  article?: ArticleStaticState;
+export interface ArticleItemState extends ArticleStaticState {
   recommendedArticles?: number[];
   contentFetchStatus: FetchStatusFlag;
   content?: ArticleContent;
@@ -78,11 +77,8 @@ articleReducer.on(Actions.loadArticleSuccess, (state, action) => {
     ...state,
     [articleId]: {
       ...state[articleId],
+      ...articleResponse,
       contentFetchStatus: FetchStatusFlag.IDLE,
-      article: {
-        ...state[articleId].article,
-        ...articleResponse,
-      },
     },
   };
 });
