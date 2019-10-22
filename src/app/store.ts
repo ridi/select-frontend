@@ -22,9 +22,10 @@ import { userRootSaga } from 'app/services/user/sagas';
 import { channelRootSaga } from 'app/services/articleChannel/sagas';
 import { articleHomeRootSaga } from 'app/services/articleHome/sagas';
 
+import { articleReducer, ArticleState } from 'app/services/article';
+import { articleRootSaga } from 'app/services/article/sagas';
 import { articleChannelListReducer, ArticleChannelListState } from './services/articleChannel';
 import { articleHomeReducer, ArticleHomeState } from './services/articleHome';
-
 import { categoryBooksReducer, CategoryBooksState, categoryListReducer, CategoryListState } from 'app/services/category';
 import { categoryRootSaga } from 'app/services/category/sagas';
 import { ClosingReservedBooksState } from 'app/services/closingReservedBooks/index';
@@ -37,8 +38,8 @@ import { mySelectReducer } from 'app/services/mySelect';
 import { mySelectRootSaga } from 'app/services/mySelect/sagas';
 import { reviewsReducer, ReviewsState } from 'app/services/review';
 import { reviewRootSaga } from 'app/services/review/sagas';
-import { SearchResultState } from 'app/services/searchResult';
 import { searchResultReducer } from 'app/services/searchResult';
+import { SearchResultState } from 'app/services/searchResult';
 import { searchResultRootSaga } from 'app/services/searchResult/sagas';
 import { serviceStatusReducer, ServiceStatusState } from 'app/services/serviceStatus';
 import { serviceStatusSaga } from 'app/services/serviceStatus/sagas';
@@ -71,6 +72,7 @@ function* rootSaga(dispatch: Dispatch) {
     customHistorySaga(),
     closingReservedBooksRootSaga(),
     serviceStatusSaga(),
+    articleRootSaga(),
     articleHomeRootSaga(),
     channelRootSaga(),
   ]);
@@ -93,7 +95,7 @@ export interface RidiSelectState {
   environment: EnvironmentState;
   customHistory: CustomHistoryState;
   closingReservedBooks: ClosingReservedBooksState;
-
+  articlesById: ArticleState;
   articleHome: ArticleHomeState;
   articleChannel: ArticleChannelListState;
 }
@@ -125,6 +127,7 @@ const reducers = combineReducers({
   customHistory: customHistoryReducer,
   closingReservedBooks: closingReservedBooksReducer,
 
+  articlesById: articleReducer,
   articleHome: articleHomeReducer,
   articleChannel: articleChannelListReducer,
 });
