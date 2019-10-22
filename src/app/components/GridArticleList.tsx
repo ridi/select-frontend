@@ -37,12 +37,12 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
             id={article.id}
           >
             <ArticleThumbnail
-              linkUrl={articleContentToPath({ contentId: article.id })}
+              linkUrl={articleContentToPath({ contentId: String(article.id) })}
               imageUrl={article.thumbnailUrl}
               articleTitle={article.title}
             />
             <Link
-              to={articleContentToPath({ contentId: article.id })}
+              to={articleContentToPath({ contentId: String(article.id) })}
               className="GridArticleList_ItemLink"
             >
               <span className="GridArticleList_ItemTitle">
