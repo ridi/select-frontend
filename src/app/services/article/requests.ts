@@ -39,7 +39,7 @@ export interface ArticleListResponse {
 export const requestArticles = (includeData?: ArticleRequestIncludableData[]): Promise<ArticleListResponse> => {
   let requestUrl = '/article/articles';
   if (includeData) {
-    requestUrl = `${requestUrl}/?include=${includeData.join('|')}`;
+    requestUrl = `${requestUrl}?include=${includeData.join('|')}`;
   }
   return request({
     url: requestUrl,
@@ -50,7 +50,7 @@ export const requestArticles = (includeData?: ArticleRequestIncludableData[]): P
 export const requestArticleWithId = (articleId: number, includeData?: ArticleRequestIncludableData[]): Promise<ArticleResponse> => {
   let requestUrl = `/article/articles/${articleId}`;
   if (includeData) {
-    requestUrl = `${requestUrl}/?include=${includeData.join('|')}`;
+    requestUrl = `${requestUrl}?include=${includeData.join('|')}`;
   }
   return request({
     url: requestUrl,

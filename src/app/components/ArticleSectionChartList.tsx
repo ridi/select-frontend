@@ -2,8 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
-import { ArticleResponse } from 'app/services/article/request';
-import { ArticleChartList } from 'app/utils/mock';
+import { ArticleResponse } from 'app/services/article/requests';
 import { articleContentToPath } from 'app/utils/toPath';
 import { ThumbnailShape } from './ArticleThumbnail/types';
 

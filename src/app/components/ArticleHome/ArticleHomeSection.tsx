@@ -2,9 +2,8 @@ import * as React from 'react';
 
 import { ArticleSectionChartList } from 'app/components/ArticleSectionChartList';
 import { GridArticleList } from 'app/components/GridArticleList';
-import { ArticleResponse } from 'app/services/article/request';
+import { ArticleResponse } from 'app/services/article/requests';
 import { ArticleSectionType } from 'app/services/articleHome';
-import { ArticleChartList } from 'app/utils/mock';
 
 interface ArticleHomeSectionProps {
   title: string;

@@ -2,11 +2,9 @@ import * as React from 'react';
 
 import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
-import { ArticleResponse } from 'app/services/article/request';
+import { ArticleResponse } from 'app/services/article/requests';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { articleContentToPath } from 'app/utils/toPath';
-import { stringifyAuthors } from 'app/utils/utils';
-import MediaQuery from 'react-responsive';
 import { Link } from 'react-router-dom';
 
 interface Props {

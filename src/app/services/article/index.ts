@@ -1,7 +1,7 @@
 import { createAction, createReducer } from 'redux-act';
 
 import { FetchStatusFlag } from 'app/constants';
-import { ArticleResponse } from 'app/services/article/request';
+import { ArticleResponse } from 'app/services/article/requests';
 import { ArticleRequestIncludableData } from 'app/types';
 
 export const Actions = {
