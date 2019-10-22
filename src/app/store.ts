@@ -22,7 +22,7 @@ import { userRootSaga } from 'app/services/user/sagas';
 import { channelRootSaga } from 'app/services/articleChannel/sagas';
 import { articleHomeRootSaga } from 'app/services/articleHome/sagas';
 
-import { articleReducer, ArticleState } from 'app/services/article';
+import { articleReducer, ArticlesState } from 'app/services/article';
 import { articleRootSaga } from 'app/services/article/sagas';
 import { articleChannelListReducer, ArticleChannelListState } from './services/articleChannel';
 import { articleHomeReducer, ArticleHomeState } from './services/articleHome';
@@ -95,7 +95,7 @@ export interface RidiSelectState {
   environment: EnvironmentState;
   customHistory: CustomHistoryState;
   closingReservedBooks: ClosingReservedBooksState;
-  articlesById: ArticleState;
+  articlesById: ArticlesState;
   articleHome: ArticleHomeState;
   articleChannel: ArticleChannelListState;
 }

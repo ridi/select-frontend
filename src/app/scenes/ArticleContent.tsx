@@ -9,8 +9,6 @@ import { ArticleCannelInfoHeader } from 'app/components/ArticleChannels/ArticleC
 import { FetchStatusFlag } from 'app/constants';
 import { Actions } from 'app/services/article';
 import { RidiSelectState } from 'app/store';
-import { testMockJson } from 'app/utils/mock';
-import { refineArticleJSON } from 'app/utils/utils';
 
 type RouteProps = RouteComponentProps<{ contentId: string; }>;
 type OwnProps = RouteProps & {};
@@ -19,13 +17,14 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
   const articleId = Number(props.match.params.contentId);
   const articleState = useSelector((state: RidiSelectState) => state.articlesById[articleId]);
   const dispatch = useDispatch();
-  let articleContent = null;
   const checkIsFetched = () => {
     return (
       articleState &&
-      articleState.contentFetchStatus === FetchStatusFlag.IDLE &&
-      articleState.article &&
-      articleState.article.content
+      articleState.contentFetchStatus !== FetchStatusFlag.FETCHING &&
+      articleState.contentFetchStatus === FetchStatusFlag.IDLE && (
+        articleState.content ||
+        articleState.teaserContent
+      )
     );
   };
 
@@ -39,27 +38,14 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
     }));
   }, []);
 
-  React.useEffect(() => {
-    if (
-      !articleState ||
-      !articleState.article ||
-      !articleState.article.content
-    ) {
-      return;
-    }
-    articleContent = refineArticleJSON(JSON.parse(articleState.article.content));
-  }, [articleState]);
-
   return (
     <main className="SceneWrapper PageArticleContent">
-      <ArticleCannelInfoHeader />
-      {checkIsFetched() ? (
+      {checkIsFetched() && articleState.article && articleState.content ? (
         <>
-          {articleContent.title ? (
-            <h1 className="ArticleContent_Title">{articleContent.title}</h1>
-          ) : null}
+          <h1 className="ArticleContent_Title">{articleState.article.title}</h1>
+          <ArticleCannelInfoHeader />
           <Article
-            json={articleContent.content}
+            json={articleState.content.json}
             classes={['RidiselectArticle']}
             style={{
               background: 'white',

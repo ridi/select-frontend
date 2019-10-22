@@ -2,6 +2,7 @@ import { flatMap } from 'lodash-es';
 import { selectIsInApp } from './../services/environment/selectors';
 
 import { ArticleContentJSON } from '@ridi/ridi-prosemirror-editor';
+import { ArticleContent } from 'app/services/article';
 import {
   authorKeys,
   AuthorKeys,
@@ -68,11 +69,11 @@ export function moveToLogin(additionalReturnUrl?: string) {
   window.location.replace(`${ STORE_URL }/account/oauth-authorize?fallback=login&return_url=${ returnUrl }`);
 }
 
-export function refineArticleJSON(articleJSON: ArticleContentJSON) {
-  let articleTitle = null;
-  const articleContent = {
+export function refineArticleJSON(articleJSON: ArticleContentJSON): ArticleContent {
+  let articleTitle = '';
+  const articleContent: ArticleContentJSON = {
     type: articleJSON.type,
-    content: new Array(),
+    content: [],
   };
 
   articleJSON.content.forEach((content: any) => {
@@ -85,6 +86,6 @@ export function refineArticleJSON(articleJSON: ArticleContentJSON) {
 
   return {
     title: articleTitle,
-    content: articleContent,
+    json: articleContent,
   };
 }
