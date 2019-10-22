@@ -1,7 +1,7 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import { Actions } from 'app/services/article';
-import { ArticleResponse, requestArticleWithId } from 'app/services/article/request';
+import { ArticleResponse, requestArticleWithId } from 'app/services/article/requests';
 
 export function* loadArticle({ payload }: ReturnType<typeof Actions.loadArticleRequest>) {
   const { articleId, includeData } = payload;

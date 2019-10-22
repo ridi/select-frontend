@@ -1,4 +1,4 @@
-import { ArticleResponse } from 'app/services/article/request';
+import { ArticleResponse } from 'app/services/article/requests';
 
 /** MockUp */
 
