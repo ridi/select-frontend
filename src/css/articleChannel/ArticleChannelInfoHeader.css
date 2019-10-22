@@ -1,0 +1,51 @@
+.ChannelInfoHeader_Wrapper {
+  display: flex;
+  padding: 0 18px;
+  align-items: center;
+}
+.ChannelInfoHeader_Thumbnail {
+  margin-right: 10px;
+}
+.ChannelInfoHeader_ThumbnailImage {
+  width: 40px;
+  height: 40px;
+  border: solid 1px rgba(0, 0, 0, .02);
+}
+.ChannelInfoHeader_Title {
+  display: block;
+  font-family: NotoSansCJKkr, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -.3px;
+  color: var(--gray_100);
+}
+.ChannelInfoHeader_Desc {
+  margin-top: 2px;
+  display: block;
+  font-family: NotoSansCJKkr, sans-serif;
+  font-size: 12px;
+  letter-spacing: -.3px;
+  color: var(--slategray_60);
+}
+.ChannelInfoHeader_Follow {
+  margin-left: auto;
+  width: 76px;
+  height: 30px;
+  border-radius: 3px;
+  border: none;
+  background-color: var(--dodgerblue_50);
+  font-family: NotoSansCJKkr, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -.3px;
+  color: #fff;
+  line-height: 30px;
+
+}
+
+.ChannelInfoHeader_FollowIcon {
+  width: 10px;
+  height: 10px;
+  fill: #fff;
+  margin-right: 4px;
+}
