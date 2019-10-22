@@ -24,6 +24,7 @@ export interface ArticleResponse {
   authorId: number;
   author?: AuthorResponse;
   channel?: ChannelResponse;
+  content?: string;
 }
 
 export interface ArticleListResponse {
@@ -43,4 +44,15 @@ export const requestArticles = (includeData?: ArticleRequestIncludableData[]): P
     url: requestUrl,
     method: 'GET',
   }).then((response) => camelize<AxiosResponse<ArticleListResponse>>(response, { recursive: true }).data);
+};
+
+export const requestArticleWithId = (articleId: number, includeData?: ArticleRequestIncludableData[]): Promise<ArticleResponse> => {
+  let requestUrl = `/article/articles/${articleId}`;
+  if (includeData) {
+    requestUrl = `${requestUrl}/?include=${includeData.join('|')}`;
+  }
+  return request({
+    url: requestUrl,
+    method: 'GET',
+  }).then((response) => camelize<AxiosResponse<ArticleResponse>>(response, { recursive: true }).data);
 };
