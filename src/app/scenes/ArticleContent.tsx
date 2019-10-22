@@ -40,9 +40,9 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
 
   return (
     <main className="SceneWrapper PageArticleContent">
-      {checkIsFetched() && articleState.article && articleState.content ? (
+      {checkIsFetched() && articleState && articleState.content ? (
         <>
-          <h1 className="ArticleContent_Title">{articleState.article.title}</h1>
+          <h1 className="ArticleContent_Title">{articleState.title}</h1>
           <ArticleCannelInfoHeader />
           <Article
             json={articleState.content.json}
