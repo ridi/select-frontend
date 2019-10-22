@@ -1,8 +1,9 @@
 import { createAction, createReducer } from 'redux-act';
 
+import { ArticleContentJSON } from '@ridi/ridi-prosemirror-editor';
 import { FetchStatusFlag } from 'app/constants';
-import { ArticleResponse } from 'app/services/article/requests';
-import { ArticleRequestIncludableData } from 'app/types';
+import { AuthorResponse } from 'app/services/article/requests';
+import { ArticleRequestIncludableData, DateDTO } from 'app/types';
 
 export const Actions = {
   loadArticleRequest: createAction<{
@@ -11,24 +12,50 @@ export const Actions = {
   }>('loadArticleDetailRequest'),
   loadArticleSuccess: createAction<{
     articleId: number,
-    articleResponse: ArticleResponse,
+    articleResponse: ArticleStaticState,
   }>('loadArticleDetailSuccess'),
   loadArticleFailure: createAction<{
     articleId: number,
   }>('loadArticleDetailFailure'),
+  updateArticleTeaserContent: createAction<{
+    articleId: number,
+    teaserContent: ArticleContent,
+  }>('updateArticleTeaserContent'),
+  updateArticleContent: createAction<{
+    articleId: number,
+    content: ArticleContent,
+  }>('updateArticleContent'),
 };
 
-export interface ArticleStateItem {
-  article?: ArticleResponse;
-  recommendedArticle?: ArticleResponse[];
+export interface ArticleContent {
+  title: string;
+  json: ArticleContentJSON;
+}
+
+export interface ArticleStaticState {
+  id: number;
+  title: string;
+  regDate: DateDTO;
+  lastModified: DateDTO;
+  channelId: number;
+  thumbnailUrl: string;
+  authorId: number;
+  author?: AuthorResponse;
+}
+
+export interface ArticleItemState {
+  article?: ArticleStaticState;
+  recommendedArticles?: number[];
   contentFetchStatus: FetchStatusFlag;
+  content?: ArticleContent;
+  teaserContent?: ArticleContent;
 }
 
-export interface ArticleState {
-  [articleId: number]: ArticleStateItem;
+export interface ArticlesState {
+  [articleId: number]: ArticleItemState;
 }
 
-export const INITIAL_ARTICLE_STATE: ArticleState = {};
+export const INITIAL_ARTICLE_STATE: ArticlesState = {};
 
 export const articleReducer = createReducer<typeof INITIAL_ARTICLE_STATE>({}, INITIAL_ARTICLE_STATE);
 
@@ -68,6 +95,32 @@ articleReducer.on(Actions.loadArticleFailure, (state, action) => {
     [articleId]: {
       ...state[articleId],
       contentFetchStatus: FetchStatusFlag.FETCH_ERROR,
+    },
+  };
+});
+
+articleReducer.on(Actions.updateArticleContent, (state, action) => {
+  const { articleId, content } = action;
+
+  return {
+    ...state,
+    [articleId]: {
+      ...state[articleId],
+      contentFetchStatus: FetchStatusFlag.IDLE,
+      content,
+    },
+  };
+});
+
+articleReducer.on(Actions.updateArticleTeaserContent, (state, action) => {
+  const { articleId, teaserContent } = action;
+
+  return {
+    ...state,
+    [articleId]: {
+      ...state[articleId],
+      contentFetchStatus: FetchStatusFlag.IDLE,
+      teaserContent,
     },
   };
 });
