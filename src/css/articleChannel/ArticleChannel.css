@@ -1,11 +1,13 @@
 .ArticleChannelMeta_Wrap {
-  padding: 60px 12px;
-  display: flex;
+  padding: 30px 20px 10px;
   @media (--pc-screen) {
     max-width: 800px;
     margin: 0 auto;
-  }      
-
+    padding: 60px 12px 40px;
+  }
+  @media (min-width: 600px) {
+    display: flex;
+  }
   & .ArticleChannel_Thumbnail {    
     margin-right: 18px;
     & .ArticleChannel_Image {
@@ -13,9 +15,13 @@
       height: 80px;
       border: 1px solid #eee;
       box-sizing: border-box;
+      border-radius: 999px;
     }
   }
   & .ArticleChannel_Meta {
+    @media (max-width: 600px) {
+      margin-top: 10px;
+    }    
     & .Channel_Title {
       font-family: NotoSansCJKkr;
       font-size: 22px;
@@ -72,8 +78,12 @@
       padding: 0;  
     }
   }
+}
 
-
-
-
+.Channel_ArticleList {
+  @media (--pc-screen) {
+    max-width: 840px;
+    margin: 0 auto;
+  }  
+  margin-bottom: 30px;
 }

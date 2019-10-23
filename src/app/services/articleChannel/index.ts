@@ -1,6 +1,6 @@
 import { FetchStatusFlag } from 'app/constants';
-import { ArticleResponse } from 'app/services/article/request';
-import { ArticleChannelArticlesResponse } from 'app/services/articleChannel/requests';
+import { ArticleResponse } from 'app/services/article/requests';
+import { ArticleChannelArticlesResponse, ArticleChannelFollowingResponse } from 'app/services/articleChannel/requests';
 import { ArticleId, DateDTO, Paginated } from 'app/types';
 import { createAction, createReducer } from 'redux-act';
 
@@ -40,6 +40,10 @@ export const Actions = {
     channelId: number,
     page: number,
   }>('loadArticleChannelArticlesFailure'),
+
+  articleChannelFollowingActionRequest: createAction<{ channelId: number }>('articleChannelFollowingActionRequest'),
+  articleChannelFollowingActionSuccess: createAction<{ channelId: number, response: ArticleChannelFollowingResponse }>('articleChannelFollowingActionSuccess'),
+  articleChannelFollowingActionFailure: createAction<{ channelId: number }>('articleChannelFollowingActionFailure'),
 };
 
 export interface ArticleChannel {
@@ -52,6 +56,7 @@ export interface ArticleChannel {
   subDescription?: string | null;
   category?: string | null;
   followersCount?: number;
+  isFollowing?: boolean;
 }
 
 export interface ArticleChannelStateItem extends Paginated<ArticleId> {
@@ -207,6 +212,40 @@ articleChannelReducer.on(Actions.loadArticleChannelArticlesFailure, (state, acti
           isFetched: false,
         },
       },
+    },
+  };
+});
+
+articleChannelReducer.on(Actions.articleChannelFollowingActionRequest, (state, action) => {
+  const { channelId } = action;
+  return {
+    ...state,
+    [channelId]: {
+      ...state[channelId],
+      followFetchStatus: FetchStatusFlag.FETCHING,
+    },
+  };
+});
+
+articleChannelReducer.on(Actions.articleChannelFollowingActionSuccess, (state, action) => {
+  const { channelId, response } = action;
+  return {
+    ...state,
+    [channelId]: {
+      ...state[channelId],
+      isFollowing: response.isFollowing,
+      followFetchStatus: FetchStatusFlag.IDLE,
+    },
+  };
+});
+
+articleChannelReducer.on(Actions.articleChannelFollowingActionFailure, (state, action) => {
+  const { channelId } = action;
+  return {
+    ...state,
+    [channelId]: {
+      ...state[channelId],
+      followFetchStatus: FetchStatusFlag.FETCH_ERROR,
     },
   };
 });

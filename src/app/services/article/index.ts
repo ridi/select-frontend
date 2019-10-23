@@ -12,7 +12,7 @@ export const Actions = {
   }>('loadArticleDetailRequest'),
   loadArticleSuccess: createAction<{
     articleId: number,
-    articleResponse: ArticleStaticState,
+    articleResponse: Article,
   }>('loadArticleDetailSuccess'),
   loadArticleFailure: createAction<{
     articleId: number,
@@ -25,6 +25,9 @@ export const Actions = {
     articleId: number,
     content: ArticleContent,
   }>('updateArticleContent'),
+  updateArticles: createAction<{
+    articles: Article[],
+  }>('updateArticles'),
 };
 
 export interface ArticleContent {
@@ -32,7 +35,7 @@ export interface ArticleContent {
   json: ArticleContentJSON;
 }
 
-export interface ArticleStaticState {
+export interface Article {
   id: number;
   title: string;
   regDate: DateDTO;
@@ -43,11 +46,15 @@ export interface ArticleStaticState {
   author?: AuthorResponse;
 }
 
-export interface ArticleItemState extends ArticleStaticState {
-  recommendedArticles?: number[];
-  contentFetchStatus: FetchStatusFlag;
+export interface StaticArticleState {
+  article?: Article;
   content?: ArticleContent;
   teaserContent?: ArticleContent;
+  recommendedArticles?: Article[];
+}
+
+export interface ArticleItemState extends StaticArticleState {
+  contentFetchStatus: FetchStatusFlag;
 }
 
 export interface ArticlesState {
@@ -119,4 +126,16 @@ articleReducer.on(Actions.updateArticleTeaserContent, (state, action) => {
       teaserContent,
     },
   };
+});
+
+articleReducer.on(Actions.updateArticles, (state, action) => {
+  const { articles = [] } = action;
+  const newState: ArticlesState = articles.reduce((prev, article) => {
+    prev[article.id] = {
+      ...state[article.id],
+      article: !!state[article.id] ? { ...state[article.id].article, ...article } : article,
+    };
+    return prev;
+  }, state);
+  return newState;
 });
