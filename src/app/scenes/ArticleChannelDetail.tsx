@@ -15,6 +15,7 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
   const channelId = Number(useParams<{channelId: string; }>().channelId);
   const page = useSelector((state: RidiSelectState) => getPageQuery(state));
   const { articleChannelById } = useSelector((state: RidiSelectState) => state);
+  const { articlesById } = useSelector((state: RidiSelectState) => state);
   const dispatch = useDispatch();
 
   const isFetched = () => {
@@ -53,20 +54,26 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
       {
         isFetchedChannelMeta() &&
         <ArticleChannelMeta
+          id={articleChannelById[channelId].channelMeta!.id}
           title={articleChannelById[channelId].channelMeta!.name}
           thumbUrl={articleChannelById[channelId].channelMeta!.thumbnailUrl}
           description={articleChannelById[channelId].channelMeta!.description}
           subDescription={articleChannelById[channelId].channelMeta!.subDescription}
           followersCount={articleChannelById[channelId].channelMeta!.followersCount}
+          isFollowing={articleChannelById[channelId].channelMeta!.isFollowing}
         />
       }
       <div className="Channel_ArticleList">
-        {/* <GridArticleList
-          pageTitleForTracking="article-channel-detail"
-          uiPartTitleForTracking="article-channel-detail-articles"
-          renderAuthor={false}
-          articles={ArticleListMockUp}
-        /> */}
+        {
+          isFetchedChannelArticles() &&
+          <GridArticleList
+            pageTitleForTracking="article-channel-detail"
+            uiPartTitleForTracking="article-channel-detail-articles"
+            renderAuthor={false}
+            articles={articleChannelById[channelId].itemListByPage[page].itemList.map((id) => articlesById[id].article!)}
+          />
+
+        }
       </div>
     </main>
   );

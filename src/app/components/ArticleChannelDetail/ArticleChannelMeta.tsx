@@ -1,15 +1,24 @@
+import { Actions } from 'app/services/articleChannel';
 import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 interface ArticleChannelMetaProps {
+  id: number;
   title: string;
   thumbUrl?: string;
   description?: string;
   subDescription?: string | null;
   followersCount?: number;
+  isFollowing?: boolean;
 }
 
 export const ArticleChannelMeta: React.FunctionComponent<ArticleChannelMetaProps> = (props) => {
-  const { title, thumbUrl, description, subDescription, followersCount} = props;
+  const { id, title, thumbUrl, description, subDescription, followersCount, isFollowing} = props;
+  const dispatch = useDispatch();
+
+  const handleButtonClick = () => {
+    dispatch(Actions.articleChannelFollowingActionRequest({ channelId: id }));
+  };
 
   return (
     <section>
@@ -22,7 +31,13 @@ export const ArticleChannelMeta: React.FunctionComponent<ArticleChannelMetaProps
           <p className="Channel_Desc">{description}</p>
           <span className="Channel_Serial">{subDescription}</span>
           <span className="Channel_Fallowing">팔로잉 <strong>{followersCount}</strong></span>
-          <button className="Fallowing_Button">팔로잉</button>
+          {
+            isFollowing ? (
+              <button className="Fallowing_Button" onClick={handleButtonClick} >팔로잉</button>
+            ) : (
+              <button className="Fallowing_Button" onClick={handleButtonClick} >팔로우</button>
+            )
+          }
         </div>
       </div>
     </section>

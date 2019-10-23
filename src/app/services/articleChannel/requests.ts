@@ -15,6 +15,11 @@ export interface ArticleChannelArticlesResponse {
   results: ArticleResponse[];
 }
 
+export interface ArticleChannelFollowingResponse {
+  channelId: number;
+  isFollowing: boolean;
+}
+
 export const requestArticleChannelList = (includeData?: ArticleRequestIncludableData[]): Promise<ArticleChannelListResponse> => (
   request({
     url: `/article/channels${includeData && `/?include=${includeData.join('|')}`}`,
@@ -31,7 +36,14 @@ export const requestArticleChannelDetail = (channelId: number, includeData: Arti
 
 export const requestArticleChannelArticles = (channelId: number, page: number): Promise<ArticleChannelArticlesResponse> => (
   request({
-    url: `/article/channels/${channelId}/articles?page=${page}`,
+    url: `/article/articles?channel_id=${channelId}&page=${page}`,
     method: 'GET',
   }).then((response) => camelize<AxiosResponse<ArticleChannelArticlesResponse>>(response, { recursive: true }).data)
+);
+
+export const requestArticleChannelFollowing = (channelId: number): Promise<ArticleChannelFollowingResponse> => (
+  request({
+    url: `/article/me/followings/${channelId}`,
+    method: 'POST',
+  }).then((response) => camelize<AxiosResponse<ArticleChannelFollowingResponse>>(response, { recursive: true }).data)
 );

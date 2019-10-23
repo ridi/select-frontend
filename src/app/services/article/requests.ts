@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import { camelize } from '@ridi/object-case-converter';
 
 import request from 'app/config/axios';
-import { ArticleStaticState } from 'app/services/article';
+import { Article } from 'app/services/article';
 import { ChannelResponse } from 'app/services/articleChannel/request';
 import { ArticleRequestIncludableData, DateDTO } from 'app/types';
 
@@ -17,7 +17,7 @@ export interface AuthorResponse {
   channelId: number;
 }
 
-export interface ArticleResponse extends ArticleStaticState {
+export interface ArticleResponse extends Article {
   author?: AuthorResponse;
   channel?: ChannelResponse;
   content?: string;
