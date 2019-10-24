@@ -76,6 +76,17 @@
       letter-spacing: -0.3px;
       color: var(--dodgerblue_50);
       padding: 0;  
+      &.Fallow {
+        margin-left: auto;
+        background-color: var(--dodgerblue_50);
+        color: #fff;      
+        & .Follow_Icon {
+          width: 10px;
+          height: 10px;
+          fill: #fff;
+          margin-right: 4px;
+        }        
+      }
     }
   }
 }

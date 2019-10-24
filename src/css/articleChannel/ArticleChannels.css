@@ -50,19 +50,23 @@
   width: 76px;
   height: 30px;
   border-radius: 3px;
-  border: none;
-  background-color: var(--dodgerblue_50);
   font-family: NotoSansCJKkr;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: -.3px;
-  color: #fff;
   line-height: 30px;
-
-  & .Follow_Icon {
-    width: 10px;
-    height: 10px;
-    fill: #fff;
-    margin-right: 4px;
+  border: solid 1px var(--dodgerblue_50);
+  background-color: #fff;
+  color: var(--dodgerblue_50);
+  &.Follow {
+    border: none;
+    background-color: var(--dodgerblue_50);
+    color: #fff;
+    & .Follow_Icon {
+      width: 10px;
+      height: 10px;
+      fill: #fff;
+      margin-right: 4px;
+    }  
   }
 }
