@@ -1,23 +1,21 @@
 import { ArticleChannelsMeta } from 'app/components/ArticleChannels/ArticleChannelsMeta';
 import { GridArticleList } from 'app/components/GridArticleList';
 import { Actions } from 'app/services/articleChannel';
-import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const ArticleChannelList: React.FunctionComponent = () => {
-  const page = useSelector((state: RidiSelectState) => getPageQuery(state));
-  const { articleChannels } = useSelector((state: RidiSelectState) => state);
+  const { articleChannels, articleChannelById } = useSelector((state: RidiSelectState) => state);
   const dispatch = useDispatch();
 
   const isFetched = () => {
-    return (articleChannels && articleChannels.itemListByPage[page] && articleChannels.itemListByPage[page].isFetched);
+    return (articleChannels && articleChannels.isFetched);
   };
 
   React.useEffect(() => {
     if (!isFetched()) {
-      dispatch(Actions.loadArticleChannelListRequest({page}));
+      dispatch(Actions.loadArticleChannelListRequest());
     }
   }, []);
 
@@ -26,15 +24,15 @@ export const ArticleChannelList: React.FunctionComponent = () => {
       <div className="ArticlePageChannelList_Wrap">
         <ul className="ArticlePageChannelList">
           {
-            isFetched() && articleChannels.itemListByPage[page].itemList.map((data, idx) => (
+            isFetched() && articleChannels.channelList.map((channelId, idx) => (
               <li key={idx} className="ArticlePageChannel">
-                <ArticleChannelsMeta {...data} />
+                <ArticleChannelsMeta {...articleChannelById[Number(channelId)].channelMeta!} />
                 <div className="Channel_ArticleList">
                   <GridArticleList
                     pageTitleForTracking="article-channel-list"
                     uiPartTitleForTracking="article-channel-list-articles"
                     renderAuthor={false}
-                    articles={data.articles.slice(0, 4)}
+                    articles={articleChannelById[Number(channelId)].channelMeta!.articles!}
                   />
                 </div>
               </li>

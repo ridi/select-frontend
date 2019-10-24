@@ -10,10 +10,11 @@ import { all, call, put, take, takeLeading } from 'redux-saga/effects';
 function* loadArticleChannelList() {
   try {
     const response: ArticleChannelListResponse = yield call(requestArticleChannelList, ['articles', 'is_following']);
-    yield put(Actions.loadArticleChannelListSuccess({ articleChannelList: response.results, page: 1 }));
+    yield put(Actions.updateChannelDetail({ channels: response.results }));
+    yield put(Actions.loadArticleChannelListSuccess({ response }));
   } catch (e) {
     const { data } = e.response;
-    yield put(Actions.loadArticleChannelListFailure({page: 1}));
+    yield put(Actions.loadArticleChannelListFailure());
     if (data && data.status === ErrorStatus.MAINTENANCE) {
       return;
     }

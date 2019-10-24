@@ -1,32 +1,31 @@
 import { FetchStatusFlag } from 'app/constants';
 import { ArticleResponse } from 'app/services/article/requests';
-import { ArticleChannelArticlesResponse, ArticleChannelFollowingResponse } from 'app/services/articleChannel/requests';
+import { ArticleChannelArticlesResponse, ArticleChannelFollowingResponse, ArticleChannelListResponse } from 'app/services/articleChannel/requests';
 import { ArticleId, DateDTO, Paginated } from 'app/types';
 import { Method } from 'axios';
 import { createAction, createReducer } from 'redux-act';
 
 export const Actions = {
-  loadArticleChannelListRequest: createAction<{
-    page: number,
-  }>('loadArticleChannelListRequest'),
+  loadArticleChannelListRequest: createAction('loadArticleChannelListRequest'),
   loadArticleChannelListSuccess: createAction<{
-    page: number,
-    articleChannelList: ArticleChannelList[],
+    response: ArticleChannelListResponse,
   }>('loadArticleChannelListSuccess'),
-  loadArticleChannelListFailure: createAction<{
-    page: number,
-  }>('loadArticleChannelListFailure'),
+  loadArticleChannelListFailure: createAction('loadArticleChannelListFailure'),
 
   loadArticleChannelDetailRequest: createAction<{
     channelId: number,
   }>('loadArticleChannelDetailRequest'),
   loadArticleChannelDetailSuccess: createAction<{
     channelId: number,
-    articleChannelDetail: ArticleChannel,
+    articleChannelDetail: ArticleChannelList,
   }>('loadArticleChannelDetailSuccess'),
   loadArticleChannelDetailFailure: createAction<{
     channelId: number,
   }>('loadArticleChannelDetailFailure'),
+
+  updateChannelDetail: createAction<{
+    channels: ArticleChannel[],
+  }>('updateChannelDetail'),
 
   loadArticleChannelArticlesRequest: createAction<{
     channelId: number,
@@ -62,22 +61,28 @@ export interface ArticleChannel {
 
 export interface ArticleChannelStateItem extends Paginated<ArticleId> {
   id: number;
-  channelMeta?: ArticleChannel;
+  channelMeta?: ArticleChannelList;
   metaFetchStatus: FetchStatusFlag;
   isMetaFetched: boolean;
 }
 
 export interface ArticleChannelList extends ArticleChannel {
-  articles: ArticleResponse[];
+  articles?: ArticleResponse[];
 }
 
-export interface ArticleChannelListState extends Paginated<ArticleChannelList> {}
+export interface ArticleChannelListState {
+  channelList: string[];
+  isFetched: boolean;
+  fetchStatus: FetchStatusFlag;
+}
 export interface ArticleChannelState {
   [channelId: number]: ArticleChannelStateItem;
 }
 
 export const INITIAL_STATE: ArticleChannelListState = {
-  itemListByPage: {},
+  channelList: [],
+  isFetched: false,
+  fetchStatus: FetchStatusFlag.IDLE,
 };
 export const CHANNEL_INITIAL_STATE: ArticleChannelState = {};
 
@@ -85,40 +90,24 @@ export const articleChannelListReducer = createReducer<typeof INITIAL_STATE>({},
 export const articleChannelReducer = createReducer<typeof CHANNEL_INITIAL_STATE>({}, CHANNEL_INITIAL_STATE);
 
 /* ArticleChannelList */
-articleChannelListReducer.on(Actions.loadArticleChannelListRequest, (state, { page }) => ({
+articleChannelListReducer.on(Actions.loadArticleChannelListRequest, (state) => ({
   ...state,
-  itemListByPage: {
-    ...state.itemListByPage,
-    [page]: {
-      fetchStatus: FetchStatusFlag.FETCHING,
-      itemList: [],
-      isFetched: false,
-    },
-  },
+  channelList: [],
+  fetchStatus: FetchStatusFlag.FETCHING,
+  isFetched: false,
 }));
 
-articleChannelListReducer.on(Actions.loadArticleChannelListSuccess, (state, { articleChannelList, page }) => ({
+articleChannelListReducer.on(Actions.loadArticleChannelListSuccess, (state, { response }) => ({
   ...state,
-  itemListByPage: {
-    ...state.itemListByPage,
-    [page]: {
-      fetchStatus: FetchStatusFlag.IDLE,
-      itemList: articleChannelList,
-      isFetched: true,
-    },
-  },
+  channelList: response.results.map((channel) => String(channel.id)),
+  fetchStatus: FetchStatusFlag.IDLE,
+  isFetched: true,
 }));
 
-articleChannelListReducer.on(Actions.loadArticleChannelListFailure, (state, { page }) => ({
+articleChannelListReducer.on(Actions.loadArticleChannelListFailure, (state) => ({
   ...state,
-  itemListByPage: {
-    ...state.itemListByPage,
-    [page]: {
-      ...state.itemListByPage[page],
-      fetchStatus: FetchStatusFlag.FETCH_ERROR,
-      isFetched: false,
-    },
-  },
+  fetchStatus: FetchStatusFlag.FETCH_ERROR,
+  isFetched: false,
 }));
 
 /* ArticleChannelDetail */
@@ -142,6 +131,7 @@ articleChannelReducer.on(Actions.loadArticleChannelDetailSuccess, (state, action
       ...state[channelId],
       metaFetchStatus: FetchStatusFlag.IDLE,
       channelMeta: {
+        ...state[channelId].channelMeta,
         ...articleChannelDetail,
       },
       isMetaFetched: true,
@@ -159,6 +149,18 @@ articleChannelReducer.on(Actions.loadArticleChannelDetailFailure, (state, action
       isMetaFetched: false,
     },
   };
+});
+
+articleChannelReducer.on(Actions.updateChannelDetail, (state, action) => {
+  const { channels = [] } = action;
+  const newState: ArticleChannelState = channels.reduce((prev, channel) => {
+    prev[channel.id] = {
+      ...state[channel.id],
+      channelMeta: !!state[channel.id] ? { ...state[channel.id].channelMeta, ...channel } : channel,
+    };
+    return prev;
+  }, state);
+  return newState;
 });
 
 articleChannelReducer.on(Actions.loadArticleChannelArticlesRequest, (state, action) => {
@@ -234,7 +236,10 @@ articleChannelReducer.on(Actions.articleChannelFollowingActionSuccess, (state, a
     ...state,
     [channelId]: {
       ...state[channelId],
-      isFollowing: response.isFollowing,
+      channelMeta: {
+        ...state[channelId].channelMeta!,
+        isFollowing: response.isFollowing,
+      },
       followFetchStatus: FetchStatusFlag.IDLE,
     },
   };

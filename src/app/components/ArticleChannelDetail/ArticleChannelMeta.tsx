@@ -1,3 +1,4 @@
+import { Icon } from '@ridi/rsg';
 import { Actions } from 'app/services/articleChannel';
 import { Method } from 'axios';
 import * as React from 'react';
@@ -34,9 +35,12 @@ export const ArticleChannelMeta: React.FunctionComponent<ArticleChannelMetaProps
           <span className="Channel_Fallowing">팔로잉 <strong>{followersCount}</strong></span>
           {
             isFollowing ? (
-              <button className="Fallowing_Button" onClick={() => handleButtonClick('DELETE')} >팔로잉</button>
+              <button className="Fallowing_Button" onClick={() => handleButtonClick('DELETE')}>팔로잉</button>
             ) : (
-              <button className="Fallowing_Button" onClick={() => handleButtonClick('POST')} >팔로우</button>
+              <button className="Fallowing_Button Fallow" onClick={() => handleButtonClick('POST')}>
+                <Icon name="plus_1" className="Follow_Icon" />
+                팔로우
+              </button>
             )
           }
         </div>
