@@ -1,9 +1,9 @@
 import { camelize } from '@ridi/object-case-converter';
 import request from 'app/config/axios';
-import { ArticleResponse } from 'app/services/article/request';
+import { ArticleResponse } from 'app/services/article/requests';
 import { ArticleChannel, ArticleChannelList } from 'app/services/articleChannel';
 import { ArticleRequestIncludableData } from 'app/types';
-import { AxiosResponse } from 'axios';
+import { AxiosResponse, Method } from 'axios';
 
 export interface ArticleChannelListResponse {
   totalCount: number;
@@ -41,9 +41,9 @@ export const requestArticleChannelArticles = (channelId: number, page: number): 
   }).then((response) => camelize<AxiosResponse<ArticleChannelArticlesResponse>>(response, { recursive: true }).data)
 );
 
-export const requestArticleChannelFollowing = (channelId: number): Promise<ArticleChannelFollowingResponse> => (
+export const requestArticleChannelFollowing = (channelId: number, method: Method): Promise<ArticleChannelFollowingResponse> => (
   request({
     url: `/article/me/followings/${channelId}`,
-    method: 'POST',
+    method,
   }).then((response) => camelize<AxiosResponse<ArticleChannelFollowingResponse>>(response, { recursive: true }).data)
 );

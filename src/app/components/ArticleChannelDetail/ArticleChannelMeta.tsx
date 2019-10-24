@@ -1,4 +1,5 @@
 import { Actions } from 'app/services/articleChannel';
+import { Method } from 'axios';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -16,8 +17,8 @@ export const ArticleChannelMeta: React.FunctionComponent<ArticleChannelMetaProps
   const { id, title, thumbUrl, description, subDescription, followersCount, isFollowing} = props;
   const dispatch = useDispatch();
 
-  const handleButtonClick = () => {
-    dispatch(Actions.articleChannelFollowingActionRequest({ channelId: id }));
+  const handleButtonClick = (type: Method) => {
+    dispatch(Actions.articleChannelFollowingActionRequest({ channelId: id, type }));
   };
 
   return (
@@ -33,9 +34,9 @@ export const ArticleChannelMeta: React.FunctionComponent<ArticleChannelMetaProps
           <span className="Channel_Fallowing">팔로잉 <strong>{followersCount}</strong></span>
           {
             isFollowing ? (
-              <button className="Fallowing_Button" onClick={handleButtonClick} >팔로잉</button>
+              <button className="Fallowing_Button" onClick={() => handleButtonClick('DELETE')} >팔로잉</button>
             ) : (
-              <button className="Fallowing_Button" onClick={handleButtonClick} >팔로우</button>
+              <button className="Fallowing_Button" onClick={() => handleButtonClick('POST')} >팔로우</button>
             )
           }
         </div>

@@ -53,9 +53,9 @@ function* loadArticleChannelArticles({ payload }: ReturnType<typeof Actions.load
 }
 
 export function* articleChannelFollowingAction({ payload }: ReturnType<typeof Actions.articleChannelFollowingActionRequest>) {
-  const { channelId } = payload;
+  const { channelId, type } = payload;
   try {
-    const response: ArticleChannelFollowingResponse = yield call(requestArticleChannelFollowing, channelId);
+    const response: ArticleChannelFollowingResponse = yield call(requestArticleChannelFollowing, channelId, type);
     yield put(Actions.articleChannelFollowingActionSuccess({ channelId, response }));
   } catch (e) {
     const { data } = e.response;

@@ -2,6 +2,7 @@ import { FetchStatusFlag } from 'app/constants';
 import { ArticleResponse } from 'app/services/article/requests';
 import { ArticleChannelArticlesResponse, ArticleChannelFollowingResponse } from 'app/services/articleChannel/requests';
 import { ArticleId, DateDTO, Paginated } from 'app/types';
+import { Method } from 'axios';
 import { createAction, createReducer } from 'redux-act';
 
 export const Actions = {
@@ -41,7 +42,7 @@ export const Actions = {
     page: number,
   }>('loadArticleChannelArticlesFailure'),
 
-  articleChannelFollowingActionRequest: createAction<{ channelId: number }>('articleChannelFollowingActionRequest'),
+  articleChannelFollowingActionRequest: createAction<{ channelId: number, type: Method }>('articleChannelFollowingActionRequest'),
   articleChannelFollowingActionSuccess: createAction<{ channelId: number, response: ArticleChannelFollowingResponse }>('articleChannelFollowingActionSuccess'),
   articleChannelFollowingActionFailure: createAction<{ channelId: number }>('articleChannelFollowingActionFailure'),
 };
