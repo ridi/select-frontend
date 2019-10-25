@@ -1,13 +1,13 @@
 import { camelize } from '@ridi/object-case-converter';
 import request from 'app/config/axios';
 import { ArticleResponse } from 'app/services/article/requests';
-import { ArticleChannel, ArticleChannelList } from 'app/services/articleChannel';
+import { ArticleChannel } from 'app/services/articleChannel';
 import { ArticleRequestIncludableData } from 'app/types';
 import { AxiosResponse, Method } from 'axios';
 
 export interface ArticleChannelListResponse {
   totalCount: number;
-  results: ArticleChannelList[];
+  results: ArticleChannel[];
 }
 
 export interface ArticleChannelArticlesResponse {

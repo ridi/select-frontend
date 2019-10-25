@@ -17,7 +17,7 @@ export const Actions = {
   }>('loadArticleChannelDetailRequest'),
   loadArticleChannelDetailSuccess: createAction<{
     channelId: number,
-    articleChannelDetail: ArticleChannelList,
+    articleChannelDetail: ArticleChannel,
   }>('loadArticleChannelDetailSuccess'),
   loadArticleChannelDetailFailure: createAction<{
     channelId: number,
@@ -57,17 +57,14 @@ export interface ArticleChannel {
   category?: string | null;
   followersCount?: number;
   isFollowing?: boolean;
+  articles?: ArticleResponse[];
 }
 
 export interface ArticleChannelStateItem extends Paginated<ArticleId> {
   id: number;
-  channelMeta?: ArticleChannelList;
+  channelMeta?: ArticleChannel;
   metaFetchStatus: FetchStatusFlag;
   isMetaFetched: boolean;
-}
-
-export interface ArticleChannelList extends ArticleChannel {
-  articles?: ArticleResponse[];
 }
 
 export interface ArticleChannelListState {

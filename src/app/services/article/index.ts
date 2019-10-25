@@ -42,7 +42,7 @@ export interface Article {
   lastModified: DateDTO;
   channelId: number;
   thumbnailUrl: string;
-  authorId: number;
+  authorId?: number;
   author?: AuthorResponse;
 }
 
