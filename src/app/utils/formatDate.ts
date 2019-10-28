@@ -1,5 +1,6 @@
 import { DateDTO } from 'app/types';
-import * as format from 'date-fns/format';
+import { format, formatDistanceStrict } from 'date-fns';
+import { ko } from 'date-fns/locale';
 
 export const koreanDayOfWeek: string[] = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -16,7 +17,7 @@ export const buildDateAndTimeFormat = (
     return '';
   }
   const date: Date = convertDateForIos(dateString);
-  const formatString: string = format(date, 'YYYY.MM.DD. HH:mm');
+  const formatString: string = format(date, 'yyyy.MM.dd. HH:mm');
   return formatString;
 };
 
@@ -25,7 +26,7 @@ export const buildOnlyDateFormat = (dateString?: string): string => {
     return '';
   }
   const date: Date = convertDateForIos(dateString);
-  const formatString: string = format(date, 'YYYY.MM.DD.');
+  const formatString: string = format(date, 'yyyy.MM.dd.');
   return formatString;
 };
 
@@ -34,7 +35,13 @@ export const buildKoreanDayDateFormat = (dateString?: string): string => {
     return '';
   }
   const date: Date = convertDateForIos(dateString);
-  const formatString: string = format(date, 'YYYY년 MM월 DD일');
-  const weekDayIndex: number = parseInt(format(date, 'd'), 10);
+  const formatString: string = format(date, 'yyyy년 MM월 dd일');
+  const weekDayIndex: number = parseInt(format(date, 'i', {locale: ko}), 10);
   return `${formatString}(${koreanDayOfWeek[weekDayIndex]})`;
+};
+
+export const buildDateDistanceFormat = (date: DateDTO) => {
+  const curDate = new Date();
+  const diffDate = new Date(date);
+  return formatDistanceStrict(curDate, diffDate, {locale: ko});
 };

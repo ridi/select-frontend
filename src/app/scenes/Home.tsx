@@ -1,5 +1,5 @@
 import * as classNames from 'classnames';
-import * as differenceInHours from 'date-fns/difference_in_hours';
+import { differenceInHours } from 'date-fns';
 import * as React from 'react';
 import { forceCheck } from 'react-lazyload';
 import { connect } from 'react-redux';

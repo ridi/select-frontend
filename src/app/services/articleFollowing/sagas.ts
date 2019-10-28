@@ -1,3 +1,4 @@
+import { Actions as ArticleActions } from 'app/services/article';
 import { Actions as ArticleChannelActions } from 'app/services/articleChannel';
 import { Actions } from 'app/services/articleFollowing';
 import { FollowingArticleListResponse, FollowingChannelListResponse,
@@ -22,14 +23,33 @@ function* loadFollowingChannelList() {
   }
 }
 
+function* loadFollowingArticleList({ payload }: ReturnType<typeof Actions.loadFollowingArticleListRequest>) {
+  const { page } = payload;
+  try {
+    const response: FollowingArticleListResponse = yield call(requestFollowingArticleList, page);
+    yield put(ArticleActions.updateArticles({ articles: response.results.map((res) => res)}));
+    yield put(Actions.loadFollowingArticleListSuccess({page, response}));
+  } catch (e) {
+    const { data } = e.response;
+    yield put(Actions.loadFollowingArticleListFailure({page}));
+    if (data && data.status === ErrorStatus.MAINTENANCE) {
+      return;
+    }
+    showMessageForRequestError(e);
+  }
+}
+
 export function* watchFollowingChannelListRequest() {
   yield takeLeading(Actions.loadFollowingChannelListRequest.getType(), loadFollowingChannelList);
 }
 
-// export function*
+export function* watchFollowingArticleListRequest() {
+  yield takeLeading(Actions.loadFollowingArticleListRequest.getType(), loadFollowingArticleList);
+}
 
 export function* articleFollowingRootSaga() {
   yield all([
     watchFollowingChannelListRequest(),
+    watchFollowingArticleListRequest(),
   ]);
 }
