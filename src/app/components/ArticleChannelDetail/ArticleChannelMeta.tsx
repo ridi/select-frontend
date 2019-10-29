@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 interface ArticleChannelMetaProps {
   id: number;
-  title: string;
-  thumbUrl?: string;
+  name: string;
+  thumbnailUrl?: string;
   description?: string;
   subDescription?: string | null;
   followersCount?: number;
@@ -15,7 +15,7 @@ interface ArticleChannelMetaProps {
 }
 
 export const ArticleChannelMeta: React.FunctionComponent<ArticleChannelMetaProps> = (props) => {
-  const { id, title, thumbUrl, description, subDescription, followersCount, isFollowing} = props;
+  const { id, name, thumbnailUrl, description, subDescription, followersCount, isFollowing } = props;
   const dispatch = useDispatch();
 
   const handleButtonClick = (type: Method) => {
@@ -26,23 +26,21 @@ export const ArticleChannelMeta: React.FunctionComponent<ArticleChannelMetaProps
     <section>
       <div className="ArticleChannelMeta_Wrap">
         <div className="ArticleChannel_Thumbnail">
-          <img src={thumbUrl} className={'ArticleChannel_Image'} />
+          <img src={thumbnailUrl} className={'ArticleChannel_Image'} />
         </div>
         <div className="ArticleChannel_Meta">
-          <h2 className="Channel_Title">{title}</h2>
-          <p className="Channel_Desc">{description}</p>
-          <span className="Channel_Serial">{subDescription}</span>
-          <span className="Channel_Fallowing">팔로잉 <strong>{followersCount}</strong></span>
-          {
-            isFollowing ? (
-              <button className="Fallowing_Button" onClick={() => handleButtonClick('DELETE')}>팔로잉</button>
-            ) : (
-              <button className="Fallowing_Button Fallow" onClick={() => handleButtonClick('POST')}>
+          <h2 className="ArticleChannel_Meta_Title">{name}</h2>
+          <p className="ArticleChannel_Meta_Desc">{description}</p>
+          <span className="ArticleChannel_Meta_Serial">{subDescription}</span>
+          <span className="ArticleChannel_Meta_Following">팔로잉 <strong>{followersCount}</strong></span>
+          {isFollowing ? (
+              <button className="ArticleChannel_Following_Button" onClick={() => handleButtonClick('DELETE')}>팔로잉</button>
+          ) : (
+              <button className="ArticleChannel_Following_Button FollowButton" onClick={() => handleButtonClick('POST')}>
                 <Icon name="plus_1" className="Follow_Icon" />
                 팔로우
               </button>
-            )
-          }
+          )}
         </div>
       </div>
     </section>

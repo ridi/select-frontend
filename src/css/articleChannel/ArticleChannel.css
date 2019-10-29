@@ -18,78 +18,87 @@
       border-radius: 999px;
     }
   }
-  & .ArticleChannel_Meta {
-    @media (max-width: 600px) {
-      margin-top: 10px;
-    }    
-    & .Channel_Title {
-      font-family: NotoSansCJKkr;
-      font-size: 22px;
-      font-weight: 700;
-      line-height: 1.55;
-      letter-spacing: -0.5px;
-      color: var(--gray_100);      
-      margin: 0;
-      padding: 0;
-    }
-    & .Channel_Desc {
-      margin: 0;
-      margin-top: 10px;
-      font-family: NotoSansCJKkr;
-      font-size: 13px;
-      letter-spacing: -0.3px;
-      color: var(--slategray_90);      
-    }
-    & .Channel_Serial {
-      display: block;
-      margin-top: 4px;
-      font-family: NotoSansCJKkr;
-      font-size: 13px;
-      letter-spacing: -0.3px;
-      color: var(--slategray_50);
-    }
-    & .Channel_Fallowing {
-      display: block;
-      margin-top: 10px;
-      font-family: NotoSansCJKkr;
-      font-size: 13px;
-      letter-spacing: -0.3px;
-      color: var(--dodgerblue_50);
-      & strong {
-        font-family: Roboto;
-        font-size: 13px;
-        font-weight: 700;
-        letter-spacing: -0.3px;
-        color: var(--dodgerblue_50);        
-      }
-    }
-    & .Fallowing_Button {
-      margin-top: 10px;
-      width: 100px;
-      height: 30px;
-      border-radius: 3px;
-      border: solid 1px var(--dodgerblue_50);
-      background-color: #fff;
-      font-family: NotoSansCJKkr;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: -0.3px;
-      color: var(--dodgerblue_50);
-      padding: 0;  
-      &.Fallow {
-        margin-left: auto;
-        background-color: var(--dodgerblue_50);
-        color: #fff;      
-        & .Follow_Icon {
-          width: 10px;
-          height: 10px;
-          fill: #fff;
-          margin-right: 4px;
-        }        
-      }
-    }
+}
+
+.ArticleChannel_Meta {
+  @media (max-width: 600px) {
+    margin-top: 10px;
+  }    
+}
+
+.ArticleChannel_Meta_Title {
+  font-family: NotoSansCJKkr;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.55;
+  letter-spacing: -0.5px;
+  color: var(--gray_100);      
+  margin: 0;
+  padding: 0;
+}
+
+.ArticleChannel_Meta_Desc {
+  margin: 0;
+  margin-top: 10px;
+  font-family: NotoSansCJKkr;
+  font-size: 13px;
+  letter-spacing: -0.3px;
+  color: var(--slategray_90);      
+}
+
+
+.ArticleChannel_Meta_Serial {
+  display: block;
+  margin-top: 4px;
+  font-family: NotoSansCJKkr;
+  font-size: 13px;
+  letter-spacing: -0.3px;
+  color: var(--slategray_50);
+}
+
+.ArticleChannel_Meta_Following {
+  display: block;
+  margin-top: 10px;
+  font-family: NotoSansCJKkr;
+  font-size: 13px;
+  letter-spacing: -0.3px;
+  color: var(--dodgerblue_50);
+  & strong {
+    font-family: Roboto;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: var(--dodgerblue_50);        
   }
 }
+
+.ArticleChannel_Following_Button {
+  margin-top: 10px;
+  width: 100px;
+  height: 30px;
+  border-radius: 3px;
+  border: solid 1px var(--dodgerblue_50);
+  background-color: #fff;
+  font-family: NotoSansCJKkr;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: var(--dodgerblue_50);
+  padding: 0;  
+}
+
+.FollowButton {
+  border: none;
+  background-color: var(--dodgerblue_50);
+  color: #fff; 
+}
+
+.Follow_Icon {
+  width: 10px;
+  height: 10px;
+  fill: #fff;
+  margin-right: 4px;
+} 
 
 .Channel_ArticleList {
   @media (--pc-screen) {

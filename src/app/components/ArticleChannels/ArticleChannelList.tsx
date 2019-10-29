@@ -10,7 +10,7 @@ export const ArticleChannelList: React.FunctionComponent = () => {
   const dispatch = useDispatch();
 
   const isFetched = () => {
-    return (articleChannels && articleChannels.isFetched);
+    return articleChannels && articleChannels.isFetched;
   };
 
   React.useEffect(() => {
@@ -23,21 +23,21 @@ export const ArticleChannelList: React.FunctionComponent = () => {
     <section>
       <div className="ArticlePageChannelList_Wrap">
         <ul className="ArticlePageChannelList">
-          {
-            isFetched() && articleChannels.channelList.map((channelId, idx) => (
-              <li key={idx} className="ArticlePageChannel">
-                <ArticleChannelsMeta {...articleChannelById[Number(channelId)].channelMeta!} />
+          {isFetched() && articleChannels.channelList.map((channelId, idx) => {
+              const cId = Number(channelId);
+
+              return (<li key={idx} className="ArticlePageChannel">
+                <ArticleChannelsMeta {...articleChannelById[cId].channelMeta!} />
                 <div className="Channel_ArticleList">
                   <GridArticleList
                     pageTitleForTracking="article-channel-list"
                     uiPartTitleForTracking="article-channel-list-articles"
                     renderAuthor={false}
-                    articles={articleChannelById[Number(channelId)].channelMeta!.articles!}
+                    articles={articleChannelById[cId].channelMeta!.articles!}
                   />
                 </div>
-              </li>
-            ))
-          }
+              </li>);
+          })}
         </ul>
       </div>
     </section>

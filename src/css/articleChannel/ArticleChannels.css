@@ -25,6 +25,7 @@
     width: 40px;
     height: 40px;
     border: solid 1px rgba(0, 0, 0, .02);
+    border-radius: 999px;
   }
 }
 .Channel_Link {
@@ -58,15 +59,17 @@
   border: solid 1px var(--dodgerblue_50);
   background-color: #fff;
   color: var(--dodgerblue_50);
-  &.Follow {
-    border: none;
-    background-color: var(--dodgerblue_50);
-    color: #fff;
-    & .Follow_Icon {
-      width: 10px;
-      height: 10px;
-      fill: #fff;
-      margin-right: 4px;
-    }  
-  }
 }
+
+.FollowButton {
+  border: none;
+  background-color: var(--dodgerblue_50);
+  color: #fff; 
+}
+
+.Follow_Icon {
+  width: 10px;
+  height: 10px;
+  fill: #fff;
+  margin-right: 4px;
+} 

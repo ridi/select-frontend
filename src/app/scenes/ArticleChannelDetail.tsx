@@ -12,7 +12,7 @@ import { ArticleChannelMeta } from 'app/components/ArticleChannelDetail/ArticleC
 import { GridArticleList } from 'app/components/GridArticleList';
 
 export const ArticleChannelDetail: React.FunctionComponent = () => {
-  const channelId = Number(useParams<{channelId: string; }>().channelId);
+  const channelId = Number(useParams<{ channelId: string }>().channelId);
   const page = useSelector((state: RidiSelectState) => getPageQuery(state));
   const { articleChannelById } = useSelector((state: RidiSelectState) => state);
   const { articlesById } = useSelector((state: RidiSelectState) => state);
@@ -23,7 +23,7 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
   };
   const isFetchedChannelMeta = () => {
     if (!isFetched()) { return false; }
-    return (articleChannelById[channelId].isMetaFetched);
+    return articleChannelById[channelId].isMetaFetched;
   };
   const isFetchedChannelArticles = () => {
     if (!isFetched()) { return false; }
@@ -49,19 +49,11 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
         'SceneWrapper',
       )}
     >
-      <HelmetWithTitle titleName={'아티클 채널'} />
+      <HelmetWithTitle titleName={articleChannelById[channelId].channelMeta!.name} />
       <div className="a11y"><h1>리디셀렉트 아티클 채널</h1></div>
       {
         isFetchedChannelMeta() &&
-        <ArticleChannelMeta
-          id={articleChannelById[channelId].channelMeta!.id}
-          title={articleChannelById[channelId].channelMeta!.name}
-          thumbUrl={articleChannelById[channelId].channelMeta!.thumbnailUrl}
-          description={articleChannelById[channelId].channelMeta!.description}
-          subDescription={articleChannelById[channelId].channelMeta!.subDescription}
-          followersCount={articleChannelById[channelId].channelMeta!.followersCount}
-          isFollowing={articleChannelById[channelId].channelMeta!.isFollowing}
-        />
+        <ArticleChannelMeta {...articleChannelById[channelId].channelMeta!} />
       }
       <div className="Channel_ArticleList">
         {
@@ -70,7 +62,12 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
             pageTitleForTracking="article-channel-detail"
             uiPartTitleForTracking="article-channel-detail-articles"
             renderAuthor={false}
-            articles={articleChannelById[channelId].itemListByPage[page].itemList.map((id) => articlesById[id].article!)}
+            articles={
+              articleChannelById[channelId]
+              .itemListByPage[page]
+              .itemList
+              .map((id) => articlesById[id].article!)
+            }
           />
 
         }
