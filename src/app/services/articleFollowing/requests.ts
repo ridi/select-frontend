@@ -23,7 +23,7 @@ export const requestFollowingChannelList = (): Promise<FollowingChannelListRespo
 
 export const requestFollowingArticleList = (page: number): Promise<FollowingArticleListResponse> => (
   request({
-    url: `/article/me/followings/articles`,
+    url: `/article/me/feeds`,
     method: 'GET',
   }).then((response) => camelize<AxiosResponse<FollowingArticleListResponse>>(response, { recursive: true }).data)
 );
