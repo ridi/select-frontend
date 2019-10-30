@@ -64,9 +64,9 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
             renderAuthor={false}
             articles={
               articleChannelById[channelId]
-              .itemListByPage[page]
-              .itemList
-              .map((id) => articlesById[id].article!)
+                .itemListByPage[page]
+                .itemList
+                .map((id) => articlesById[id].article!)
             }
           />
 

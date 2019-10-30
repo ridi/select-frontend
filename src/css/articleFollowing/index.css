@@ -3,10 +3,7 @@
   margin: 0 auto;
   display: flex;
   flex-direction: row;
-  padding-top: 30px;
-  padding-bottom: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 30px 20px 10px;
   overflow: auto;
   & .FollowingChannel {
     display: inline-block;

@@ -34,9 +34,9 @@ export const ArticleChannelMeta: React.FunctionComponent<ArticleChannelMetaProps
           <span className="ArticleChannel_Meta_Serial">{subDescription}</span>
           <span className="ArticleChannel_Meta_Following">팔로잉 <strong>{followersCount}</strong></span>
           {isFollowing ? (
-              <button className="ArticleChannel_Following_Button" onClick={() => handleButtonClick('DELETE')}>팔로잉</button>
+              <button type="button" className="ArticleChannel_Following_Button" onClick={() => handleButtonClick('DELETE')}>팔로잉</button>
           ) : (
-              <button className="ArticleChannel_Following_Button FollowButton" onClick={() => handleButtonClick('POST')}>
+              <button type="button" className="ArticleChannel_Following_Button FollowButton" onClick={() => handleButtonClick('POST')}>
                 <Icon name="plus_1" className="Follow_Icon" />
                 팔로우
               </button>

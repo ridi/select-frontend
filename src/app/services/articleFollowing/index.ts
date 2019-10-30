@@ -6,7 +6,9 @@ import { createAction, createReducer } from 'redux-act';
 
 export const Actions = {
   loadFollowingChannelListRequest: createAction('loadFollowingChannelListRequest'),
-  loadFollowingChannelListSuccess: createAction<{ response: FollowingChannelListResponse}>('loadFollowingChannelListSuccess'),
+  loadFollowingChannelListSuccess: createAction<{
+    response: FollowingChannelListResponse,
+  }>('loadFollowingChannelListSuccess'),
   loadFollowingChannelListFailure: createAction('loadFollowingChannelListFailure'),
 
   loadFollowingArticleListRequest: createAction<{ page: number; }>('loadFollowingArticleListRequest'),

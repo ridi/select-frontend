@@ -15,7 +15,7 @@ import { TileArticleList } from 'app/components/TileArticleList';
 
 export const ArticleFollowing: React.FunctionComponent = () => {
   const { articleFollowing, articleChannelById, articlesById } = useSelector((state: RidiSelectState) => state);
-  const page = useSelector((state: RidiSelectState) => getPageQuery(state));
+  const page = useSelector(getPageQuery);
   const dispatch = useDispatch();
 
   const isFetched = () => {
@@ -61,7 +61,12 @@ export const ArticleFollowing: React.FunctionComponent = () => {
       <div className="a11y"><h1>리디셀렉트 아티클 팔로잉</h1></div>
       {
         isFetched() && articleFollowing.followingChannelList ? (
-          <SlideChannelList channels={articleFollowing.followingChannelList.map((id) => articleChannelById[Number(id)].channelMeta!)} />
+          <SlideChannelList
+            channels={
+              articleFollowing
+                .followingChannelList
+                .map((id) => articleChannelById[Number(id)].channelMeta!)}
+          />
         ) : (
           <ArticleEmpty
             iconName="account_1"
@@ -79,7 +84,12 @@ export const ArticleFollowing: React.FunctionComponent = () => {
       <div className="FollowingArticleList">
       { isFollowingArticleFetched() &&
         <TileArticleList
-          articles={articleFollowing.followingArticleList!.itemListByPage[page].itemList.map((id) => articlesById[id].article!)}
+          articles={
+            articleFollowing
+              .followingArticleList!
+              .itemListByPage[page]
+              .itemList
+              .map((id) => articlesById[id].article!)}
         />
       }
       </div>
