@@ -17,39 +17,6 @@
   background: #fff;
 }
 
-.Section_MainCopy {
-  margin: 0;
-  padding: 0;
-  font-size: 26px;
-  font-weight: 900;
-  line-height: 38px;
-  @media (--pc-screen) {
-    font-size: 40px;
-    line-height: 59px;
-  }
-}
-.Section_Description {
-  margin: 0;
-  padding: 14px 0 0;
-  font-size: 15px;
-  line-height: 25px;
-  @media (--pc-screen) {
-    font-size: 18px;
-    line-height: 32px;
-  }
-}
-.Section_Button {
-  box-shadow: 1px 1px 1px 0 rgba(209, 213, 217, .3);
-  -webkit-appearance: none;
-  @apply --reset-font-unlimited;
-  & > .RSGIcon-arrow5Right {
-    width: 4.7px;
-    height: 8px;
-    margin: 2px 0 0 5px;
-    fill: #fff;
-  }
-}
-
 .SectionMain {
   box-sizing: border-box;
   display: flex;
@@ -72,26 +39,18 @@
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007db9e8', endColorstr='#0f1724',GradientType=0 ); /* IE6-9 */
 
   }
-  & .Section_MainCopy,
-  & .Section_Description,
-  & .Section_Button {
-    transform: translate(0, 50px);
-    opacity: 0;
-    transition: transform .8s, opacity .5s;
-  }
-  & .Section_Description {
-    transition-delay: .3s;
-  }
-  & .Section_Button {
-    transition-delay: .6s;
-  }
-  &.active {
-    & .Section_MainCopy,
-    & .Section_Description,
-    & .Section_Button {
-      transform: translate(0, 0);
-      opacity: 1;
-    }
+}
+
+.SectionMain_MainCopy,
+.SectionMain_Description,
+.SectionMain_Button {
+  transform: translate(0, 50px);
+  opacity: 0;
+  transition: transform .8s, opacity .5s;
+
+  @nest .active & {
+    transform: translate(0, 0);
+    opacity: 1;
   }
 }
 
@@ -111,6 +70,7 @@
 
 .SectionMain_MainCopy {
   margin: 0;
+  padding: 0;
   font-size: 28px;
   font-weight: 900;
   line-height: 40px;
@@ -121,6 +81,12 @@
 }
 
 .SectionMain_Description {
+  margin: 0;
+  padding: 14px 0 0;
+  font-size: 15px;
+  line-height: 25px;
+  transition-delay: .3s;
+
   @media (--pc-screen) {
     padding-top: 20px;
     font-size: 18px;
@@ -129,17 +95,21 @@
 }
 
 .SectionMain_Button {
+  @apply --reset-font-unlimited;
+
   width: 100%;
   height: 50px;
   margin: 44px 0 0;
-  font-size: 16px;
-  font-weight: 700;
-  text-align: center;
   box-shadow: 1px 1px 1px 0 rgba(31, 140, 230, .3);
+  transition-delay: .6s;
 
   & > .RSGIcon-arrow5Right {
+    width: 4.7px;
+    height: 8px;
+    margin: 2px 0 0 5px;
     fill: #fff;
   }
+
   @media (--pc-screen) {
     width: 240px;
   }
