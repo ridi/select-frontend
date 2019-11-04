@@ -61,7 +61,27 @@ export const Voucher: React.FunctionComponent = () => {
             베스트셀러부터 프리미엄 아티클까지<br/>
             무제한 월정액 서비스 리디셀렉트
           </p>
-          {isLoggedIn ? null : (
+          {isLoggedIn ? (
+            <>
+              <input
+                type="text"
+                className="VoucherContent_CodeInput"
+                placeholder="이용권 번호 16자리를 입력해주세요."
+              />
+              <Button
+                type="button"
+                color="blue"
+                size="large"
+                className="VoucherContent_SubmitButton"
+                onClick={() => {}}
+              >
+                이용권 등록
+              </Button>
+              <p className="VoucherContent_SupportCaption">
+                이용권 등록 후 취소 및 일시 정지할 수 없습니다.
+              </p>
+            </>
+          ) : (
             <>
               <Button
                 type="button"
