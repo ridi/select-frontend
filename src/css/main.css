@@ -38,6 +38,7 @@
 @import 'setting/OrderHistory.css';
 @import 'category/index.css';
 @import 'closing_reserved_books/index.css';
+@import 'voucher/voucher.css';
 
 @import 'placeholder/BookListPlaceholder.css';
 @import 'placeholder/HomePlaceholder.css';

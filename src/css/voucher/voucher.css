@@ -1,0 +1,108 @@
+.VoucherContent_Wrapper {
+  position: relative;
+  height: 100vh;
+  padding-top: var(--gnb_pc_height);
+  box-sizing: border-box;
+  background: url(../images/intro/hero_bg.jpg) center center no-repeat;
+  background-size: cover;
+  &::after {
+    position: absolute;
+    display: block;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 103px;
+    content: '';
+    background: -moz-linear-gradient(top,  rgba(125,185,232,0) 0%, rgba(15,23,36,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(125,185,232,0) 0%,rgba(15,23,36,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(125,185,232,0) 0%,rgba(15,23,36,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007db9e8', endColorstr='#0f1724',GradientType=0 ); /* IE6-9 */
+  }
+
+  @nest .androidApp & {
+    padding-top: var(--gnb_android_app_height);
+  }
+  @nest .iosApp & {
+    padding-top: var(--gnb_ios_app_height);
+  }
+}
+
+.VoucherContent {
+  padding: 56.7px 30px 0;
+  color: #fff;
+  @media (--pc-screen) {
+    width: 800px;
+    margin: 0 auto;
+  }
+}
+
+.VoucherContent_TicketSVG {
+  fill: var(--dodgerblue_50);
+  width: 40px;
+  height: 40px;
+}
+
+.VoucherContent_MainCopy {
+  @apply --reset-layout;
+
+  padding-top: 10px;
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 40px;
+  @media (--pc-screen) {
+    font-size: 42px;
+    line-height: 59px;
+  }
+}
+
+.VoucherContent_Description {
+  @apply --reset-layout;
+
+  margin: 0;
+  padding: 14px 0 0;
+  font-size: 15px;
+  line-height: 25px;
+  transition-delay: .3s;
+
+  @media (--pc-screen) {
+    padding-top: 20px;
+    font-size: 18px;
+    line-height: 32px;
+  }
+}
+
+.VoucherContent_LoginButton {
+  width: 100%;
+  margin-top: 40px;
+}
+
+.VoucherContent_SupportCaption {
+  @apply --reset-layout;
+  @apply --reset-font-unlimited;
+
+  position: relative;
+  margin-top: 20px;
+  opacity: 0.9;
+  font-size: 14px;
+  color: var(--slategray_9);
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    top: 6px;
+    left: -10px;
+    background: var(--bluegray_50);
+  }
+}
+
+@media (--mobile-screen) {
+  .VoucherContent_Wrapper {
+    height: 100vh;
+    max-height: 640px;
+    background: url(../images/intro/hero_bg.m.jpg) center center no-repeat;
+    background-size: cover;
+    padding-top: var(--gnb_mobile_height);
+  }
+}
