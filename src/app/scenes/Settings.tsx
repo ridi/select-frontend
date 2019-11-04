@@ -10,7 +10,7 @@ import {
 } from 'app/components/Settings/SettingMenu';
 import { ConnectedSubscriptionInfo } from 'app/components/Settings/SubscriptionInfo';
 import env from 'app/config/env';
-import { FetchStatusFlag, PageTitleText } from 'app/constants';
+import { FetchStatusFlag, PageTitleText, RoutePaths } from 'app/constants';
 import { SettingPlaceholder } from 'app/placeholder/SettingPlaceholder';
 import { EnvironmentState } from 'app/services/environment';
 import {
@@ -64,14 +64,14 @@ export class Settings extends React.PureComponent<SettingProps> {
       <SettingMenu title={'구독 / 결제'} icon={'card'} key="Menus About Subscription">
         <SettingMenuItem
           linkComponent={Link}
-          to="/manage-subscription"
+          to={RoutePaths.MANAGE_SUBSCRIPTION}
           key="ManageSubscriptions"
           renderCondition={!!subscriptionState}
         >
           구독 관리
         </SettingMenuItem>
         <SettingMenuItem linkComponent={Link} to="/order-history" key="PaymentHistory">
-          결제 내역
+          결제/이용권 내역
         </SettingMenuItem>
         <SettingMenuItem
           href={`${env.PAY_URL}`}
@@ -83,6 +83,13 @@ export class Settings extends React.PureComponent<SettingProps> {
           key="ManageCard"
         >
           셀렉트 카드 관리
+        </SettingMenuItem>
+        <SettingMenuItem
+          to={RoutePaths.VOUCHER}
+          renderCondition={!isIosInApp}
+          key="Voucher"
+        >
+          이용권 등록
         </SettingMenuItem>
       </SettingMenu>
     );

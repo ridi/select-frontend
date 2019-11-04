@@ -1,7 +1,7 @@
 import * as classNames from 'classnames';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 
 import { RoutePaths } from 'app/constants';
 import { FooterTheme } from 'app/services/commonUI';
@@ -44,7 +44,10 @@ export const Footer: React.SFC<Props> = (props) => {
           </a>
         </li>
         <li className="Footer_Headline_Item">
-          <Link className="Footer_Headline_Link" to="/guide">이용 방법</Link>
+          <Link className="Footer_Headline_Link" to={RoutePaths.GUIDE}>이용 방법</Link>
+        </li>
+        <li className="Footer_Headline_Item">
+          <Link className="Footer_Headline_Link" to={RoutePaths.VOUCHER}>이용권 등록</Link>
         </li>
         <li className="Footer_Headline_Item">
           <a
@@ -53,7 +56,7 @@ export const Footer: React.SFC<Props> = (props) => {
             target="_blank"
             rel="noopener"
           >
-            리디셀렉트 FAQ
+            FAQ
           </a>
         </li>
       </ul>
