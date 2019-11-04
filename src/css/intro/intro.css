@@ -1,20 +1,3 @@
-:root {
-  --reasonable_section_mobile_height: 470px;
-  --reasonable_section_pc_height: 600px;
-}
-
-.BreakRow {
-  @media (--pc-screen) {
-    clear: both;
-  }
-}
-
-@media (--mobile-screen) {
-  .Footer {
-    padding-bottom: 70px;
-  }
-}
-
 .Load_Trigger_Image {
   position: absolute;
   top: 0;
@@ -111,22 +94,7 @@
     }
   }
 }
-@media (--mobile-screen) {
-  .SectionMain {
-    height: 100vh;
-    max-height: 640px;
-    background: url(../images/intro/hero_bg.m.jpg) center center no-repeat;
-    background-size: cover;
-  }
-}
-.SectionMain_BgImages {
-  position: absolute;
-  bottom: -100px;
-  left: 0;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
+
 .SectionMain_Content {
   display: flex;
   flex: 1;
@@ -174,5 +142,18 @@
   }
   @media (--pc-screen) {
     width: 240px;
+  }
+}
+
+@media (--mobile-screen) {
+  .SectionMain {
+    height: 100vh;
+    max-height: 640px;
+    background: url(../images/intro/hero_bg.m.jpg) center center no-repeat;
+    background-size: cover;
+  }
+
+  .Footer {
+    padding-bottom: 70px;
   }
 }
