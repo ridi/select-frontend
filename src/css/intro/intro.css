@@ -23,6 +23,7 @@
   position: relative;
   flex-direction: column;
   height: 100vh;
+  min-height: 900px;
   background: url(../images/intro/hero_bg.jpg) center center no-repeat;
   background-size: cover;
   &::after {
@@ -118,6 +119,7 @@
 @media (--mobile-screen) {
   .SectionMain {
     height: 100vh;
+    min-height: auto;
     max-height: 640px;
     background: url(../images/intro/hero_bg.m.jpg) center center no-repeat;
     background-size: cover;
