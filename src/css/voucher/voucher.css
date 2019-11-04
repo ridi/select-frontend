@@ -92,7 +92,8 @@
   }
 
   @media (--pc-screen) {
-    width: 240px;
+    display: block;
+    width: 300px;
   }
 }
 
@@ -103,7 +104,8 @@
   font-size: 15px;
 
   @media (--pc-screen) {
-    width: 240px;
+    display: block;
+    width: 300px;
   }
 }
 
