@@ -35,9 +35,9 @@ export const Voucher: React.FunctionComponent = () => {
   }));
 
   const modifyValue = (value: string) => {
-    let resultValue = '';
-    if (value.length > 0) {
-      resultValue = value.match(/.{1,4}/g)!.join('-');
+    let resultValue = value.replace(/[^\w]|_/g, '').toUpperCase();
+    if (resultValue.length > 0) {
+      resultValue = resultValue.match(/.{1,4}/g)!.join('-');
     }
     if (resultValue.length > 19) {
       resultValue = resultValue.slice(0, 19);
@@ -96,10 +96,7 @@ export const Voucher: React.FunctionComponent = () => {
                   type="text"
                   className="VoucherContent_CodeInput"
                   placeholder="이용권 번호 16자리를 입력해주세요."
-                  onChange={(e) => {
-                    const modifiedInputValue = e.target.value.replace(/[^\w]|_/g, '');
-                    setInputValue(modifyValue(modifiedInputValue));
-                  }}
+                  onChange={(e) => setInputValue(modifyValue(e.target.value))}
                   value={inputValue}
                 />
                 <Button
