@@ -7,10 +7,11 @@ import { PageTitleText, RoutePaths } from 'app/constants';
 import { Actions as CommonUIActions, FooterTheme, GNBTransparentType } from 'app/services/commonUI';
 import { RidiSelectState } from 'app/store';
 import { moveToLogin } from 'app/utils/utils';
+import * as qs from 'qs';
 
 const TicketSVG: React.FunctionComponent<{ className?: string }> = (props) => (
   <svg width="24px" height="24px" viewBox="0 0 24 24" className={props.className}>
-    <g fill-rule="nonzero">
+    <g fillRule="nonzero">
       <path d="M22,10 L22,6 C22,4.89 21.1,4 20,4 L4,4 C2.9,4 2.01,4.89 2.01,6 L2.01,10 C3.11,10 4,10.9 4,12 C4,13.1 3.11,14 2,14 L2,18 C2,19.1 2.9,20 4,20 L20,20 C21.1,20 22,19.1 22,18 L22,14 C20.9,14 20,13.1 20,12 C20,10.9 20.9,10 22,10 Z M20,8.54 C18.81,9.23 18,10.53 18,12 C18,13.47 18.81,14.77 20,15.46 L20,18 L4,18 L4,15.46 C5.19,14.77 6,13.47 6,12 C6,10.52 5.2,9.23 4.01,8.54 L4,6 L20,6 L20,8.54 Z M11,15 L13,15 L13,17 L11,17 L11,15 Z M11,11 L13,11 L13,13 L11,13 L11,11 Z M11,7 L13,7 L13,9 L11,9 L11,7 Z" />
     </g>
   </svg>
@@ -18,17 +19,31 @@ const TicketSVG: React.FunctionComponent<{ className?: string }> = (props) => (
 
 export const Voucher: React.FunctionComponent = () => {
   const [isLoaded, setIsLoaded] = React.useState(false);
+  const [inputValue, setInputValue] = React.useState('');
   const dispatch = useDispatch();
 
   const {
+    searchQuery,
     isLoggedIn,
     isUserFetching,
     BASE_URL_SELECT,
   } = useSelector((state: RidiSelectState) => ({
+    searchQuery: state.router.location.search,
     isLoggedIn: state.user.isLoggedIn,
     isUserFetching: state.user.isFetching,
     BASE_URL_SELECT: state.environment.SELECT_URL,
   }));
+
+  const modifyValue = (value: string) => {
+    let resultValue = '';
+    if (value.length > 0) {
+      resultValue = value.match(/.{1,4}/g)!.join('-');
+    }
+    if (resultValue.length > 19) {
+      resultValue = resultValue.slice(0, 19);
+    }
+    return resultValue;
+  };
 
   React.useEffect(() => {
     dispatch(CommonUIActions.updateGNBTransparent({ transparentType: GNBTransparentType.transparent }));
@@ -38,6 +53,16 @@ export const Voucher: React.FunctionComponent = () => {
       dispatch(CommonUIActions.updateFooterTheme({ theme: FooterTheme.default }));
     };
   }, []);
+
+  React.useEffect(() => {
+    const queryString = qs.parse(searchQuery, { ignoreQueryPrefix: true });
+    if (queryString.code) {
+      setInputValue(modifyValue(queryString.code));
+    }
+    return () => {
+      setInputValue('');
+    };
+  }, [searchQuery]);
 
   return (
     <main className="SceneWrapper PageVoucher">
@@ -71,6 +96,11 @@ export const Voucher: React.FunctionComponent = () => {
                   type="text"
                   className="VoucherContent_CodeInput"
                   placeholder="이용권 번호 16자리를 입력해주세요."
+                  onChange={(e) => {
+                    const modifiedInputValue = e.target.value.replace(/[^\w]|_/g, '');
+                    setInputValue(modifyValue(modifiedInputValue));
+                  }}
+                  value={inputValue}
                 />
                 <Button
                   type="button"

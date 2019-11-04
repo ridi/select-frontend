@@ -122,10 +122,6 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
             <>
               <ul className="SubscriptionInfo_List">
                 <li className="SubscriptionInfo">
-                  <p className="SubscriptionInfo_Title">구독 시작 일시</p>
-                  <p className="SubscriptionInfo_Data">{buildDateAndTimeFormat(subscriptionState.subscriptionDate)}</p>
-                </li>
-                <li className="SubscriptionInfo">
                   <p className="SubscriptionInfo_Title">이용 기간</p>
                   <p className="SubscriptionInfo_Data">
                     {buildDateAndTimeFormat(subscriptionState.ticketStartDate)} ~ {buildDateAndTimeFormat(subscriptionState.ticketEndDate)}
