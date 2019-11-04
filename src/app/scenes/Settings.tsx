@@ -85,6 +85,7 @@ export class Settings extends React.PureComponent<SettingProps> {
           셀렉트 카드 관리
         </SettingMenuItem>
         <SettingMenuItem
+          linkComponent={Link}
           to={RoutePaths.VOUCHER}
           renderCondition={!isIosInApp}
           key="Voucher"
