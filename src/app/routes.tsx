@@ -18,7 +18,6 @@ import {
   ConnectedErrorPage,
   ConnectedGuide,
   ConnectedHome,
-  ConnectedIntro,
   ConnectedManageSubscription,
   ConnectedMySelect,
   ConnectedMySelectHistory,
@@ -26,7 +25,9 @@ import {
   ConnectedOrderHistory,
   ConnectedSearchResult,
   ConnectedSetting,
+  Intro,
   NotAvailableBook,
+  Voucher,
   WrongLocation,
 } from 'app/scenes';
 
@@ -162,7 +163,13 @@ export const Routes: React.SFC<Props> = (props) => {
           <Route
             path={RoutePaths.INTRO}
             exact={true}
-            component={ConnectedIntro}
+            component={Intro}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.VOUCHER}
+            exact={true}
+            component={Voucher}
             {...props}
           />
           <ConnectedPrivateRoute
