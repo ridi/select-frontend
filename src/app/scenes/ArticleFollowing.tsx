@@ -13,40 +13,21 @@ import { getPageQuery } from 'app/services/routing/selectors';
 import { SlideChannelList } from 'app/components/SlideChannelList';
 import { TileArticleList } from 'app/components/TileArticleList';
 
+import { getArticleItems, getChannelItems } from 'app/services/articleFollowing/selectors';
+
 export const ArticleFollowing: React.FunctionComponent = () => {
-  const { articleFollowing, articleChannelById, articlesById } = useSelector((state: RidiSelectState) => state);
   const page = useSelector(getPageQuery);
+  const channelItems = useSelector(getChannelItems);
+  const articleItems = useSelector(getArticleItems);
   const dispatch = useDispatch();
 
-  const isFetched = () => {
-    return (articleFollowing && articleFollowing.isFetched);
-  };
-
-  const isFollowingChannelFetched = () => {
-    if (!isFetched()) {
-      return false;
-    }
-    return articleFollowing.isFetched;
-  };
-
-  const isFollowingArticleFetched = () => {
-    if (!isFetched()) {
-      return false;
-    }
-    return ( articleFollowing.followingArticleList
-      && articleFollowing.followingArticleList.itemListByPage[page]
-      && articleFollowing.followingArticleList.itemListByPage[page].isFetched);
-  };
-
   React.useEffect(() => {
-    if (!isFollowingChannelFetched()) {
+    if (channelItems.length <= 0) {
       dispatch(Actions.loadFollowingChannelListRequest());
     }
-
-    if (!isFollowingArticleFetched()) {
+    if (articleItems.length <= 0) {
       dispatch(Actions.loadFollowingArticleListRequest({ page }));
     }
-
   }, []);
 
   return (
@@ -60,12 +41,9 @@ export const ArticleFollowing: React.FunctionComponent = () => {
       <HelmetWithTitle titleName={PageTitleText.ARTICLE_FOLLOWING} />
       <div className="a11y"><h1>리디셀렉트 아티클 팔로잉</h1></div>
       {
-        isFetched() && articleFollowing.followingChannelList ? (
+        channelItems ? (
           <SlideChannelList
-            channels={
-              articleFollowing
-                .followingChannelList
-                .map((id) => articleChannelById[Number(id)].channelMeta!)}
+            channels={channelItems}
           />
         ) : (
           <ArticleEmpty
@@ -82,14 +60,9 @@ export const ArticleFollowing: React.FunctionComponent = () => {
       }
       {/* ArticleList 영역 */}
       <div className="FollowingArticleList">
-      { isFollowingArticleFetched() &&
+      { articleItems &&
         <TileArticleList
-          articles={
-            articleFollowing
-              .followingArticleList!
-              .itemListByPage[page]
-              .itemList
-              .map((id) => articlesById[id].article!)}
+          articles={articleItems}
         />
       }
       </div>
