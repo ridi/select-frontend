@@ -74,7 +74,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
 
       // 해지 예약 상태일 때, 결제 수단 변경 시 카드가 있다면
       if (type === 'unsubscription') {
-        locationUrl = `${STORE_URL}/select/payments/ridi-pay?return_url=${currentLocation}`;
+        locationUrl = `${STORE_URL}/select/payments/ridi-pay?is_payment_method_change=true&return_url=${currentLocation}`;
       }
 
       // 리디캐시 자동충전 중인 상태의 카드일때 컨펌메시지
