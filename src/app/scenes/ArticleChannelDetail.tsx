@@ -13,7 +13,7 @@ import { GridArticleList } from 'app/components/GridArticleList';
 
 export const ArticleChannelDetail: React.FunctionComponent = () => {
   const channelId = Number(useParams<{ channelId: string }>().channelId);
-  const page = useSelector((state: RidiSelectState) => getPageQuery(state));
+  const page = useSelector(getPageQuery);
   const { articleChannelById } = useSelector((state: RidiSelectState) => state);
   const { articlesById } = useSelector((state: RidiSelectState) => state);
   const dispatch = useDispatch();
