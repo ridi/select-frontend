@@ -3,6 +3,8 @@ import env from 'app/config/env';
 
 export enum UseVoucherResponseCode {
   notEnoughParams = 'SUBSCRIPTION_REQUIRED_VOUCHER',
+  invalidParams = 'INVALID_PARAM',
+  voucherNotFound  = 'VOUCHER_NOT_FOUND',
   subscriptionRequiredVoucher = 'SUBSCRIPTION_REQUIRED_VOUCHER',
   expiredVoucher = 'EXPIRED_VOUCHER',
 }
