@@ -1,20 +1,19 @@
 import { ArticleChannelsMeta } from 'app/components/ArticleChannels/ArticleChannelsMeta';
 import { GridArticleList } from 'app/components/GridArticleList';
+import { FetchStatusFlag } from 'app/constants';
 import { Actions } from 'app/services/articleChannel';
+import { getChannelList } from 'app/services/articleChannel/selectors';
 import { RidiSelectState } from 'app/store';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const ArticleChannelList: React.FunctionComponent = () => {
-  const { articleChannels, articleChannelById } = useSelector((state: RidiSelectState) => state);
+  const channelList = useSelector(getChannelList);
+  const channelListFetchStatus = useSelector((state: RidiSelectState) => state.articleChannels.fetchStatus);
   const dispatch = useDispatch();
 
-  const isFetched = () => {
-    return articleChannels && articleChannels.isFetched;
-  };
-
   React.useEffect(() => {
-    if (!isFetched()) {
+    if (channelListFetchStatus === FetchStatusFlag.IDLE && channelList.length === 0) {
       dispatch(Actions.loadArticleChannelListRequest());
     }
   }, []);
@@ -23,17 +22,15 @@ export const ArticleChannelList: React.FunctionComponent = () => {
     <section>
       <div className="ArticlePageChannelList_Wrap">
         <ul className="ArticlePageChannelList">
-          {isFetched() && articleChannels.channelList.map((channelId, idx) => {
-              const cId = Number(channelId);
-
+          {channelList.map((channelMeta, idx) => {
               return (<li key={idx} className="ArticlePageChannel">
-                <ArticleChannelsMeta {...articleChannelById[cId].channelMeta!} />
+                <ArticleChannelsMeta {...channelMeta} />
                 <div className="Channel_ArticleList">
                   <GridArticleList
                     pageTitleForTracking="article-channel-list"
                     uiPartTitleForTracking="article-channel-list-articles"
                     renderAuthor={false}
-                    articles={articleChannelById[cId].channelMeta!.articles!}
+                    articles={channelMeta.articles!}
                   />
                 </div>
               </li>);

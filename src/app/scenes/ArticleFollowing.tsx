@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { HelmetWithTitle } from 'app/components';
 import { ArticleEmpty } from 'app/components/ArticleEmpty';
-import { PageTitleText } from 'app/constants';
+import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { getPageQuery } from 'app/services/routing/selectors';
 
 import { SlideChannelList } from 'app/components/SlideChannelList';
@@ -19,13 +19,20 @@ export const ArticleFollowing: React.FunctionComponent = () => {
   const page = useSelector(getPageQuery);
   const channelItems = useSelector(getChannelItems);
   const articleItems = useSelector(getArticleItems);
+  const channelFetchStatus = useSelector((state: RidiSelectState) => state.articleFollowing.fetchStatus);
+  const articleFetchStatus = useSelector((state: RidiSelectState) => {
+    if (state.articleFollowing.followingArticleList && state.articleFollowing.followingArticleList.itemListByPage[page]) {
+      return state.articleFollowing.followingArticleList.itemListByPage[page].fetchStatus;
+    }
+    return FetchStatusFlag.IDLE;
+  });
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    if (channelItems.length <= 0) {
+    if (channelFetchStatus === FetchStatusFlag.IDLE && channelItems.length === 0) {
       dispatch(Actions.loadFollowingChannelListRequest());
     }
-    if (articleItems.length <= 0) {
+    if (articleFetchStatus === FetchStatusFlag.IDLE && articleItems.length === 0) {
       dispatch(Actions.loadFollowingArticleListRequest({ page }));
     }
   }, []);

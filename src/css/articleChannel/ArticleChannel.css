@@ -63,13 +63,15 @@
   font-size: 13px;
   letter-spacing: -0.3px;
   color: var(--dodgerblue_50);
-  & strong {
-    font-family: Roboto;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-    color: var(--dodgerblue_50);        
-  }
+
+}
+
+.ArticleChannel_Meta_FollowingNumber {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: var(--dodgerblue_50);        
 }
 
 .ArticleChannel_Following_Button {
@@ -86,19 +88,6 @@
   color: var(--dodgerblue_50);
   padding: 0;  
 }
-
-.FollowButton {
-  border: none;
-  background-color: var(--dodgerblue_50);
-  color: #fff; 
-}
-
-.Follow_Icon {
-  width: 10px;
-  height: 10px;
-  fill: #fff;
-  margin-right: 4px;
-} 
 
 .Channel_ArticleList {
   @media (--pc-screen) {

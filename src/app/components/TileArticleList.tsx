@@ -18,30 +18,32 @@ export const TileArticleList: React.FunctionComponent<Props> = (props) => {
   return(
     <ul className="TileArticleList">
       {
-        articles.map((article, idx) => (
-          <li className="TileArticleList_Item" key={idx}>
-            <ArticleThumbnail
-              linkUrl={articleContentToPath({ contentId: String(article.id) })}
-              imageUrl={article.thumbnailUrl}
-              articleTitle={article.title}
-            />
-            <Link
-              to={articleContentToPath({ contentId: String(article.id) })}
-              className="TileArticleList_ItemLink"
-            >
-              <div className="TileArticleList_ItemInfo">
-                <div className="TileArticleList_ChannelThumbnail">
-                  <img src={articleChannelById[article.channelId].channelMeta!.thumbnailUrl} className="TileArticleList_Thumbnail" />
+        articles.map((article, idx) => {
+          const channelMeta = articleChannelById[article.channelId].channelMeta!;
+          return (
+            <li className="TileArticleList_Item" key={idx}>
+              <ArticleThumbnail
+                linkUrl={articleContentToPath({ contentId: String(article.id) })}
+                imageUrl={article.thumbnailUrl}
+                articleTitle={article.title}
+              />
+              <Link
+                to={articleContentToPath({ contentId: String(article.id) })}
+                className="TileArticleList_ItemLink"
+              >
+                <div className="TileArticleList_ItemInfo">
+                  <div className="TileArticleList_ChannelThumbnail">
+                    <img src={channelMeta.thumbnailUrl} className="TileArticleList_Thumbnail" />
+                  </div>
+                  <div className="TileArticleList_MetaData">
+                    <p className="TileArticleList_Title">{article.title}</p>
+                    <span className="TileArticleList_ChannelName">{channelMeta.name}</span>
+                    <span className="TileArticleList_Date"> · {buildDateDistanceFormat(article.regDate)} 전</span>
+                  </div>
                 </div>
-                <div className="TileArticleList_MetaData">
-                  <p className="TileArticleList_Title">{article.title}</p>
-                  <span className="TileArticleList_ChannelName">{articleChannelById[article.channelId].channelMeta!.name}</span>
-                  <span className="TileArticleList_Date"> · {buildDateDistanceFormat(article.regDate)} 전</span>
-                </div>
-              </div>
-            </Link>
-          </li>
-        ))
+              </Link>
+            </li>
+          ); })
       }
     </ul>
   );
