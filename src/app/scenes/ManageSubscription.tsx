@@ -122,7 +122,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
             <>
               <ul className="SubscriptionInfo_List">
                 <li className="SubscriptionInfo">
-                  <p className="SubscriptionInfo_Title">기간</p>
+                  <p className="SubscriptionInfo_Title">이용 기간</p>
                   <p className="SubscriptionInfo_Data">
                     {`${buildDateAndTimeFormat(userState.ticketEndDate)} 까지`}
                   </p>

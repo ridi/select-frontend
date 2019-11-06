@@ -1,19 +1,20 @@
+import * as React from 'react';
+import { connect } from 'react-redux';
+
 import { Button, Icon } from '@ridi/rsg';
-import { FetchStatusFlag, RoutePaths } from 'app/constants';
+
+import { getIsIosInApp } from 'app/services/environment/selectors';
 import { Actions, SubscriptionState } from 'app/services/user';
 import { Ticket } from 'app/services/user/requests';
 import { RidiSelectState } from 'app/store';
 import { DateDTO } from 'app/types';
 import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
 import toast from 'app/utils/toast';
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 interface SubscriptionInfoStateProps {
   uId: string;
+  isIosInApp: boolean;
   BASE_URL_STORE: string;
-  BASE_URL_PAY: string;
   ticketEndDate?: DateDTO;
   hasSubscribedBefore: boolean;
   hasAvailableTicket: boolean;
@@ -127,15 +128,15 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
   }
 
   private renderAddCardButton() {
-    const { BASE_URL_PAY } = this.props;
+    const { BASE_URL_STORE, isIosInApp } = this.props;
 
-    return (
+    return isIosInApp ? null : (
       <Button
         className="SubscribeToUseButton"
         component="a"
         color="blue"
         size="large"
-        href={`${BASE_URL_PAY}/settings/cards/register?return_url=${encodeURIComponent(location.href)}`}
+        href={`${BASE_URL_STORE}/select/payments?return_url=${encodeURIComponent(location.href)}`}
       >
         카드 등록하기
       </Button>
@@ -170,8 +171,8 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
 const mapStateToProps = (state: RidiSelectState): SubscriptionInfoStateProps => {
   return {
     uId: state.user.uId,
+    isIosInApp: getIsIosInApp(state),
     BASE_URL_STORE: state.environment.STORE_URL,
-    BASE_URL_PAY: state.environment.PAY_URL,
     ticketEndDate: state.user.ticketEndDate,
     hasAvailableTicket: state.user.hasAvailableTicket,
     subscriptionState: state.user.subscription,
