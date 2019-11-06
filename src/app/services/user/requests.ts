@@ -79,6 +79,13 @@ export const requestSubscription = (): Promise<AxiosResponse<SubscriptionRespons
   }).then((response: AxiosResponse<SubscriptionResponse>) =>
     camelize<AxiosResponse<SubscriptionResponse>>(response.data, { recursive: true }));
 
+export const requestTicketInfo = (): Promise<AxiosResponse<{ ticketEndDate: DateDTO }>> =>
+  request({
+    url: `${env.STORE_API}/api/select/users/me/ticket`,
+    method: 'GET',
+  }).then((response: AxiosResponse<{ ticketEndDate: DateDTO }>) =>
+    camelize<AxiosResponse<{ ticketEndDate: DateDTO }>>(response.data, { recursive: true }));
+
 export const requestPurchases = (page: number): Promise<AxiosResponse<PurchasesResponse>> =>
   request({
     url: `${env.STORE_API}/api/select/users/me/purchases`,

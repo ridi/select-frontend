@@ -1,8 +1,9 @@
 import { Button, Icon } from '@ridi/rsg';
-import { RoutePaths } from 'app/constants';
+import { FetchStatusFlag, RoutePaths } from 'app/constants';
 import { Actions, SubscriptionState } from 'app/services/user';
 import { Ticket } from 'app/services/user/requests';
 import { RidiSelectState } from 'app/store';
+import { DateDTO } from 'app/types';
 import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
 import toast from 'app/utils/toast';
 import * as React from 'react';
@@ -12,6 +13,7 @@ import { Link } from 'react-router-dom';
 interface SubscriptionInfoStateProps {
   uId: string;
   BASE_URL_STORE: string;
+  ticketEndDate?: DateDTO;
   hasSubscribedBefore: boolean;
   subscriptionState?: SubscriptionState | null;
   latestPurchaseTicket: Ticket;
@@ -43,14 +45,13 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
   }
 
   private renderSubscriptionTermInfo() {
-    const { subscriptionState } = this.props;
-    const { ticketStartDate, ticketEndDate } = subscriptionState!;
+    const { ticketEndDate } = this.props;
 
     return (
       <li className="CurrentSubscriptionInfo" key="current-subscription-info">
         <strong className="CurrentSubscriptionInfo_Title">셀렉트 구독</strong>
         <span className="CurrentSubscriptionInfo_Term">
-          {`${buildDateAndTimeFormat(ticketStartDate)} ~ ${buildDateAndTimeFormat(ticketEndDate)}`}
+          {`${buildDateAndTimeFormat(ticketEndDate)} 까지`}
         </span>
       </li>
     );
@@ -145,6 +146,7 @@ const mapStateToProps = (state: RidiSelectState): SubscriptionInfoStateProps => 
   return {
     uId: state.user.uId,
     BASE_URL_STORE: state.environment.STORE_URL,
+    ticketEndDate: state.user.ticketEndDate,
     subscriptionState: state.user.subscription,
     hasSubscribedBefore: state.user.hasSubscribedBefore,
     latestPurchaseTicket: !!state.user.purchaseHistory.itemListByPage[1] && state.user.purchaseHistory.itemListByPage[1].itemList[0],

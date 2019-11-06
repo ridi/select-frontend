@@ -19,12 +19,15 @@ import {
 } from 'app/services/environment/selectors';
 import { Actions, SubscriptionState } from 'app/services/user';
 import { RidiSelectState } from 'app/store';
+import { DateDTO } from 'app/types';
 import { Link } from 'react-router-dom';
 
 interface SettingStateProps {
   isFetching: boolean;
   isAccountMeRetried: boolean;
   isLoggedIn: boolean;
+  ticketEndDate?: DateDTO;
+  ticketFetchStatus: FetchStatusFlag;
   subscriptionFetchStatus: FetchStatusFlag;
   subscriptionState?: SubscriptionState | null;
   environment: EnvironmentState;
@@ -139,7 +142,7 @@ export class Settings extends React.PureComponent<SettingProps> {
     return [
       this.renderBooksMenus(),
       this.renderSubscriptionMenus(),
-      this.renderUserMenus(),
+      this.renderUserMenus(), ``,
     ];
   }
   public componentDidMount() {
@@ -147,13 +150,19 @@ export class Settings extends React.PureComponent<SettingProps> {
       isAccountMeRetried,
       isLoggedIn,
       isFetching,
+      ticketEndDate,
+      ticketFetchStatus,
       dispatchLoadAccountMeRequest,
       dispatchLoadOrderHistory,
       dispatchLoadSubscriptionRequest,
+      dispatchLoadTicketInfoRequest,
     } = this.props;
 
     if (!isLoggedIn && !isFetching && !isAccountMeRetried) {
       dispatchLoadAccountMeRequest();
+    }
+    if (!ticketEndDate && ticketFetchStatus === FetchStatusFlag.IDLE) {
+      dispatchLoadTicketInfoRequest();
     }
 
     dispatchLoadSubscriptionRequest();
@@ -164,13 +173,19 @@ export class Settings extends React.PureComponent<SettingProps> {
     const {
       isLoggedIn,
       subscriptionFetchStatus,
+      ticketFetchStatus,
     } = this.props;
 
     return (
       <main className={classNames('SceneWrapper', 'PageSetting')}>
         <HelmetWithTitle titleName={PageTitleText.SETTING} />
         <ConnectedPageHeader pageTitle={PageTitleText.SETTING} />
-        {subscriptionFetchStatus === FetchStatusFlag.IDLE && isLoggedIn ? <ConnectedSubscriptionInfo /> : <SettingPlaceholder />}
+        {subscriptionFetchStatus === FetchStatusFlag.IDLE
+          && ticketFetchStatus === FetchStatusFlag.IDLE
+          && isLoggedIn
+            ? <ConnectedSubscriptionInfo />
+            : <SettingPlaceholder />
+        }
         {this.renderMenus()}
       </main>
     );
@@ -180,6 +195,8 @@ export class Settings extends React.PureComponent<SettingProps> {
 const mapStateToProps = (state: RidiSelectState): SettingStateProps => {
   return {
     isFetching: state.user.isFetching,
+    ticketEndDate: state.user.ticketEndDate,
+    ticketFetchStatus: state.user.ticketFetchStatus,
     isAccountMeRetried: state.user.isAccountMeRetried,
     isLoggedIn: state.user.isLoggedIn,
     subscriptionFetchStatus: state.user.subscriptionFetchStatus,
@@ -192,10 +209,9 @@ const mapStateToProps = (state: RidiSelectState): SettingStateProps => {
 
 const mapDispatchToProps = (dispatch: any) => ({
   dispatchLoadAccountMeRequest: () => dispatch(Actions.loadAccountsMeRequest()),
-  dispatchLoadSubscriptionRequest: () =>
-    dispatch(Actions.loadSubscriptionRequest()),
-  dispatchLoadOrderHistory: (page: number) =>
-    dispatch(Actions.loadPurchasesRequest({ page })),
+  dispatchLoadSubscriptionRequest: () => dispatch(Actions.loadSubscriptionRequest()),
+  dispatchLoadTicketInfoRequest: () => dispatch(Actions.loadTicketInfoRequest()),
+  dispatchLoadOrderHistory: (page: number) => dispatch(Actions.loadPurchasesRequest({ page })),
 });
 
 export const ConnectedSetting = connect(

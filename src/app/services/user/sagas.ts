@@ -1,6 +1,7 @@
 import { keyBy } from 'lodash-es';
 import * as qs from 'qs';
 import { all, call, put, select, take, takeEvery, takeLatest } from 'redux-saga/effects';
+import { requestTicketInfo } from './requests';
 
 import history from 'app/config/history';
 import { FetchErrorFlag, RoutePaths } from 'app/constants';
@@ -26,10 +27,12 @@ import {
   SubscriptionResponse,
 } from 'app/services/user/requests';
 import { RidiSelectState } from 'app/store';
+import { DateDTO } from 'app/types';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import { fixWrongPaginationScope, isValidPaginationParameter, updateQueryStringParam } from 'app/utils/request';
 import toast from 'app/utils/toast';
 import showMessageForRequestError from 'app/utils/toastHelper';
+import { try } from 'q';
 
 export function* initializeUser({ payload }: ReturnType<typeof Actions.initializeUser>) {
   yield put(TrackingActions.trackingArgsUpdate({
@@ -58,6 +61,19 @@ export function* watchLoadAccountsMeRequest() {
       location.href = `${STORE_URL}/account/logout?return_url=${SELECT_URL}/`;
     }
   }
+}
+
+export function* loadTicketInfoRequest() {
+  try {
+    const response: { ticketEndDate: DateDTO } = yield call(requestTicketInfo);
+    yield put(Actions.loadTicketInfoSuccess({ response }));
+  } catch (e) {
+    yield put(Actions.loadTicketInfoFailure());
+  }
+}
+
+export function* watchLoadTicketInfoRequest() {
+  yield takeLatest(Actions.loadTicketInfoRequest.getType(), loadTicketInfoRequest);
 }
 
 export function* watchLoadSubscription() {
