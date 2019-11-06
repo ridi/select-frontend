@@ -150,19 +150,13 @@ export class Settings extends React.PureComponent<SettingProps> {
       isAccountMeRetried,
       isLoggedIn,
       isFetching,
-      ticketEndDate,
-      ticketFetchStatus,
       dispatchLoadAccountMeRequest,
       dispatchLoadOrderHistory,
       dispatchLoadSubscriptionRequest,
-      dispatchLoadTicketInfoRequest,
     } = this.props;
 
     if (!isLoggedIn && !isFetching && !isAccountMeRetried) {
       dispatchLoadAccountMeRequest();
-    }
-    if (!ticketEndDate && ticketFetchStatus === FetchStatusFlag.IDLE) {
-      dispatchLoadTicketInfoRequest();
     }
 
     dispatchLoadSubscriptionRequest();
@@ -210,7 +204,6 @@ const mapStateToProps = (state: RidiSelectState): SettingStateProps => {
 const mapDispatchToProps = (dispatch: any) => ({
   dispatchLoadAccountMeRequest: () => dispatch(Actions.loadAccountsMeRequest()),
   dispatchLoadSubscriptionRequest: () => dispatch(Actions.loadSubscriptionRequest()),
-  dispatchLoadTicketInfoRequest: () => dispatch(Actions.loadTicketInfoRequest()),
   dispatchLoadOrderHistory: (page: number) => dispatch(Actions.loadPurchasesRequest({ page })),
 });
 

@@ -63,19 +63,6 @@ export function* watchLoadAccountsMeRequest() {
   }
 }
 
-export function* loadTicketInfoRequest() {
-  try {
-    const response: { ticketEndDate: DateDTO } = yield call(requestTicketInfo);
-    yield put(Actions.loadTicketInfoSuccess({ response }));
-  } catch (e) {
-    yield put(Actions.loadTicketInfoFailure());
-  }
-}
-
-export function* watchLoadTicketInfoRequest() {
-  yield takeLatest(Actions.loadTicketInfoRequest.getType(), loadTicketInfoRequest);
-}
-
 export function* watchLoadSubscription() {
   while (true) {
     yield take(Actions.loadSubscriptionRequest.getType());

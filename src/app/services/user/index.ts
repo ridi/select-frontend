@@ -17,14 +17,6 @@ export const Actions = {
     userDTO: UserDTO,
   }>('initializeUser'),
 
-  loadTicketInfoRequest: createAction('loadTicketInfoRequest'),
-  loadTicketInfoSuccess: createAction<{
-    response: {
-      ticketEndDate: DateDTO;
-    },
-  }>('loadTicketInfoSuccess'),
-  loadTicketInfoFailure: createAction('loadTicketInfoFailure'),
-
   loadSubscriptionRequest: createAction('loadSubscriptionRequest'),
 
   loadSubscriptionSuccess: createAction<{
@@ -235,24 +227,6 @@ userReducer.on(Actions.loadSubscriptionFailure, (state = INITIAL_STATE, payload)
     subscriptionFetchStatus: isFetched ? FetchStatusFlag.IDLE : FetchStatusFlag.FETCH_ERROR,
   };
 });
-
-userReducer.on(Actions.loadTicketInfoRequest, (state = INITIAL_STATE) => ({
-  ...state,
-  ticketFetchStatus: FetchStatusFlag.FETCHING,
-}));
-
-userReducer.on(Actions.loadTicketInfoSuccess, (state = INITIAL_STATE, payload) => ({
-  ...state,
-  hasAvailableTicket: true,
-  ticketEndDate: payload.response.ticketEndDate,
-  ticketFetchStatus: FetchStatusFlag.FETCHING,
-}));
-
-userReducer.on(Actions.loadTicketInfoFailure, (state = INITIAL_STATE) => ({
-  ...state,
-  hasAvailableTicket: false,
-  ticketFetchStatus: FetchStatusFlag.FETCH_ERROR,
-}));
 
 userReducer.on(Actions.loadAccountsMeRequest, (state = INITIAL_STATE, payload) => ({
   ...state,
