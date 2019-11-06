@@ -13,7 +13,7 @@ export interface PrivateRouteProps extends RouteProps {
   isRidiApp: boolean;
   isFetching: boolean;
   isLoggedIn: boolean;
-  isSubscribing: boolean;
+  hasAvailableTicket: boolean;
   routeBlockLevel?: RouteBlockLevel;
 }
 
@@ -21,7 +21,7 @@ export const PrivateRoute: React.SFC<PrivateRouteProps & RouteComponentProps> = 
   const {
     isFetching,
     isLoggedIn,
-    isSubscribing,
+    hasAvailableTicket,
     routeBlockLevel = RouteBlockLevel.SUBSCRIBED,
     ...restProps
   } = props;
@@ -32,7 +32,7 @@ export const PrivateRoute: React.SFC<PrivateRouteProps & RouteComponentProps> = 
 
   if (
     routeBlockLevel === RouteBlockLevel.LOGGED_IN && !isLoggedIn ||
-    routeBlockLevel === RouteBlockLevel.SUBSCRIBED && !isSubscribing
+    routeBlockLevel === RouteBlockLevel.SUBSCRIBED && !hasAvailableTicket
   ) {
     props.history.replace({
       pathname: RoutePaths.HOME,

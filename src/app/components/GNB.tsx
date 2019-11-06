@@ -33,7 +33,7 @@ interface Props {
   isIosInApp: boolean;
   isAndroidInApp: boolean;
   isLoggedIn: boolean;
-  isSubscribing: boolean;
+  hasAvailableTicket: boolean;
   isSimpleGNB: boolean;
 }
 
@@ -236,7 +236,7 @@ const mapStateToProps = (rootState: RidiSelectState) => ({
   BASE_URL_RIDISELECT: rootState.environment.SELECT_URL,
   isFetching: rootState.user.isFetching,
   isLoggedIn: rootState.user.isLoggedIn,
-  isSubscribing: rootState.user.isSubscribing,
+  hasAvailableTicket: rootState.user.hasAvailableTicket,
   isInApp: selectIsInApp(rootState),
   isIosInApp: getIsIosInApp(rootState),
   isAndroidInApp: getIsAndroidInApp(rootState),

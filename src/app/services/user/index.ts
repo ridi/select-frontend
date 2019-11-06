@@ -17,6 +17,14 @@ export const Actions = {
     userDTO: UserDTO,
   }>('initializeUser'),
 
+  loadTicketInfoRequest: createAction('loadTicketInfoRequest'),
+  loadTicketInfoSuccess: createAction<{
+    response: {
+      ticketEndDate: DateDTO;
+    },
+  }>('loadTicketInfoSuccess'),
+  loadTicketInfoFailure: createAction('loadTicketInfoFailure'),
+
   loadSubscriptionRequest: createAction('loadSubscriptionRequest'),
 
   loadSubscriptionSuccess: createAction<{
@@ -130,9 +138,8 @@ export interface MySelectHistroyState extends Paginated<MySelectBook> {
 
 export interface SubscriptionState {
   subscriptionId: number;
-  subscriptionDate: DateDTO;
   ticketStartDate: DateDTO;
-  ticketEndDate: DateDTO;
+  SubscriptionEndDate: DateDTO;
   nextBillDate: DateDTO;
   isOptout: boolean;
   isOptoutCancellable: boolean;
@@ -160,7 +167,9 @@ export interface UserState {
   isAccountMeRetried: boolean;
   uId: string;
   email: string;
-  isSubscribing: boolean;
+  ticketEndDate?: DateDTO;
+  ticketFetchStatus: FetchStatusFlag;
+  hasAvailableTicket: boolean;
   hasSubscribedBefore: boolean;
   subscriptionFetchStatus: FetchStatusFlag;
   unsubscriptionFetchStatus: FetchStatusFlag;
@@ -176,7 +185,8 @@ export const INITIAL_STATE: UserState = {
   isAccountMeRetried: false,
   uId: '',
   email: '',
-  isSubscribing: false,
+  hasAvailableTicket: false,
+  ticketFetchStatus: FetchStatusFlag.IDLE,
   hasSubscribedBefore: false,
   subscriptionFetchStatus: FetchStatusFlag.IDLE,
   unsubscriptionFetchStatus: FetchStatusFlag.IDLE,
@@ -225,6 +235,24 @@ userReducer.on(Actions.loadSubscriptionFailure, (state = INITIAL_STATE, payload)
     subscriptionFetchStatus: isFetched ? FetchStatusFlag.IDLE : FetchStatusFlag.FETCH_ERROR,
   };
 });
+
+userReducer.on(Actions.loadTicketInfoRequest, (state = INITIAL_STATE) => ({
+  ...state,
+  ticketFetchStatus: FetchStatusFlag.FETCHING,
+}));
+
+userReducer.on(Actions.loadTicketInfoSuccess, (state = INITIAL_STATE, payload) => ({
+  ...state,
+  hasAvailableTicket: true,
+  ticketEndDate: payload.response.ticketEndDate,
+  ticketFetchStatus: FetchStatusFlag.FETCHING,
+}));
+
+userReducer.on(Actions.loadTicketInfoFailure, (state = INITIAL_STATE) => ({
+  ...state,
+  hasAvailableTicket: false,
+  ticketFetchStatus: FetchStatusFlag.FETCH_ERROR,
+}));
 
 userReducer.on(Actions.loadAccountsMeRequest, (state = INITIAL_STATE, payload) => ({
   ...state,

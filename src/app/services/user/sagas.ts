@@ -206,7 +206,7 @@ export function* watchUnsubscribe() {
       yield call(requestUnsubscribe, state.user.subscription!.subscriptionId);
       yield put(Actions.unsubscribeSuccess());
       yield put(Actions.loadSubscriptionRequest());
-      const endDate = buildOnlyDateFormat(state.user.subscription!.ticketEndDate);
+      const endDate = buildOnlyDateFormat(state.user.subscription!.subscriptionEndDate);
       alert(`구독 해지가 예약되었습니다.\n${endDate}까지 이용할 수 있습니다.`);
       history.replace('/settings');
     } catch (e) {
