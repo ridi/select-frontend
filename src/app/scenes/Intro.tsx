@@ -15,12 +15,10 @@ export const Intro: React.FunctionComponent = () => {
   const dispatch = useDispatch();
   const {
     isLoggedIn,
-    hasSubscribedBefore,
     BASE_URL_STORE,
     FREE_PROMOTION_MONTHS,
   } = useSelector((state: RidiSelectState) => ({
     isLoggedIn: state.user.isLoggedIn,
-    hasSubscribedBefore: state.user.hasSubscribedBefore,
     BASE_URL_STORE: state.environment.STORE_URL,
     FREE_PROMOTION_MONTHS: state.environment.FREE_PROMOTION_MONTHS,
   }));
