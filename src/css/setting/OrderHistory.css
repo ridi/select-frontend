@@ -7,7 +7,7 @@
 
   @media (--pc-screen) {
     padding-bottom: 60px;
-  }  
+  }
 }
 .OrderHistoryItem {
   display: table;
@@ -20,8 +20,8 @@
 
 .OrderHistoryItem_Info {
   display: table-cell;
-  height: 93px;
-  padding-left: 15px;
+  min-height: 93px;
+  padding: 15px 0 15px 15px;
   vertical-align: middle;
 }
 .Ordered_Date {
@@ -50,6 +50,12 @@
   @nest .OrderHistoryItem-canceled & {
     color: var(--slategray_50);
   }
+}
+.Ordered_Term {
+  margin: 0;
+  padding-top: 5px;
+  color: var(--slategray_50);
+  font-size: 13px;
 }
 
 .OrderHistoryItem_AmountInfo {
@@ -131,6 +137,7 @@
   .Ordered_Date,
   .Ordered_Name,
   .Ordered_Type,
+  .Ordered_Term,
   .Ordered_Amount,
   .CancelOrderButton_Wrapper {
     display: table-cell;
@@ -150,6 +157,9 @@
     padding: 0;
     font-size: 14px;
     text-align: right;
+  }
+  .Ordered_Term {
+
   }
   .Ordered_Amount {
     width: 84px;

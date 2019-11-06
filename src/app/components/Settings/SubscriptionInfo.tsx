@@ -13,8 +13,10 @@ import { Link } from 'react-router-dom';
 interface SubscriptionInfoStateProps {
   uId: string;
   BASE_URL_STORE: string;
+  BASE_URL_PAY: string;
   ticketEndDate?: DateDTO;
   hasSubscribedBefore: boolean;
+  hasAvailableTicket: boolean;
   subscriptionState?: SubscriptionState | null;
   latestPurchaseTicket: Ticket;
   isPurchaseCancelFetching: boolean;
@@ -124,18 +126,41 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
     );
   }
 
+  private renderAddCardButton() {
+    const { BASE_URL_PAY } = this.props;
+
+    return (
+      <Button
+        className="SubscribeToUseButton"
+        component="a"
+        color="blue"
+        size="large"
+        href={`${BASE_URL_PAY}/settings/cards/register?return_url=${encodeURIComponent(location.href)}`}
+      >
+        카드 등록하기
+      </Button>
+    );
+  }
+
   public render() {
-    const { subscriptionState } = this.props;
+    const { subscriptionState, hasAvailableTicket } = this.props;
     return (
       <div className="SubscriptionInfoWrapper">
         <h3 className="a11y">구독 정보</h3>
         <ul className="SubscriptionInfoList">
           {this.renderAccountInfo()}
-          {subscriptionState ? [
-            this.renderSubscriptionTermInfo(),
-            this.renderLatestBillDateInfo(),
-            this.renderCancelReservedInfo(),
-          ] : this.renderSubscribeButton()}
+          {subscriptionState ? (
+            <>
+              {this.renderSubscriptionTermInfo()}
+              {this.renderLatestBillDateInfo()}
+              {this.renderCancelReservedInfo()}
+            </>
+          ) : hasAvailableTicket ? (
+            <>
+              {this.renderSubscriptionTermInfo()}
+              {this.renderAddCardButton()}
+            </>
+          ) : this.renderSubscribeButton()}
         </ul>
       </div>
     );
@@ -146,7 +171,9 @@ const mapStateToProps = (state: RidiSelectState): SubscriptionInfoStateProps => 
   return {
     uId: state.user.uId,
     BASE_URL_STORE: state.environment.STORE_URL,
+    BASE_URL_PAY: state.environment.PAY_URL,
     ticketEndDate: state.user.ticketEndDate,
+    hasAvailableTicket: state.user.hasAvailableTicket,
     subscriptionState: state.user.subscription,
     hasSubscribedBefore: state.user.hasSubscribedBefore,
     latestPurchaseTicket: !!state.user.purchaseHistory.itemListByPage[1] && state.user.purchaseHistory.itemListByPage[1].itemList[0],

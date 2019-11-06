@@ -1,3 +1,4 @@
+import * as classNames from 'classnames';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
@@ -5,7 +6,6 @@ import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
 import { Button, Empty } from '@ridi/rsg';
-import * as classNames from 'classnames';
 
 import { ConnectedPageHeader, HelmetWithTitle, Pagination } from 'app/components';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
@@ -15,8 +15,7 @@ import { getPageQuery } from 'app/services/routing/selectors';
 import { Actions, PurchaseHistory } from 'app/services/user';
 import { Ticket } from 'app/services/user/requests';
 import { RidiSelectState } from 'app/store';
-import { buildDateAndTimeFormat } from 'app/utils/formatDate';
-import { thousandsSeperator } from 'app/utils/thousandsSeperator';
+import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
 import toast from 'app/utils/toast';
 
 interface OrderStateProps {
@@ -49,6 +48,9 @@ export class OrderHistory extends React.PureComponent<Props> {
         <p className="Ordered_Date">{buildDateAndTimeFormat(payment.purchaseDate)}</p>
         <p className="Ordered_Name">{payment.title}</p>
         <p className="Ordered_Type">{this.getPaymentMethodTypeName(payment)}</p>
+        {payment.voucherCode && !payment.isFreePromotion ? (
+          <p className="Ordered_Term">이용 기간: {buildOnlyDateFormat(payment.startDate)}~{buildOnlyDateFormat(payment.endDate)}</p>
+        ) : null}
       </>
     );
   }

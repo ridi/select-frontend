@@ -15,11 +15,13 @@ export interface Ticket {
   cancelDate: DateDTO;
   isCanceled: boolean;
   isCancellable: boolean;
+  isFreePromotion: boolean;
   paymentMethod: string;
   price: number;
   title: string;
   currency: string;
   formattedPrice: string;
+  voucherCode?: string;
 }
 
 // export interface SubscriptionResponse extends SubscriptionState {

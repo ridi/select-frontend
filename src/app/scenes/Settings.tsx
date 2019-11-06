@@ -26,6 +26,7 @@ interface SettingStateProps {
   isFetching: boolean;
   isAccountMeRetried: boolean;
   isLoggedIn: boolean;
+  hasAvailableTicket: boolean;
   ticketEndDate?: DateDTO;
   ticketFetchStatus: FetchStatusFlag;
   subscriptionFetchStatus: FetchStatusFlag;
@@ -62,7 +63,7 @@ export class Settings extends React.PureComponent<SettingProps> {
 
   // 구독/결제 메뉴
   private renderBooksMenus() {
-    const { subscriptionState, isIosInApp } = this.props;
+    const { subscriptionState, isIosInApp, hasAvailableTicket } = this.props;
     return (
       <SettingMenu title={'구독 / 결제'} icon={'card'} key="Menus About Subscription">
         <SettingMenuItem
@@ -78,11 +79,10 @@ export class Settings extends React.PureComponent<SettingProps> {
         </SettingMenuItem>
         <SettingMenuItem
           href={`${env.PAY_URL}`}
-          renderCondition={
-            !!subscriptionState &&
-            !!subscriptionState.isUsingRidipay &&
-            !isIosInApp
-          }
+          renderCondition={!isIosInApp && (
+            (hasAvailableTicket && !subscriptionState) ||
+            (!!subscriptionState && !!subscriptionState.isUsingRidipay)
+          )}
           key="ManageCard"
         >
           셀렉트 카드 관리
@@ -189,6 +189,7 @@ export class Settings extends React.PureComponent<SettingProps> {
 const mapStateToProps = (state: RidiSelectState): SettingStateProps => {
   return {
     isFetching: state.user.isFetching,
+    hasAvailableTicket: state.user.hasAvailableTicket,
     ticketEndDate: state.user.ticketEndDate,
     ticketFetchStatus: state.user.ticketFetchStatus,
     isAccountMeRetried: state.user.isAccountMeRetried,
