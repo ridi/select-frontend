@@ -235,7 +235,7 @@ export function* watchCancelUnsubscription() {
         if (confirm('구독했던 카드가 삭제되어 카드 등록 후 구독 해지 예약을 취소할 수 있습니다. 카드를 등록하시겠습니까?')) {
           const { STORE_URL } = state.environment;
           const currentLocation = encodeURIComponent(location.href);
-          window.location.href = `${STORE_URL}/select/payments/ridi-pay?return_url=${currentLocation}`;
+          window.location.href = `${STORE_URL}/select/payments/ridi-pay/request?return_url=${currentLocation}`;
         }
       } else {
         showMessageForRequestError(e);

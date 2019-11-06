@@ -1,13 +1,16 @@
+import * as qs from 'qs';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from '@ridi/rsg';
+
 import { HelmetWithTitle, TitleType } from 'app/components';
 import { PageTitleText, RoutePaths } from 'app/constants';
 import { Actions as CommonUIActions, FooterTheme, GNBTransparentType } from 'app/services/commonUI';
+import { Actions as VoucherActions } from 'app/services/voucher';
 import { RidiSelectState } from 'app/store';
+import toast from 'app/utils/toast';
 import { moveToLogin } from 'app/utils/utils';
-import * as qs from 'qs';
 
 const TicketSVG: React.FunctionComponent<{ className?: string }> = (props) => (
   <svg width="24px" height="24px" viewBox="0 0 24 24" className={props.className}>
@@ -43,6 +46,15 @@ export const Voucher: React.FunctionComponent = () => {
       resultValue = resultValue.slice(0, 19);
     }
     return resultValue;
+  };
+
+  const submitVoucherCode = (voucherCode: string) => {
+    const trimmedCode = voucherCode.replace('-', '');
+    if (trimmedCode.length < 16) {
+      toast.failureMessage('올바른 쿠폰 코드가 아닙니다.');
+      return;
+    }
+    dispatch(VoucherActions.useVoucher({ voucherCode }));
   };
 
   React.useEffect(() => {
@@ -104,7 +116,7 @@ export const Voucher: React.FunctionComponent = () => {
                   color="blue"
                   size="large"
                   className="VoucherContent_SubmitButton"
-                  onClick={() => {}}
+                  onClick={() => submitVoucherCode(inputValue)}
                 >
                   이용권 등록
                 </Button>
