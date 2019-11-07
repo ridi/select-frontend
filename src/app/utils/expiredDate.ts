@@ -1,17 +1,17 @@
-import { addMonths, differenceInDays, differenceInMinutes, endOfMonth, isWithinRange, parse, startOfMonth } from 'date-fns';
+import { addMonths, differenceInDays, differenceInMinutes, endOfMonth, isWithinInterval, parseISO, startOfMonth } from 'date-fns';
 
 export function getNotAvailableConvertDateDiff(BookEndDate: string, NextBillDate?: string) {
   const currentDate = new Date();
-  const bookEndDate = parse(BookEndDate);
+  const bookEndDate = parseISO(BookEndDate);
   return differenceInDays(bookEndDate, currentDate);
 }
 
 export function getNotAvailableConvertDate(BookEndDate: string, NextBillDate?: string) {
   const currentDate = new Date();
-  let differenceMinutes: number = differenceInMinutes(BookEndDate, currentDate);
+  let differenceMinutes: number = differenceInMinutes(new Date(BookEndDate), currentDate);
 
   if (NextBillDate) {
-    const endDate: Date = parse(NextBillDate);
+    const endDate: Date = parseISO(NextBillDate);
     differenceMinutes = differenceInMinutes(endDate, currentDate);
     // TODO: 다음 결제일 인자를 받은 경우 처리 추가 필요.
   }
@@ -37,5 +37,5 @@ export function isInNotAvailableConvertList(bookEndDate: string) {
   const startOfCurrentMonth = startOfMonth(currentDateObj);
   const endOfNextMonth = endOfMonth(addMonths(currentDateObj, 1));
 
-  return isWithinRange(bookEndDateObj, startOfCurrentMonth, endOfNextMonth);
+  return isWithinInterval(bookEndDateObj, {start: startOfCurrentMonth, end: endOfNextMonth});
 }

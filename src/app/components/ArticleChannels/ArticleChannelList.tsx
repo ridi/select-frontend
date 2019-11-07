@@ -1,23 +1,20 @@
 import { ArticleChannelsMeta } from 'app/components/ArticleChannels/ArticleChannelsMeta';
 import { GridArticleList } from 'app/components/GridArticleList';
+import { FetchStatusFlag } from 'app/constants';
 import { Actions } from 'app/services/articleChannel';
-import { getPageQuery } from 'app/services/routing/selectors';
+import { getChannelList } from 'app/services/articleChannel/selectors';
 import { RidiSelectState } from 'app/store';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const ArticleChannelList: React.FunctionComponent = () => {
-  const page = useSelector((state: RidiSelectState) => getPageQuery(state));
-  const articleChannels = useSelector((state: RidiSelectState) => state.articleChannel);
+  const channelList = useSelector(getChannelList);
+  const channelListFetchStatus = useSelector((state: RidiSelectState) => state.articleChannels.fetchStatus);
   const dispatch = useDispatch();
 
-  const isFetched = () => {
-    return (articleChannels && articleChannels.itemListByPage[page] && articleChannels.itemListByPage[page].isFetched);
-  };
-
   React.useEffect(() => {
-    if (!isFetched()) {
-      dispatch(Actions.loadArticleChannelListRequest({page}));
+    if (channelListFetchStatus === FetchStatusFlag.IDLE && channelList.length === 0) {
+      dispatch(Actions.loadArticleChannelListRequest());
     }
   }, []);
 
@@ -25,21 +22,19 @@ export const ArticleChannelList: React.FunctionComponent = () => {
     <section>
       <div className="ArticlePageChannelList_Wrap">
         <ul className="ArticlePageChannelList">
-          {
-            isFetched() && articleChannels.itemListByPage[page].itemList.map((data, idx) => (
-              <li key={idx} className="ArticlePageChannel">
-                <ArticleChannelsMeta {...data} />
+          {channelList.map((channelMeta, idx) => {
+              return (<li key={idx} className="ArticlePageChannel">
+                <ArticleChannelsMeta {...channelMeta} />
                 <div className="Channel_ArticleList">
                   <GridArticleList
                     pageTitleForTracking="article-channel-list"
                     uiPartTitleForTracking="article-channel-list-articles"
                     renderAuthor={false}
-                    articles={data.articles.slice(0, 4)}
+                    articles={channelMeta.articles!}
                   />
                 </div>
-              </li>
-            ))
-          }
+              </li>);
+          })}
         </ul>
       </div>
     </section>

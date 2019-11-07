@@ -5,10 +5,13 @@ export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
 export type Subtract<T, K> = Omit<T, keyof K>;
 
 export type BookId = number;
+export type ArticleId = number;
+export type ChannelId = number;
 export type DateDTO = string; // ISO8601: 2016-10-27T17:13:40+00:00 || 2016-10-27T17:13:40Z || 20161027T171340Z
 export type MaskedUId = string; // 'hck***'
 
-export type ArticleRequestIncludableData = 'articles' | 'authors' | 'channel' | 'content';
+export type ArticleRequestIncludableData = 'articles' | 'authors' | 'channel'
+| 'content' | 'followers_count' | 'is_following';
 
 /*
  * Text need to be transformed (`/n` to `<br/>`) and includes html tags

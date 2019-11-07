@@ -1,4 +1,4 @@
-import { isWithinRange } from 'date-fns';
+import { isWithinInterval } from 'date-fns';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
@@ -82,7 +82,7 @@ const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailNoticeListP
     bookEndDateTime: !!bookDetail ? bookDetail.endDatetime : '',
     noticeList: !!bookDetail && !!bookDetail.notices && Array.isArray(bookDetail.notices) ?
       bookDetail.notices.filter((notice) =>
-        notice.isVisible && isWithinRange(new Date(), notice.beginDatetime, notice.endDatetime),
+        notice.isVisible && isWithinInterval(new Date(), { start: notice.beginDatetime, end: notice.endDatetime}),
       ) : undefined,
   };
 };

@@ -18,7 +18,7 @@ export * from './ClosingReservedBooks';
 export * from './WrongLocation';
 
 export * from './ArticleHome';
-export * from './ArticleFollow';
+export * from './ArticleFollowing';
 export * from './ArticleChannels';
 export * from './ArticleFavorite';
 export * from './ArticleChannelDetail';

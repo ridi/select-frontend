@@ -3,10 +3,7 @@
   margin: 0 auto;
   display: flex;
   flex-direction: row;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 30px 20px 10px;
   overflow: auto;
   & .FollowingChannel {
     display: inline-block;
@@ -42,4 +39,9 @@
       }
     }
   }
+}
+
+.FollowingArticleList {
+  max-width: 940px;
+  margin: 0 auto;
 }

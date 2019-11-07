@@ -73,7 +73,7 @@ const articleMenus: Menu[] = [
     name: '팔로잉',
     classname: 'ArticleFollowing',
     pathname: RoutePaths.ARTICLE_FOLLOWING,
-    pathRegExp: /\/article\/follow/,
+    pathRegExp: /\/article\/following/,
   },
   {
     name: '전체 채널',
