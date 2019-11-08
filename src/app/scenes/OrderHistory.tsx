@@ -13,7 +13,7 @@ import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPla
 
 import { getPageQuery } from 'app/services/routing/selectors';
 import { Actions, PurchaseHistory } from 'app/services/user';
-import { Ticket } from 'app/services/user/requests';
+import { Ticket, TicketToBeCanceledWith } from 'app/services/user/requests';
 import { RidiSelectState } from 'app/store';
 import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
 import toast from 'app/utils/toast';
@@ -26,15 +26,39 @@ interface OrderStateProps {
 type Props = OrderStateProps & ReturnType<typeof mapDispatchToProps>;
 
 export class OrderHistory extends React.PureComponent<Props> {
-  private handleCancelPurchaseButtonClick = (purchaseId: number) => () => {
+  private handleCancelPurchaseButtonClick = (payment: Ticket) => () => {
     const { orderHistory, dispatchCancelPurchase } = this.props;
+    const { id, ticketsToBeCanceledWith } = payment;
 
     if (orderHistory.isCancelFetching) {
       toast.failureMessage('취소 진행중입니다. 잠시 후에 다시 시도해주세요.');
       return;
     }
-    if (confirm(`결제를 취소하시겠습니까?\n결제를 취소할 경우 즉시 이용할 수 없습니다.`)) {
-      dispatchCancelPurchase(purchaseId);
+
+    let confirmMessage = '결제를 취소하시겠습니까?\n결제를 취소할 경우 즉시 이용할 수 없습니다.';
+
+    if (ticketsToBeCanceledWith.length > 0) {
+      confirmMessage = '결제를 취소하시겠습니까?\n등록된 이용권이 함께 취소되며 이용권은 유효기간 내에 다시 등록 가능합니다.\n\n';
+      ticketsToBeCanceledWith.forEach((ticketToBeCancel: TicketToBeCanceledWith) => {
+
+        if (!ticketToBeCancel.voucherCode) {
+          return;
+        }
+
+        confirmMessage = `${
+          confirmMessage
+        }-${
+          ticketToBeCancel.title
+        }: ${
+          ticketToBeCancel.voucherCode.match(/.{1,4}/g)!.join('-')
+        } (${
+          buildOnlyDateFormat(ticketToBeCancel.voucherExpireDate)
+          }까지)\n`;
+      });
+    }
+
+    if (confirm(confirmMessage)) {
+      dispatchCancelPurchase(id);
     }
   }
   private getPaymentMethodTypeName = (payment: Ticket) => {
@@ -73,7 +97,7 @@ export class OrderHistory extends React.PureComponent<Props> {
                 className="CancelOrderButton"
                 color="gray"
                 outline={true}
-                onClick={this.handleCancelPurchaseButtonClick(id)}
+                onClick={this.handleCancelPurchaseButtonClick(payment)}
                 size="medium"
               >
                 결제 취소
