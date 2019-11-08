@@ -35,14 +35,15 @@
   @apply --reset-font-unlimited;
 
   display: block;
-  margin-top: 10px;
   text-decoration: none;
+  margin-right: 11px;
 }
 
 
 .TileArticleList_ItemInfo {
   display: flex; 
   margin-top: 15px;
+  padding: 0px 15px;
 }
 
 .TileArticleList_ChannelThumbnail {
@@ -74,3 +75,26 @@
   letter-spacing: -0.3px;
   color: var(--slategray_60);  
 }
+.TileArticleList_Favorite {
+  margin-left: auto;
+}
+
+.TileArticleList_Favorite_Button {
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: 0;  
+  cursor: pointer;
+}
+
+.TileArticleList_Favorite_Icon {
+  width: 13px;
+  height: 12px;
+  fill: #eb5847;
+  margin-top: 7px;
+}
+
+.TileArticleList_Favorite_Cancel {
+  fill: var(--gray_30);
+}
+
