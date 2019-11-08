@@ -46,11 +46,13 @@ export class OrderHistory extends React.PureComponent<Props> {
     return (
       <>
         <p className="Ordered_Date">{buildDateAndTimeFormat(payment.purchaseDate)}</p>
-        <p className="Ordered_Name">{payment.title}</p>
+        <p className="Ordered_Name">
+          {payment.title}
+          {payment.voucherCode && !payment.isFreePromotion ? (
+            <span className="Ordered_Term">이용 기간: {buildOnlyDateFormat(payment.startDate)}~{buildOnlyDateFormat(payment.endDate)}</span>
+          ) : null}
+        </p>
         <p className="Ordered_Type">{this.getPaymentMethodTypeName(payment)}</p>
-        {payment.voucherCode && !payment.isFreePromotion ? (
-          <p className="Ordered_Term">이용 기간: {buildOnlyDateFormat(payment.startDate)}~{buildOnlyDateFormat(payment.endDate)}</p>
-        ) : null}
       </>
     );
   }

@@ -52,6 +52,8 @@
   }
 }
 .Ordered_Term {
+  display: block;
+  font-weight: 400;
   margin: 0;
   padding-top: 5px;
   color: var(--slategray_50);
@@ -137,7 +139,6 @@
   .Ordered_Date,
   .Ordered_Name,
   .Ordered_Type,
-  .Ordered_Term,
   .Ordered_Amount,
   .CancelOrderButton_Wrapper {
     display: table-cell;
@@ -157,9 +158,6 @@
     padding: 0;
     font-size: 14px;
     text-align: right;
-  }
-  .Ordered_Term {
-
   }
   .Ordered_Amount {
     width: 84px;

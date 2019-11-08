@@ -27,7 +27,7 @@ export enum PageTitleText {
   MY_SELECT = '마이 셀렉트',
   MY_SELECT_HISTORY = '도서 이용 내역',
   NEW_RELEASE = '최신 업데이트',
-  ORDER_HISTORY = '결제 내역',
+  ORDER_HISTORY = '결제/이용권 내역',
   SETTING = '셀렉트 관리',
   NOT_AVAILABLE_BOOK = '',
   CLOSING_RESERVED_BOOKS = '종료 예정 도서',
