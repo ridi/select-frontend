@@ -9,6 +9,7 @@ import { ArticleCannelInfoHeader } from 'app/components/ArticleChannels/ArticleC
 import { FetchStatusFlag } from 'app/constants';
 import { Actions } from 'app/services/article';
 import { RidiSelectState } from 'app/store';
+import { ArticleRequestIncludableData } from 'app/types';
 
 type RouteProps = RouteComponentProps<{ contentId: string; }>;
 type OwnProps = RouteProps & {};
@@ -34,7 +35,9 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
     }
     dispatch(Actions.loadArticleRequest({
       articleId,
-      includeData: ['content'],
+      requestQueries: {
+        includes: [ArticleRequestIncludableData.CONTENT],
+      },
     }));
   }, []);
 

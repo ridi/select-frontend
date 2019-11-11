@@ -3,12 +3,12 @@ import { createAction, createReducer } from 'redux-act';
 import { ArticleContentJSON } from '@ridi/ridi-prosemirror-editor';
 import { FetchStatusFlag } from 'app/constants';
 import { AuthorResponse } from 'app/services/article/requests';
-import { ArticleRequestIncludableData, DateDTO } from 'app/types';
+import { ArticleRequestQueries, DateDTO } from 'app/types';
 
 export const Actions = {
   loadArticleRequest: createAction<{
     articleId: number,
-    includeData?: ArticleRequestIncludableData[],
+    requestQueries?: ArticleRequestQueries,
   }>('loadArticleDetailRequest'),
   loadArticleSuccess: createAction<{
     articleId: number,
