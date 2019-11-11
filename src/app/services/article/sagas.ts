@@ -5,9 +5,9 @@ import { ArticleResponse, requestArticleWithId } from 'app/services/article/requ
 import { refineArticleJSON } from 'app/utils/utils';
 
 export function* loadArticle({ payload }: ReturnType<typeof Actions.loadArticleRequest>) {
-  const { articleId, includeData } = payload;
+  const { articleId, requestQueries } = payload;
   try {
-    const response: ArticleResponse = yield call(requestArticleWithId, articleId, includeData);
+    const response: ArticleResponse = yield call(requestArticleWithId, articleId, requestQueries);
     const {id, title, regDate, lastModified, channelId, thumbnailUrl, authorId } = response;
     if (response.content) {
       yield put(Actions.updateArticleContent({

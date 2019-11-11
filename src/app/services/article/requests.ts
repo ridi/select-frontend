@@ -34,7 +34,7 @@ export interface ArticleListResponse {
 }
 
 export const requestArticles = (requestQueries?: ArticleRequestQueries): Promise<ArticleListResponse> => {
-  const requestUrl = `/article/articles?${buildArticleRequestQueriesToString(requestQueries)}`;
+  const requestUrl = `/article/articles${buildArticleRequestQueriesToString(requestQueries)}`;
 
   return request({
     url: requestUrl,
