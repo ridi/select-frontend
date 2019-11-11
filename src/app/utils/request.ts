@@ -45,6 +45,9 @@ export function buildArticleRequestQueriesToString(requestQueries?: ArticleReque
   if (requestQueries && requestQueries.ordering) {
     queries.push(`ordering=${requestQueries.ordering}`);
   }
+  if (requestQueries && requestQueries.type) {
+    queries.push(`type=${requestQueries.type}`);
+  }
 
   return queries.length > 0 ? `?${queries.join('&')}` : '';
 }

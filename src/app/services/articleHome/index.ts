@@ -1,17 +1,27 @@
 import { FetchStatusFlag } from 'app/constants';
+import { ArticleListResponse } from 'app/services/article/requests';
 import { BigBanner } from 'app/services/home';
 import { isRidiselectUrl } from 'app/utils/regexHelper';
 import { createAction, createReducer } from 'redux-act';
-import { ArticleHomeResponse } from './requests';
 
 export const Actions = {
-  loadArticleHomeRequest: createAction('loadArticleHomeRequest'),
-  loadArticleHomeSuccess: createAction<{
-    response: ArticleHomeResponse,
-    fetchedAt: number,
-    isIosInApp: boolean,
-  }>('loadArticleHomeSuccess'),
-  loadArticleHomeFailure: createAction('loadArticleHomeFailure'),
+  // loadArticleHomeRequest: createAction('loadArticleHomeRequest'),
+  // loadArticleHomeSuccess: createAction<{
+  //   response: ArticleHomeResponse,
+  //   fetchedAt: number,
+  //   isIosInApp: boolean,
+  // }>('loadArticleHomeSuccess'),
+  // loadArticleHomeFailure: createAction('loadArticleHomeFailure'),
+  loadArticleHomeSectionListRequest: createAction<{
+    targetSection: ArticleHomeSectionType,
+  }>('loadArticleHomeSectionListRequest'),
+  loadArticleHomeSectionListSuccess: createAction<{
+    targetSection: ArticleHomeSectionType,
+    articles: number[],
+  }>('loadArticleHomeSectionListSuccess'),
+  loadArticleHomeSectionListFailure: createAction<{
+    targetSection: ArticleHomeSectionType,
+  }>('loadArticleHomeSectionListFailure'),
 };
 
 export enum ArticleSectionType {
@@ -19,47 +29,74 @@ export enum ArticleSectionType {
   'LIST' = 'LIST',
 }
 
+export enum ArticleHomeSectionType {
+  RECENT = 'recentArticleList',
+  POPULAR = 'popularArticleList',
+  RECOMMEND = 'recommendArticleList',
+}
+
+interface ArticleHomeSectionList {
+  fetchStatus: FetchStatusFlag;
+  articles?: number[];
+}
+
 export interface ArticleHomeState {
-  fetchedAt: number | null;
   fetchStatus: FetchStatusFlag;
   bigBannerList: BigBanner[];
-  collectionIdList: number[];
+  recentArticleList: ArticleHomeSectionList;
+  popularArticleList: ArticleHomeSectionList;
+  recommendArticleList: ArticleHomeSectionList;
 }
 
 export const INITIAL_ARTICLE_HOME_STATE: ArticleHomeState = {
-  fetchedAt: null,
   fetchStatus: FetchStatusFlag.IDLE,
   bigBannerList: [],
-  collectionIdList: [],
+  recentArticleList: {
+    fetchStatus: FetchStatusFlag.IDLE,
+  },
+  popularArticleList: {
+    fetchStatus: FetchStatusFlag.IDLE,
+  },
+  recommendArticleList: {
+    fetchStatus: FetchStatusFlag.IDLE,
+  },
 };
 
-export const articleHomeReducer = createReducer<typeof INITIAL_ARTICLE_HOME_STATE>({}, INITIAL_ARTICLE_HOME_STATE);
+export const articleHomeReducer = createReducer<ArticleHomeState>({}, INITIAL_ARTICLE_HOME_STATE);
 
-articleHomeReducer.on(Actions.loadArticleHomeRequest, (state) => {
+articleHomeReducer.on(Actions.loadArticleHomeSectionListRequest, (state = INITIAL_ARTICLE_HOME_STATE, action) => {
+  const { targetSection } = action;
+
   return {
     ...state,
-    fetchStatus: FetchStatusFlag.FETCHING,
+    [targetSection]: {
+      ...state[targetSection],
+      fetchStatus: FetchStatusFlag.FETCHING,
+    },
   };
 });
 
-articleHomeReducer.on(Actions.loadArticleHomeSuccess, (state, action) => {
-  const { response, fetchedAt, isIosInApp } = action;
+articleHomeReducer.on(Actions.loadArticleHomeSectionListSuccess, (state = INITIAL_ARTICLE_HOME_STATE, action) => {
+  const { articles, targetSection } = action;
 
   return {
     ...state,
-    fetchedAt,
-    bigBannerList: isIosInApp ?
-      response.bigBanners
-        .filter((bigBanner) => isRidiselectUrl(bigBanner.linkUrl)) :
-      response.bigBanners,
-    collectionIdList: response.collections.map((collection) => collection.collectionId),
-    fetchStatus: FetchStatusFlag.IDLE,
+    [targetSection]: {
+      ...state[targetSection],
+      fetchStatus: FetchStatusFlag.IDLE,
+      articles,
+    },
   };
 });
 
-articleHomeReducer.on(Actions.loadArticleHomeFailure, (state) => {
+articleHomeReducer.on(Actions.loadArticleHomeSectionListFailure, (state = INITIAL_ARTICLE_HOME_STATE, action) => {
+  const { targetSection } = action;
+
   return {
     ...state,
-    fetchStatus: FetchStatusFlag.FETCH_ERROR,
+    [targetSection]: {
+      ...state[targetSection],
+      fetchStatus: FetchStatusFlag.FETCH_ERROR,
+    },
   };
 });

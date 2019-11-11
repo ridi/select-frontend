@@ -26,8 +26,7 @@ export interface ArticleResponse extends Article {
 }
 
 export interface ArticleListResponse {
-  totalCount: number;
-  totalPage: number;
+  count: number;
   next?: string;
   previous?: string;
   results: ArticleResponse[];

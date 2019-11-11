@@ -25,9 +25,15 @@ export enum ArticleRequestOrderType {
   RECENT = 'recent',
 }
 
+export enum ArticleRequestType {
+  MAIN = 'main',
+  RECOMMEND = 'recommend',
+}
+
 export interface ArticleRequestQueries {
   includes?: ArticleRequestIncludableData[];
   ordering?: ArticleRequestOrderType;
+  type?: ArticleRequestType;
 }
 
 /*

@@ -1,23 +1,31 @@
+import { all, call, put, takeEvery } from 'redux-saga/effects';
+
 import { ErrorStatus } from 'app/constants/index';
-import { Actions } from 'app/services/articleHome';
-import { ArticleHomeResponse, requestArticleHome } from 'app/services/articleHome/requests';
-import { getIsIosInApp } from 'app/services/environment/selectors';
+import { Actions as ArticleActions } from 'app/services/article';
+import { ArticleListResponse, ArticleResponse, requestArticles } from 'app/services/article/requests';
+import { Actions, ArticleHomeSectionType } from 'app/services/articleHome';
+import { ArticleRequestOrderType, ArticleRequestType } from 'app/types';
 import showMessageForRequestError from 'app/utils/toastHelper';
-import { all, call, put, select, takeLeading } from 'redux-saga/effects';
 
-function* loadArticleHome() {
+function* loadArticleHomeSectionListRequest({ payload }: ReturnType<typeof Actions.loadArticleHomeSectionListRequest>) {
+  const { targetSection } = payload;
   try {
-    const response: ArticleHomeResponse = yield call(requestArticleHome);
-    const isIosInApp = yield select(getIsIosInApp);
-
-    yield put(Actions.loadArticleHomeSuccess({
-      response,
-      fetchedAt: Date.now(),
-      isIosInApp,
+    const response: ArticleListResponse = yield call(requestArticles, {
+      type: targetSection === ArticleHomeSectionType.RECOMMEND ? ArticleRequestType.RECOMMEND : undefined,
+      ordering: targetSection === ArticleHomeSectionType.POPULAR ? ArticleRequestOrderType.POPULAR : ArticleRequestOrderType.RECENT,
+    });
+    yield put(ArticleActions.updateArticles({
+      articles: response.results,
+    }));
+    yield put(Actions.loadArticleHomeSectionListSuccess({
+      articles: response.results.map((article: ArticleResponse) => article.id),
+      targetSection,
     }));
   } catch (e) {
     const { data } = e.response;
-    yield put(Actions.loadArticleHomeFailure());
+    yield put(Actions.loadArticleHomeSectionListFailure({
+      targetSection,
+    }));
     if (data && data.status === ErrorStatus.MAINTENANCE) {
       return;
     }
@@ -25,12 +33,12 @@ function* loadArticleHome() {
   }
 }
 
-export function* watchLoadArticleHome() {
-  yield takeLeading(Actions.loadArticleHomeRequest.getType(), loadArticleHome);
+export function* watchLoadArticleHomeSectionListRequest() {
+  yield takeEvery(Actions.loadArticleHomeSectionListRequest.getType(), loadArticleHomeSectionListRequest);
 }
 
 export function* articleHomeRootSaga() {
   yield all([
-    watchLoadArticleHome(),
+    watchLoadArticleHomeSectionListRequest(),
   ]);
 }
