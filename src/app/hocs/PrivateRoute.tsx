@@ -6,7 +6,7 @@ import { FetchStatusFlag, RoutePaths } from 'app/constants';
 
 export enum RouteBlockLevel {
   LOGGED_IN,
-  SUBSCRIBED,
+  HAS_AVAILABLE_TICKET,
 }
 
 export interface PrivateRouteProps extends RouteProps {
@@ -24,7 +24,7 @@ export const PrivateRoute: React.SFC<PrivateRouteProps & RouteComponentProps> = 
     isLoggedIn,
     ticketFetchStatus,
     hasAvailableTicket,
-    routeBlockLevel = RouteBlockLevel.SUBSCRIBED,
+    routeBlockLevel = RouteBlockLevel.HAS_AVAILABLE_TICKET,
     ...restProps
   } = props;
 
@@ -34,7 +34,7 @@ export const PrivateRoute: React.SFC<PrivateRouteProps & RouteComponentProps> = 
 
   if (
     routeBlockLevel === RouteBlockLevel.LOGGED_IN && !isLoggedIn ||
-    routeBlockLevel === RouteBlockLevel.SUBSCRIBED && !hasAvailableTicket
+    routeBlockLevel === RouteBlockLevel.HAS_AVAILABLE_TICKET && !hasAvailableTicket
   ) {
     props.history.replace({
       pathname: RoutePaths.HOME,
