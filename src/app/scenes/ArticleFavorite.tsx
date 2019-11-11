@@ -43,7 +43,7 @@ export const ArticleFavorite: React.FunctionComponent = () => {
       { articleItems ? (
           <TileArticleList
             articles={articleItems}
-            pageType={'favorite'}
+            pageType="favorite"
           /> ) : (
           <ArticleEmpty
             iconName="list_1"

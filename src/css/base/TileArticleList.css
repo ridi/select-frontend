@@ -90,11 +90,11 @@
 .TileArticleList_Favorite_Icon {
   width: 13px;
   height: 12px;
-  fill: #eb5847;
+  fill: var(--gray_30);
   margin-top: 7px;
 }
 
-.TileArticleList_Favorite_Cancel {
-  fill: var(--gray_30);
+.TileArticleList_Favorite_active {
+  fill: #eb5847;
 }
 
