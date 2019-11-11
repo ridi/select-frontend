@@ -97,8 +97,8 @@ export const Voucher: React.FunctionComponent = () => {
           <TicketSVG className="VoucherContent_TicketSVG" />
           <h2 className="VoucherContent_MainCopy">리디셀렉트 이용권 등록</h2>
           <p className="VoucherContent_Description">
-            베스트셀러부터 프리미엄 아티클까지<br/>
-            무제한 월정액 서비스 리디셀렉트
+            {/* 베스트셀러부터 프리미엄 아티클까지<br/> 무제한 월정액 서비스 리디셀렉트 */}
+            신간도 베스트셀러도<br />월정액으로 제한없이
           </p>
           {isUserFetching ?
             null :
