@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
 import { ArticleResponse } from 'app/services/article/requests';
-import { articleContentToPath } from 'app/utils/toPath';
 import { ThumbnailShape } from './ArticleThumbnail/types';
 
 const CHART_GROUPING_COUNT = 5;
@@ -43,14 +42,14 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
                   >
                     <span className="ArticleChartList_Rank">{index + 1}</span>
                     <ArticleThumbnail
-                      linkUrl={articleContentToPath({ contentId: article.id })}
+                      linkUrl={article.url}
                       imageUrl={article.thumbnailUrl}
                       articleTitle={article.title}
                       thumbnailShape={ThumbnailShape.SQUARE}
                     />
                     <Link
                       className="ArticleChartList_Meta"
-                      to={articleContentToPath({ contentId: article.id })}
+                      to={article.url}
                     >
                       <span className="ArticleChartList_Meta_Title">{article.title}</span>
                       {article.channel ? (

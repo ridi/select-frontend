@@ -45,6 +45,7 @@ export interface Article {
   regDate: DateDTO;
   lastModified: DateDTO;
   channelId: number;
+  url: string;
   thumbnailUrl: string;
   authorId?: number;
   author?: AuthorResponse;
