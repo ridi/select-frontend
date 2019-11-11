@@ -66,7 +66,7 @@ export const TileArticleList: React.FunctionComponent<Props> = (props) => {
                           name="heart_1"
                           className={classNames(
                             'TileArticleList_Favorite_Icon',
-                            !article.isFavorite && 'TileArticleList_Favorite_Cancel',
+                            article.isFavorite && 'TileArticleList_Favorite_active',
                           )}
                         />
                       </button>
