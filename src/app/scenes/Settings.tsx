@@ -148,7 +148,6 @@ export class Settings extends React.PureComponent<SettingProps> {
       this.renderBooksMenus(),
       this.renderSubscriptionMenus(),
       this.renderUserMenus(),
-      ``,
     ];
   }
   public componentDidMount() {
