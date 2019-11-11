@@ -131,7 +131,7 @@ export interface MySelectHistroyState extends Paginated<MySelectBook> {
 export interface SubscriptionState {
   subscriptionId: number;
   ticketStartDate: DateDTO;
-  SubscriptionEndDate: DateDTO;
+  subscriptionEndDate: DateDTO;
   nextBillDate: DateDTO;
   isOptout: boolean;
   isOptoutCancellable: boolean;
