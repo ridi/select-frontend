@@ -2,7 +2,10 @@ import { camelize } from '@ridi/object-case-converter';
 import request from 'app/config/axios';
 import { ArticleResponse } from 'app/services/article/requests';
 import { ArticleChannel } from 'app/services/articleChannel';
-import { ArticleRequestIncludableData } from 'app/types';
+
+import { ArticleRequestQueries } from 'app/types';
+import { buildArticleRequestQueriesToString } from 'app/utils/request';
+
 import { AxiosResponse, Method } from 'axios';
 
 export interface ArticleChannelListResponse {
@@ -20,19 +23,23 @@ export interface ArticleChannelFollowingResponse {
   isFollowing: boolean;
 }
 
-export const requestArticleChannelList = (includeData?: ArticleRequestIncludableData[]): Promise<ArticleChannelListResponse> => (
-  request({
-    url: `/article/channels${includeData && `/?include=${includeData.join('|')}`}`,
-    method: 'GET',
-  }).then((response) => camelize<AxiosResponse<ArticleChannelListResponse>>(response, { recursive : true }).data)
-);
+export const requestArticleChannelList = (requestQueries?: ArticleRequestQueries): Promise<ArticleChannelListResponse> => {
+  const requestUrl = `/article/channels${buildArticleRequestQueriesToString(requestQueries)}`;
 
-export const requestArticleChannelDetail = (channelId: number, includeData: ArticleRequestIncludableData[]): Promise<ArticleChannel> => (
-  request({
-    url: `/article/channels/${channelId}?include=${includeData.join('|')}`,
+  return request({
+    url: requestUrl,
     method: 'GET',
-  }).then((response) => camelize<AxiosResponse<ArticleChannel>>(response, { recursive : true }).data)
-);
+  }).then((response) => camelize<AxiosResponse<ArticleChannelListResponse>>(response, { recursive : true }).data);
+};
+
+export const requestArticleChannelDetail = (channelId: number, requestQueries?: ArticleRequestQueries): Promise<ArticleChannel> => {
+  const requestUrl = `/article/channels/${channelId}${buildArticleRequestQueriesToString(requestQueries)}`;
+
+  return request({
+    url: requestUrl,
+    method: 'GET',
+  }).then((response) => camelize<AxiosResponse<ArticleChannel>>(response, { recursive : true }).data);
+};
 
 export const requestArticleChannelArticles = (channelId: number, page: number): Promise<ArticleChannelArticlesResponse> => (
   request({
@@ -43,7 +50,10 @@ export const requestArticleChannelArticles = (channelId: number, page: number): 
 
 export const requestArticleChannelFollowing = (channelId: number, method: Method): Promise<ArticleChannelFollowingResponse> => (
   request({
-    url: `/article/me/followings/${channelId}`,
+    url: `/article/me/followings`,
     method,
+    data: {
+      channel_id: channelId,
+    },
   }).then((response) => camelize<AxiosResponse<ArticleChannelFollowingResponse>>(response, { recursive: true }).data)
 );

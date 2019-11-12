@@ -4,7 +4,6 @@ import { ArticleResponse } from 'app/services/article/requests';
 import { Actions } from 'app/services/articleFavorite';
 import { RidiSelectState } from 'app/store';
 import { buildDateDistanceFormat } from 'app/utils/formatDate';
-import { articleContentToPath } from 'app/utils/toPath';
 import { Method } from 'axios';
 import * as classNames from 'classnames';
 import * as React from 'react';
@@ -28,7 +27,6 @@ export const TileArticleList: React.FunctionComponent<Props> = (props) => {
     }
     dispatch(Actions.favoriteArticleActionRequest({ articleId, method }));
   };
-
   return(
     <ul className="TileArticleList">
       {
@@ -37,7 +35,7 @@ export const TileArticleList: React.FunctionComponent<Props> = (props) => {
           return (
             <li className="TileArticleList_Item" key={idx}>
               <ArticleThumbnail
-                linkUrl={articleContentToPath({ contentId: String(article.id) })}
+                linkUrl={article.url}
                 imageUrl={article.thumbnailUrl}
                 articleTitle={article.title}
               />
@@ -46,7 +44,7 @@ export const TileArticleList: React.FunctionComponent<Props> = (props) => {
                   <img src={channelMeta.thumbnailUrl} className="TileArticleList_Thumbnail" />
                 </div>
                 <Link
-                  to={articleContentToPath({ contentId: String(article.id) })}
+                  to={article.url}
                   className="TileArticleList_ItemLink"
                 >
                   <div className="TileArticleList_MetaData">

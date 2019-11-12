@@ -33,7 +33,6 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
       articleChannelById[channelId].itemListByPage[page].isFetched
     );
   };
-
   React.useEffect(() => {
     if (!isFetchedChannelMeta()) {
       dispatch(Actions.loadArticleChannelDetailRequest({channelId}));
@@ -49,7 +48,7 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
         'SceneWrapper',
       )}
     >
-      <HelmetWithTitle titleName={articleChannelById[channelId].channelMeta!.name} />
+      <HelmetWithTitle titleName={isFetchedChannelMeta() ? articleChannelById[channelId].channelMeta!.displayName : ``} />
       <div className="a11y"><h1>리디셀렉트 아티클 채널</h1></div>
       {
         isFetchedChannelMeta() &&

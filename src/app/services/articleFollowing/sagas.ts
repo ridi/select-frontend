@@ -6,11 +6,12 @@ import { FollowingArticleListResponse, FollowingChannelListResponse,
 import { all, call, put, takeLeading } from 'redux-saga/effects';
 
 import { ErrorStatus } from 'app/constants/index';
+import { ArticleRequestIncludableData } from 'app/types';
 import showMessageForRequestError from 'app/utils/toastHelper';
 
 function* loadFollowingChannelList() {
   try {
-    const response: FollowingChannelListResponse = yield call(requestFollowingChannelList);
+    const response: FollowingChannelListResponse = yield call(requestFollowingChannelList, { includes: [ArticleRequestIncludableData.CHANNEL] });
     yield put(ArticleChannelActions.updateChannelDetail({ channels: response.results.map((res) => res.channel) }));
     yield put(Actions.loadFollowingChannelListSuccess({response}));
   } catch (e) {

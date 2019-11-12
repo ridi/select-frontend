@@ -27,7 +27,6 @@ export const ArticleFavorite: React.FunctionComponent = () => {
       dispatch(Actions.loadFavoriteArticleListRequest({ page }));
     }
   }, []);
-
   return (
     <main
       className={classNames(
@@ -40,7 +39,7 @@ export const ArticleFavorite: React.FunctionComponent = () => {
       <div className="a11y"><h1>리디셀렉트 좋아한 아티클</h1></div>
 
       <div className="FollowingArticleList">
-      { articleItems ? (
+      { articleItems && articleItems.length > 0 ? (
           <TileArticleList
             articles={articleItems}
             pageType="favorite"

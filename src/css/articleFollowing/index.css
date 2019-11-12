@@ -45,3 +45,7 @@
   max-width: 940px;
   margin: 0 auto;
 }
+
+.FollowingChannel_Link {
+  text-decoration: none;;
+}
