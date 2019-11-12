@@ -20,7 +20,7 @@ export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = 
                 className="FollowingChannel_Link"
               >
                 <div className="ChannelItem">
-                  <img src={channel.thumbnailUrl} className="ChannelThumbnail" />
+                  <img src={channel.thumbnailUrl} className="ChannelThumbnail" alt={channel.displayName} />
                   <span className="ChannelName">{channel.displayName}</span>
                 </div>
               </Link>

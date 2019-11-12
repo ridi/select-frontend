@@ -50,7 +50,7 @@ export const requestArticleChannelArticles = (channelId: number, page: number): 
 
 export const requestArticleChannelFollowing = (channelId: number, method: Method): Promise<ArticleChannelFollowingResponse> => (
   request({
-    url: `/article/me/followings`,
+    url: '/article/me/followings',
     method,
     data: {
       channel_id: channelId,

@@ -1,5 +1,4 @@
 import { ArticleChannelsMeta } from 'app/components/ArticleChannels/ArticleChannelsMeta';
-import { GridArticleList } from 'app/components/GridArticleList';
 import { FetchStatusFlag } from 'app/constants';
 import { Actions } from 'app/services/articleChannel';
 import { getChannelList } from 'app/services/articleChannel/selectors';
