@@ -70,5 +70,5 @@ export enum RoutePaths {
   ARTICLE_CHANNELS = '/article/channels',
   ARTICLE_CHANNEL_DETAIL = '/article/channel/:channelId',
   ARTICLE_FAVORITE = '/article/favorite',
-  ARTICLE_CONTENT = '/article/content/:contentId',
+  ARTICLE_CONTENT = '/article/@:channelName/:contentKey',
 }

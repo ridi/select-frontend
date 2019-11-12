@@ -4,6 +4,7 @@ import * as qs from 'qs';
 // import env from 'app/config/env';
 import history from 'app/config/history';
 import { FetchErrorFlag } from 'app/constants';
+import { ArticleRequestQueries } from 'app/types';
 import toast, { TOAST_DEFAULT_ERROR_MESSAGE } from 'app/utils/toast';
 
 // const axiosRetry = require('axios-retry'); // https://github.com/softonic/axios-retry/issues/53
@@ -33,6 +34,22 @@ export function updateQueryStringParam(key: string, value: string | number) {
       { [key]: value },
     ),
   );
+}
+
+export function buildArticleRequestQueriesToString(requestQueries?: ArticleRequestQueries): string {
+  const queries = [];
+
+  if (requestQueries && requestQueries.includes) {
+    queries.push(`include=${requestQueries.includes.join('|')}`);
+  }
+  if (requestQueries && requestQueries.ordering) {
+    queries.push(`ordering=${requestQueries.ordering}`);
+  }
+  if (requestQueries && requestQueries.type) {
+    queries.push(`type=${requestQueries.type}`);
+  }
+
+  return queries.length > 0 ? `?${queries.join('&')}` : '';
 }
 
 // function requestWithDefaultHandling(config: RequestConfig): AxiosPromise {

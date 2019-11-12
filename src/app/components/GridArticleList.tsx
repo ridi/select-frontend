@@ -4,7 +4,6 @@ import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { ArticleResponse } from 'app/services/article/requests';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
-import { articleContentToPath } from 'app/utils/toPath';
 import { Link } from 'react-router-dom';
 
 interface Props {
@@ -37,12 +36,12 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
             id={article.id}
           >
             <ArticleThumbnail
-              linkUrl={articleContentToPath({ contentId: String(article.id) })}
+              linkUrl={article.url}
               imageUrl={article.thumbnailUrl}
               articleTitle={article.title}
             />
             <Link
-              to={articleContentToPath({ contentId: String(article.id) })}
+              to={article.url}
               className="GridArticleList_ItemLink"
             >
               <span className="GridArticleList_ItemTitle">
