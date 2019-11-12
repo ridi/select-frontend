@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 interface ArticleChannelMetaProps {
   id: number;
-  name: string;
+  displayName: string;
   thumbnailUrl?: string;
   description?: string;
   subDescription?: string | null;
@@ -15,7 +15,7 @@ interface ArticleChannelMetaProps {
 }
 
 export const ArticleChannelMeta: React.FunctionComponent<ArticleChannelMetaProps> = (props) => {
-  const { id, name, thumbnailUrl, description, subDescription, followersCount, isFollowing } = props;
+  const { id, displayName, thumbnailUrl, description, subDescription, followersCount, isFollowing } = props;
   const dispatch = useDispatch();
 
   const handleButtonClick = (type: Method) => {
@@ -29,7 +29,7 @@ export const ArticleChannelMeta: React.FunctionComponent<ArticleChannelMetaProps
           <img src={thumbnailUrl} className={'ArticleChannel_Image'} />
         </div>
         <div className="ArticleChannel_Meta">
-          <h2 className="ArticleChannel_Meta_Title">{name}</h2>
+          <h2 className="ArticleChannel_Meta_Title">{displayName}</h2>
           <p className="ArticleChannel_Meta_Desc">{description}</p>
           <span className="ArticleChannel_Meta_Serial">{subDescription}</span>
           <span className="ArticleChannel_Meta_Following">팔로잉 <strong className="ArticleChannel_Meta_FollowingNumber">{followersCount}</strong></span>

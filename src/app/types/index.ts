@@ -11,7 +11,7 @@ export type DateDTO = string; // ISO8601: 2016-10-27T17:13:40+00:00 || 2016-10-2
 export type MaskedUId = string; // 'hck***'
 
 export type ArticleRequestIncludableData = 'articles' | 'authors' | 'channel'
-| 'content' | 'followers_count' | 'is_following';
+| 'content' | 'followers_count' | 'is_following' | 'is_favorite';
 
 /*
  * Text need to be transformed (`/n` to `<br/>`) and includes html tags

@@ -28,6 +28,10 @@ export const Actions = {
   updateArticles: createAction<{
     articles: Article[],
   }>('updateArticles'),
+  updateFavoriteArticleStatus: createAction<{
+    articleId: number,
+    isFavorite: boolean,
+  }>('updateFavoriteArticleStatus'),
 };
 
 export interface ArticleContent {
@@ -44,6 +48,7 @@ export interface Article {
   thumbnailUrl: string;
   authorId?: number;
   author?: AuthorResponse;
+  isFavorite?: boolean;
 }
 
 export interface StaticArticleState {
@@ -138,4 +143,18 @@ articleReducer.on(Actions.updateArticles, (state, action) => {
     return prev;
   }, state);
   return newState;
+});
+
+articleReducer.on(Actions.updateFavoriteArticleStatus, (state, action) => {
+  const { articleId, isFavorite } = action;
+  return {
+    ...state,
+    [articleId]: {
+      ...state[articleId],
+      article: {
+        ...state[articleId].article!,
+        isFavorite,
+      },
+    },
+  };
 });

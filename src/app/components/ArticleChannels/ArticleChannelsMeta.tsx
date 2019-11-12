@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 export const ArticleChannelsMeta: React.FunctionComponent<ArticleChannel> = (props) => {
-  const { id, thumbnailUrl, name, description, isFollowing } = props;
+  const { id, thumbnailUrl, displayName, description, isFollowing } = props;
   const dispatch = useDispatch();
 
   const handleButtonClick = (type: Method) => {
@@ -25,7 +25,7 @@ export const ArticleChannelsMeta: React.FunctionComponent<ArticleChannel> = (pro
       </Link>
       <div className="Channel_Meta">
         <Link className="Channel_Link" to={articleChannelToPath({ channelId: id })}>
-          <span className="Channel_Title">{name}</span>
+          <span className="Channel_Title">{displayName}</span>
         </Link>
         <span className="Channel_Desc">{description}</span>
       </div>

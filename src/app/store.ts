@@ -22,6 +22,9 @@ import { userRootSaga } from 'app/services/user/sagas';
 import { channelRootSaga } from 'app/services/articleChannel/sagas';
 import { articleHomeRootSaga } from 'app/services/articleHome/sagas';
 
+import { favoriteArticleListReducer, FavoriteArticleListState } from 'app/services/articleFavorite';
+import { articleFavoriteRootSaga } from 'app/services/articleFavorite/sagas';
+
 import { articleReducer, ArticlesState } from 'app/services/article';
 import { articleRootSaga } from 'app/services/article/sagas';
 
@@ -87,6 +90,7 @@ function* rootSaga(dispatch: Dispatch) {
     articleHomeRootSaga(),
     channelRootSaga(),
     articleFollowingRootSaga(),
+    articleFavoriteRootSaga(),
   ]);
 }
 
@@ -112,6 +116,7 @@ export interface RidiSelectState {
   articleChannels: ArticleChannelListState;
   articleChannelById: ArticleChannelState;
   articleFollowing: ArticleFollowingState;
+  favoriteArticle: FavoriteArticleListState;
 }
 
 const sagaMiddleware = createSagaMiddleware();
@@ -146,6 +151,7 @@ const reducers = combineReducers({
   articleChannels: articleChannelListReducer,
   articleChannelById: articleChannelReducer,
   articleFollowing: articleFollowReducer,
+  favoriteArticle: favoriteArticleListReducer,
 });
 
 const middleware = [
