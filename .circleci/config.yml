@@ -76,8 +76,8 @@ jobs:
                 environment:
                   SELECT_URL: https://select.ridi.io
                   SELECT_API: https://select-api.dev.ridi.io
-                  STORE_URL: https://master.test.ridi.io
-                  STORE_API: https://master.test.ridi.io
+                  STORE_URL: https://voucher.test.ridi.io
+                  STORE_API: https://voucher.test.ridi.io
                   PAY_URL: https://pay.ridi.io
                   PAY_API: https://pay-api.dev.ridi.io
                   ACCOUNT_API: https://account.dev.ridi.io
