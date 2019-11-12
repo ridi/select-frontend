@@ -1,6 +1,7 @@
 import { keyBy } from 'lodash-es';
 import * as qs from 'qs';
 import { all, call, put, select, take, takeEvery, takeLatest } from 'redux-saga/effects';
+import { requestTicketInfo } from './requests';
 
 import history from 'app/config/history';
 import { FetchErrorFlag, RoutePaths } from 'app/constants';
@@ -26,10 +27,12 @@ import {
   SubscriptionResponse,
 } from 'app/services/user/requests';
 import { RidiSelectState } from 'app/store';
+import { DateDTO } from 'app/types';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import { fixWrongPaginationScope, isValidPaginationParameter, updateQueryStringParam } from 'app/utils/request';
 import toast from 'app/utils/toast';
 import showMessageForRequestError from 'app/utils/toastHelper';
+import { try } from 'q';
 
 export function* initializeUser({ payload }: ReturnType<typeof Actions.initializeUser>) {
   yield put(TrackingActions.trackingArgsUpdate({
@@ -206,7 +209,7 @@ export function* watchUnsubscribe() {
       yield call(requestUnsubscribe, state.user.subscription!.subscriptionId);
       yield put(Actions.unsubscribeSuccess());
       yield put(Actions.loadSubscriptionRequest());
-      const endDate = buildOnlyDateFormat(state.user.subscription!.ticketEndDate);
+      const endDate = buildOnlyDateFormat(state.user.subscription!.subscriptionEndDate);
       alert(`구독 해지가 예약되었습니다.\n${endDate}까지 이용할 수 있습니다.`);
       history.replace('/settings');
     } catch (e) {
@@ -235,7 +238,7 @@ export function* watchCancelUnsubscription() {
         if (confirm('구독했던 카드가 삭제되어 카드 등록 후 구독 해지 예약을 취소할 수 있습니다. 카드를 등록하시겠습니까?')) {
           const { STORE_URL } = state.environment;
           const currentLocation = encodeURIComponent(location.href);
-          window.location.href = `${STORE_URL}/select/payments/ridi-pay?return_url=${currentLocation}`;
+          window.location.href = `${STORE_URL}/select/payments/ridi-pay?is_payment_method_change=true&return_url=${currentLocation}`;
         }
       } else {
         showMessageForRequestError(e);

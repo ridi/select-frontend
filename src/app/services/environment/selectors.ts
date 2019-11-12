@@ -17,7 +17,7 @@ export const getIsAndroidInApp = createSelector(
   (isAndroid: boolean, isInApp: boolean): boolean => isAndroid && isInApp,
 );
 
-export const getIsIntro = createSelector(
+export const getIsSimpleGNB = createSelector(
   [selectPathname],
-  (pathname: string): boolean => (pathname === RoutePaths.INTRO),
+  (pathname: string): boolean => (pathname === RoutePaths.INTRO) || (pathname === RoutePaths.VOUCHER),
 );

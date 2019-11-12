@@ -20,7 +20,7 @@ interface BookDetailDownloadButtonProps {
 
 interface BookDetailDownloadButtonStateProps {
   isLoggedIn: boolean;
-  isSubscribing: boolean;
+  hasAvailableTicket: boolean;
   hasSubscribedBefore: boolean;
   env: EnvironmentState;
   isInApp: boolean;
@@ -36,7 +36,7 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
   const {
     bookId,
     isLoggedIn,
-    isSubscribing,
+    hasAvailableTicket,
     hasSubscribedBefore,
     env,
     isInApp,
@@ -111,7 +111,7 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
         {hasSubscribedBefore ? '리디셀렉트 구독하기' : '구독하고 무료로 읽어보기'}
       </Button>
     );
-  } else if (isSubscribing) {
+  } else if (hasAvailableTicket) {
     return (
       <Button
         color="blue"
@@ -146,7 +146,7 @@ const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailDownloadBut
   const bookState = state.booksById[bookId];
 
   return {
-    isSubscribing: state.user.isSubscribing,
+    hasAvailableTicket: state.user.hasAvailableTicket,
     isLoggedIn: state.user.isLoggedIn,
     hasSubscribedBefore: state.user.hasSubscribedBefore,
     env: state.environment,

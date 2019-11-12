@@ -7,6 +7,13 @@ import { SubscriptionState } from 'app/services/user';
 import { DateDTO } from 'app/types';
 import axios, { AxiosResponse } from 'axios';
 
+export interface TicketToBeCanceledWith {
+  id: number;
+  title: string;
+  voucherCode?: string;
+  voucherExpireDate: DateDTO;
+}
+
 export interface Ticket {
   id: number;
   purchaseDate: DateDTO;
@@ -15,11 +22,14 @@ export interface Ticket {
   cancelDate: DateDTO;
   isCanceled: boolean;
   isCancellable: boolean;
+  isFreePromotion: boolean;
   paymentMethod: string;
   price: number;
   title: string;
   currency: string;
   formattedPrice: string;
+  voucherCode?: string;
+  ticketsToBeCanceledWith: TicketToBeCanceledWith[];
 }
 
 // export interface SubscriptionResponse extends SubscriptionState {
@@ -78,6 +88,13 @@ export const requestSubscription = (): Promise<AxiosResponse<SubscriptionRespons
     method: 'GET',
   }).then((response: AxiosResponse<SubscriptionResponse>) =>
     camelize<AxiosResponse<SubscriptionResponse>>(response.data, { recursive: true }));
+
+export const requestTicketInfo = (): Promise<AxiosResponse<{ ticketEndDate: DateDTO }>> =>
+  request({
+    url: `${env.STORE_API}/api/select/users/me/ticket`,
+    method: 'GET',
+  }).then((response: AxiosResponse<{ ticketEndDate: DateDTO }>) =>
+    camelize<AxiosResponse<{ ticketEndDate: DateDTO }>>(response.data, { recursive: true }));
 
 export const requestPurchases = (page: number): Promise<AxiosResponse<PurchasesResponse>> =>
   request({

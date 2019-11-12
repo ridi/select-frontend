@@ -24,13 +24,13 @@ interface BookDetailMetaContentsStatePorps {
   title?: BookTitle;
   bookDetail?: BookDetailResponse;
   gnbColorLevel: GNBColorLevel;
-  isSubscribing: boolean;
+  hasAvailableTicket: boolean;
 }
 
 type Props = BookDetailMetaContentsStatePorps & BookDetailMetaContentsPorps;
 
 const BookDetailMetaContents: React.FunctionComponent<Props> = (props) => {
-  const { title, bookId, isMobile = false, bookDetail, gnbColorLevel, isSubscribing } = props;
+  const { title, bookId, isMobile = false, bookDetail, gnbColorLevel, hasAvailableTicket } = props;
 
   const [isAuthorsExpanded, setAuthorExpanded] = React.useState(false);
 
@@ -134,7 +134,7 @@ const BookDetailMetaContents: React.FunctionComponent<Props> = (props) => {
         )}
       </p>
       <div className="PageBookDetail_DownloadWrapper">
-        {isSubscribing && previewAvailable && hasPreview && (
+        {hasAvailableTicket && previewAvailable && hasPreview && (
           <Button
             color={isMobile ? 'blue' : undefined}
             outline={true}
@@ -162,7 +162,7 @@ const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailMetaContent
 
   return {
     bookDetail,
-    isSubscribing: state.user.isSubscribing,
+    hasAvailableTicket: state.user.hasAvailableTicket,
     gnbColorLevel: state.commonUI.gnbColorLevel,
 
     // Data that can be pre-fetched in home

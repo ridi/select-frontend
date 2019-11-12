@@ -16,6 +16,7 @@ export * from './Intro';
 export * from './NotAvailableBook';
 export * from './ClosingReservedBooks';
 export * from './WrongLocation';
+export * from './Voucher';
 
 export * from './ArticleHome';
 export * from './ArticleFollowing';

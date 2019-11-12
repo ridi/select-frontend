@@ -26,7 +26,7 @@ interface StateProps {
   BASE_URL_STORE: string;
   isUserFetching: boolean;
   isLoggedIn: boolean;
-  isSubscribing: boolean;
+  hasAvailableTicket: boolean;
   mySelectBooks: PaginatedMySelectBooks;
   deletionFetchStatus: FetchStatusFlag;
   isReSubscribed?: boolean;
@@ -111,9 +111,9 @@ class MySelect extends React.Component<Props, State> {
   }
 
   private isFetched(page: number) {
-    const { isLoggedIn, isSubscribing, mySelectBooks } = this.props;
+    const { isLoggedIn, hasAvailableTicket, mySelectBooks } = this.props;
 
-    if (isLoggedIn && !isSubscribing) {
+    if (isLoggedIn && !hasAvailableTicket) {
       return true;
     }
 
@@ -128,7 +128,7 @@ class MySelect extends React.Component<Props, State> {
       page,
       isLoggedIn,
       mySelectBooks,
-      isSubscribing,
+      hasAvailableTicket,
       BASE_URL_STORE,
       isUserFetching,
       dispatchLoadMySelectRequest,
@@ -139,7 +139,7 @@ class MySelect extends React.Component<Props, State> {
       return;
     }
 
-    if (!isUserFetching && !isSubscribing) {
+    if (!isUserFetching && !hasAvailableTicket) {
       return;
     }
 
@@ -257,7 +257,7 @@ class MySelect extends React.Component<Props, State> {
   }
 
   public render() {
-    const { isUserFetching, isLoggedIn, isSubscribing, mySelectBooks, page, isReSubscribed } = this.props;
+    const { isUserFetching, isLoggedIn, hasAvailableTicket, mySelectBooks, page, isReSubscribed } = this.props;
 
     const itemCount: number = mySelectBooks.itemCount ? mySelectBooks.itemCount : 0;
     const itemCountPerPage: number = mySelectBooks.size;
@@ -322,7 +322,7 @@ class MySelect extends React.Component<Props, State> {
                   }
                 </MediaQuery>
               </>
-            ) : (!isUserFetching && isLoggedIn && isSubscribing && isReSubscribed) ? (
+            ) : (!isUserFetching && isLoggedIn && hasAvailableTicket && isReSubscribed) ? (
               /* 도서 이용 내역 확인하기 버튼 위치 */
               <>
                 <Empty className={'Empty_HasButton'} description="이전에 이용한 책을 도서 이용 내역에서 확인해보세요." iconName="book_1" />
@@ -360,7 +360,7 @@ const mapStateToProps = (state: RidiSelectState): StateProps => {
     BASE_URL_STORE: state.environment.STORE_URL,
     isUserFetching: state.user.isFetching,
     isLoggedIn: state.user.isLoggedIn,
-    isSubscribing: state.user.isSubscribing,
+    hasAvailableTicket: state.user.hasAvailableTicket,
     mySelectBooks: state.mySelect.mySelectBooks,
     deletionFetchStatus: state.mySelect.deletionFetchStatus,
     isReSubscribed: state.mySelect.isReSubscribed,

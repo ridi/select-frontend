@@ -1,3 +1,4 @@
+import * as classNames from 'classnames';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
@@ -5,7 +6,6 @@ import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
 import { Button, Empty } from '@ridi/rsg';
-import * as classNames from 'classnames';
 
 import { ConnectedPageHeader, HelmetWithTitle, Pagination } from 'app/components';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
@@ -13,10 +13,9 @@ import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPla
 
 import { getPageQuery } from 'app/services/routing/selectors';
 import { Actions, PurchaseHistory } from 'app/services/user';
-import { Ticket } from 'app/services/user/requests';
+import { Ticket, TicketToBeCanceledWith } from 'app/services/user/requests';
 import { RidiSelectState } from 'app/store';
-import { buildDateAndTimeFormat } from 'app/utils/formatDate';
-import { thousandsSeperator } from 'app/utils/thousandsSeperator';
+import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
 import toast from 'app/utils/toast';
 
 interface OrderStateProps {
@@ -27,15 +26,39 @@ interface OrderStateProps {
 type Props = OrderStateProps & ReturnType<typeof mapDispatchToProps>;
 
 export class OrderHistory extends React.PureComponent<Props> {
-  private handleCancelPurchaseButtonClick = (purchaseId: number) => () => {
+  private handleCancelPurchaseButtonClick = (payment: Ticket) => () => {
     const { orderHistory, dispatchCancelPurchase } = this.props;
+    const { id, ticketsToBeCanceledWith } = payment;
 
     if (orderHistory.isCancelFetching) {
       toast.failureMessage('취소 진행중입니다. 잠시 후에 다시 시도해주세요.');
       return;
     }
-    if (confirm(`결제를 취소하시겠습니까?\n결제를 취소할 경우 즉시 이용할 수 없습니다.`)) {
-      dispatchCancelPurchase(purchaseId);
+
+    let confirmMessage = '결제를 취소하시겠습니까?\n결제를 취소할 경우 즉시 이용할 수 없습니다.';
+
+    if (ticketsToBeCanceledWith.length > 0) {
+      confirmMessage = '결제를 취소하시겠습니까?\n등록된 이용권이 함께 취소되며 이용권은 유효기간 내에 다시 등록 가능합니다.\n\n';
+      ticketsToBeCanceledWith.forEach((ticketToBeCancel: TicketToBeCanceledWith) => {
+
+        if (!ticketToBeCancel.voucherCode) {
+          return;
+        }
+
+        confirmMessage = `${
+          confirmMessage
+        }-${
+          ticketToBeCancel.title
+        }: ${
+          ticketToBeCancel.voucherCode.match(/.{1,4}/g)!.join('-')
+        } (${
+          buildOnlyDateFormat(ticketToBeCancel.voucherExpireDate)
+          }까지)\n`;
+      });
+    }
+
+    if (confirm(confirmMessage)) {
+      dispatchCancelPurchase(id);
     }
   }
   private getPaymentMethodTypeName = (payment: Ticket) => {
@@ -47,18 +70,25 @@ export class OrderHistory extends React.PureComponent<Props> {
     return (
       <>
         <p className="Ordered_Date">{buildDateAndTimeFormat(payment.purchaseDate)}</p>
-        <p className="Ordered_Name">{payment.title}</p>
+        <p className="Ordered_Name">
+          {payment.title}
+          {payment.voucherCode && !payment.isFreePromotion ? (
+            <span className="Ordered_Term">이용 기간: {buildOnlyDateFormat(payment.startDate)}~{buildOnlyDateFormat(payment.endDate)}</span>
+          ) : null}
+        </p>
         <p className="Ordered_Type">{this.getPaymentMethodTypeName(payment)}</p>
       </>
     );
   }
 
   private renderAmountInfo = (payment: Ticket, shouldDisplayCancel: boolean) => {
-    const { formattedPrice, price, isCancellable, id } = payment;
+    const { isFreePromotion, formattedPrice, voucherCode, isCancellable, id } = payment;
     return (
       <>
         <p className="Ordered_Amount">
-          {price === 0 ? '무료' : formattedPrice}
+          {isFreePromotion
+            ? '무료'
+            : voucherCode ? '' : formattedPrice}
         </p>
         {shouldDisplayCancel && (
           <div className="CancelOrderButton_Wrapper">
@@ -67,7 +97,7 @@ export class OrderHistory extends React.PureComponent<Props> {
                 className="CancelOrderButton"
                 color="gray"
                 outline={true}
-                onClick={this.handleCancelPurchaseButtonClick(id)}
+                onClick={this.handleCancelPurchaseButtonClick(payment)}
                 size="medium"
               >
                 결제 취소

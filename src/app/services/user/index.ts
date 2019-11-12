@@ -130,9 +130,8 @@ export interface MySelectHistroyState extends Paginated<MySelectBook> {
 
 export interface SubscriptionState {
   subscriptionId: number;
-  subscriptionDate: DateDTO;
   ticketStartDate: DateDTO;
-  ticketEndDate: DateDTO;
+  subscriptionEndDate: DateDTO;
   nextBillDate: DateDTO;
   isOptout: boolean;
   isOptoutCancellable: boolean;
@@ -160,7 +159,9 @@ export interface UserState {
   isAccountMeRetried: boolean;
   uId: string;
   email: string;
-  isSubscribing: boolean;
+  ticketEndDate?: DateDTO;
+  ticketFetchStatus: FetchStatusFlag;
+  hasAvailableTicket: boolean;
   hasSubscribedBefore: boolean;
   subscriptionFetchStatus: FetchStatusFlag;
   unsubscriptionFetchStatus: FetchStatusFlag;
@@ -176,7 +177,8 @@ export const INITIAL_STATE: UserState = {
   isAccountMeRetried: false,
   uId: '',
   email: '',
-  isSubscribing: false,
+  hasAvailableTicket: false,
+  ticketFetchStatus: FetchStatusFlag.IDLE,
   hasSubscribedBefore: false,
   subscriptionFetchStatus: FetchStatusFlag.IDLE,
   unsubscriptionFetchStatus: FetchStatusFlag.IDLE,

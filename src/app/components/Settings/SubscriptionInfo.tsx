@@ -1,18 +1,23 @@
+import * as React from 'react';
+import { connect } from 'react-redux';
+
 import { Button, Icon } from '@ridi/rsg';
-import { RoutePaths } from 'app/constants';
+
+import { getIsIosInApp } from 'app/services/environment/selectors';
 import { Actions, SubscriptionState } from 'app/services/user';
 import { Ticket } from 'app/services/user/requests';
 import { RidiSelectState } from 'app/store';
+import { DateDTO } from 'app/types';
 import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
 import toast from 'app/utils/toast';
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 interface SubscriptionInfoStateProps {
   uId: string;
+  isIosInApp: boolean;
   BASE_URL_STORE: string;
+  ticketEndDate?: DateDTO;
   hasSubscribedBefore: boolean;
+  hasAvailableTicket: boolean;
   subscriptionState?: SubscriptionState | null;
   latestPurchaseTicket: Ticket;
   isPurchaseCancelFetching: boolean;
@@ -43,14 +48,13 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
   }
 
   private renderSubscriptionTermInfo() {
-    const { subscriptionState } = this.props;
-    const { ticketStartDate, ticketEndDate } = subscriptionState!;
+    const { ticketEndDate } = this.props;
 
     return (
       <li className="CurrentSubscriptionInfo" key="current-subscription-info">
         <strong className="CurrentSubscriptionInfo_Title">셀렉트 구독</strong>
         <span className="CurrentSubscriptionInfo_Term">
-          {`${buildDateAndTimeFormat(ticketStartDate)} ~ ${buildDateAndTimeFormat(ticketEndDate)}`}
+          {`${buildDateAndTimeFormat(ticketEndDate)} 까지`}
         </span>
       </li>
     );
@@ -123,18 +127,41 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
     );
   }
 
+  private renderAddCardButton() {
+    const { BASE_URL_STORE, isIosInApp } = this.props;
+
+    return isIosInApp ? null : (
+      <Button
+        className="SubscribeToUseButton"
+        component="a"
+        color="blue"
+        size="large"
+        href={`${BASE_URL_STORE}/select/payments?return_url=${encodeURIComponent(location.href)}`}
+      >
+        카드 등록하기
+      </Button>
+    );
+  }
+
   public render() {
-    const { subscriptionState } = this.props;
+    const { subscriptionState, hasAvailableTicket } = this.props;
     return (
       <div className="SubscriptionInfoWrapper">
         <h3 className="a11y">구독 정보</h3>
         <ul className="SubscriptionInfoList">
           {this.renderAccountInfo()}
-          {subscriptionState ? [
-            this.renderSubscriptionTermInfo(),
-            this.renderLatestBillDateInfo(),
-            this.renderCancelReservedInfo(),
-          ] : this.renderSubscribeButton()}
+          {subscriptionState ? (
+            <>
+              {this.renderSubscriptionTermInfo()}
+              {this.renderLatestBillDateInfo()}
+              {this.renderCancelReservedInfo()}
+            </>
+          ) : hasAvailableTicket ? (
+            <>
+              {this.renderSubscriptionTermInfo()}
+              {this.renderAddCardButton()}
+            </>
+          ) : this.renderSubscribeButton()}
         </ul>
       </div>
     );
@@ -144,7 +171,10 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
 const mapStateToProps = (state: RidiSelectState): SubscriptionInfoStateProps => {
   return {
     uId: state.user.uId,
+    isIosInApp: getIsIosInApp(state),
     BASE_URL_STORE: state.environment.STORE_URL,
+    ticketEndDate: state.user.ticketEndDate,
+    hasAvailableTicket: state.user.hasAvailableTicket,
     subscriptionState: state.user.subscription,
     hasSubscribedBefore: state.user.hasSubscribedBefore,
     latestPurchaseTicket: !!state.user.purchaseHistory.itemListByPage[1] && state.user.purchaseHistory.itemListByPage[1].itemList[0],

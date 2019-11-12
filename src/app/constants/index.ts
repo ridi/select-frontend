@@ -32,10 +32,11 @@ export enum PageTitleText {
   MY_SELECT = '마이 셀렉트',
   MY_SELECT_HISTORY = '도서 이용 내역',
   NEW_RELEASE = '최신 업데이트',
-  ORDER_HISTORY = '결제 내역',
+  ORDER_HISTORY = '결제/이용권 내역',
   SETTING = '셀렉트 관리',
   NOT_AVAILABLE_BOOK = '',
   CLOSING_RESERVED_BOOKS = '종료 예정 도서',
+  VOUCHER= '리디셀렉트 이용권 등록',
   // 셀렉트 2.0 - 아티클
   ARTICLE_HOME = '아티클 홈',
   ARTICLE_FOLLOWING = '팔로잉',
@@ -62,6 +63,7 @@ export enum RoutePaths {
   INTRO = '/intro',
   NOT_AVAILABLE_BOOK = '/not-available-book',
   CLOSING_RESERVED_BOOKS = '/closing-reserved-book',
+  VOUCHER = '/voucher',
   /* 셀렉트 2.0 아티클 */
   ARTICLE_HOME = '/article/home',
   ARTICLE_FOLLOWING = '/article/following',

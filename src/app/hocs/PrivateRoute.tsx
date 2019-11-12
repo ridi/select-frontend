@@ -2,18 +2,19 @@ import * as React from 'react';
 import { RouteComponentProps, RouteProps, withRouter } from 'react-router';
 import { Route } from 'react-router-dom';
 
-import { RoutePaths } from 'app/constants';
+import { FetchStatusFlag, RoutePaths } from 'app/constants';
 
 export enum RouteBlockLevel {
   LOGGED_IN,
-  SUBSCRIBED,
+  HAS_AVAILABLE_TICKET,
 }
 
 export interface PrivateRouteProps extends RouteProps {
   isRidiApp: boolean;
   isFetching: boolean;
+  ticketFetchStatus: FetchStatusFlag;
   isLoggedIn: boolean;
-  isSubscribing: boolean;
+  hasAvailableTicket: boolean;
   routeBlockLevel?: RouteBlockLevel;
 }
 
@@ -21,18 +22,19 @@ export const PrivateRoute: React.SFC<PrivateRouteProps & RouteComponentProps> = 
   const {
     isFetching,
     isLoggedIn,
-    isSubscribing,
-    routeBlockLevel = RouteBlockLevel.SUBSCRIBED,
+    ticketFetchStatus,
+    hasAvailableTicket,
+    routeBlockLevel = RouteBlockLevel.HAS_AVAILABLE_TICKET,
     ...restProps
   } = props;
 
-  if (isFetching) {
+  if (isFetching || ticketFetchStatus === FetchStatusFlag.FETCHING) {
     return <div className="SplashScreen SplashScreen-whiteScreen" />;
   }
 
   if (
     routeBlockLevel === RouteBlockLevel.LOGGED_IN && !isLoggedIn ||
-    routeBlockLevel === RouteBlockLevel.SUBSCRIBED && !isSubscribing
+    routeBlockLevel === RouteBlockLevel.HAS_AVAILABLE_TICKET && !hasAvailableTicket
   ) {
     props.history.replace({
       pathname: RoutePaths.HOME,

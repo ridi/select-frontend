@@ -1,30 +1,27 @@
-import { ConnectedPageHeader } from 'app/components';
 import * as classNames from 'classnames';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import { HelmetWithTitle } from 'app/components';
-import {
-  SettingMenu,
-  SettingMenuItem,
-} from 'app/components/Settings/SettingMenu';
+import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
+import { SettingMenu, SettingMenuItem } from 'app/components/Settings/SettingMenu';
 import { ConnectedSubscriptionInfo } from 'app/components/Settings/SubscriptionInfo';
 import env from 'app/config/env';
-import { FetchStatusFlag, PageTitleText } from 'app/constants';
+import { FetchStatusFlag, PageTitleText, RoutePaths } from 'app/constants';
 import { SettingPlaceholder } from 'app/placeholder/SettingPlaceholder';
 import { EnvironmentState } from 'app/services/environment';
-import {
-  getIsIosInApp,
-  selectIsInApp,
-} from 'app/services/environment/selectors';
+import { getIsIosInApp, selectIsInApp } from 'app/services/environment/selectors';
 import { Actions, SubscriptionState } from 'app/services/user';
 import { RidiSelectState } from 'app/store';
-import { Link } from 'react-router-dom';
+import { DateDTO } from 'app/types';
 
 interface SettingStateProps {
   isFetching: boolean;
   isAccountMeRetried: boolean;
   isLoggedIn: boolean;
+  hasAvailableTicket: boolean;
+  ticketEndDate?: DateDTO;
+  ticketFetchStatus: FetchStatusFlag;
   subscriptionFetchStatus: FetchStatusFlag;
   subscriptionState?: SubscriptionState | null;
   environment: EnvironmentState;
@@ -35,14 +32,17 @@ interface SettingStateProps {
 type SettingProps = SettingStateProps & ReturnType<typeof mapDispatchToProps>;
 
 export class Settings extends React.PureComponent<SettingProps> {
-
   // 도서/리뷰 메뉴
   private renderSubscriptionMenus() {
     const { isIosInApp } = this.props;
     const { STORE_URL } = this.props.environment;
     return (
       <SettingMenu title={'도서 / 리뷰'} icon={'book'} key="Menus About Books">
-        <SettingMenuItem linkComponent={Link} to="/my-select-history" key="ReadHistory">
+        <SettingMenuItem
+          linkComponent={Link}
+          to="/my-select-history"
+          key="ReadHistory"
+        >
           도서 이용 내역
         </SettingMenuItem>
         <SettingMenuItem
@@ -59,30 +59,46 @@ export class Settings extends React.PureComponent<SettingProps> {
 
   // 구독/결제 메뉴
   private renderBooksMenus() {
-    const { subscriptionState, isIosInApp } = this.props;
+    const { subscriptionState, isIosInApp, hasAvailableTicket } = this.props;
     return (
-      <SettingMenu title={'구독 / 결제'} icon={'card'} key="Menus About Subscription">
+      <SettingMenu
+        title={'구독 / 결제'}
+        icon={'card'}
+        key="Menus About Subscription"
+      >
         <SettingMenuItem
           linkComponent={Link}
-          to="/manage-subscription"
+          to={RoutePaths.MANAGE_SUBSCRIPTION}
           key="ManageSubscriptions"
           renderCondition={!!subscriptionState}
         >
           구독 관리
         </SettingMenuItem>
-        <SettingMenuItem linkComponent={Link} to="/order-history" key="PaymentHistory">
-          결제 내역
+        <SettingMenuItem
+          linkComponent={Link}
+          to="/order-history"
+          key="PaymentHistory"
+        >
+          결제/이용권 내역
         </SettingMenuItem>
         <SettingMenuItem
           href={`${env.PAY_URL}`}
           renderCondition={
-            !!subscriptionState &&
-            !!subscriptionState.isUsingRidipay &&
-            !isIosInApp
+            !isIosInApp &&
+            ((hasAvailableTicket && !subscriptionState) ||
+              (!!subscriptionState && !!subscriptionState.isUsingRidipay))
           }
           key="ManageCard"
         >
           셀렉트 카드 관리
+        </SettingMenuItem>
+        <SettingMenuItem
+          linkComponent={Link}
+          to={RoutePaths.VOUCHER}
+          renderCondition={!isIosInApp}
+          key="Voucher"
+        >
+          이용권 등록
         </SettingMenuItem>
       </SettingMenu>
     );
@@ -156,13 +172,20 @@ export class Settings extends React.PureComponent<SettingProps> {
     const {
       isLoggedIn,
       subscriptionFetchStatus,
+      ticketFetchStatus,
     } = this.props;
 
     return (
       <main className={classNames('SceneWrapper', 'PageSetting')}>
         <HelmetWithTitle titleName={PageTitleText.SETTING} />
         <ConnectedPageHeader pageTitle={PageTitleText.SETTING} />
-        {subscriptionFetchStatus === FetchStatusFlag.IDLE && isLoggedIn ? <ConnectedSubscriptionInfo /> : <SettingPlaceholder />}
+        {subscriptionFetchStatus === FetchStatusFlag.IDLE &&
+        ticketFetchStatus === FetchStatusFlag.IDLE &&
+        isLoggedIn ? (
+          <ConnectedSubscriptionInfo />
+        ) : (
+          <SettingPlaceholder />
+        )}
         {this.renderMenus()}
       </main>
     );
@@ -172,6 +195,9 @@ export class Settings extends React.PureComponent<SettingProps> {
 const mapStateToProps = (state: RidiSelectState): SettingStateProps => {
   return {
     isFetching: state.user.isFetching,
+    hasAvailableTicket: state.user.hasAvailableTicket,
+    ticketEndDate: state.user.ticketEndDate,
+    ticketFetchStatus: state.user.ticketFetchStatus,
     isAccountMeRetried: state.user.isAccountMeRetried,
     isLoggedIn: state.user.isLoggedIn,
     subscriptionFetchStatus: state.user.subscriptionFetchStatus,

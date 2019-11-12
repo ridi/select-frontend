@@ -46,8 +46,13 @@ import { searchResultRootSaga } from 'app/services/searchResult/sagas';
 import { serviceStatusReducer, ServiceStatusState } from 'app/services/serviceStatus';
 import { serviceStatusSaga } from 'app/services/serviceStatus/sagas';
 import { trackingSaga } from 'app/services/tracking/sagas';
-import { articleChannelListReducer, ArticleChannelListState,
-  articleChannelReducer, ArticleChannelState } from './services/articleChannel';
+import { voucherRootSaga } from 'app/services/voucher/sagas';
+import {
+  articleChannelListReducer,
+  ArticleChannelListState,
+  articleChannelReducer,
+  ArticleChannelState,
+} from './services/articleChannel';
 import { articleHomeReducer, ArticleHomeState } from './services/articleHome';
 
 import env from 'app/config/env';
@@ -76,6 +81,7 @@ function* rootSaga(dispatch: Dispatch) {
     downloadSaga(),
     customHistorySaga(),
     closingReservedBooksRootSaga(),
+    voucherRootSaga(),
     serviceStatusSaga(),
     articleRootSaga(),
     articleHomeRootSaga(),
