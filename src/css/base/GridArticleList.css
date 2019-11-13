@@ -56,6 +56,15 @@
   line-height: 1.57;
   color: var(--gray_100);
   font-weight: 600;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  word-break: keep-all;
+  white-space: normal;
 }
 
 .GridArticleItem_Author {
