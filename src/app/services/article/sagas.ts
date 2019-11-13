@@ -8,7 +8,8 @@ export function* loadArticle({ payload }: ReturnType<typeof Actions.loadArticleR
   const { channelName, contentIndex, requestQueries } = payload;
   try {
     const response: ArticleResponse = yield call(requestSingleArticle, channelName, contentIndex, requestQueries);
-    const {id, title, regDate, lastModified, channelId, thumbnailUrl, authorId, url } = response;
+    const {id, title, regDate, contentId, lastModified, channelId, thumbnailUrl, authorId, url, channel } = response;
+
     if (response.content) {
       yield put(Actions.updateArticleContent({
         channelName,
@@ -16,6 +17,7 @@ export function* loadArticle({ payload }: ReturnType<typeof Actions.loadArticleR
         content: refineArticleJSON(JSON.parse(response.content)),
       }));
     }
+
     if (response.teaserContent) {
       yield put(Actions.updateArticleTeaserContent({
         channelName,
@@ -23,6 +25,7 @@ export function* loadArticle({ payload }: ReturnType<typeof Actions.loadArticleR
         teaserContent: refineArticleJSON(JSON.parse(response.teaserContent)),
       }));
     }
+
     yield put(Actions.loadArticleSuccess({
       channelName,
       contentIndex,
@@ -30,10 +33,12 @@ export function* loadArticle({ payload }: ReturnType<typeof Actions.loadArticleR
         id,
         title,
         regDate,
+        contentId,
         lastModified,
         channelId,
         thumbnailUrl,
         authorId,
+        channel,
         url,
       },
     }));

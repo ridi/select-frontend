@@ -91,5 +91,5 @@ export function refineArticleJSON(articleJSON: ArticleContentJSON): ArticleConte
 }
 
 export function buildArticleContentKey(urlKeys: ArticleUrlKey): string {
-  return `/@${urlKeys.channelName}/${urlKeys.contentIndex}`;
+  return `@${urlKeys.channelName}/${urlKeys.contentIndex}`;
 }

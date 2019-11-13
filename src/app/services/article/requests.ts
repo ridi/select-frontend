@@ -21,7 +21,6 @@ export interface AuthorResponse {
 
 export interface ArticleResponse extends Article {
   author?: AuthorResponse;
-  channel?: ChannelResponse;
   content?: string;
   teaserContent?: string;
 }

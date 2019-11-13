@@ -6,6 +6,7 @@ import { ArticleListResponse, ArticleResponse, requestArticles } from 'app/servi
 import { Actions, ArticleHomeSectionType } from 'app/services/articleHome';
 import { ArticleRequestOrderType, ArticleRequestType } from 'app/types';
 import showMessageForRequestError from 'app/utils/toastHelper';
+import { buildArticleContentKey } from 'app/utils/utils';
 
 function* loadArticleHomeSectionListRequest({ payload }: ReturnType<typeof Actions.loadArticleHomeSectionListRequest>) {
   const { targetSection } = payload;
@@ -18,7 +19,7 @@ function* loadArticleHomeSectionListRequest({ payload }: ReturnType<typeof Actio
       articles: response.results,
     }));
     yield put(Actions.loadArticleHomeSectionListSuccess({
-      articles: response.results.map((article: ArticleResponse) => article.id),
+      articles: response.results.map((article: ArticleResponse) => buildArticleContentKey({ channelName: article.channel.name, contentIndex: article.contentId })),
       targetSection,
     }));
   } catch (e) {

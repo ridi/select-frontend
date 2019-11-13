@@ -5,19 +5,12 @@ import { isRidiselectUrl } from 'app/utils/regexHelper';
 import { createAction, createReducer } from 'redux-act';
 
 export const Actions = {
-  // loadArticleHomeRequest: createAction('loadArticleHomeRequest'),
-  // loadArticleHomeSuccess: createAction<{
-  //   response: ArticleHomeResponse,
-  //   fetchedAt: number,
-  //   isIosInApp: boolean,
-  // }>('loadArticleHomeSuccess'),
-  // loadArticleHomeFailure: createAction('loadArticleHomeFailure'),
   loadArticleHomeSectionListRequest: createAction<{
     targetSection: ArticleHomeSectionType,
   }>('loadArticleHomeSectionListRequest'),
   loadArticleHomeSectionListSuccess: createAction<{
     targetSection: ArticleHomeSectionType,
-    articles: number[],
+    articles: string[],
   }>('loadArticleHomeSectionListSuccess'),
   loadArticleHomeSectionListFailure: createAction<{
     targetSection: ArticleHomeSectionType,

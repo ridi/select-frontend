@@ -1,18 +1,19 @@
 import { Method } from 'axios';
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import * as classNames from 'classnames';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Icon } from '@ridi/rsg';
+
+import { RidiSelectState } from 'app/store';
+import { Actions } from 'app/services/articleFavorite';
+import { buildArticleContentKey } from 'app/utils/utils';
+import { buildDateDistanceFormat } from 'app/utils/formatDate';
+import { ArticleResponse } from 'app/services/article/requests';
 import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
-import { ArticleResponse } from 'app/services/article/requests';
-import { ArticleChannel } from 'app/services/articleChannel';
-import { Actions } from 'app/services/articleFavorite';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
-import { RidiSelectState } from 'app/store';
-import { buildDateDistanceFormat } from 'app/utils/formatDate';
-import * as classNames from 'classnames';
 
 interface Props {
   pageTitleForTracking?: string;
@@ -61,10 +62,10 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
       )}
     >
       {articles.map((article, idx) => {
+        const articleUrl = `/article/${buildArticleContentKey({ channelName: article.channel.name, contentIndex: article.contentId })}`;
         const channelMeta = articleChannelById &&
           articleChannelById[article.channelId] &&
           articleChannelById[article.channelId].channelMeta;
-
         return (
           <li className="GridArticleItem" key={idx}>
             <ConnectedTrackImpression
@@ -73,7 +74,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
               id={article.id}
             >
               <ArticleThumbnail
-                linkUrl={article.url}
+                linkUrl={articleUrl}
                 imageUrl={article.thumbnailUrl}
                 articleTitle={article.title}
               />
@@ -84,7 +85,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                   </div>
                 ) : null}
                 <Link
-                  to={article.url}
+                  to={articleUrl}
                   className="GridArticleItem_Link"
                 >
                   <p className="GridArticleItem_Title">
