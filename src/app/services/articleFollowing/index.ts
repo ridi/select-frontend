@@ -31,6 +31,7 @@ export interface FollowingArticleStateItem extends Paginated<ArticleId> {}
 export interface ArticleFollowingState {
   followingChannelList?: string[];
   followingArticleList?: FollowingArticleStateItem;
+  itemCount?: number;
   isFetched: boolean;
   fetchStatus: FetchStatusFlag;
 }
@@ -81,6 +82,7 @@ articleFollowReducer.on(Actions.loadFollowingArticleListSuccess, (state, { page,
   ...state,
   followingArticleList: {
     ...state.followingArticleList,
+    itemCount: response.totalCount,
     itemListByPage: {
       ...(state.followingArticleList && state.followingArticleList.itemListByPage),
       [page]: {
