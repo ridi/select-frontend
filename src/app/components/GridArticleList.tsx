@@ -39,8 +39,12 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
     renderFavoriteButton = false,
     isFullWidthAvailable = false,
   } = props;
-  const section = !!pageTitleForTracking ? getSectionStringForTracking(pageTitleForTracking, uiPartTitleForTracking, filterForTracking) : undefined;
+
+  const section = !!pageTitleForTracking
+    ? getSectionStringForTracking(pageTitleForTracking, uiPartTitleForTracking, filterForTracking)
+    : undefined;
   const { articleChannelById } = useSelector((state: RidiSelectState) => ({ articleChannelById: state.articleChannelById }));
+
   const favoriteArticleAction = (articleId: number, isFavorite: boolean | undefined) => {
     let method: Method = 'POST';
     if (isFavorite) {
@@ -57,7 +61,10 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
       )}
     >
       {articles.map((article, idx) => {
-        const channelMeta = articleChannelById && articleChannelById[article.channelId].channelMeta;
+        const channelMeta = articleChannelById &&
+          articleChannelById[article.channelId] &&
+          articleChannelById[article.channelId].channelMeta;
+
         return (
           <li className="GridArticleItem" key={idx}>
             <ConnectedTrackImpression
