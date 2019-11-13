@@ -13,6 +13,7 @@ import { getPageQuery } from 'app/services/routing/selectors';
 import { SlideChannelList } from 'app/components/SlideChannelList';
 import { TileArticleList } from 'app/components/TileArticleList';
 
+import { GridArticleList } from 'app/components/GridArticleList';
 import { getArticleItems, getChannelItems } from 'app/services/articleFollowing/selectors';
 
 export const ArticleFollowing: React.FunctionComponent = () => {
@@ -67,8 +68,13 @@ export const ArticleFollowing: React.FunctionComponent = () => {
       }
       <div className="FollowingArticleList">
       { articleItems &&
-        <TileArticleList
+        <GridArticleList
           articles={articleItems}
+          renderChannelMeta={true}
+          renderAuthor={false}
+          renderRegDate={true}
+          renderFavoriteButton={true}
+          isFullWidthAvailable={true}
         />
       }
       </div>

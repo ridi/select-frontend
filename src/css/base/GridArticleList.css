@@ -1,3 +1,4 @@
+@custom-media --full-width-range (max-width: 414px);
 @custom-media --small-screen-device (max-width: 600px);
 
 .GridArticleList {
@@ -9,7 +10,7 @@
   align-items: flex-start;
 }
 
-.GridArticleList_Item {
+.GridArticleItem {
   @apply --reset-layout;
 
   width: 25%;
@@ -18,21 +19,33 @@
   box-sizing: border-box;
 }
 
-@media (--small-screen-device) {
-  .GridArticleList_Item {
-    width: 50%;
-  }
+.GridArticleItem_Meta {
+  display: table;
+  padding-top: 10px;
 }
 
-.GridArticleList_ItemLink {
+.GridArticleItem_ChannelThumbnail {
+  display: table-cell;
+  padding-right: 10px;
+  vertical-align: top;
+}
+
+.GridArticleItem_ChannelThumbnailImage {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+}
+
+.GridArticleItem_Link {
   @apply --reset-font-unlimited;
 
-  display: block;
-  margin-top: 10px;
+  display: table-cell;
+  vertical-align: top;
   text-decoration: none;
 }
 
-.GridArticleList_ItemTitle {
+.GridArticleItem_Title {
+  @apply --reset-layout;
   @apply --reset-font-unlimited;
 
   display: block;
@@ -42,11 +55,75 @@
   font-weight: 600;
 }
 
-.GridArticleList_ItemAuthor {
+.GridArticleItem_Author {
   @apply --reset-font-unlimited;
 
   margin-top: 4px;
   display: block;
   font-size: 13px;
   color: var(--slategray_60);
+}
+
+.GridArticleItem_ChannelName {
+  @apply --reset-layout;
+
+  display: inline-block;
+  padding-top: 4px;
+  font-size: 13px;
+  letter-spacing: -0.3px;
+  color: var(--slategray_60);
+}
+
+.GridArticleItem_RegDate {
+  @apply --reset-layout;
+
+  display: inline-block;
+  padding-top: 4px;
+  font-size: 13px;
+  letter-spacing: -0.3px;
+  color: var(--slategray_60);
+}
+
+.GridArticleItem_ButtonWrapper {
+  display: table-cell;
+  margin-left: auto;
+}
+.GridArticleItem_FavoriteButton {
+  @apply --reset-layout;
+
+  display: block;
+  padding: 0 0 0 10px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.GridArticleItem_FavoriteButtonIcon {
+  width: 13px;
+  height: 12px;
+  fill: var(--gray_30);
+  margin-top: 7px;
+}
+
+.GridArticleItem_FavoriteButton-active {
+  fill: #eb5847;
+}
+
+@media (--full-width-range) {
+  .GridArticleList-fullWidthAvailable {
+    padding: 0;
+    & .GridArticleItem {
+      width: 100%;
+      padding: 20px 0 0;
+    }
+    & .GridArticleItem_Meta {
+      padding: 10px 10px 0;
+    }
+  }
+}
+
+@media (--small-screen-device) {
+  .GridArticleItem {
+    width: 50%;
+  }
 }
