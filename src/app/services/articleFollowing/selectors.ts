@@ -22,7 +22,7 @@ export const getArticleItems = createSelector(
   (articleItems, articleById, page) => {
     if (articleItems) {
       const { itemListByPage } = articleItems;
-      return itemListByPage[page].itemList.map((articleId) => articleById[Number(articleId)].article!);
+      return itemListByPage[page].itemList.map((articleKey) => articleById[articleKey] && articleById[articleKey].article!);
     }
     return [];
   },

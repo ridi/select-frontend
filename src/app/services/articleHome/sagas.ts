@@ -6,7 +6,7 @@ import { ArticleListResponse, ArticleResponse, requestArticles } from 'app/servi
 import { Actions, ArticleHomeSectionType } from 'app/services/articleHome';
 import { ArticleRequestOrderType, ArticleRequestType } from 'app/types';
 import showMessageForRequestError from 'app/utils/toastHelper';
-import { buildArticleContentKey } from 'app/utils/utils';
+import { getArticleKeyFromData } from 'app/utils/utils';
 
 function* loadArticleHomeSectionListRequest({ payload }: ReturnType<typeof Actions.loadArticleHomeSectionListRequest>) {
   const { targetSection } = payload;
@@ -19,15 +19,14 @@ function* loadArticleHomeSectionListRequest({ payload }: ReturnType<typeof Actio
       articles: response.results,
     }));
     yield put(Actions.loadArticleHomeSectionListSuccess({
-      articles: response.results.map((article: ArticleResponse) => buildArticleContentKey({ channelName: article.channel.name, contentIndex: article.contentId })),
+      articles: response.results.map((article: ArticleResponse) => getArticleKeyFromData(article)),
       targetSection,
     }));
   } catch (e) {
-    const { data } = e.response;
     yield put(Actions.loadArticleHomeSectionListFailure({
       targetSection,
     }));
-    if (data && data.status === ErrorStatus.MAINTENANCE) {
+    if (e && e.response && e.response.data && e.response.data.status === ErrorStatus.MAINTENANCE) {
       return;
     }
     showMessageForRequestError(e);

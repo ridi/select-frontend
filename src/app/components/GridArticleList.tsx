@@ -8,12 +8,12 @@ import { Icon } from '@ridi/rsg';
 
 import { RidiSelectState } from 'app/store';
 import { Actions } from 'app/services/articleFavorite';
-import { buildArticleContentKey } from 'app/utils/utils';
 import { buildDateDistanceFormat } from 'app/utils/formatDate';
 import { ArticleResponse } from 'app/services/article/requests';
 import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
+import { getArticleKeyFromData } from 'app/utils/utils';
 
 interface Props {
   pageTitleForTracking?: string;
@@ -62,7 +62,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
       )}
     >
       {articles.map((article, idx) => {
-        const articleUrl = `/article/${buildArticleContentKey({ channelName: article.channel.name, contentIndex: article.contentId })}`;
+        const articleUrl = `/article/${getArticleKeyFromData(article)}`;
         const channelMeta = articleChannelById &&
           articleChannelById[article.channelId] &&
           articleChannelById[article.channelId].channelMeta;

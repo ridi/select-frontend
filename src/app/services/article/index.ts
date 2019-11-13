@@ -5,8 +5,7 @@ import { FetchStatusFlag } from 'app/constants';
 import { AuthorResponse } from 'app/services/article/requests';
 import { ArticleChannel } from 'app/services/articleChannel';
 import { ArticleRequestQueries, DateDTO } from 'app/types';
-import { buildArticleRequestQueriesToString } from 'app/utils/request';
-import { buildArticleContentKey } from 'app/utils/utils';
+import { buildArticleKey, getArticleKeyFromData } from 'app/utils/utils';
 
 export const Actions = {
   loadArticleRequest: createAction<{
@@ -89,7 +88,7 @@ export const articleReducer = createReducer<typeof INITIAL_ARTICLE_STATE>({}, IN
 
 articleReducer.on(Actions.loadArticleRequest, (state, action) => {
   const { channelName, contentIndex } = action;
-  const contentKey = buildArticleContentKey({ channelName, contentIndex });
+  const contentKey = buildArticleKey({ channelName, contentIndex });
 
   return {
     ...state,
@@ -102,7 +101,7 @@ articleReducer.on(Actions.loadArticleRequest, (state, action) => {
 
 articleReducer.on(Actions.loadArticleSuccess, (state, action) => {
   const { channelName, contentIndex, articleResponse } = action;
-  const contentKey = buildArticleContentKey({ channelName, contentIndex });
+  const contentKey = buildArticleKey({ channelName, contentIndex });
 
   return {
     ...state,
@@ -116,7 +115,7 @@ articleReducer.on(Actions.loadArticleSuccess, (state, action) => {
 
 articleReducer.on(Actions.loadArticleFailure, (state, action) => {
   const { channelName, contentIndex } = action;
-  const contentKey = buildArticleContentKey({ channelName, contentIndex });
+  const contentKey = buildArticleKey({ channelName, contentIndex });
 
   return {
     ...state,
@@ -129,7 +128,7 @@ articleReducer.on(Actions.loadArticleFailure, (state, action) => {
 
 articleReducer.on(Actions.updateArticleContent, (state, action) => {
   const { channelName, contentIndex, content } = action;
-  const contentKey = buildArticleContentKey({ channelName, contentIndex });
+  const contentKey = buildArticleKey({ channelName, contentIndex });
 
   return {
     ...state,
@@ -143,7 +142,7 @@ articleReducer.on(Actions.updateArticleContent, (state, action) => {
 
 articleReducer.on(Actions.updateArticleTeaserContent, (state, action) => {
   const { channelName, contentIndex, teaserContent } = action;
-  const contentKey = buildArticleContentKey({ channelName, contentIndex });
+  const contentKey = buildArticleKey({ channelName, contentIndex });
 
   return {
     ...state,
@@ -158,7 +157,7 @@ articleReducer.on(Actions.updateArticleTeaserContent, (state, action) => {
 articleReducer.on(Actions.updateArticles, (state, action) => {
   const { articles = [] } = action;
   const newState: ArticlesState = articles.reduce((prev, article) => {
-    const contentKey = buildArticleContentKey({ channelName: article.channel.name, contentIndex: article.contentId });
+    const contentKey = getArticleKeyFromData(article);
     prev[contentKey] = {
       ...state[contentKey],
       article: !!state[contentKey] ? { ...state[contentKey].article, ...article } : article,
@@ -170,7 +169,7 @@ articleReducer.on(Actions.updateArticles, (state, action) => {
 
 articleReducer.on(Actions.updateFavoriteArticleStatus, (state, action) => {
   const { channelName, contentIndex, isFavorite } = action;
-  const contentKey = buildArticleContentKey({ channelName, contentIndex });
+  const contentKey = buildArticleKey({ channelName, contentIndex });
   return {
     ...state,
     [contentKey]: {
