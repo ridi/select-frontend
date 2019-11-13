@@ -48,7 +48,7 @@ export const ArticleFollowing: React.FunctionComponent = () => {
       <HelmetWithTitle titleName={PageTitleText.ARTICLE_FOLLOWING} />
       <div className="a11y"><h1>리디셀렉트 아티클 팔로잉</h1></div>
       {
-        channelItems ? (
+        channelItems && channelItems.length > 0 ? (
           <SlideChannelList
             channels={channelItems}
           />
@@ -65,7 +65,6 @@ export const ArticleFollowing: React.FunctionComponent = () => {
           />
         )
       }
-      {/* ArticleList 영역 */}
       <div className="FollowingArticleList">
       { articleItems &&
         <TileArticleList

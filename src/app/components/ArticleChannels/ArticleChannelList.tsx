@@ -1,5 +1,4 @@
 import { ArticleChannelsMeta } from 'app/components/ArticleChannels/ArticleChannelsMeta';
-import { GridArticleList } from 'app/components/GridArticleList';
 import { FetchStatusFlag } from 'app/constants';
 import { Actions } from 'app/services/articleChannel';
 import { getChannelList } from 'app/services/articleChannel/selectors';
@@ -23,17 +22,11 @@ export const ArticleChannelList: React.FunctionComponent = () => {
       <div className="ArticlePageChannelList_Wrap">
         <ul className="ArticlePageChannelList">
           {channelList.map((channelMeta, idx) => {
-              return (<li key={idx} className="ArticlePageChannel">
-                <ArticleChannelsMeta {...channelMeta} />
-                <div className="Channel_ArticleList">
-                  <GridArticleList
-                    pageTitleForTracking="article-channel-list"
-                    uiPartTitleForTracking="article-channel-list-articles"
-                    renderAuthor={false}
-                    articles={channelMeta.articles!}
-                  />
-                </div>
-              </li>);
+              return (
+                <li key={idx} className="ArticlePageChannel">
+                  <ArticleChannelsMeta {...channelMeta} />
+                </li>
+              );
           })}
         </ul>
       </div>

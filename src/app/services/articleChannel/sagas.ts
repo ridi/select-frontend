@@ -4,12 +4,13 @@ import { Actions, ArticleChannel } from 'app/services/articleChannel';
 import { ArticleChannelArticlesResponse, ArticleChannelFollowingResponse,
   ArticleChannelListResponse, requestArticleChannelArticles,
   requestArticleChannelDetail, requestArticleChannelFollowing, requestArticleChannelList } from 'app/services/articleChannel/requests';
+import { ArticleRequestIncludableData } from 'app/types';
 import showMessageForRequestError from 'app/utils/toastHelper';
 import { all, call, put, take, takeLeading } from 'redux-saga/effects';
 
 function* loadArticleChannelList() {
   try {
-    const response: ArticleChannelListResponse = yield call(requestArticleChannelList, ['articles', 'is_following']);
+    const response: ArticleChannelListResponse = yield call(requestArticleChannelList, { includes: [ArticleRequestIncludableData.IS_FOLLOWING] });
     yield put(Actions.updateChannelDetail({ channels: response.results }));
     yield put(Actions.loadArticleChannelListSuccess({ response }));
   } catch (e) {
@@ -25,7 +26,10 @@ function* loadArticleChannelList() {
 function* loadArticleChannelDetail({ payload }: ReturnType<typeof Actions.loadArticleChannelDetailRequest>) {
   const { channelId } = payload;
   try {
-    const response: ArticleChannel = yield call(requestArticleChannelDetail, channelId, ['followers_count', 'is_following']);
+    const response: ArticleChannel = yield call(
+      requestArticleChannelDetail,
+      channelId,
+      { includes: [ArticleRequestIncludableData.FOLLOWERS_COUNT, ArticleRequestIncludableData.IS_FOLLOWING]});
     yield put(Actions.loadArticleChannelDetailSuccess({ articleChannelDetail: response, channelId }));
   } catch (e) {
     const { data } = e.response;

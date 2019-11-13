@@ -87,7 +87,21 @@
   letter-spacing: -0.3px;
   color: var(--dodgerblue_50);
   padding: 0;  
+  cursor: pointer;
 }
+.ArticleChannel_Following_Button-active {
+  border: none;
+  background-color: var(--dodgerblue_50);
+  color: #fff;   
+}
+.ArticleChannel_Following_Icon {
+  width: 10px;
+  height: 10px;
+  fill: #fff;
+  margin-right: 4px;  
+}
+
+
 
 .Channel_ArticleList {
   @media (--pc-screen) {
