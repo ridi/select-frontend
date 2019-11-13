@@ -26,10 +26,10 @@ export const ArticleFollowing: React.FunctionComponent = () => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    if (channelFetchStatus === FetchStatusFlag.IDLE && channelItems.length === 0) {
+    if (channelFetchStatus === FetchStatusFlag.IDLE) {
       dispatch(Actions.loadFollowingChannelListRequest());
     }
-    if (articleFetchStatus === FetchStatusFlag.IDLE && articleItems.length === 0) {
+    if (articleFetchStatus === FetchStatusFlag.IDLE) {
       dispatch(Actions.loadFollowingArticleListRequest({ page }));
     }
   }, []);

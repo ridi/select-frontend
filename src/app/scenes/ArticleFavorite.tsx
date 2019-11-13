@@ -24,7 +24,7 @@ export const ArticleFavorite: React.FunctionComponent = () => {
 
   const dispatch = useDispatch();
   React.useEffect(() => {
-    if (favoriteArticleFetchStatus === FetchStatusFlag.IDLE && !articleItems) {
+    if (favoriteArticleFetchStatus === FetchStatusFlag.IDLE) {
       dispatch(Actions.loadFavoriteArticleListRequest({ page }));
     }
   }, []);
