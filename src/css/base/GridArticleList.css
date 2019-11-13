@@ -111,10 +111,13 @@
 
 @media (--full-width-range) {
   .GridArticleList-fullWidthAvailable {
-    padding: 0;
+    padding: 0 0 20px 0;
     & .GridArticleItem {
       width: 100%;
       padding: 20px 0 0;
+      &:first-child {
+        padding-top: 0;
+      }
     }
     & .GridArticleItem_Meta {
       padding: 10px 10px 0;
