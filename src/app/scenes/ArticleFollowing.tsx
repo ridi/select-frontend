@@ -1,20 +1,16 @@
 import * as classNames from 'classnames';
 import * as React from 'react';
-
-import { Actions } from 'app/services/articleFollowing';
-import { RidiSelectState } from 'app/store';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { HelmetWithTitle } from 'app/components';
 import { ArticleEmpty } from 'app/components/ArticleEmpty';
-import { FetchStatusFlag, PageTitleText } from 'app/constants';
-import { getPageQuery } from 'app/services/routing/selectors';
-
-import { SlideChannelList } from 'app/components/SlideChannelList';
-import { TileArticleList } from 'app/components/TileArticleList';
-
 import { GridArticleList } from 'app/components/GridArticleList';
+import { SlideChannelList } from 'app/components/SlideChannelList';
+import { FetchStatusFlag, PageTitleText } from 'app/constants';
+import { Actions } from 'app/services/articleFollowing';
 import { getArticleItems, getChannelItems } from 'app/services/articleFollowing/selectors';
+import { getPageQuery } from 'app/services/routing/selectors';
+import { RidiSelectState } from 'app/store';
 
 export const ArticleFollowing: React.FunctionComponent = () => {
   const page = useSelector(getPageQuery);
@@ -67,16 +63,15 @@ export const ArticleFollowing: React.FunctionComponent = () => {
         )
       }
       <div className="FollowingArticleList">
-      { articleItems &&
-        <GridArticleList
-          articles={articleItems}
-          renderChannelMeta={true}
-          renderAuthor={false}
-          renderRegDate={true}
-          renderFavoriteButton={true}
-          isFullWidthAvailable={true}
-        />
-      }
+        {articleItems &&
+          <GridArticleList
+            articles={articleItems}
+            renderChannelMeta={true}
+            renderAuthor={false}
+            renderRegDate={true}
+            isFullWidthAvailable={true}
+          />
+        }
       </div>
     </main>
 

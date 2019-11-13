@@ -21,13 +21,16 @@
 
 .GridArticleItem_Meta {
   display: table;
+  width: 100%;
   padding-top: 10px;
+  box-sizing: border-box;
 }
 
 .GridArticleItem_ChannelThumbnail {
   display: table-cell;
   padding-right: 10px;
   vertical-align: top;
+  box-sizing: border-box;
 }
 
 .GridArticleItem_ChannelThumbnailImage {
@@ -96,6 +99,7 @@
   background: transparent;
   border: 0;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 .GridArticleItem_FavoriteButtonIcon {
