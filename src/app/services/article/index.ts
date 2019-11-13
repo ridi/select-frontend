@@ -4,35 +4,47 @@ import { ArticleContentJSON } from '@ridi/ridi-prosemirror-editor';
 import { FetchStatusFlag } from 'app/constants';
 import { AuthorResponse } from 'app/services/article/requests';
 import { ArticleRequestQueries, DateDTO } from 'app/types';
+import { buildArticleContentKey } from 'app/utils/utils';
 
 export const Actions = {
   loadArticleRequest: createAction<{
-    articleId: number,
+    channelName: string;
+    contentIndex: number;
     requestQueries?: ArticleRequestQueries,
   }>('loadArticleDetailRequest'),
   loadArticleSuccess: createAction<{
-    articleId: number,
+    channelName: string;
+    contentIndex: number;
     articleResponse: Article,
   }>('loadArticleDetailSuccess'),
   loadArticleFailure: createAction<{
-    articleId: number,
+    channelName: string;
+    contentIndex: number;
   }>('loadArticleDetailFailure'),
   updateArticleTeaserContent: createAction<{
-    articleId: number,
+    channelName: string;
+    contentIndex: number;
     teaserContent: ArticleContent,
   }>('updateArticleTeaserContent'),
   updateArticleContent: createAction<{
-    articleId: number,
+    channelName: string;
+    contentIndex: number;
     content: ArticleContent,
   }>('updateArticleContent'),
   updateArticles: createAction<{
     articles: Article[],
   }>('updateArticles'),
   updateFavoriteArticleStatus: createAction<{
-    articleId: number,
+    channelName: string;
+    contentIndex: number;
     isFavorite: boolean,
   }>('updateFavoriteArticleStatus'),
 };
+
+export interface ArticleUrlKey {
+  channelName: string;
+  contentIndex?: number;
+}
 
 export interface ArticleContent {
   title: string;
@@ -64,7 +76,7 @@ export interface ArticleItemState extends StaticArticleState {
 }
 
 export interface ArticlesState {
-  [articleId: number]: ArticleItemState;
+  [contentKey: string]: ArticleItemState;
 }
 
 export const INITIAL_ARTICLE_STATE: ArticlesState = {};
@@ -72,24 +84,26 @@ export const INITIAL_ARTICLE_STATE: ArticlesState = {};
 export const articleReducer = createReducer<typeof INITIAL_ARTICLE_STATE>({}, INITIAL_ARTICLE_STATE);
 
 articleReducer.on(Actions.loadArticleRequest, (state, action) => {
-  const { articleId } = action;
+  const { channelName, contentIndex } = action;
+  const contentKey = buildArticleContentKey({ channelName, contentIndex });
 
   return {
     ...state,
-    [articleId]: {
-      ...state[articleId],
+    [contentKey]: {
+      ...state[contentKey],
       contentFetchStatus: FetchStatusFlag.FETCHING,
     },
   };
 });
 
 articleReducer.on(Actions.loadArticleSuccess, (state, action) => {
-  const { articleId, articleResponse } = action;
+  const { channelName, contentIndex, articleResponse } = action;
+  const contentKey = buildArticleContentKey({ channelName, contentIndex });
 
   return {
     ...state,
-    [articleId]: {
-      ...state[articleId],
+    [contentKey]: {
+      ...state[contentKey],
       ...articleResponse,
       contentFetchStatus: FetchStatusFlag.IDLE,
     },
@@ -97,24 +111,26 @@ articleReducer.on(Actions.loadArticleSuccess, (state, action) => {
 });
 
 articleReducer.on(Actions.loadArticleFailure, (state, action) => {
-  const { articleId } = action;
+  const { channelName, contentIndex } = action;
+  const contentKey = buildArticleContentKey({ channelName, contentIndex });
 
   return {
     ...state,
-    [articleId]: {
-      ...state[articleId],
+    [contentKey]: {
+      ...state[contentKey],
       contentFetchStatus: FetchStatusFlag.FETCH_ERROR,
     },
   };
 });
 
 articleReducer.on(Actions.updateArticleContent, (state, action) => {
-  const { articleId, content } = action;
+  const { channelName, contentIndex, content } = action;
+  const contentKey = buildArticleContentKey({ channelName, contentIndex });
 
   return {
     ...state,
-    [articleId]: {
-      ...state[articleId],
+    [contentKey]: {
+      ...state[contentKey],
       contentFetchStatus: FetchStatusFlag.IDLE,
       content,
     },
@@ -122,12 +138,13 @@ articleReducer.on(Actions.updateArticleContent, (state, action) => {
 });
 
 articleReducer.on(Actions.updateArticleTeaserContent, (state, action) => {
-  const { articleId, teaserContent } = action;
+  const { channelName, contentIndex, teaserContent } = action;
+  const contentKey = buildArticleContentKey({ channelName, contentIndex });
 
   return {
     ...state,
-    [articleId]: {
-      ...state[articleId],
+    [contentKey]: {
+      ...state[contentKey],
       contentFetchStatus: FetchStatusFlag.IDLE,
       teaserContent,
     },
@@ -147,13 +164,14 @@ articleReducer.on(Actions.updateArticles, (state, action) => {
 });
 
 articleReducer.on(Actions.updateFavoriteArticleStatus, (state, action) => {
-  const { articleId, isFavorite } = action;
+  const { channelName, contentIndex, isFavorite } = action;
+  const contentKey = buildArticleContentKey({ channelName, contentIndex });
   return {
     ...state,
-    [articleId]: {
-      ...state[articleId],
+    [contentKey]: {
+      ...state[contentKey],
       article: {
-        ...state[articleId].article!,
+        ...state[contentKey].article!,
         isFavorite,
       },
     },

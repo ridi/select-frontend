@@ -42,8 +42,11 @@ export const requestArticles = (requestQueries?: ArticleRequestQueries): Promise
   }).then((response) => camelize<AxiosResponse<ArticleListResponse>>(response, { recursive: true }).data);
 };
 
-export const requestArticleWithId = (articleId: number, requestQueries?: ArticleRequestQueries): Promise<ArticleResponse> => {
-  const requestUrl = `/article/articles/${articleId}${buildArticleRequestQueriesToString(requestQueries)}`;
+export const requestSingleArticle = (channelName: string, contentIndex: number, requestQueries?: ArticleRequestQueries): Promise<ArticleResponse> => {
+  const queryString = buildArticleRequestQueriesToString(requestQueries);
+  const requestUrl = `/article/articles/${queryString
+    ? `${buildArticleRequestQueriesToString(requestQueries)}&channel_name=${channelName}&content_id=${contentIndex}`
+    : `?channel_name=${channelName}&content_id=${contentIndex}`}`;
 
   return request({
     url: requestUrl,

@@ -2,7 +2,7 @@ import { flatMap } from 'lodash-es';
 import { selectIsInApp } from './../services/environment/selectors';
 
 import { ArticleContentJSON } from '@ridi/ridi-prosemirror-editor';
-import { ArticleContent } from 'app/services/article';
+import { ArticleContent, ArticleUrlKey } from 'app/services/article';
 import {
   authorKeys,
   AuthorKeys,
@@ -88,4 +88,8 @@ export function refineArticleJSON(articleJSON: ArticleContentJSON): ArticleConte
     title: articleTitle,
     json: articleContent,
   };
+}
+
+export function buildArticleContentKey(urlKeys: ArticleUrlKey): string {
+  return `/@${urlKeys.channelName}/${urlKeys.contentIndex}`;
 }

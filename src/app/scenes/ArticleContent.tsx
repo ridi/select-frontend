@@ -7,16 +7,19 @@ import { Button, Icon } from '@ridi/rsg';
 
 import { ArticleCannelInfoHeader } from 'app/components/ArticleChannels/ArticleCannelInfoHeader';
 import { FetchStatusFlag } from 'app/constants';
-import { Actions } from 'app/services/article';
+import { Actions, ArticleUrlKey } from 'app/services/article';
 import { RidiSelectState } from 'app/store';
 import { ArticleRequestIncludableData } from 'app/types';
+import { buildArticleContentKey } from 'app/utils/utils';
 
-type RouteProps = RouteComponentProps<{ contentId: string; }>;
+type RouteProps = RouteComponentProps<{ channelName: string; contentIndex: string }>;
+
 type OwnProps = RouteProps & {};
 
 export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
-  const articleId = Number(props.match.params.contentId);
-  const articleState = useSelector((state: RidiSelectState) => state.articlesById[articleId]);
+  const { channelName, contentIndex } = props.match.params;
+  const contentKey = buildArticleContentKey({ channelName, contentIndex: Number(contentIndex) });
+  const articleState = useSelector((state: RidiSelectState) => state.articlesById[contentKey]);
   const dispatch = useDispatch();
   const checkIsFetched = () => {
     return (
@@ -34,7 +37,8 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
       return;
     }
     dispatch(Actions.loadArticleRequest({
-      articleId,
+      channelName,
+      contentIndex: Number(contentIndex),
       requestQueries: {
         includes: [ArticleRequestIncludableData.CONTENT],
       },
@@ -45,7 +49,7 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
     <main className="SceneWrapper PageArticleContent">
       {checkIsFetched() && articleState && articleState.content ? (
         <>
-          <h1 className="ArticleContent_Title">{articleState.title}</h1>
+          <h1 className="ArticleContent_Title">{articleState.content.title}</h1>
           <ArticleCannelInfoHeader />
           <Article
             json={articleState.content.json}
