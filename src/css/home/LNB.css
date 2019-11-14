@@ -6,7 +6,7 @@
 .LnbMenu_Wrapper {
   position: relative;
   background: #fff;
-  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.15);  
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.15);
   /* border-bottom: 1px solid var(--bluegray_100);   */
   z-index: 800;
   @nest .iosApp & {
@@ -88,7 +88,7 @@
   &.LnbMenu_Link-active {
     & .reset-heading {
       color: var(--bluegray_80);
-      font-weight: 700;      
+      font-weight: 700;
     }
   }
   @nest .iosApp & {
