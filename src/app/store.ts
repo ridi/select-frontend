@@ -1,5 +1,4 @@
 import { connectRouter, routerMiddleware, RouterState } from 'connected-react-router';
-import { History } from 'history';
 import { isEmpty } from 'lodash-es';
 import * as qs from 'qs';
 import { Dispatch } from 'redux';

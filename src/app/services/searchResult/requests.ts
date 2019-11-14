@@ -1,7 +1,6 @@
 import { camelize } from '@ridi/object-case-converter';
 import request from 'app/config/axios';
-import env from 'app/config/env';
-import { SearchResultBook } from 'app/services/searchResult/reducer.state';
+import { SearchResultBook } from 'app/services/searchResult';
 import { AxiosResponse } from 'axios';
 
 export interface SearchResultReponse {

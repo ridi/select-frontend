@@ -4,6 +4,7 @@ export interface SearchLocalStorageData {
   history: {
     enabled: boolean;
     keywordList: string[];
+    articleKeywordList: string[];
   };
 }
 
@@ -17,6 +18,7 @@ export const localStorageManager = (() => ({
     const parsedLocalStorageData = localStorageData === '' ? {
       enabled: true,
       keywordList: [],
+      articleKeywordList: [],
     } : JSON.parse(localStorageData).history;
     const parseData: SearchLocalStorageData = {
       history: {
@@ -24,6 +26,7 @@ export const localStorageManager = (() => ({
           parsedLocalStorageData.enabled :
           true,
         keywordList: parsedLocalStorageData.keywordList ? parsedLocalStorageData.keywordList : [],
+        articleKeywordList: parsedLocalStorageData.articleKeywordList ? parsedLocalStorageData.articleKeywordList : [],
       },
     };
     return {
@@ -35,6 +38,7 @@ export const localStorageManager = (() => ({
     newData.history = {
       enabled: state.history.enabled,
       keywordList: state.history.keywordList,
+      articleKeywordList: state.history.articleKeywordList,
     };
     try {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newData));
