@@ -23,12 +23,15 @@ function* loadFavoriteArticleList({ payload }: ReturnType<typeof Actions.loadFav
     yield put(ChannelActions.updateChannelDetail({ channels: response.results.map((data) => data.article.channel)}));
     yield put(Actions.loadFavoriteArticleListSuccess({ response, page }));
   } catch (e) {
-    const { data } = e.response;
     yield put(Actions.loadFavoriteArticleListFailure({ page }));
-    if (data && data.status === ErrorStatus.MAINTENANCE) {
+    if (e
+      && e.response
+      && e.response.data
+      && e.response.data.status === ErrorStatus.MAINTENANCE
+    ) {
       return;
     }
-    showMessageForRequestError(e);
+    showMessageForRequestError();
   }
 }
 
@@ -42,11 +45,14 @@ function* favoriteArticleAction({ payload }: ReturnType<typeof Actions.favoriteA
       isFavorite: response.isFavorite,
     }));
   } catch (e) {
-    const { data } = e.response;
-    if (data && data.status === ErrorStatus.MAINTENANCE) {
+    if (e
+      && e.response
+      && e.response.data
+      && e.response.data.status === ErrorStatus.MAINTENANCE
+    ) {
       return;
     }
-    showMessageForRequestError(e);
+    showMessageForRequestError();
   }
 }
 
