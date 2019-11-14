@@ -4,8 +4,7 @@ import { isString, take } from 'lodash-es';
 import * as qs from 'qs';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, tap, throttleTime } from 'rxjs/operators';
 
 import history from 'app/config/history';
@@ -25,20 +24,38 @@ import { localStorageManager } from 'app/utils/search';
 import toast from 'app/utils/toast';
 import { setDisableScroll } from 'app/utils/utils';
 
+import env from 'app/config/env';
+
 export enum SearchHelperFlag {
   NONE,
   HISTORY,
   INSTANT,
 }
 
+export interface InstantSearchHighlight {
+  webTitleTitle?: string;
+  author?: string;
+  publisher?: string;
+}
+export interface InstantSearchArticleHighlight {
+  title?: string;
+  channelDisplayName?: string;
+}
+
 export interface InstantSearchResultBook {
-  id: string;
+  bId: string;
   title: string;
   author: string;
   publisher: string;
-  highlightTitle: string;
-  highlightAuthor: string;
-  highlightPublisher: string;
+  highlight: InstantSearchHighlight;
+}
+
+export interface InstantSearchResultArticle {
+  id: number;
+  channelId: number;
+  channelDisplayName: string;
+  title: string;
+  highlight: InstantSearchArticleHighlight;
 }
 
 interface SearchStoreProps {
@@ -60,6 +77,7 @@ type SearchProps = SearchStoreProps & SearchCascadedProps;
 interface HistoryState {
   enabled: boolean;
   keywordList: string[];
+  articleKeywordList: string[];
 }
 
 interface QueryString {
@@ -76,7 +94,12 @@ interface SearchState {
   currentHelperType: SearchHelperFlag;
   history: HistoryState;
   instantSearchResultsByKeyword: {
-    [instantSearchKeyword: string]: InstantSearchResultBook[];
+    Books: {
+      [instantSearchKeyword: string]: InstantSearchResultBook[];
+    },
+    Articles: {
+      [instantSearchKeyword: string]: InstantSearchResultArticle[];
+    },
   };
 }
 
@@ -114,7 +137,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
 
   // set initial private state
   private getInitialState(): SearchState {
-    const { enabled = true, keywordList = [] } = localStorageManager.load().history;
+    const { enabled = true, keywordList = [], articleKeywordList = [] } = localStorageManager.load().history;
 
     return {
       searchQuery: '',
@@ -124,8 +147,8 @@ export class Search extends React.Component<SearchProps, SearchState> {
       isClearButtonVisible: false,
       highlightIndex: -1,
       currentHelperType: SearchHelperFlag.NONE,
-      history: { enabled, keywordList },
-      instantSearchResultsByKeyword: {},
+      history: { enabled, keywordList, articleKeywordList },
+      instantSearchResultsByKeyword: { Books: {}, Articles: {} },
     };
   }
 
@@ -160,6 +183,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
     const updatedHistoryState = {
       enabled: !this.state.history.enabled,
       keywordList: this.state.history.keywordList,
+      articleKeywordList: this.state.history.articleKeywordList,
     };
     this.setHistoryStateAndLocalStorage(updatedHistoryState);
   }
@@ -168,15 +192,22 @@ export class Search extends React.Component<SearchProps, SearchState> {
     if (!this.state.history.enabled || keyword.length <= 0) {
       return;
     }
-    const filteredKeywordList: string[] = this.state.history.keywordList
-      .filter((listItem: string) => listItem !== keyword)
-      .filter((listItem: string) => listItem.length > 0);
+    const { appStatus } = this.props;
+    const filteredKeywordList: string[] = appStatus === AppStatus.Books ?
+      this.state.history.keywordList :
+      this.state.history.articleKeywordList
+        .filter((listItem: string) => listItem !== keyword)
+        .filter((listItem: string) => listItem.length > 0);
     const updatedHistoryState: HistoryState = {
       enabled: this.state.history.enabled,
-      keywordList: [
+      keywordList: appStatus === AppStatus.Books ? [
         keyword,
         ...take(filteredKeywordList, 4),
-      ],
+      ] : this.state.history.keywordList,
+      articleKeywordList: appStatus === AppStatus.Article ? [
+        keyword,
+        ...take(filteredKeywordList, 4),
+      ] : this.state.history.articleKeywordList,
     };
     this.setHistoryStateAndLocalStorage(updatedHistoryState);
   }
@@ -185,16 +216,23 @@ export class Search extends React.Component<SearchProps, SearchState> {
     const updatedHistoryState = {
       enabled: this.state.history.enabled,
       keywordList: [],
+      articleKeywordList: [],
     };
     this.setHistoryStateAndLocalStorage(updatedHistoryState);
   }
 
   private removeHistoryKeyword(keyword: string): void {
-    const filteredKeywordList: string[] = this.state.history.keywordList
-      .filter((listItem: string) => listItem !== keyword);
+    const { appStatus } = this.props;
+    const filteredKeywordList: string[] = appStatus === AppStatus.Books ?
+      this.state.history.keywordList : this.state.history.articleKeywordList
+        .filter((listItem: string) => listItem !== keyword);
+
     const updatedHistoryState = {
       enabled: this.state.history.enabled,
-      keywordList: filteredKeywordList,
+      keywordList: appStatus === AppStatus.Books ?
+        filteredKeywordList : this.state.history.keywordList,
+      articleKeywordList: appStatus === AppStatus.Article ?
+        filteredKeywordList : this.state.history.articleKeywordList,
     };
     this.setHistoryStateAndLocalStorage(updatedHistoryState);
   }
@@ -208,8 +246,17 @@ export class Search extends React.Component<SearchProps, SearchState> {
 
   private getInstantSearchedList(value: string) {
     const { instantSearchResultsByKeyword } = this.state;
-    if (instantSearchResultsByKeyword[value] &&
-      (instantSearchResultsByKeyword[value].length > 0)
+    const { appStatus } = this.props;
+
+    const requestParams = {
+      site: 'ridi-select',
+      where: appStatus === AppStatus.Books ? 'book' : 'article',
+      what: 'instant',
+      keyword: value,
+    };
+
+    if (instantSearchResultsByKeyword[appStatus][value] &&
+      (instantSearchResultsByKeyword[appStatus][value].length > 0)
     ) {
       this.setState({
         isActive: true,
@@ -224,20 +271,25 @@ export class Search extends React.Component<SearchProps, SearchState> {
       currentHelperType: SearchHelperFlag.INSTANT,
     }, () => {
       request({
+        baseURL: env.SEARCH_API,
         method: 'get',
-        url: `/api/search/instant`,
-        params: { keyword: value },
+        url: `/search`,
+        withCredentials: false,
+        params: requestParams,
       }).then((axResponse: AxiosResponse) => this.setState({
-        fetchStatus: FetchStatusFlag.IDLE,
-        instantSearchResultsByKeyword: {
-          ...instantSearchResultsByKeyword,
-          [value]: camelize(axResponse.data.books, { recursive: true }),
-        },
-      }, () => this.manageScrollDisable(false)))
-      .catch((axError: AxiosError) => this.setState({
-        fetchStatus: FetchStatusFlag.FETCH_ERROR,
-        currentHelperType: SearchHelperFlag.NONE,
-      }, () => this.manageScrollDisable(false)));
+          fetchStatus: FetchStatusFlag.IDLE,
+          instantSearchResultsByKeyword: {
+            ...instantSearchResultsByKeyword,
+            [appStatus]: {
+              ...instantSearchResultsByKeyword[appStatus],
+              [value]: camelize(axResponse.data[appStatus.toLowerCase()], { recursive: true }),
+            },
+          },
+        }, () => this.manageScrollDisable(false)))
+        .catch((axError: AxiosError) => this.setState({
+          fetchStatus: FetchStatusFlag.FETCH_ERROR,
+          currentHelperType: SearchHelperFlag.NONE,
+        }, () => this.manageScrollDisable(false)));
     });
   }
 
@@ -295,17 +347,36 @@ export class Search extends React.Component<SearchProps, SearchState> {
       return;
     }
     let targetKeyword = '';
-    if (book.highlightTitle) {
+    if (book.highlight.webTitleTitle) {
       targetKeyword = book.title;
-    } else if (book.highlightAuthor) {
+    } else if (book.highlight.author) {
       targetKeyword = book.author;
-    } else if (book.highlightPublisher) {
+    } else if (book.highlight.publisher) {
       targetKeyword = book.publisher;
     }
     this.manageScrollDisable(false);
     this.setStateClean();
     this.pushHistoryKeyword(targetKeyword);
-    history.push(`/book/${book.id}?q=${encodeURIComponent(targetKeyword)}&s=instant`);
+    history.push(`/book/${book.bId}?q=${encodeURIComponent(targetKeyword)}&s=instant`);
+  }
+
+  private linkToArticleDetail(article: InstantSearchResultArticle): void {
+    if (!article) {
+      toast.failureMessage();
+      return;
+    }
+    let targetKeyword = '';
+    if (article.highlight.title) {
+      targetKeyword = article.title;
+    } else if (article.highlight.channelDisplayName) {
+      targetKeyword = article.channelDisplayName;
+    }
+
+    this.manageScrollDisable(false);
+    this.setStateClean();
+    this.pushHistoryKeyword(targetKeyword);
+
+    history.push(`/article/@${article.channelDisplayName}/${article.title}?q=${encodeURIComponent(targetKeyword)}&s=instant`);
   }
 
   private fullSearchWithKeyword(keyword: string): void {
@@ -320,8 +391,8 @@ export class Search extends React.Component<SearchProps, SearchState> {
 
   private doSearchAction(value: string): void {
     const { keyword, highlightIndex, currentHelperType } = this.state;
+    const { appStatus } = this.props;
     const { keywordList } = this.state.history;
-    const instantSearchResultList = this.state.instantSearchResultsByKeyword[keyword];
 
     if (highlightIndex < 0) {
       this.fullSearchWithKeyword(value);
@@ -329,7 +400,10 @@ export class Search extends React.Component<SearchProps, SearchState> {
     }
 
     if (currentHelperType === SearchHelperFlag.INSTANT) {
-      this.linkToBookDetail(instantSearchResultList[highlightIndex]);
+      const instantSearchResults = this.state.instantSearchResultsByKeyword;
+      appStatus === AppStatus.Books ?
+      this.linkToBookDetail(instantSearchResults.Books[keyword][highlightIndex]) :
+      this.linkToArticleDetail(instantSearchResults.Articles[keyword][highlightIndex]);
       return;
     }
 
@@ -341,7 +415,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
   private getMovedHighlightIndex(
     keyType: number,
     currentIndex: number,
-    currentList: string[] | InstantSearchResultBook[],
+    currentList: string[] | InstantSearchResultBook[] | InstantSearchResultArticle[],
   ): number {
     switch (keyType) {
       case KeyboardCode.ArrowDown:
@@ -357,19 +431,19 @@ export class Search extends React.Component<SearchProps, SearchState> {
     if (!this.searchInput) {
       return;
     }
-
     // functional key event observable
     this.keydownSubscription = this.onSearchKeydown$
       .pipe(
         filter((e: any) => (e.keyCode === 13 || e.keyCode === 38 || e.keyCode === 40)),
         map((e: any) => {
           e.preventDefault();
+          const { appStatus } = this.props;
           return {
             keyType: e.keyCode,
             value: e.target.value,
             currentHelperList: (this.state.currentHelperType === SearchHelperFlag.HISTORY) ?
-              this.state.history.keywordList :
-              this.state.instantSearchResultsByKeyword[this.state.keyword],
+              (appStatus === AppStatus.Books ? this.state.history.keywordList : this.state.history.articleKeywordList) :
+              this.state.instantSearchResultsByKeyword[appStatus][this.state.keyword],
           };
         }),
         throttleTime(100),
@@ -377,7 +451,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
       .subscribe((obj: {
         keyType: KeyboardCode;
         value: string;
-        currentHelperList: string[] | InstantSearchResultBook[];
+        currentHelperList: string[] | InstantSearchResultBook[] | InstantSearchResultArticle[];
       }): void => {
         const {
           keyword,
@@ -401,7 +475,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
                 -1 :
                 this.getMovedHighlightIndex(obj.keyType, highlightIndex, obj.currentHelperList),
           });
-        } else if (keyword.length > 0 && instantSearchResultsByKeyword[keyword].length > 0) {
+        } else if (keyword.length > 0 && instantSearchResultsByKeyword[this.props.appStatus][keyword].length > 0) {
           this.setState({
             highlightIndex:
               fetchStatus === FetchStatusFlag.FETCHING ? -1 : 0,
@@ -524,8 +598,8 @@ export class Search extends React.Component<SearchProps, SearchState> {
       gnbSearchActiveType,
       appStatus,
     } = this.props;
-    const instantSearchResultList = this.state.instantSearchResultsByKeyword[keyword];
-    const { enabled, keywordList } = this.state.history;
+    const instantSearchResult = this.state.instantSearchResultsByKeyword[appStatus][keyword];
+    const { enabled, keywordList, articleKeywordList } = this.state.history;
     const inputEvents = {
       onChange: (e: any) => this.onSearchChange(e),
       onKeyDown: (e: any) => this.onSearchKeydown(e),
@@ -601,17 +675,26 @@ export class Search extends React.Component<SearchProps, SearchState> {
           keyword={keyword}
           isActive={isActive && currentHelperType === SearchHelperFlag.INSTANT}
           fetchStatus={fetchStatus}
-          instantSearchList={instantSearchResultList}
+          searchType={appStatus}
+          instantSearchList={instantSearchResult}
           highlightIndex={highlightIndex}
           updateHighlight={(idx: number) => this.updateHighlightIndex(idx)}
-          onSearchItemClick={(book: InstantSearchResultBook) => this.linkToBookDetail(book)}
+          onSearchItemClick={(item: InstantSearchResultBook | InstantSearchResultArticle) => {
+            if (appStatus === AppStatus.Books) {
+              const book = item as InstantSearchResultBook;
+              this.linkToBookDetail(book);
+            } else {
+              const article = item as InstantSearchResultArticle;
+              this.linkToArticleDetail(article);
+            }
+          }}
         />
         <SearchHistory
           isActive={isActive && currentHelperType === SearchHelperFlag.HISTORY}
           highlightIndex={highlightIndex}
           updateHighlight={(idx: number) => this.updateHighlightIndex(idx)}
           savingHistoryEnabled={enabled}
-          keywordList={keywordList}
+          keywordList={appStatus === AppStatus.Books ? keywordList : articleKeywordList}
           toggleSavingHistory={() => this.toggleSavingHistory()}
           clearHistory={() => this.clearHistory()}
           removeKeyword={(targetKeyword: string) => this.removeHistoryKeyword(targetKeyword)}

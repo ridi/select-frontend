@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
-import { InstantSearchResultBook } from 'app/components/Search';
+import { InstantSearchResultArticle, InstantSearchResultBook } from 'app/components/Search';
 import { FetchStatusFlag } from 'app/constants';
 import { getAuthorsCount, getSortedAuthorsHtmlString } from 'app/utils/search';
 
@@ -9,10 +9,11 @@ interface InstantSearchProps {
   keyword: string;
   isActive: boolean;
   fetchStatus: FetchStatusFlag;
-  instantSearchList: InstantSearchResultBook[];
+  searchType: string;
+  instantSearchList: InstantSearchResultBook[] | InstantSearchResultArticle[];
   highlightIndex: number;
   updateHighlight: (idx: number) => void;
-  onSearchItemClick: (book: InstantSearchResultBook) => void;
+  onSearchItemClick: (item: InstantSearchResultBook | InstantSearchResultArticle) => void;
 }
 
 export class InstantSearch extends React.PureComponent<InstantSearchProps> {
@@ -21,6 +22,7 @@ export class InstantSearch extends React.PureComponent<InstantSearchProps> {
       keyword,
       isActive,
       fetchStatus,
+      searchType,
       instantSearchList,
       highlightIndex,
       updateHighlight,
@@ -38,7 +40,8 @@ export class InstantSearch extends React.PureComponent<InstantSearchProps> {
       <div className="InstantSearchWrapper">
         {fetchStatus === FetchStatusFlag.FETCHING ? null : (
           <ul className="InstantSearchList">
-            {instantSearchList ? instantSearchList.map((book, idx) => (
+            {instantSearchList ? (
+              searchType === 'Books' ? (instantSearchList as InstantSearchResultBook[]).map((book, idx) => (
                 <li
                   className={`InstantSearchItem${highlightIndex === idx ? ' focused' : ''}`}
                   onMouseOver={() => updateHighlight(idx)}
@@ -47,27 +50,52 @@ export class InstantSearch extends React.PureComponent<InstantSearchProps> {
                 >
                   <Link
                     className="InstantSearchedName"
-                    to={`/book/${book.id}?q=${encodeURIComponent(keyword)}&s=instant`}
+                    to={`/book/${book.bId}?q=${encodeURIComponent(keyword)}&s=instant`}
                   >
                     <span
                       className="InstantSearchTitle"
-                      dangerouslySetInnerHTML={{__html: book.highlightTitle ? book.highlightTitle : book.title}}
+                      dangerouslySetInnerHTML={{__html: book.highlight.webTitleTitle ? book.highlight.webTitleTitle : book.title}}
                     />
                     <span
                       className="InstantSearchAuthor"
                       dangerouslySetInnerHTML={{__html: getSortedAuthorsHtmlString(
-                        book.highlightAuthor ? book.highlightAuthor : book.author,
+                        book.highlight.author ? book.highlight.author : book.author,
                         getAuthorsCount(book.author),
                         2,
                       )}}
                     />
                     <span
                       className="InstantSearchPublisher"
-                      dangerouslySetInnerHTML={{__html: book.highlightPublisher ? book.highlightPublisher : book.publisher}}
+                      dangerouslySetInnerHTML={{__html: book.highlight.publisher ? book.highlight.publisher : book.publisher}}
                     />
                   </Link>
                 </li>
-              )) : null
+              )) : (instantSearchList as InstantSearchResultArticle[]).map((article, idx) => (
+                <li
+                  className={`InstantSearchItem${highlightIndex === idx ? ' focused' : ''}`}
+                  onMouseOver={() => updateHighlight(idx)}
+                  key={`instant_search_${idx}`}
+                  onClick={() => onSearchItemClick(article)}
+                >
+                  <Link
+                    className="InstantSearchedName"
+                    to={`/article/@${article.channelDisplayName}/${article.title}?q=${encodeURIComponent(keyword)}&s=instant`}
+                  >
+                    <span
+                      className="InstantSearchTitle"
+                      dangerouslySetInnerHTML={{__html: article.highlight.title ? article.highlight.title : article.title}}
+                    />
+                    <span
+                      className="InstantSearchAuthor"
+                      dangerouslySetInnerHTML={{__html: getSortedAuthorsHtmlString(
+                        article.highlight.channelDisplayName ? article.highlight.channelDisplayName : article.channelDisplayName,
+                        getAuthorsCount(article.channelDisplayName),
+                        2,
+                      )}}
+                    />
+                  </Link>
+                </li>
+              ))) : null
             }
           </ul>
         )}

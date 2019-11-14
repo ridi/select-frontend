@@ -30,6 +30,7 @@ interface Props {
   BASE_URL_RIDISELECT: string;
   LIBRARY_URL: string;
   isFetching: boolean;
+  isGnbTab: boolean;
   isInApp: boolean;
   isIosInApp: boolean;
   isAndroidInApp: boolean;
@@ -53,7 +54,7 @@ const GNBTabMenus: GNBTab[] = [
   },
   {
     name: '아티클',
-    classname: 'Article',
+    classname: 'Articles',
     pathname: RoutePaths.ARTICLE_HOME,
   },
 ];
