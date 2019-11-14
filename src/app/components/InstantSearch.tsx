@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { InstantSearchResultArticle, InstantSearchResultBook } from 'app/components/Search';
 import { FetchStatusFlag } from 'app/constants';
 import { getAuthorsCount, getSortedAuthorsHtmlString } from 'app/utils/search';
+import { articleContentToPath } from 'app/utils/toPath';
 
 interface InstantSearchProps {
   keyword: string;
@@ -79,7 +80,7 @@ export class InstantSearch extends React.PureComponent<InstantSearchProps> {
                 >
                   <Link
                     className="InstantSearchedName"
-                    to={`/article/@${article.channelDisplayName}/${article.title}?q=${encodeURIComponent(keyword)}&s=instant`}
+                    to={`${articleContentToPath({channelName: article.channelName, contentId: article.contentId})}?q=${encodeURIComponent(keyword)}&s=instant`}
                   >
                     <span
                       className="InstantSearchTitle"

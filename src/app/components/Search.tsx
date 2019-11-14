@@ -25,6 +25,7 @@ import toast from 'app/utils/toast';
 import { setDisableScroll } from 'app/utils/utils';
 
 import env from 'app/config/env';
+import { articleContentToPath } from 'app/utils/toPath';
 
 export enum SearchHelperFlag {
   NONE,
@@ -54,6 +55,8 @@ export interface InstantSearchResultArticle {
   id: number;
   channelId: number;
   channelDisplayName: string;
+  channelName: string;
+  contentId: number;
   title: string;
   highlight: InstantSearchArticleHighlight;
 }
@@ -376,7 +379,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
     this.setStateClean();
     this.pushHistoryKeyword(targetKeyword);
 
-    history.push(`/article/@${article.channelDisplayName}/${article.title}?q=${encodeURIComponent(targetKeyword)}&s=instant`);
+    history.push(`${articleContentToPath({channelName: article.channelName, contentId: article.contentId})}?q=${encodeURIComponent(targetKeyword)}&s=instant`);
   }
 
   private fullSearchWithKeyword(keyword: string): void {
