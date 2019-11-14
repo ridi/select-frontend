@@ -20,8 +20,8 @@ export const getChannelItems = createSelector(
 export const getArticleItems = createSelector(
   [articleItemsSelector, articleByIdSelector, getPageQuery],
   (articleItems, articleById, page) => {
-    if (articleItems) {
-      const { itemListByPage } = articleItems;
+    const itemListByPage = articleItems && articleItems.itemListByPage ? articleItems.itemListByPage : undefined;
+    if (itemListByPage && itemListByPage[page] && itemListByPage[page].itemList) {
       return itemListByPage[page].itemList.map((articleKey) => articleById[articleKey] && articleById[articleKey].article!);
     }
     return [];

@@ -1,18 +1,18 @@
 import { Method } from 'axios';
-import * as React from 'react';
-import { Link } from 'react-router-dom';
 import * as classNames from 'classnames';
+import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { Icon } from '@ridi/rsg';
 
-import { RidiSelectState } from 'app/store';
-import { Actions } from 'app/services/articleFavorite';
-import { buildDateDistanceFormat } from 'app/utils/formatDate';
-import { ArticleResponse } from 'app/services/article/requests';
 import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
+import { ArticleResponse } from 'app/services/article/requests';
+import { Actions } from 'app/services/articleFavorite';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
+import { RidiSelectState } from 'app/store';
+import { buildDateDistanceFormat } from 'app/utils/formatDate';
 import { getArticleKeyFromData } from 'app/utils/utils';
 
 interface Props {

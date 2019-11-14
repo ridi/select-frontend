@@ -15,12 +15,15 @@ function* loadFollowingChannelList() {
     yield put(ArticleChannelActions.updateChannelDetail({ channels: response.results.map((res) => res.channel) }));
     yield put(Actions.loadFollowingChannelListSuccess({response}));
   } catch (e) {
-    const { data } = e.response;
     yield put(Actions.loadFollowingChannelListFailure());
-    if (data && data.status === ErrorStatus.MAINTENANCE) {
+    if (e
+      && e.response
+      && e.response.data
+      && e.response.data.status === ErrorStatus.MAINTENANCE
+    ) {
       return;
     }
-    showMessageForRequestError(e);
+    showMessageForRequestError();
   }
 }
 
@@ -31,12 +34,15 @@ function* loadFollowingArticleList({ payload }: ReturnType<typeof Actions.loadFo
     yield put(ArticleActions.updateArticles({ articles: response.results.map((res) => res)}));
     yield put(Actions.loadFollowingArticleListSuccess({page, response}));
   } catch (e) {
-    const { data } = e.response;
     yield put(Actions.loadFollowingArticleListFailure({page}));
-    if (data && data.status === ErrorStatus.MAINTENANCE) {
+    if (e
+      && e.response
+      && e.response.data
+      && e.response.data.status === ErrorStatus.MAINTENANCE
+    ) {
       return;
     }
-    showMessageForRequestError(e);
+    showMessageForRequestError();
   }
 }
 
