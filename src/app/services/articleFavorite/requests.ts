@@ -9,7 +9,8 @@ export interface FavoriteArticleListResponse {
 }
 
 export interface FavoriteArticleActionResponse {
-  articleId: number;
+  channelName: string;
+  contentId: number;
   isFavorite: boolean;
 }
 

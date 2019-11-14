@@ -1,16 +1,16 @@
+import { all, call, put, takeLatest, takeLeading } from 'redux-saga/effects';
+
 import { ErrorStatus } from 'app/constants/index';
 import { Actions as ArticleActions } from 'app/services/article';
 import { Actions as ChannelActions } from 'app/services/articleChannel';
 import { Actions } from 'app/services/articleFavorite';
-
 import {
-  FavoriteArticleActionResponse, FavoriteArticleListResponse,
-  requestFavoriteArticleAction , requestFavoriteArticleList,
+  FavoriteArticleActionResponse,
+  FavoriteArticleListResponse,
+  requestFavoriteArticleAction ,
+  requestFavoriteArticleList,
 } from 'app/services/articleFavorite/requests';
 import showMessageForRequestError from 'app/utils/toastHelper';
-import { all, call, put, takeLatest, takeLeading } from 'redux-saga/effects';
-
-import { Method } from 'axios';
 
 function* loadFavoriteArticleList({ payload }: ReturnType<typeof Actions.loadFavoriteArticleListRequest>) {
   const { page } = payload;
@@ -36,7 +36,11 @@ function* favoriteArticleAction({ payload }: ReturnType<typeof Actions.favoriteA
   const { articleId, method } = payload;
   try {
     const response: FavoriteArticleActionResponse = yield call(requestFavoriteArticleAction, method, articleId);
-    yield put(ArticleActions.updateFavoriteArticleStatus(response));
+    yield put(ArticleActions.updateFavoriteArticleStatus({
+      channelName: response.channelName,
+      contentIndex: response.contentId,
+      isFavorite: response.isFavorite,
+    }));
   } catch (e) {
     const { data } = e.response;
     if (data && data.status === ErrorStatus.MAINTENANCE) {

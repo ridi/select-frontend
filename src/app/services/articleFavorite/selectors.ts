@@ -8,9 +8,12 @@ const articleListSelector = (state: RidiSelectState) => state.articlesById;
 export const getFavoriteArticleList = createSelector(
   [favoriteArticleItemsSelector, articleListSelector, getPageQuery],
   (articleItems, articleById, page) => {
-    const { itemListByPage } = articleItems;
-    if (itemListByPage[page]) {
-      return itemListByPage[page].itemList.map((articleKey) => articleById[articleKey] && articleById[articleKey].article!);
+    const itemList =
+      articleItems && articleItems.itemListByPage && articleItems.itemListByPage[page] && articleItems.itemListByPage[page].itemList
+        ? articleItems.itemListByPage[page].itemList
+        : [];
+    if (itemList) {
+      return itemList.map((articleKey) => articleById[articleKey] && articleById[articleKey].article!);
     }
     return null;
   },
