@@ -18,6 +18,7 @@ import { EnvironmentState } from 'app/services/environment';
 import { Actions as SearchResultActions, SearchResultBook, SearchResultState } from 'app/services/searchResult';
 
 import { Button, Icon } from '@ridi/rsg';
+import { AppStatus } from 'app/services/app';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
 import * as classNames from 'classnames';
@@ -27,6 +28,7 @@ interface SearchResultStateProps {
   searchResult: SearchResultState;
   environment: EnvironmentState;
   page: number;
+  appStatus: AppStatus;
 }
 
 type OwnProps = RouteComponentProps;
@@ -34,10 +36,12 @@ type Props = SearchResultStateProps & ReturnType<typeof mapDispatchToProps> & Ow
 
 interface QueryString {
   'q'?: string;
+  'type'?: string;
 }
 
 interface State {
   query: string;
+  type: string;
 }
 
 export class SearchResult extends React.Component<Props, State> {
@@ -45,6 +49,7 @@ export class SearchResult extends React.Component<Props, State> {
 
   public state: State = {
     query: '',
+    type: 'books',
   };
 
   private isListExist(list: any[]) {
@@ -70,11 +75,12 @@ export class SearchResult extends React.Component<Props, State> {
   }
 
   private isFetched = (query: string, page: number) => {
-    const { searchResult } = this.props;
+    const { searchResult, appStatus } = this.props;
+    const appType = appStatus === AppStatus.Books ? 'books' : 'articles';
     return (
-      searchResult[query] &&
-      searchResult[query].itemListByPage[page] &&
-      searchResult[query].itemListByPage[page].isFetched
+      searchResult[appType][query] &&
+      searchResult[appType][query].itemListByPage[page] &&
+      searchResult[appType][query].itemListByPage[page].isFetched
     );
   }
 
@@ -87,26 +93,26 @@ export class SearchResult extends React.Component<Props, State> {
         this.setState({ query: newQueryString.q });
       }
     });
-    this.setState({ query: queryString.q || '' });
+    this.setState({ query: queryString.q || '', type: (queryString.type!).toLowerCase() || 'books' });
   }
 
   public componentDidMount() {
     const { dispatchRequestSearchResult, page } = this.props;
-    const { query } = this.state;
+    const { query, type } = this.state;
     if (!this.isFetched(query, page)) {
-      dispatchRequestSearchResult(query, page);
+      dispatchRequestSearchResult(query, page, type.substring(0, type.length - 1));
     }
   }
 
   public shouldComponentUpdate(nextProps: Props, nextState: State) {
     const { query } = this.state;
-    const { query: nextQuery } = nextState;
+    const { query: nextQuery, type } = nextState;
 
     if ((query !== nextQuery) || (nextProps.page !== this.props.page)) {
       const { dispatchRequestSearchResult, page } = nextProps;
 
       if (!this.isFetched(nextQuery, page)) {
-        dispatchRequestSearchResult(nextQuery, page);
+        dispatchRequestSearchResult(nextQuery, page, type.substring(0, type.length - 1));
       }
     }
     return true;
@@ -121,8 +127,8 @@ export class SearchResult extends React.Component<Props, State> {
     const { books, searchResult, page, environment } = this.props;
     const { query } = this.state;
 
-    const itemCount: any = searchResult[query] ? searchResult[query].itemCount : undefined;
-    const itemCountPerPage: number = 24;
+    // const itemCount: any = searchResult[query] ? searchResult[query].itemCount : undefined;
+    // const itemCountPerPage: number = 24;
 
     return (
       <main
@@ -134,7 +140,7 @@ export class SearchResult extends React.Component<Props, State> {
         )}
       >
         <HelmetWithTitle titleName={!!query ? `'${query}' 검색 결과` : null} />
-        <h1 className="a11y">{`'`}<strong>{query}</strong>{`'에 대한 도서 검색 결과`}</h1>
+        {/* <h1 className="a11y">{`'`}<strong>{query}</strong>{`'에 대한 도서 검색 결과`}</h1>
         {(
             !this.isFetched(query, page) || isNaN(page)
         ) ? (
@@ -189,7 +195,7 @@ export class SearchResult extends React.Component<Props, State> {
               className="PageSearchResult_RidibooksResultIcon"
             />
           </Button>
-        }
+        } */}
       </main>
     );
   }
@@ -201,12 +207,13 @@ const mapStateToProps = (rootState: RidiSelectState): SearchResultStateProps => 
     searchResult: rootState.searchResult,
     environment: rootState.environment,
     page: getPageQuery(rootState),
+    appStatus: rootState.app.appStatus,
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    dispatchRequestSearchResult: (keyword: string, page: number) =>
-      dispatch(SearchResultActions.queryKeywordRequest({ keyword, page })),
+    dispatchRequestSearchResult: (keyword: string, page: number, type: string) =>
+      dispatch(SearchResultActions.queryKeywordRequest({ keyword, page, type })),
     dispatchUpdateGNBSearchActiveType: (type: GNBSearchActiveType) =>
       dispatch(CommonUIActions.updateSearchActiveType({ gnbSearchActiveType: type })),
   };

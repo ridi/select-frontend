@@ -386,8 +386,9 @@ export class Search extends React.Component<SearchProps, SearchState> {
     if (keyword.length <= 0) {
       return;
     }
+    const { appStatus } = this.props;
     this.manageScrollDisable(false);
-    history.push(`/search?q=${encodeURIComponent(keyword)}`);
+    history.push(`/search?q=${encodeURIComponent(keyword)}&type=${appStatus}`);
     this.pushHistoryKeyword(keyword);
     setTimeout(() => this.setStateClean(keyword), 0);
   }
