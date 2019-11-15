@@ -17,14 +17,12 @@ export function* useVoucher({ payload }: ReturnType<typeof Actions.useVoucher>) 
       return;
     }
 
-    const { code, message } = e.response.data;
+    const { code } = e.response.data;
 
     if (code === UseVoucherResponseCode.subscriptionRequiredVoucher) {
       window.location.href = `${state.environment.STORE_URL}/select/payments?voucher_code=${voucherCode}`;
-    } else if (code === UseVoucherResponseCode.notEnoughParams || code === UseVoucherResponseCode.invalidParams) {
-      toast.failureMessage(message);
     } else {
-      toast.failureMessage('이용권 등록에 실패하였습니다. 이용권 코드를 확인해주세요.');
+      toast.failureMessage('이용권 등록에 실패했습니다. 이용권 코드를 확인해주세요.');
     }
   }
 }
