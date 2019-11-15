@@ -1,4 +1,5 @@
 import { setFixedScrollToTop } from 'app/utils/utils';
+import * as qs from 'qs';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
@@ -12,6 +13,11 @@ interface AppManagerProps {
 interface ScrollManagerProps {
   location: Location;
   history: History & { action: string };
+}
+
+interface QueryString {
+  'q'?: string;
+  'type'?: AppStatus;
 }
 
 type Props = ReturnType<typeof mapDispatchToProps> & AppManagerProps & ScrollManagerProps;
@@ -30,9 +36,17 @@ export class AppManager extends React.Component<Props> {
 
   private updateAppStatus = () => {
     const { location, appStatus, dispatchUpdateAppStatus } = this.props;
-    if (appStatus === AppStatus.Books && location.pathname.indexOf('/article/') >= 0) {
+    const queryString: QueryString = qs.parse(this.props.location.search, { ignoreQueryPrefix: true });
+    const isArticlePath = location.pathname.indexOf('/article');
+
+    if (queryString.type && location.pathname === '/search') {
+      dispatchUpdateAppStatus(queryString.type);
+      return;
+    }
+
+    if (appStatus === AppStatus.Books && isArticlePath >= 0) {
       dispatchUpdateAppStatus(AppStatus.Articles);
-    } else if (appStatus === AppStatus.Articles && location.pathname.indexOf('/article/') < 0) {
+    } else if (appStatus === AppStatus.Articles && isArticlePath < 0) {
       dispatchUpdateAppStatus(AppStatus.Books);
     }
   }
