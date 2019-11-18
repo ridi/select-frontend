@@ -3,7 +3,7 @@ import { createAction, createReducer } from 'redux-act';
 import { ArticleContentJSON } from '@ridi/ridi-prosemirror-editor';
 
 import { FetchStatusFlag } from 'app/constants';
-import { AuthorResponse } from 'app/services/article/requests';
+import { ArticleResponse, AuthorResponse } from 'app/services/article/requests';
 import { ArticleRequestQueries, DateDTO } from 'app/types';
 import { getArticleKeyFromData } from 'app/utils/utils';
 
@@ -28,7 +28,7 @@ export const Actions = {
     content?: ArticleContent,
   }>('updateArticleContent'),
   updateArticles: createAction<{
-    articles: Article[],
+    articles: ArticleResponse[],
   }>('updateArticles'),
   updateFavoriteArticleStatus: createAction<{
     channelName: string;
@@ -129,12 +129,11 @@ articleReducer.on(Actions.updateArticleContent, (state, action) => {
 articleReducer.on(Actions.updateArticles, (state, action) => {
   const { articles = [] } = action;
   const newState: ArticlesState = articles.reduce((prev, article) => {
-    article.content = undefined;
-    article.channel = undefined;
     const contentKey = getArticleKeyFromData(article);
+    const { channel, content, ...restData } = article;
     prev[contentKey] = {
       ...state[contentKey],
-      article: !!state[contentKey] ? { ...state[contentKey].article, ...article } : article,
+      article: !!state[contentKey] ? { ...state[contentKey].article, ...restData } : restData,
     };
     return prev;
   }, state);
