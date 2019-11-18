@@ -42,10 +42,7 @@ export const requestArticles = (requestQueries?: ArticleRequestQueries): Promise
 };
 
 export const requestSingleArticle = (channelName: string, contentIndex: number, requestQueries?: ArticleRequestQueries): Promise<ArticleResponse> => {
-  const queryString = buildArticleRequestQueriesToString(requestQueries);
-  const requestUrl = `/article/articles/${queryString
-    ? `${buildArticleRequestQueriesToString(requestQueries)}&channel_name=${channelName}&content_id=${contentIndex}`
-    : `?channel_name=${channelName}&content_id=${contentIndex}`}`;
+  const requestUrl = `/article/articles/@${channelName}/${contentIndex}${buildArticleRequestQueriesToString(requestQueries)}`;
 
   return request({
     url: requestUrl,
