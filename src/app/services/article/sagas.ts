@@ -15,13 +15,16 @@ export function* loadArticle({ payload }: ReturnType<typeof Actions.loadArticleR
       content: response && response.content ? refineArticleJSON(JSON.parse(response.content)) : undefined,
     }));
     yield put(ChannelActions.updateChannelDetail({
-      channels: [response.channel],
+      channels: response.channel ? [response.channel] : [],
     }));
     yield response.content = undefined;
+    yield response.channel = undefined;
     yield put(Actions.loadArticleSuccess({
       channelName,
       contentIndex,
-      articleResponse: response,
+      articleResponse: {
+        ...response,
+      },
     }));
   } catch (error) {
     yield put(Actions.loadArticleFailure({

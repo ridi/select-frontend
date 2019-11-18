@@ -88,7 +88,7 @@ export function refineArticleJSON(articleJSON: ArticleContentJSON): ArticleConte
 }
 
 export function getArticleKeyFromData(article: Article): string {
-  const channelName = article.channel.name;
+  const channelName = article.channelName;
   const contentIndex = article.contentId;
 
   return `@${channelName}/${contentIndex}`;

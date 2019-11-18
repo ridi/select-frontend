@@ -53,7 +53,7 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
                     >
                       <span className="ArticleChartList_Meta_Title">{article.title}</span>
                       {article.channel ? (
-                        <span className="ArticleChartList_Meta_Channel">{article.channel.name}</span>
+                        <span className="ArticleChartList_Meta_Channel">{article.channelName}</span>
                       ) : null}
                     </Link>
                   </li>

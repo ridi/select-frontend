@@ -4,6 +4,7 @@ import { camelize } from '@ridi/object-case-converter';
 
 import request from 'app/config/axios';
 import { Article } from 'app/services/article';
+import { ArticleChannel } from 'app/services/articleChannel';
 import { ChannelResponse } from 'app/services/articleChannel/request';
 import { ArticleRequestQueries, DateDTO } from 'app/types';
 import { buildArticleRequestQueriesToString } from 'app/utils/request';
@@ -22,7 +23,7 @@ export interface AuthorResponse {
 export interface ArticleResponse extends Article {
   author?: AuthorResponse;
   content?: string;
-  teaserContent?: string;
+  channel?: ArticleChannel;
 }
 
 export interface ArticleListResponse {
