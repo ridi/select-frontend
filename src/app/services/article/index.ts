@@ -42,11 +42,6 @@ export const Actions = {
   }>('updateFavoriteArticleStatus'),
 };
 
-export interface ArticleUrlKey {
-  channelName: string;
-  contentIndex?: number;
-}
-
 export interface ArticleContent {
   title: string;
   json: ArticleContentJSON;
