@@ -7,6 +7,9 @@ export enum UseVoucherResponseCode {
   voucherNotFound  = 'VOUCHER_NOT_FOUND',
   subscriptionRequiredVoucher = 'SUBSCRIPTION_REQUIRED_VOUCHER',
   expiredVoucher = 'EXPIRED_VOUCHER',
+  deactivatedVoucher = 'DEACTIVATED_VOUCHER',
+  oneTimeRedeemableVoucher = 'ONE_TIME_REDEEMABLE_VOUCHER',
+  redeemedVoucher = 'REDEEMED_VOUCHER',
 }
 
 export const requestUseVoucher = (voucherCode: string) =>

@@ -1,7 +1,9 @@
 .PageOrderHistory {
   padding-bottom: 40px;
   box-sizing: border-box;
-
+  & .rui_empty_1 {
+    margin: 116px 0;
+  }
   @media (--pc-screen) {
     padding-bottom: 60px;
   }
@@ -168,7 +170,7 @@
     font-size: 14px;
   }
   .Ordered_Name {
-    padding: 10px 0;
+    padding: 20px 0;
     box-sizing: border-box;
   }
   .Ordered_Type {

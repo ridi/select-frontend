@@ -80,7 +80,10 @@
   }
 }
 
-.VoucherContent_CodeInput {
+.VoucherContent_CodeInputWrapper {
+  @apply --reset-layout;
+
+  position: relative;
   width: 100%;
   height: 50px;
   padding: 0 10px;
@@ -88,6 +91,20 @@
   border-radius: 3px;
   border: solid 1px var(--slategray_4);
   background-color: #fff;
+  box-sizing: border-box;
+
+  @media (--pc-screen) {
+    display: block;
+    width: 300px;
+  }
+}
+
+.VoucherContent_CodeInput {
+  @apply --reset-appearance;
+  @apply --reset-input-focus;
+
+  width: 100%;
+  height: 100%;
   box-sizing: border-box;
 
   &::-webkit-input-placeholder {
@@ -99,11 +116,39 @@
   &::placeholder {
     color: var(--slategray_50);
   }
-
-  @media (--pc-screen) {
-    display: block;
-    width: 300px;
+  &::-webkit-clear-button {
+    display: none;
+    width: 0;
+    height: 0;
   }
+  &::-ms-clear {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+  &::-ms-clear,
+  &::-ms-reveal {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
+
+.VoucherContent_CodeInputClearButton {
+  @apply --reset-button;
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 100%;
+  border: 0;
+}
+
+.VoucherContent_CodeInputClearButtonIcon {
+  width: 12px;
+  height: 12px;
+  fill: #000;
 }
 
 .VoucherContent_SubmitButton {

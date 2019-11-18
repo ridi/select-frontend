@@ -2,7 +2,7 @@ import * as qs from 'qs';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Button } from '@ridi/rsg';
+import { Button, Icon } from '@ridi/rsg';
 
 import { HelmetWithTitle, TitleType } from 'app/components';
 import { PageTitleText, RoutePaths } from 'app/constants';
@@ -104,13 +104,28 @@ export const Voucher: React.FunctionComponent = () => {
             null :
             isLoggedIn ? (
               <>
-                <input
-                  type="text"
-                  className="VoucherContent_CodeInput"
-                  placeholder="이용권 번호 16자리를 입력해주세요."
-                  onChange={(e) => setInputValue(modifyValue(e.target.value))}
-                  value={inputValue}
-                />
+                <div className="VoucherContent_CodeInputWrapper">
+                  <input
+                    type="text"
+                    className="VoucherContent_CodeInput"
+                    placeholder="이용권 번호 16자리를 입력해주세요."
+                    onChange={(e) => setInputValue(modifyValue(e.target.value))}
+                    value={inputValue}
+                  />
+                  {inputValue.length > 0 ? (
+                    <button
+                      className="VoucherContent_CodeInputClearButton"
+                      type="button"
+                      onClick={() => setInputValue('')}
+                    >
+                      <Icon
+                        name="close_2"
+                        className="VoucherContent_CodeInputClearButtonIcon"
+                      />
+                      <span className="a11y">검색어 비우기</span>
+                    </button>
+                  ) : null}
+                </div>
                 <Button
                   type="button"
                   color="blue"
