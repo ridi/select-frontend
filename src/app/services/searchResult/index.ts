@@ -2,9 +2,11 @@ import { AxiosError } from 'axios';
 import { createAction, createReducer } from 'redux-act';
 
 import { FetchStatusFlag } from 'app/constants';
+import { Article } from 'app/services/article';
 import { Book } from 'app/services/book';
-import { RealSearchResultResponse, SearchResultReponse } from 'app/services/searchResult/requests';
-import { ArticleId, BookId, Paginated } from 'app/types';
+import { SearchResultResponse } from 'app/services/searchResult/requests';
+import { BookId, Paginated } from 'app/types';
+import { getArticleKeyFromData } from 'app/utils/utils';
 
 export const Actions = {
   queryKeywordRequest: createAction<{
@@ -16,7 +18,7 @@ export const Actions = {
     keyword: string,
     page: number,
     type: string,
-    response: RealSearchResultResponse,
+    response: SearchResultResponse,
   }>('queryKeywordSuccess'),
   queryKeywordFailure: createAction<{
     keyword: string,
@@ -44,7 +46,7 @@ export interface SearchResultItem {
   };
 }
 export interface ArticleSearchResultItem {
-  articleId: ArticleId;
+  contentKey: string;
   highlight: SearchResultHighlight;
 }
 
@@ -53,6 +55,9 @@ export interface SearchResultBook extends Book {
   publisher: {
     name: string;
   };
+}
+export interface SearchResultArticle extends Article {
+  highlight: SearchResultHighlight;
 }
 
 export interface KeywordSearchResult extends Paginated<SearchResultItem> {}
@@ -109,10 +114,13 @@ searchResultReducer.on(Actions.queryKeywordSuccess, (state, action) => {
           ...state[searchType][keyword].itemListByPage,
           [page]: {
             fetchStatus: FetchStatusFlag.IDLE,
-            itemList: response.books.map((book: SearchResultBook) => ({
+            itemList: searchType === 'books' ? response.books!.map((book: SearchResultBook) => ({
               bookId: book.id,
               highlight: book.highlight,
               publisher: book.publisher,
+            })) : response.articles!.map((article: SearchResultArticle) => ({
+              contentKey: getArticleKeyFromData(article),
+              highlight: article.highlight,
             })),
             isFetched: true,
           },

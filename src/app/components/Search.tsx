@@ -379,7 +379,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
     this.setStateClean();
     this.pushHistoryKeyword(targetKeyword);
 
-    history.push(`${articleContentToPath({channelName: article.channelName, contentId: article.contentId})}?q=${encodeURIComponent(targetKeyword)}&s=instant`);
+    history.push(`${articleContentToPath({channelName: article.channelName, contentIndex: article.contentId})}?q=${encodeURIComponent(targetKeyword)}&s=instant`);
   }
 
   private fullSearchWithKeyword(keyword: string): void {
