@@ -1,14 +1,23 @@
-.OrderHistoryList {
-  max-width: 800px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+.PageOrderHistory {
   padding-bottom: 40px;
+  box-sizing: border-box;
 
   @media (--pc-screen) {
     padding-bottom: 60px;
   }
 }
+
+.OrderHistoryList {
+  max-width: 800px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @media (--mobile-screen) {
+    padding-bottom: 30px;
+  }
+}
+
 .OrderHistoryItem {
   display: table;
   width: 100%;
@@ -50,6 +59,14 @@
   @nest .OrderHistoryItem-canceled & {
     color: var(--slategray_50);
   }
+}
+.Ordered_VoucherInfo {
+  display: block;
+  font-weight: 400;
+  margin: 0;
+  padding-top: 5px;
+  color: var(--slategray_50);
+  font-size: 13px;
 }
 .Ordered_Term {
   display: block;
@@ -151,7 +168,8 @@
     font-size: 14px;
   }
   .Ordered_Name {
-    padding: 0;
+    padding: 10px 0;
+    box-sizing: border-box;
   }
   .Ordered_Type {
     width: 109px;

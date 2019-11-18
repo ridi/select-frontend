@@ -7,13 +7,6 @@ import { SubscriptionState } from 'app/services/user';
 import { DateDTO } from 'app/types';
 import axios, { AxiosResponse } from 'axios';
 
-export interface TicketToBeCanceledWith {
-  id: number;
-  title: string;
-  voucherCode?: string;
-  voucherExpireDate: DateDTO;
-}
-
 export interface Ticket {
   id: number;
   purchaseDate: DateDTO;
@@ -29,7 +22,8 @@ export interface Ticket {
   currency: string;
   formattedPrice: string;
   voucherCode?: string;
-  ticketsToBeCanceledWith: TicketToBeCanceledWith[];
+  voucherExpireDate?: DateDTO;
+  ticketIdsToBeCanceledWith: number[];
 }
 
 // export interface SubscriptionResponse extends SubscriptionState {
