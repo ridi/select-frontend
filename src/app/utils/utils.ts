@@ -70,7 +70,6 @@ export function moveToLogin(additionalReturnUrl?: string) {
 }
 
 export function refineArticleJSON(articleJSON: ArticleContentJSON): ArticleContent {
-  let articleTitle = '';
   const articleContent: ArticleContentJSON = {
     type: articleJSON.type,
     content: [],
@@ -78,14 +77,12 @@ export function refineArticleJSON(articleJSON: ArticleContentJSON): ArticleConte
 
   articleJSON.content.forEach((content: any) => {
     if (content.type === 'title') {
-      articleTitle = content.content[0].text;
       return;
     }
     articleContent.content.push(content);
   });
 
   return {
-    title: articleTitle,
     json: articleContent,
   };
 }

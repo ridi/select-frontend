@@ -8,39 +8,16 @@ export function* loadArticle({ payload }: ReturnType<typeof Actions.loadArticleR
   const { channelName, contentIndex, requestQueries } = payload;
   try {
     const response: ArticleResponse = yield call(requestSingleArticle, channelName, contentIndex, requestQueries);
-    const {id, title, regDate, contentId, lastModified, channelId, thumbnailUrl, authorId, url, channel } = response;
-
-    if (response.content) {
-      yield put(Actions.updateArticleContent({
-        channelName,
-        contentIndex,
-        content: refineArticleJSON(JSON.parse(response.content)),
-      }));
-    }
-
-    if (response.teaserContent) {
-      yield put(Actions.updateArticleTeaserContent({
-        channelName,
-        contentIndex,
-        teaserContent: refineArticleJSON(JSON.parse(response.teaserContent)),
-      }));
-    }
-
+    yield put(Actions.updateArticleContent({
+      channelName,
+      contentIndex,
+      content: response && response.content ? refineArticleJSON(JSON.parse(response.content)) : undefined,
+    }));
+    yield response.content = undefined;
     yield put(Actions.loadArticleSuccess({
       channelName,
       contentIndex,
-      articleResponse: {
-        id,
-        title,
-        regDate,
-        contentId,
-        lastModified,
-        channelId,
-        thumbnailUrl,
-        authorId,
-        channel,
-        url,
-      },
+      articleResponse: response,
     }));
   } catch (error) {
     yield put(Actions.loadArticleFailure({

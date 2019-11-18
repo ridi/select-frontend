@@ -22,15 +22,10 @@ export const Actions = {
     channelName: string;
     contentIndex: number;
   }>('loadArticleDetailFailure'),
-  updateArticleTeaserContent: createAction<{
-    channelName: string;
-    contentIndex: number;
-    teaserContent: ArticleContent,
-  }>('updateArticleTeaserContent'),
   updateArticleContent: createAction<{
     channelName: string;
     contentIndex: number;
-    content: ArticleContent,
+    content?: ArticleContent,
   }>('updateArticleContent'),
   updateArticles: createAction<{
     articles: Article[],
@@ -43,7 +38,6 @@ export const Actions = {
 };
 
 export interface ArticleContent {
-  title: string;
   json: ArticleContentJSON;
 }
 
@@ -60,16 +54,13 @@ export interface Article {
   authorId?: number;
   author?: AuthorResponse;
   isFavorite?: boolean;
+  isEnabled?: boolean;
 }
 
-export interface StaticArticleState {
+export interface ArticleItemState {
   article?: Article;
   content?: ArticleContent;
-  teaserContent?: ArticleContent;
   recommendedArticles?: Article[];
-}
-
-export interface ArticleItemState extends StaticArticleState {
   contentFetchStatus: FetchStatusFlag;
 }
 
@@ -102,7 +93,7 @@ articleReducer.on(Actions.loadArticleSuccess, (state, action) => {
     ...state,
     [contentKey]: {
       ...state[contentKey],
-      ...articleResponse,
+      article: !!state[contentKey] ? { ...state[contentKey].article, ...articleResponse } : articleResponse,
       contentFetchStatus: FetchStatusFlag.IDLE,
     },
   };
@@ -131,20 +122,6 @@ articleReducer.on(Actions.updateArticleContent, (state, action) => {
       ...state[contentKey],
       contentFetchStatus: FetchStatusFlag.IDLE,
       content,
-    },
-  };
-});
-
-articleReducer.on(Actions.updateArticleTeaserContent, (state, action) => {
-  const { channelName, contentIndex, teaserContent } = action;
-  const contentKey = `@${channelName}/${contentIndex}`;
-
-  return {
-    ...state,
-    [contentKey]: {
-      ...state[contentKey],
-      contentFetchStatus: FetchStatusFlag.IDLE,
-      teaserContent,
     },
   };
 });
