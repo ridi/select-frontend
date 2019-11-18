@@ -79,7 +79,7 @@ type SearchProps = SearchStoreProps & SearchCascadedProps;
 
 interface HistoryState {
   enabled: boolean;
-  keywordList: string[];
+  bookKeywordList: string[];
   articleKeywordList: string[];
 }
 
@@ -140,7 +140,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
 
   // set initial private state
   private getInitialState(): SearchState {
-    const { enabled = true, keywordList = [], articleKeywordList = [] } = localStorageManager.load().history;
+    const { enabled = true, bookKeywordList = [], articleKeywordList = [] } = localStorageManager.load().history;
 
     return {
       searchQuery: '',
@@ -150,7 +150,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
       isClearButtonVisible: false,
       highlightIndex: -1,
       currentHelperType: SearchHelperFlag.NONE,
-      history: { enabled, keywordList, articleKeywordList },
+      history: { enabled, bookKeywordList, articleKeywordList },
       instantSearchResultsByKeyword: { Books: {}, Articles: {} },
     };
   }
@@ -185,7 +185,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
   private toggleSavingHistory(): void {
     const updatedHistoryState = {
       enabled: !this.state.history.enabled,
-      keywordList: this.state.history.keywordList,
+      bookKeywordList: this.state.history.bookKeywordList,
       articleKeywordList: this.state.history.articleKeywordList,
     };
     this.setHistoryStateAndLocalStorage(updatedHistoryState);
@@ -197,17 +197,17 @@ export class Search extends React.Component<SearchProps, SearchState> {
     }
     const { appStatus } = this.props;
     const filteredKeywordList: string[] = appStatus === AppStatus.Books ?
-      this.state.history.keywordList :
+      this.state.history.bookKeywordList :
       this.state.history.articleKeywordList
         .filter((listItem: string) => listItem !== keyword)
         .filter((listItem: string) => listItem.length > 0);
     const updatedHistoryState: HistoryState = {
       enabled: this.state.history.enabled,
-      keywordList: appStatus === AppStatus.Books ? [
+      bookKeywordList: appStatus === AppStatus.Books ? [
         keyword,
         ...take(filteredKeywordList, 4),
-      ] : this.state.history.keywordList,
-      articleKeywordList: appStatus === AppStatus.Article ? [
+      ] : this.state.history.bookKeywordList,
+      articleKeywordList: appStatus === AppStatus.Articles ? [
         keyword,
         ...take(filteredKeywordList, 4),
       ] : this.state.history.articleKeywordList,
@@ -218,7 +218,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
   private clearHistory(): void {
     const updatedHistoryState = {
       enabled: this.state.history.enabled,
-      keywordList: [],
+      bookKeywordList: [],
       articleKeywordList: [],
     };
     this.setHistoryStateAndLocalStorage(updatedHistoryState);
@@ -227,14 +227,14 @@ export class Search extends React.Component<SearchProps, SearchState> {
   private removeHistoryKeyword(keyword: string): void {
     const { appStatus } = this.props;
     const filteredKeywordList: string[] = appStatus === AppStatus.Books ?
-      this.state.history.keywordList : this.state.history.articleKeywordList
+      this.state.history.bookKeywordList : this.state.history.articleKeywordList
         .filter((listItem: string) => listItem !== keyword);
 
     const updatedHistoryState = {
       enabled: this.state.history.enabled,
-      keywordList: appStatus === AppStatus.Books ?
-        filteredKeywordList : this.state.history.keywordList,
-      articleKeywordList: appStatus === AppStatus.Article ?
+      bookKeywordList: appStatus === AppStatus.Books ?
+        filteredKeywordList : this.state.history.bookKeywordList,
+      articleKeywordList: appStatus === AppStatus.Articles ?
         filteredKeywordList : this.state.history.articleKeywordList,
     };
     this.setHistoryStateAndLocalStorage(updatedHistoryState);
@@ -395,7 +395,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
   private doSearchAction(value: string): void {
     const { keyword, highlightIndex, currentHelperType } = this.state;
     const { appStatus } = this.props;
-    const { keywordList } = this.state.history;
+    const { bookKeywordList, articleKeywordList } = this.state.history;
 
     if (highlightIndex < 0) {
       this.fullSearchWithKeyword(value);
@@ -404,14 +404,16 @@ export class Search extends React.Component<SearchProps, SearchState> {
 
     if (currentHelperType === SearchHelperFlag.INSTANT) {
       const instantSearchResults = this.state.instantSearchResultsByKeyword;
-      appStatus === AppStatus.Books ?
-      this.linkToBookDetail(instantSearchResults.Books[keyword][highlightIndex]) :
-      this.linkToArticleDetail(instantSearchResults.Articles[keyword][highlightIndex]);
+      if (appStatus === AppStatus.Books) {
+        this.linkToBookDetail(instantSearchResults.Books[keyword][highlightIndex]);
+      } else {
+        this.linkToArticleDetail(instantSearchResults.Articles[keyword][highlightIndex]);
+      }
       return;
     }
 
     if (currentHelperType === SearchHelperFlag.HISTORY) {
-      this.fullSearchWithKeyword(keywordList[highlightIndex]);
+      this.fullSearchWithKeyword(bookKeywordList[highlightIndex]);
     }
   }
 
@@ -445,7 +447,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
             keyType: e.keyCode,
             value: e.target.value,
             currentHelperList: (this.state.currentHelperType === SearchHelperFlag.HISTORY) ?
-              (appStatus === AppStatus.Books ? this.state.history.keywordList : this.state.history.articleKeywordList) :
+              (appStatus === AppStatus.Books ? this.state.history.bookKeywordList : this.state.history.articleKeywordList) :
               this.state.instantSearchResultsByKeyword[appStatus][this.state.keyword],
           };
         }),
@@ -602,7 +604,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
       appStatus,
     } = this.props;
     const instantSearchResult = this.state.instantSearchResultsByKeyword[appStatus][keyword];
-    const { enabled, keywordList, articleKeywordList } = this.state.history;
+    const { enabled, bookKeywordList, articleKeywordList } = this.state.history;
     const inputEvents = {
       onChange: (e: any) => this.onSearchChange(e),
       onKeyDown: (e: any) => this.onSearchKeydown(e),
@@ -697,7 +699,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
           highlightIndex={highlightIndex}
           updateHighlight={(idx: number) => this.updateHighlightIndex(idx)}
           savingHistoryEnabled={enabled}
-          keywordList={appStatus === AppStatus.Books ? keywordList : articleKeywordList}
+          keywordList={appStatus === AppStatus.Books ? bookKeywordList : articleKeywordList}
           toggleSavingHistory={() => this.toggleSavingHistory()}
           clearHistory={() => this.clearHistory()}
           removeKeyword={(targetKeyword: string) => this.removeHistoryKeyword(targetKeyword)}
