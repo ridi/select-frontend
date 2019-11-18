@@ -1,16 +1,16 @@
+import { all, call, put, takeLatest, takeLeading } from 'redux-saga/effects';
+
 import { ErrorStatus } from 'app/constants/index';
 import { Actions as ArticleActions } from 'app/services/article';
 import { Actions as ChannelActions } from 'app/services/articleChannel';
 import { Actions } from 'app/services/articleFavorite';
-
 import {
-  FavoriteArticleActionResponse, FavoriteArticleListResponse,
-  requestFavoriteArticleAction , requestFavoriteArticleList,
+  FavoriteArticleActionResponse,
+  FavoriteArticleListResponse,
+  requestFavoriteArticleAction ,
+  requestFavoriteArticleList,
 } from 'app/services/articleFavorite/requests';
 import showMessageForRequestError from 'app/utils/toastHelper';
-import { all, call, put, takeLatest, takeLeading } from 'redux-saga/effects';
-
-import { Method } from 'axios';
 
 function* loadFavoriteArticleList({ payload }: ReturnType<typeof Actions.loadFavoriteArticleListRequest>) {
   const { page } = payload;
@@ -23,12 +23,15 @@ function* loadFavoriteArticleList({ payload }: ReturnType<typeof Actions.loadFav
     yield put(ChannelActions.updateChannelDetail({ channels: response.results.map((data) => data.article.channel)}));
     yield put(Actions.loadFavoriteArticleListSuccess({ response, page }));
   } catch (e) {
-    const { data } = e.response;
     yield put(Actions.loadFavoriteArticleListFailure({ page }));
-    if (data && data.status === ErrorStatus.MAINTENANCE) {
+    if (e
+      && e.response
+      && e.response.data
+      && e.response.data.status === ErrorStatus.MAINTENANCE
+    ) {
       return;
     }
-    showMessageForRequestError(e);
+    showMessageForRequestError();
   }
 }
 
@@ -36,13 +39,20 @@ function* favoriteArticleAction({ payload }: ReturnType<typeof Actions.favoriteA
   const { articleId, method } = payload;
   try {
     const response: FavoriteArticleActionResponse = yield call(requestFavoriteArticleAction, method, articleId);
-    yield put(ArticleActions.updateFavoriteArticleStatus(response));
+    yield put(ArticleActions.updateFavoriteArticleStatus({
+      channelName: response.channelName,
+      contentIndex: response.contentId,
+      isFavorite: response.isFavorite,
+    }));
   } catch (e) {
-    const { data } = e.response;
-    if (data && data.status === ErrorStatus.MAINTENANCE) {
+    if (e
+      && e.response
+      && e.response.data
+      && e.response.data.status === ErrorStatus.MAINTENANCE
+    ) {
       return;
     }
-    showMessageForRequestError(e);
+    showMessageForRequestError();
   }
 }
 

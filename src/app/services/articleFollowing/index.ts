@@ -1,7 +1,8 @@
 import { FetchStatusFlag } from 'app/constants';
 import { ArticleChannel } from 'app/services/articleChannel';
 import { FollowingArticleListResponse, FollowingChannelListResponse } from 'app/services/articleFollowing/requests';
-import { ArticleId, ChannelId, DateDTO, Paginated } from 'app/types';
+import { ArticleKey, Paginated } from 'app/types';
+import { getArticleKeyFromData } from 'app/utils/utils';
 import { createAction, createReducer } from 'redux-act';
 
 export const Actions = {
@@ -26,18 +27,16 @@ export interface FollowingChannel {
   channel: ArticleChannel;
 }
 
-export interface FollowingArticleStateItem extends Paginated<ArticleId> {}
+export interface FollowingArticleStateItem extends Paginated<ArticleKey> {}
 
 export interface ArticleFollowingState {
   followingChannelList?: string[];
   followingArticleList?: FollowingArticleStateItem;
   itemCount?: number;
-  isFetched: boolean;
   fetchStatus: FetchStatusFlag;
 }
 
 export const INITIAL_STATE: ArticleFollowingState = {
-  isFetched: false,
   fetchStatus: FetchStatusFlag.IDLE,
 };
 
@@ -47,20 +46,17 @@ articleFollowReducer.on(Actions.loadFollowingChannelListRequest, (state) => ({
   ...state,
   followingChannelList: [],
   fetchStatus: FetchStatusFlag.FETCHING,
-  isFetched: false,
 }));
 
 articleFollowReducer.on(Actions.loadFollowingChannelListSuccess, (state, { response }) => ({
   ...state,
   followingChannelList: response.results.map((channel) => String(channel.channelId)),
   fetchStatus: FetchStatusFlag.IDLE,
-  isFetched: true,
 }));
 
 articleFollowReducer.on(Actions.loadFollowingChannelListFailure, (state) => ({
   ...state,
   fetchStatus: FetchStatusFlag.FETCH_ERROR,
-  isFetched: false,
 }));
 
 articleFollowReducer.on(Actions.loadFollowingArticleListRequest, (state, { page }) => ({
@@ -70,8 +66,8 @@ articleFollowReducer.on(Actions.loadFollowingArticleListRequest, (state, { page 
     itemListByPage: {
       ...(state.followingArticleList && state.followingArticleList.itemListByPage),
       [page]: {
+        ...(state.followingArticleList && state.followingArticleList.itemListByPage && state.followingArticleList.itemListByPage[page]),
         fetchStatus: FetchStatusFlag.FETCHING,
-        itemList: [],
         isFetched: false,
       },
     },
@@ -87,7 +83,7 @@ articleFollowReducer.on(Actions.loadFollowingArticleListSuccess, (state, { page,
       ...(state.followingArticleList && state.followingArticleList.itemListByPage),
       [page]: {
         fetchStatus: FetchStatusFlag.IDLE,
-        itemList: response.results.map((article) => article.id),
+        itemList: response.results.map((article) => getArticleKeyFromData(article)),
         isFetched: true,
       },
     },

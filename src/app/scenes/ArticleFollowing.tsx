@@ -18,17 +18,29 @@ export const ArticleFollowing: React.FunctionComponent = () => {
   const itemCountPerPage = 24;
 
   const dispatch = useDispatch();
-  const page = useSelector(getPageQuery);
-  const channelItems = useSelector(getChannelItems);
-  const articleItems = useSelector(getArticleItems);
-  const { channelFetchStatus, articleFetchStatus, itemCount } = useSelector((state: RidiSelectState) => ({
-    itemCount: state.articleFollowing.itemCount ? state.articleFollowing.itemCount : 1,
-    channelFetchStatus: state.articleFollowing.fetchStatus,
-    articleFetchStatus:
-      state.articleFollowing.followingArticleList && state.articleFollowing.followingArticleList.itemListByPage[page]
-        ? state.articleFollowing.followingArticleList.itemListByPage[page].fetchStatus
-        : FetchStatusFlag.IDLE,
-  }));
+  const {
+    page,
+    channelFetchStatus,
+    articleFetchStatus,
+    itemCount,
+    channelItems,
+    articleItems,
+  } = useSelector((state: RidiSelectState) => {
+    const pageFromQuery = getPageQuery(state);
+    const followingArticleListByPage = state.articleFollowing.followingArticleList && state.articleFollowing.followingArticleList.itemListByPage[pageFromQuery]
+        ? state.articleFollowing.followingArticleList.itemListByPage[pageFromQuery]
+        : null;
+    const followingArticleListFetchStatus = followingArticleListByPage ? followingArticleListByPage.fetchStatus : FetchStatusFlag.IDLE;
+
+    return {
+      page: pageFromQuery,
+      itemCount: state.articleFollowing.itemCount ? state.articleFollowing.itemCount : 1,
+      channelFetchStatus: state.articleFollowing.fetchStatus,
+      articleFetchStatus: followingArticleListFetchStatus,
+      channelItems: getChannelItems(state),
+      articleItems: getArticleItems(state),
+    };
+  });
 
   React.useEffect(() => {
     if (channelFetchStatus === FetchStatusFlag.IDLE) {

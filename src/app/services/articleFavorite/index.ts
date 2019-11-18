@@ -1,10 +1,10 @@
 import { FetchStatusFlag } from 'app/constants';
 import { Article } from 'app/services/article';
 import { FavoriteArticleListResponse } from 'app/services/articleFavorite/requests';
-import { ArticleId, Paginated } from 'app/types';
+import { ArticleKey, Paginated } from 'app/types';
+import { getArticleKeyFromData } from 'app/utils/utils';
 import { Method } from 'axios';
 import { createAction, createReducer } from 'redux-act';
-import { ArticleChannel } from '../articleChannel';
 
 export const Actions = {
   loadFavoriteArticleListRequest : createAction<{
@@ -28,10 +28,10 @@ interface FavoriteArticleAction {
 export interface FavoriteArticle {
   id: number;
   articleId: number;
-  article: Article & { channel: ArticleChannel};
+  article: Article;
 }
 
-export interface FavoriteArticleListState extends Paginated<ArticleId> {}
+export interface FavoriteArticleListState extends Paginated<ArticleKey> {}
 
 export const INITIAL_STATE: FavoriteArticleListState = {
   itemListByPage: {},
@@ -45,8 +45,8 @@ favoriteArticleListReducer.on(Actions.loadFavoriteArticleListRequest, (state, ac
     itemListByPage: {
       ...state.itemListByPage,
       [page]: {
+        ...state.itemListByPage[page],
         fetchStatus: FetchStatusFlag.FETCHING,
-        itemList: [],
         isFetched: false,
       },
     },
@@ -62,7 +62,7 @@ favoriteArticleListReducer.on(Actions.loadFavoriteArticleListSuccess, (state, ac
       itemCount: response.totalCount,
       [page]: {
         fetchStatus: FetchStatusFlag.IDLE,
-        itemList: response.results.map((item) => item.articleId),
+        itemList: response.results.map((article) => getArticleKeyFromData(article)),
         isFetched: true,
       },
     },

@@ -21,7 +21,6 @@ export interface AuthorResponse {
 
 export interface ArticleResponse extends Article {
   author?: AuthorResponse;
-  channel?: ChannelResponse;
   content?: string;
   teaserContent?: string;
 }
@@ -42,8 +41,8 @@ export const requestArticles = (requestQueries?: ArticleRequestQueries): Promise
   }).then((response) => camelize<AxiosResponse<ArticleListResponse>>(response, { recursive: true }).data);
 };
 
-export const requestArticleWithId = (articleId: number, requestQueries?: ArticleRequestQueries): Promise<ArticleResponse> => {
-  const requestUrl = `/article/articles/${articleId}${buildArticleRequestQueriesToString(requestQueries)}`;
+export const requestSingleArticle = (channelName: string, contentIndex: number, requestQueries?: ArticleRequestQueries): Promise<ArticleResponse> => {
+  const requestUrl = `/article/articles/@${channelName}/${contentIndex}${buildArticleRequestQueriesToString(requestQueries)}`;
 
   return request({
     url: requestUrl,

@@ -1,41 +1,51 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import { Actions } from 'app/services/article';
-import { ArticleResponse, requestArticleWithId } from 'app/services/article/requests';
+import { ArticleResponse, requestSingleArticle } from 'app/services/article/requests';
 import { refineArticleJSON } from 'app/utils/utils';
 
 export function* loadArticle({ payload }: ReturnType<typeof Actions.loadArticleRequest>) {
-  const { articleId, requestQueries } = payload;
+  const { channelName, contentIndex, requestQueries } = payload;
   try {
-    const response: ArticleResponse = yield call(requestArticleWithId, articleId, requestQueries);
-    const {id, title, regDate, lastModified, channelId, thumbnailUrl, authorId } = response;
+    const response: ArticleResponse = yield call(requestSingleArticle, channelName, contentIndex, requestQueries);
+    const {id, title, regDate, contentId, lastModified, channelId, thumbnailUrl, authorId, url, channel } = response;
+
     if (response.content) {
       yield put(Actions.updateArticleContent({
-        articleId,
+        channelName,
+        contentIndex,
         content: refineArticleJSON(JSON.parse(response.content)),
       }));
     }
+
     if (response.teaserContent) {
       yield put(Actions.updateArticleTeaserContent({
-        articleId,
+        channelName,
+        contentIndex,
         teaserContent: refineArticleJSON(JSON.parse(response.teaserContent)),
       }));
     }
+
     yield put(Actions.loadArticleSuccess({
-      articleId,
+      channelName,
+      contentIndex,
       articleResponse: {
         id,
         title,
         regDate,
+        contentId,
         lastModified,
         channelId,
         thumbnailUrl,
         authorId,
+        channel,
+        url,
       },
     }));
   } catch (error) {
     yield put(Actions.loadArticleFailure({
-      articleId,
+      channelName,
+      contentIndex,
     }));
   }
 }

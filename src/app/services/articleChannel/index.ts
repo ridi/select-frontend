@@ -48,6 +48,7 @@ export const Actions = {
 
 export interface ArticleChannel {
   id: number;
+  name: string;
   displayName: string;
   description?: string;
   regDate: DateDTO;

@@ -1,18 +1,19 @@
 import { Method } from 'axios';
+import * as classNames from 'classnames';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Icon } from '@ridi/rsg';
+
 import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { ArticleResponse } from 'app/services/article/requests';
-import { ArticleChannel } from 'app/services/articleChannel';
 import { Actions } from 'app/services/articleFavorite';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
 import { buildDateDistanceFormat } from 'app/utils/formatDate';
-import * as classNames from 'classnames';
+import { getArticleKeyFromData } from 'app/utils/utils';
 
 interface Props {
   pageTitleForTracking?: string;
@@ -61,10 +62,10 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
       )}
     >
       {articles.map((article, idx) => {
+        const articleUrl = `/article/${getArticleKeyFromData(article)}`;
         const channelMeta = articleChannelById &&
           articleChannelById[article.channelId] &&
           articleChannelById[article.channelId].channelMeta;
-
         return (
           <li className="GridArticleItem" key={idx}>
             <ConnectedTrackImpression
@@ -73,7 +74,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
               id={article.id}
             >
               <ArticleThumbnail
-                linkUrl={article.url}
+                linkUrl={articleUrl}
                 imageUrl={article.thumbnailUrl}
                 articleTitle={article.title}
               />
@@ -84,7 +85,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                   </div>
                 ) : null}
                 <Link
-                  to={article.url}
+                  to={articleUrl}
                   className="GridArticleItem_Link"
                 >
                   <p className="GridArticleItem_Title">

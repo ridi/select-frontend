@@ -1,5 +1,5 @@
+import { Article } from 'app/types/ridi-prosemirror-editor.d';
 import { flatMap } from 'lodash-es';
-import { selectIsInApp } from './../services/environment/selectors';
 
 import { ArticleContentJSON } from '@ridi/ridi-prosemirror-editor';
 import { ArticleContent } from 'app/services/article';
@@ -88,4 +88,11 @@ export function refineArticleJSON(articleJSON: ArticleContentJSON): ArticleConte
     title: articleTitle,
     json: articleContent,
   };
+}
+
+export function getArticleKeyFromData(article: Article): string {
+  const channelName = article.channel.name;
+  const contentIndex = article.contentId;
+
+  return `@${channelName}/${contentIndex}`;
 }
