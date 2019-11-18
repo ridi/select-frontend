@@ -59,6 +59,7 @@ export interface ArticleChannel {
   followersCount?: number;
   isFollowing?: boolean;
   articles?: ArticleResponse[];
+  isEnable?: boolean;
 }
 
 export interface ArticleChannelStateItem extends Paginated<ArticleId> {

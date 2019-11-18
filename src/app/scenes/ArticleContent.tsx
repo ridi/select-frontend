@@ -25,10 +25,7 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
     return (
       articleState &&
       articleState.contentFetchStatus !== FetchStatusFlag.FETCHING &&
-      articleState.contentFetchStatus === FetchStatusFlag.IDLE && (
-        articleState.content ||
-        articleState.teaserContent
-      )
+      articleState.contentFetchStatus === FetchStatusFlag.IDLE && articleState.content
     );
   };
 
@@ -45,10 +42,12 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
     }));
   }, []);
 
-  return (
+  return articleState && articleState.article ? (
     <main className="SceneWrapper PageArticleContent">
-      <h1 className="ArticleContent_Title">{articleState && articleState.article ? articleState.article.title : ''}</h1>
-      <ArticleCannelInfoHeader />
+      <h1 className="ArticleContent_Title">{articleState.article.title}</h1>
+      {articleState.article.channelId ? (
+        <ArticleCannelInfoHeader channelId={articleState.article.channelId} />
+      ) : null}
       {checkIsFetched() && articleState && articleState.content ? (
         <>
           <Article
@@ -90,5 +89,5 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
         description="컨텐츠 내용이 비어있습니다."
       />}
     </main>
-  );
+  ) : null;
 };

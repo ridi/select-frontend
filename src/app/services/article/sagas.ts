@@ -2,6 +2,7 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import { Actions } from 'app/services/article';
 import { ArticleResponse, requestSingleArticle } from 'app/services/article/requests';
+import { Actions as ChannelActions } from 'app/services/articleChannel';
 import { refineArticleJSON } from 'app/utils/utils';
 
 export function* loadArticle({ payload }: ReturnType<typeof Actions.loadArticleRequest>) {
@@ -12,6 +13,9 @@ export function* loadArticle({ payload }: ReturnType<typeof Actions.loadArticleR
       channelName,
       contentIndex,
       content: response && response.content ? refineArticleJSON(JSON.parse(response.content)) : undefined,
+    }));
+    yield put(ChannelActions.updateChannelDetail({
+      channels: [response.channel],
     }));
     yield response.content = undefined;
     yield put(Actions.loadArticleSuccess({
