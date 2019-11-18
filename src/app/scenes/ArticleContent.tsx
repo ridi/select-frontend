@@ -6,6 +6,7 @@ import { Article } from '@ridi/ridi-prosemirror-editor';
 import { Button, Icon } from '@ridi/rsg';
 
 import { ArticleCannelInfoHeader } from 'app/components/ArticleChannels/ArticleCannelInfoHeader';
+import { ArticleEmpty } from 'app/components/ArticleEmpty';
 import { FetchStatusFlag } from 'app/constants';
 import { Actions } from 'app/services/article';
 import { RidiSelectState } from 'app/store';
@@ -24,10 +25,7 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
     return (
       articleState &&
       articleState.contentFetchStatus !== FetchStatusFlag.FETCHING &&
-      articleState.contentFetchStatus === FetchStatusFlag.IDLE && (
-        articleState.content ||
-        articleState.teaserContent
-      )
+      articleState.contentFetchStatus === FetchStatusFlag.IDLE && articleState.content
     );
   };
 
@@ -44,12 +42,14 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
     }));
   }, []);
 
-  return (
+  return articleState && articleState.article ? (
     <main className="SceneWrapper PageArticleContent">
+      <h1 className="ArticleContent_Title">{articleState.article.title}</h1>
+      {articleState.article.channelId ? (
+        <ArticleCannelInfoHeader channelId={articleState.article.channelId} />
+      ) : null}
       {checkIsFetched() && articleState && articleState.content ? (
         <>
-          <h1 className="ArticleContent_Title">{articleState.content.title}</h1>
-          <ArticleCannelInfoHeader />
           <Article
             json={articleState.content.json}
             classes={['RidiselectArticle']}
@@ -84,7 +84,10 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
             </li>
           </ul>
         </>
-      ) : null}
+      ) : <ArticleEmpty
+        iconName="document"
+        description="컨텐츠 내용이 비어있습니다."
+      />}
     </main>
-  );
+  ) : null;
 };

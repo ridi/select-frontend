@@ -1,9 +1,9 @@
 import { createAction, createReducer } from 'redux-act';
 
 import { ArticleContentJSON } from '@ridi/ridi-prosemirror-editor';
+
 import { FetchStatusFlag } from 'app/constants';
-import { AuthorResponse } from 'app/services/article/requests';
-import { ArticleChannel } from 'app/services/articleChannel';
+import { ArticleResponse, AuthorResponse } from 'app/services/article/requests';
 import { ArticleRequestQueries, DateDTO } from 'app/types';
 import { getArticleKeyFromData } from 'app/utils/utils';
 
@@ -22,18 +22,13 @@ export const Actions = {
     channelName: string;
     contentIndex: number;
   }>('loadArticleDetailFailure'),
-  updateArticleTeaserContent: createAction<{
-    channelName: string;
-    contentIndex: number;
-    teaserContent: ArticleContent,
-  }>('updateArticleTeaserContent'),
   updateArticleContent: createAction<{
     channelName: string;
     contentIndex: number;
-    content: ArticleContent,
+    content?: ArticleContent,
   }>('updateArticleContent'),
   updateArticles: createAction<{
-    articles: Article[],
+    articles: ArticleResponse[],
   }>('updateArticles'),
   updateFavoriteArticleStatus: createAction<{
     channelName: string;
@@ -43,7 +38,6 @@ export const Actions = {
 };
 
 export interface ArticleContent {
-  title: string;
   json: ArticleContentJSON;
 }
 
@@ -53,23 +47,20 @@ export interface Article {
   regDate: DateDTO;
   lastModified: DateDTO;
   channelId: number;
+  channelName: string;
   contentId: number;
   url: string;
   thumbnailUrl: string;
-  channel: ArticleChannel;
   authorId?: number;
   author?: AuthorResponse;
   isFavorite?: boolean;
+  isEnabled?: boolean;
 }
 
-export interface StaticArticleState {
+export interface ArticleItemState {
   article?: Article;
   content?: ArticleContent;
-  teaserContent?: ArticleContent;
   recommendedArticles?: Article[];
-}
-
-export interface ArticleItemState extends StaticArticleState {
   contentFetchStatus: FetchStatusFlag;
 }
 
@@ -102,7 +93,7 @@ articleReducer.on(Actions.loadArticleSuccess, (state, action) => {
     ...state,
     [contentKey]: {
       ...state[contentKey],
-      ...articleResponse,
+      article: !!state[contentKey] ? { ...state[contentKey].article, ...articleResponse } : articleResponse,
       contentFetchStatus: FetchStatusFlag.IDLE,
     },
   };
@@ -135,27 +126,14 @@ articleReducer.on(Actions.updateArticleContent, (state, action) => {
   };
 });
 
-articleReducer.on(Actions.updateArticleTeaserContent, (state, action) => {
-  const { channelName, contentIndex, teaserContent } = action;
-  const contentKey = `@${channelName}/${contentIndex}`;
-
-  return {
-    ...state,
-    [contentKey]: {
-      ...state[contentKey],
-      contentFetchStatus: FetchStatusFlag.IDLE,
-      teaserContent,
-    },
-  };
-});
-
 articleReducer.on(Actions.updateArticles, (state, action) => {
   const { articles = [] } = action;
   const newState: ArticlesState = articles.reduce((prev, article) => {
     const contentKey = getArticleKeyFromData(article);
+    const { channel, content, ...restData } = article;
     prev[contentKey] = {
       ...state[contentKey],
-      article: !!state[contentKey] ? { ...state[contentKey].article, ...article } : article,
+      article: !!state[contentKey] ? { ...state[contentKey].article, ...restData } : restData,
     };
     return prev;
   }, state);

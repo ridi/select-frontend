@@ -70,7 +70,6 @@ export function moveToLogin(additionalReturnUrl?: string) {
 }
 
 export function refineArticleJSON(articleJSON: ArticleContentJSON): ArticleContent {
-  let articleTitle = '';
   const articleContent: ArticleContentJSON = {
     type: articleJSON.type,
     content: [],
@@ -78,20 +77,18 @@ export function refineArticleJSON(articleJSON: ArticleContentJSON): ArticleConte
 
   articleJSON.content.forEach((content: any) => {
     if (content.type === 'title') {
-      articleTitle = content.content[0].text;
       return;
     }
     articleContent.content.push(content);
   });
 
   return {
-    title: articleTitle,
     json: articleContent,
   };
 }
 
 export function getArticleKeyFromData(article: Article): string {
-  const channelName = article.channel.name;
+  const channelName = article.channelName;
   const contentIndex = article.contentId;
 
   return `@${channelName}/${contentIndex}`;
