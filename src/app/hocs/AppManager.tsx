@@ -31,8 +31,8 @@ export class AppManager extends React.Component<Props> {
   private updateAppStatus = () => {
     const { location, appStatus, dispatchUpdateAppStatus } = this.props;
     if (appStatus === AppStatus.Books && location.pathname.indexOf('/article/') >= 0) {
-      dispatchUpdateAppStatus(AppStatus.Article);
-    } else if (appStatus === AppStatus.Article && location.pathname.indexOf('/article/') < 0) {
+      dispatchUpdateAppStatus(AppStatus.Articles);
+    } else if (appStatus === AppStatus.Articles && location.pathname.indexOf('/article/') < 0) {
       dispatchUpdateAppStatus(AppStatus.Books);
     }
   }
