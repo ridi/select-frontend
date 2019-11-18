@@ -90,10 +90,6 @@ export function refineArticleJSON(articleJSON: ArticleContentJSON): ArticleConte
   };
 }
 
-export function buildArticleKey(urlKeys: ArticleUrlKey): string {
-  return `@${urlKeys.channelName}/${urlKeys.contentIndex}`;
-}
-
 export function getArticleKeyFromData(article: Article): string {
   const channelName = article.channel.name;
   const contentIndex = article.contentId;

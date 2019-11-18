@@ -5,7 +5,7 @@ import { FetchStatusFlag } from 'app/constants';
 import { AuthorResponse } from 'app/services/article/requests';
 import { ArticleChannel } from 'app/services/articleChannel';
 import { ArticleRequestQueries, DateDTO } from 'app/types';
-import { buildArticleKey, getArticleKeyFromData } from 'app/utils/utils';
+import { getArticleKeyFromData } from 'app/utils/utils';
 
 export const Actions = {
   loadArticleRequest: createAction<{
@@ -88,7 +88,7 @@ export const articleReducer = createReducer<typeof INITIAL_ARTICLE_STATE>({}, IN
 
 articleReducer.on(Actions.loadArticleRequest, (state, action) => {
   const { channelName, contentIndex } = action;
-  const contentKey = buildArticleKey({ channelName, contentIndex });
+  const contentKey = `@${channelName}/${contentIndex}`;
 
   return {
     ...state,
@@ -101,7 +101,7 @@ articleReducer.on(Actions.loadArticleRequest, (state, action) => {
 
 articleReducer.on(Actions.loadArticleSuccess, (state, action) => {
   const { channelName, contentIndex, articleResponse } = action;
-  const contentKey = buildArticleKey({ channelName, contentIndex });
+  const contentKey = `@${channelName}/${contentIndex}`;
 
   return {
     ...state,
@@ -115,7 +115,7 @@ articleReducer.on(Actions.loadArticleSuccess, (state, action) => {
 
 articleReducer.on(Actions.loadArticleFailure, (state, action) => {
   const { channelName, contentIndex } = action;
-  const contentKey = buildArticleKey({ channelName, contentIndex });
+  const contentKey = `@${channelName}/${contentIndex}`;
 
   return {
     ...state,
@@ -128,7 +128,7 @@ articleReducer.on(Actions.loadArticleFailure, (state, action) => {
 
 articleReducer.on(Actions.updateArticleContent, (state, action) => {
   const { channelName, contentIndex, content } = action;
-  const contentKey = buildArticleKey({ channelName, contentIndex });
+  const contentKey = `@${channelName}/${contentIndex}`;
 
   return {
     ...state,
@@ -142,7 +142,7 @@ articleReducer.on(Actions.updateArticleContent, (state, action) => {
 
 articleReducer.on(Actions.updateArticleTeaserContent, (state, action) => {
   const { channelName, contentIndex, teaserContent } = action;
-  const contentKey = buildArticleKey({ channelName, contentIndex });
+  const contentKey = `@${channelName}/${contentIndex}`;
 
   return {
     ...state,
@@ -169,7 +169,7 @@ articleReducer.on(Actions.updateArticles, (state, action) => {
 
 articleReducer.on(Actions.updateFavoriteArticleStatus, (state, action) => {
   const { channelName, contentIndex, isFavorite } = action;
-  const contentKey = buildArticleKey({ channelName, contentIndex });
+  const contentKey = `@${channelName}/${contentIndex}`;
   return {
     ...state,
     [contentKey]: {

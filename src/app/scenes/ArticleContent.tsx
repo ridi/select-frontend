@@ -7,10 +7,9 @@ import { Button, Icon } from '@ridi/rsg';
 
 import { ArticleCannelInfoHeader } from 'app/components/ArticleChannels/ArticleCannelInfoHeader';
 import { FetchStatusFlag } from 'app/constants';
-import { Actions, ArticleUrlKey } from 'app/services/article';
+import { Actions } from 'app/services/article';
 import { RidiSelectState } from 'app/store';
 import { ArticleRequestIncludableData } from 'app/types';
-import { buildArticleKey } from 'app/utils/utils';
 
 type RouteProps = RouteComponentProps<{ channelName: string; contentIndex: string }>;
 
@@ -18,7 +17,7 @@ type OwnProps = RouteProps & {};
 
 export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
   const { channelName, contentIndex } = props.match.params;
-  const contentKey = buildArticleKey({ channelName, contentIndex: Number(contentIndex) });
+  const contentKey = `@${channelName}/${Number(contentIndex)}`;
   const articleState = useSelector((state: RidiSelectState) => state.articlesById[contentKey]);
   const dispatch = useDispatch();
   const checkIsFetched = () => {
