@@ -8,6 +8,7 @@ import { ThumbnailShape } from 'app/components/ArticleThumbnail/types';
 
 interface ArticleThumbnailProps {
   thumbnailShape?: ThumbnailShape;
+  thumbnailClassName?: string;
   imageClassName?: string;
   linkUrl: string;
   imageUrl: string;
@@ -21,6 +22,7 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
     articleTitle,
     imageClassName,
     thumbnailShape = ThumbnailShape.RECTANGLE,
+    thumbnailClassName,
   } = props;
 
   return (
@@ -28,6 +30,7 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
       className={classNames(
         'ArticleThumbnail_Wrapper',
         `ArticleThumbnail_Wrapper-${thumbnailShape}`,
+        thumbnailClassName,
       )}
     >
       <Link

@@ -80,7 +80,7 @@ export class InstantSearch extends React.PureComponent<InstantSearchProps> {
                 >
                   <Link
                     className="InstantSearchedName"
-                    to={`${articleContentToPath({channelName: article.channelName, contentId: article.contentId})}?q=${encodeURIComponent(keyword)}&s=instant`}
+                    to={`${articleContentToPath({channelName: article.channelName, contentIndex: article.contentId})}?q=${encodeURIComponent(keyword)}&s=instant`}
                   >
                     <span
                       className="InstantSearchTitle"
