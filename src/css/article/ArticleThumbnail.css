@@ -24,5 +24,10 @@
   height: auto;
   top: 0;
   left: 0;
+
+  @nest .ArticleThumbnail_Wrapper-square & {
+    width: auto;
+    height: 100%;
+  }
 }
 
