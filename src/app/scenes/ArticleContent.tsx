@@ -25,7 +25,8 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
     return (
       articleState &&
       articleState.contentFetchStatus !== FetchStatusFlag.FETCHING &&
-      articleState.contentFetchStatus === FetchStatusFlag.IDLE && articleState.content
+      articleState.contentFetchStatus === FetchStatusFlag.IDLE &&
+      articleState.content
     );
   };
 
@@ -37,7 +38,10 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
       channelName,
       contentIndex: Number(contentIndex),
       requestQueries: {
-        includes: [ArticleRequestIncludableData.CONTENT],
+        includes: [
+          ArticleRequestIncludableData.CONTENT,
+          ArticleRequestIncludableData.AUTHORS,
+        ],
       },
     }));
   }, []);
@@ -46,7 +50,10 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
     <main className="SceneWrapper PageArticleContent">
       <h1 className="ArticleContent_Title">{articleState.article.title}</h1>
       {articleState.article.channelId ? (
-        <ArticleCannelInfoHeader channelId={articleState.article.channelId} />
+        <ArticleCannelInfoHeader
+          channelId={articleState.article.channelId}
+          contentKey={contentKey}
+        />
       ) : null}
       {checkIsFetched() && articleState && articleState.content ? (
         <>

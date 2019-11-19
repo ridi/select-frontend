@@ -59,31 +59,10 @@
     font-weight: 400;
     line-height: var(--lnb_mobile_height);
   }
-  &::after {
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    width: 100%;
-    height: 0;
-    content: '';
-    transition: height .2s;
-  }
   &:focus .reset-heading,
   &:active .reset-heading,
   &:visited .reset-heading {
     color: #000;
-  }
-  @media (hover: hover) {
-    &:hover::after {
-      height: 3px;
-      background: var(--bluegray_60);
-    }
-  }
-  @media (hover: none) {
-    &:active::after {
-      height: 3px;
-      background: var(--bluegray_60);
-    }
   }
   &.LnbMenu_Link-active {
     & .reset-heading {
