@@ -1,32 +1,32 @@
+import { Button, Icon } from '@ridi/rsg';
+import { HelmetWithTitle, Pagination } from 'app/components';
+import { SearchResultArticleList } from 'app/components/SearchResult/SearchResultArticleList';
+import { SearchResultBookList } from 'app/components/SearchResult/SearchResultBookList';
+import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
+import { AppStatus } from 'app/services/app';
+import { ArticlesState } from 'app/services/article';
+import { BookState } from 'app/services/book';
+import { Actions as CommonUIActions, GNBSearchActiveType } from 'app/services/commonUI';
+import { EnvironmentState } from 'app/services/environment';
+import { getPageQuery } from 'app/services/routing/selectors';
+import { Actions as SearchResultActions, SearchResultArticle, SearchResultBook, SearchResultState } from 'app/services/searchResult';
+import { RidiSelectState } from 'app/store';
+import * as classNames from 'classnames';
+import * as qs from 'qs';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
-import * as qs from 'qs';
-import MediaQuery from 'react-responsive';
-
-import { HelmetWithTitle, Pagination } from 'app/components';
-import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
-
-import { BookState } from 'app/services/book';
-import { Actions as CommonUIActions, GNBSearchActiveType } from 'app/services/commonUI';
-
-import { SearchResultBookList } from 'app/components/SearchResult/SearchResultBookList';
-import { EnvironmentState } from 'app/services/environment';
-import { Actions as SearchResultActions, SearchResultBook, SearchResultState } from 'app/services/searchResult';
-
-import { Button, Icon } from '@ridi/rsg';
-import { getPageQuery } from 'app/services/routing/selectors';
-import { RidiSelectState } from 'app/store';
-import * as classNames from 'classnames';
-
 interface SearchResultStateProps {
   books: BookState;
+  articles: ArticlesState;
   searchResult: SearchResultState;
   environment: EnvironmentState;
   page: number;
+  appStatus: AppStatus;
 }
 
 type OwnProps = RouteComponentProps;
@@ -34,10 +34,12 @@ type Props = SearchResultStateProps & ReturnType<typeof mapDispatchToProps> & Ow
 
 interface QueryString {
   'q'?: string;
+  'type'?: string;
 }
 
 interface State {
   query: string;
+  type: string;
 }
 
 export class SearchResult extends React.Component<Props, State> {
@@ -45,6 +47,7 @@ export class SearchResult extends React.Component<Props, State> {
 
   public state: State = {
     query: '',
+    type: 'books',
   };
 
   private isListExist(list: any[]) {
@@ -70,11 +73,12 @@ export class SearchResult extends React.Component<Props, State> {
   }
 
   private isFetched = (query: string, page: number) => {
-    const { searchResult } = this.props;
+    const { searchResult, appStatus } = this.props;
+    const appType = appStatus === AppStatus.Books ? 'books' : 'articles';
     return (
-      searchResult[query] &&
-      searchResult[query].itemListByPage[page] &&
-      searchResult[query].itemListByPage[page].isFetched
+      searchResult[appType][query] &&
+      searchResult[appType][query].itemListByPage[page] &&
+      searchResult[appType][query].itemListByPage[page].isFetched
     );
   }
 
@@ -87,26 +91,26 @@ export class SearchResult extends React.Component<Props, State> {
         this.setState({ query: newQueryString.q });
       }
     });
-    this.setState({ query: queryString.q || '' });
+    this.setState({ query: queryString.q || '', type: (queryString.type!).toLowerCase() || 'books' });
   }
 
   public componentDidMount() {
     const { dispatchRequestSearchResult, page } = this.props;
-    const { query } = this.state;
+    const { query, type } = this.state;
     if (!this.isFetched(query, page)) {
-      dispatchRequestSearchResult(query, page);
+      dispatchRequestSearchResult(query, page, type.substring(0, type.length - 1));
     }
   }
 
   public shouldComponentUpdate(nextProps: Props, nextState: State) {
     const { query } = this.state;
-    const { query: nextQuery } = nextState;
+    const { query: nextQuery, type } = nextState;
 
     if ((query !== nextQuery) || (nextProps.page !== this.props.page)) {
       const { dispatchRequestSearchResult, page } = nextProps;
 
       if (!this.isFetched(nextQuery, page)) {
-        dispatchRequestSearchResult(nextQuery, page);
+        dispatchRequestSearchResult(nextQuery, page, type.substring(0, type.length - 1));
       }
     }
     return true;
@@ -118,10 +122,17 @@ export class SearchResult extends React.Component<Props, State> {
   }
 
   public render() {
-    const { books, searchResult, page, environment } = this.props;
-    const { query } = this.state;
+    const { books, articles, searchResult, page, environment, appStatus } = this.props;
+    const { query, type } = this.state;
 
-    const itemCount: any = searchResult[query] ? searchResult[query].itemCount : undefined;
+    let searchResultData;
+    if (type === 'books') {
+      searchResultData = searchResult.books;
+    } else {
+      searchResultData = searchResult.articles;
+    }
+
+    const itemCount: any = searchResultData[query] ? searchResultData[query].itemCount : undefined;
     const itemCountPerPage: number = 24;
 
     return (
@@ -134,47 +145,66 @@ export class SearchResult extends React.Component<Props, State> {
         )}
       >
         <HelmetWithTitle titleName={!!query ? `'${query}' 검색 결과` : null} />
-        <h1 className="a11y">{`'`}<strong>{query}</strong>{`'에 대한 도서 검색 결과`}</h1>
+        <h1 className="a11y">{`'`}<strong>{query}</strong>{`'에 대한 검색 결과`}</h1>
         {(
             !this.isFetched(query, page) || isNaN(page)
         ) ? (
           <LandscapeBookListSkeleton />
         ) : (
-          this.isListExist(searchResult[query].itemListByPage[page].itemList) ? (
+          this.isListExist(searchResultData[query].itemListByPage[page].itemList) ? (
             <>
-              <p className="PageSearchResult_Title">
-                {`'`}<strong>{query}</strong>{`'에 대한 도서 검색 결과`}
-              </p>
-              <SearchResultBookList
-                keyword={query}
-                books={searchResult[query].itemListByPage[page].itemList.map((item): SearchResultBook => {
-                  return {
-                    ...books[item.bookId].book!,
-                    highlight: item.highlight,
-                    publisher: item.publisher,
-                  };
-                })}
-              />
-              {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={840}>
-                {
-                  (isMobile) => <Pagination
-                    currentPage={page}
-                    totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                    isMobile={isMobile}
-                    item={{
-                      el: Link,
-                      getProps: (p): LinkProps => ({
-                        to: `/search?q=${query}&page=${p}`,
-                      }),
-                    }}
-                  />
-                }
-              </MediaQuery>}
-            </>
-          ) : this.renderEmpty()
+            {type === 'books' ? (
+              <>
+                <p className="PageSearchResult_Title">
+                  {`'`}<strong>{query}</strong>{`'에 대한 도서 검색 결과`}
+                </p>
+                <SearchResultBookList
+                  keyword={query}
+                  books={searchResult.books[query].itemListByPage[page].itemList.map((item): SearchResultBook => {
+                    return {
+                      ...books[item.bookId].book!,
+                      highlight: item.highlight,
+                      publisher: item.publisher,
+                    };
+                  })}
+                />
+              </>
+            ) : (
+              <>
+                <p className="PageSearchResult_Title">
+                  {`'`}<strong>{query}</strong>{`' 아티클 검색 결과`}
+                </p>
+                <SearchResultArticleList
+                  keyword={query}
+                  articles={searchResult.articles[query].itemListByPage[page].itemList.map((item): SearchResultArticle => {
+                    return {
+                      ...articles[item.contentKey].article!,
+                      highlight: item.highlight,
+                    };
+                  })}
+                />
+              </>
+            )}
+            {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={840}>
+              {
+                (isMobile) => <Pagination
+                  currentPage={page}
+                  totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                  isMobile={isMobile}
+                  item={{
+                    el: Link,
+                    getProps: (p): LinkProps => ({
+                      to: `/search?q=${query}&page=${p}&type=${appStatus}`,
+                    }),
+                  }}
+                />
+              }
+            </MediaQuery>}
+          </>) : this.renderEmpty()
         )}
         {
           !environment.platform.isRidibooks &&
+          type === 'books' &&
           <Button
             color="blue"
             outline={true}
@@ -198,15 +228,17 @@ export class SearchResult extends React.Component<Props, State> {
 const mapStateToProps = (rootState: RidiSelectState): SearchResultStateProps => {
   return {
     books: rootState.booksById,
+    articles: rootState.articlesById,
     searchResult: rootState.searchResult,
     environment: rootState.environment,
     page: getPageQuery(rootState),
+    appStatus: rootState.app.appStatus,
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    dispatchRequestSearchResult: (keyword: string, page: number) =>
-      dispatch(SearchResultActions.queryKeywordRequest({ keyword, page })),
+    dispatchRequestSearchResult: (keyword: string, page: number, type: string) =>
+      dispatch(SearchResultActions.queryKeywordRequest({ keyword, page, type })),
     dispatchUpdateGNBSearchActiveType: (type: GNBSearchActiveType) =>
       dispatch(CommonUIActions.updateSearchActiveType({ gnbSearchActiveType: type })),
   };

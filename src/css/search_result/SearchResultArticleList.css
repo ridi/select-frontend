@@ -1,0 +1,76 @@
+
+.SearchResultArticleList {
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid #e6e8eb;
+
+  @media (--pc-screen) {
+    max-width: 800px;
+    margin: 0 auto;
+    border-top: 2px solid #e6e8eb;
+  }
+}
+
+.SearchResultArticleList_Meta {
+  flex: 1;
+  flex-direction: column;
+  margin-left: 20px;
+  text-decoration: none;
+}
+
+.SearchResultArticleList_Item {
+  padding: 15px 16px;
+  list-style: none;
+
+  & > .SearchResultArticleList_Link {
+    flex-direction: row;
+  }
+
+  & + .SearchResultArticleList_Item {
+    border-top: 1px solid #e6e8eb;
+  }
+}
+
+.SearchResultArticleList_Link {
+  display: flex;
+  align-items: start;
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.SearchResultArticleList_Thumbnail {
+  align-items: center;
+  overflow: hidden;
+}
+
+.SearchResultArticleList_Title {
+  @apply --reset-layout;
+
+  display: block;
+  margin-top: 20px;
+  color: #000;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+  word-wrap: break-word;
+}
+
+.SearchResultArticleList_Channel {
+  display: block;
+  margin-top: 8px;
+  color: #636c73;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 18px;
+  word-wrap: break-word;
+}
+
+.SearchResultArticleList_Author {
+  display: block;
+  margin-top: 6px;
+  color: #636c73;
+  font-size: 13px;
+  font-weight: 400;
+  word-wrap: break-word;
+}
+

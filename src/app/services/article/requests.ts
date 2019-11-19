@@ -33,9 +33,11 @@ export interface ArticleListResponse {
   results: ArticleResponse[];
 }
 
-export const requestArticles = (requestQueries?: ArticleRequestQueries): Promise<ArticleListResponse> => {
-  const requestUrl = `/article/articles${buildArticleRequestQueriesToString(requestQueries)}`;
-
+export const requestArticles = (requestQueries?: ArticleRequestQueries, articleIds?: number[]): Promise<ArticleListResponse> => {
+  let requestUrl = `/article/articles${buildArticleRequestQueriesToString(requestQueries)}`;
+  if (articleIds) {
+    requestUrl = `/article/articles/?ids=${articleIds}`;
+  }
   return request({
     url: requestUrl,
     method: 'GET',

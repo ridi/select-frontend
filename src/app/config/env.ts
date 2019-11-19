@@ -14,6 +14,7 @@ export default {
   PAY_URL: getEnv('PAY_URL', process.env.PAY_URL) || 'https://pay.ridibooks.com',
   PAY_API: getEnv('PAY_API', process.env.PAY_API) || 'https://pay-api.ridibooks.com',
   ACCOUNT_API: getEnv('ACCOUNT_API', process.env.ACCOUNT_API) || 'https://account.ridibooks.com',
+  SEARCH_API: getEnv('SEARCH_API', process.env.SEARCH_API) || 'https://search-api.ridibooks.com',
   OAUTH2_CLIENT_ID: process.env.OAUTH2_CLIENT_ID || '',
   FREE_PROMOTION_MONTHS: Number(process.env.FREE_PROMOTION_MONTHS) || 1,
 

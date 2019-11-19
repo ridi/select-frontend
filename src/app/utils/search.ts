@@ -3,7 +3,8 @@ const LOCAL_STORAGE_KEY = 'rs.search';
 export interface SearchLocalStorageData {
   history: {
     enabled: boolean;
-    keywordList: string[];
+    bookKeywordList: string[];
+    articleKeywordList: string[];
   };
 }
 
@@ -16,14 +17,16 @@ export const localStorageManager = (() => ({
     const localStorageData = localStorage.getItem(LOCAL_STORAGE_KEY) || '';
     const parsedLocalStorageData = localStorageData === '' ? {
       enabled: true,
-      keywordList: [],
+      bookKeywordList: [],
+      articleKeywordList: [],
     } : JSON.parse(localStorageData).history;
     const parseData: SearchLocalStorageData = {
       history: {
         enabled: (parsedLocalStorageData.enabled !== undefined) && (parsedLocalStorageData.enabled !== null) ?
           parsedLocalStorageData.enabled :
           true,
-        keywordList: parsedLocalStorageData.keywordList ? parsedLocalStorageData.keywordList : [],
+          bookKeywordList: parsedLocalStorageData.bookKeywordList ? parsedLocalStorageData.bookKeywordList : [],
+        articleKeywordList: parsedLocalStorageData.articleKeywordList ? parsedLocalStorageData.articleKeywordList : [],
       },
     };
     return {
@@ -34,7 +37,8 @@ export const localStorageManager = (() => ({
     const newData: SearchLocalStorageData = localStorageManager.load();
     newData.history = {
       enabled: state.history.enabled,
-      keywordList: state.history.keywordList,
+      bookKeywordList: state.history.bookKeywordList,
+      articleKeywordList: state.history.articleKeywordList,
     };
     try {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newData));
