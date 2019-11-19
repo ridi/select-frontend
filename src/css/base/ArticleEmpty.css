@@ -40,7 +40,7 @@
   font-size: 14px;
   font-weight: 700;
   letter-spacing: -.35px;
-  line-height: 28px;
+  line-height: 38px;
   text-decoration: none;
   width: 120px;
   height: 40px;
@@ -48,5 +48,6 @@
   border: solid 1px var(--dodgerblue_60);
   background-color: var(--dodgerblue_50);
   margin: 20px auto;
+  text-align: center;
 }
 
