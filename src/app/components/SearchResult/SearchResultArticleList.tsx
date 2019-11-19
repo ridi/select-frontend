@@ -1,7 +1,9 @@
 import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
 import { SearchResultArticle } from 'app/services/searchResult';
+import { RidiSelectState } from 'app/store';
 import { getArticleKeyFromData } from 'app/utils/utils';
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ThumbnailShape } from '../ArticleThumbnail/types';
 
@@ -12,6 +14,7 @@ interface Props {
 
 export const SearchResultArticleList: React.FunctionComponent<Props> = (props) => {
   const { keyword, articles } = props;
+  const channelState = useSelector((state: RidiSelectState) => state.articleChannelById);
 
   return (
     <ul className="SearchResultArticleList">
@@ -32,7 +35,7 @@ export const SearchResultArticleList: React.FunctionComponent<Props> = (props) =
               />
               <span
                 className="SearchResultArticleList_Channel"
-                dangerouslySetInnerHTML={{ __html: article.highlight.channelDisplayName || article.channel.displayName }}
+                dangerouslySetInnerHTML={{ __html: article.highlight.channelDisplayName || channelState[article.channelId].channelMeta!.displayName }}
               />
             </Link>
           </div>

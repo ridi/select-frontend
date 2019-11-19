@@ -414,7 +414,11 @@ export class Search extends React.Component<SearchProps, SearchState> {
     }
 
     if (currentHelperType === SearchHelperFlag.HISTORY) {
-      this.fullSearchWithKeyword(bookKeywordList[highlightIndex]);
+      if (appStatus === AppStatus.Books) {
+        this.fullSearchWithKeyword(bookKeywordList[highlightIndex]);
+      } else {
+        this.fullSearchWithKeyword(articleKeywordList[highlightIndex]);
+      }
     }
   }
 
