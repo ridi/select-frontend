@@ -70,7 +70,7 @@ export const ArticleFavorite: React.FunctionComponent = () => {
           </>
         ) : (
           <ArticleEmpty
-            iconName="list_1"
+            iconName="document"
             description="좋아한 아티클이 없습니다."
           />
         )}
