@@ -14,6 +14,7 @@ import { Actions as ArticleFavoriteActions } from 'app/services/articleFavorite'
 import { RidiSelectState } from 'app/store';
 import { ArticleRequestIncludableData } from 'app/types';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
+import toast from 'app/utils/toast';
 
 type RouteProps = RouteComponentProps<{ channelName: string; contentIndex: string }>;
 
@@ -39,6 +40,16 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
       articleState.contentFetchStatus === FetchStatusFlag.IDLE &&
       articleState.content
     );
+  };
+  const copyUrl = () => {
+    const domForCopyUrl = document.createElement('textarea');
+    domForCopyUrl.className = 'a11y';
+    domForCopyUrl.value = location.href;
+    document.body.appendChild(domForCopyUrl);
+    domForCopyUrl.select();
+    document.execCommand('copy');
+    document.body.removeChild(domForCopyUrl);
+    toast.success('현재 주소가 복사되었습니다.');
   };
 
   React.useEffect(() => {
@@ -108,6 +119,7 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
                 size="medium"
                 outline={true}
                 className="ArticleContent_Button ArticleContent_ShareButton"
+                onClick={copyUrl}
               >
                 <ShareSVG className="ArticleContent_ShareButton_Icon" />
                 공유하기
