@@ -25,7 +25,7 @@ interface Props {
   renderRegDate?: boolean;
   renderFavoriteButton?: boolean;
   isFullWidthAvailable?: boolean;
-
+  gridListSizeClassNames?: string;
 }
 export const GridArticleList: React.FunctionComponent<Props> = (props) => {
   const dispatch = useDispatch();
@@ -39,6 +39,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
     renderRegDate = false,
     renderFavoriteButton = false,
     isFullWidthAvailable = false,
+    gridListSizeClassNames,
   } = props;
 
   const section = !!pageTitleForTracking
@@ -59,6 +60,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
       className={classNames(
         'GridArticleList',
         isFullWidthAvailable && 'GridArticleList-fullWidthAvailable',
+        gridListSizeClassNames,
       )}
     >
       {articles.map((article, idx) => {

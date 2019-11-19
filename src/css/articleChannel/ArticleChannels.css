@@ -31,6 +31,10 @@
 .Channel_Link {
   text-decoration: none;
 }
+.Channel_Meta {
+  min-width: 0;
+}
+
 .Channel_Title {
   font-family: NotoSansCJKkr;
   font-size: 14px;
@@ -45,6 +49,9 @@
   font-size: 12px;
   letter-spacing: -.3px;
   color: var(--slategray_60);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .Channel_Follow {
   margin-left: auto;
@@ -59,6 +66,7 @@
   border: solid 1px var(--dodgerblue_50);
   background-color: #fff;
   color: var(--dodgerblue_50);
+  flex: none;
 }
 
 .FollowButton {
