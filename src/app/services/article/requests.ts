@@ -12,12 +12,10 @@ import { buildArticleRequestQueriesToString } from 'app/utils/request';
 export interface AuthorResponse {
   id: number;
   name: string;
-  url: string;
   description?: string;
   thumbnailUrl?: string;
   regDate: DateDTO;
   lastModified: DateDTO;
-  channelId: number;
 }
 
 export interface ArticleResponse extends Article {

@@ -52,7 +52,7 @@ export interface Article {
   url: string;
   thumbnailUrl: string;
   authorId?: number;
-  author?: AuthorResponse;
+  authors?: AuthorResponse[];
   isFavorite?: boolean;
   isEnabled?: boolean;
 }
