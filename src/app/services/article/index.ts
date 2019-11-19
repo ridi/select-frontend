@@ -55,6 +55,7 @@ export interface Article {
   authors?: AuthorResponse[];
   isFavorite?: boolean;
   isEnabled?: boolean;
+  favoritesCount?: number;
 }
 
 export interface ArticleItemState {
@@ -143,6 +144,14 @@ articleReducer.on(Actions.updateArticles, (state, action) => {
 articleReducer.on(Actions.updateFavoriteArticleStatus, (state, action) => {
   const { channelName, contentIndex, isFavorite } = action;
   const contentKey = `@${channelName}/${contentIndex}`;
+  let favoritesCount;
+
+  if (typeof state[contentKey].article!.favoritesCount === 'number') {
+    favoritesCount = isFavorite
+      ? state[contentKey].article!.favoritesCount! + 1
+      : state[contentKey].article!.favoritesCount! - 1;
+  }
+
   return {
     ...state,
     [contentKey]: {
@@ -150,6 +159,7 @@ articleReducer.on(Actions.updateFavoriteArticleStatus, (state, action) => {
       article: {
         ...state[contentKey].article!,
         isFavorite,
+        favoritesCount,
       },
     },
   };

@@ -50,9 +50,18 @@
   height: 10px;
   margin-right: 4px;
   fill: var(--slategray_30);
+  @nest .ArticleContent_LikeButton-active & {
+    fill: var(--red_40);
+  }
 }
 
-@media (max-width: 600px) {
+.ArticleContent_ShareButton_Icon {
+  width: 14px;
+  margin-right: 3px;
+  fill: var(--slategray_60);
+}
+
+@media (max-width: 640px) {
   .ArticleContent_Title {
     padding: 30px 20px 0;
   }
@@ -66,7 +75,7 @@
   }
 }
 
-@media (--mobile-screen) {
+@media (--mobile-layout) {
   .ArticleContent_ButtonsWrapper {
     padding: 30px 20px;
   }

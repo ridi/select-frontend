@@ -18,7 +18,8 @@
   & strong,
   & b,
   & i,
-  & u {
+  & u,
+  & figure {
     @apply --reset-layout;
 
     font-family: NotoSansCJKkr, sans-serif;
@@ -54,7 +55,7 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .RidiselectArticle {
     & > p,
     & > span,
