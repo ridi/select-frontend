@@ -6,7 +6,7 @@ import { RouteComponentProps } from 'react-router';
 import { Article } from '@ridi/ridi-prosemirror-editor';
 import { Button, Icon } from '@ridi/rsg';
 
-import { ArticleCannelInfoHeader } from 'app/components/ArticleChannels/ArticleCannelInfoHeader';
+import { ArticleChannelInfoHeader } from 'app/components/ArticleChannels/ArticleChannelInfoHeader';
 import { ArticleEmpty } from 'app/components/ArticleEmpty';
 import { FetchStatusFlag } from 'app/constants';
 import { Actions } from 'app/services/article';
@@ -30,7 +30,7 @@ const ShareSVG = (props: { className?: string; }) => (
 export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
   const { channelName, contentIndex } = props.match.params;
   const contentKey = `@${channelName}/${Number(contentIndex)}`;
-  const articleState = useSelector((state: RidiSelectState) => state.articlesById[contentKey]);
+  const { articleState } = useSelector((state: RidiSelectState) => ({ articleState: state.articlesById[contentKey] }));
   const dispatch = useDispatch();
   const checkIsFetched = () => {
     return (
@@ -63,7 +63,7 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
     <main className="SceneWrapper PageArticleContent">
       <h1 className="ArticleContent_Title">{articleState.article.title}</h1>
       {articleState.article.channelId ? (
-        <ArticleCannelInfoHeader
+        <ArticleChannelInfoHeader
           channelId={articleState.article.channelId}
           contentKey={contentKey}
         />
