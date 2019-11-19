@@ -14,6 +14,13 @@
 @custom-media --mobile-screen (max-width: 840px);
 @custom-media --minimal-mobile-screen (max-width: 340px);
 
+
+@custom-media --pc-layout (min-width: 835px);
+@custom-media --mobile-layout (max-width: 414px);
+@custom-media --big-mobile-layout (min-width: 415px and max-width: 600px);
+@custom-media --tablet-layout (min-width: 601px and max-width: 834px);
+
+
 @keyframes SpinnerRotation {
   0% { transform: translate3d(-50%, -50%, 0) rotate(0deg); }
   5% { transform: translate3d(-50%, -50%, 0) rotate(30deg); }

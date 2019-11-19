@@ -74,6 +74,7 @@ export const ArticleFollowing: React.FunctionComponent = () => {
                 renderAuthor={false}
                 renderRegDate={true}
                 isFullWidthAvailable={true}
+                gridListSizeClassNames="GridArticleList-large"
               />
             }
           </div>
@@ -95,7 +96,7 @@ export const ArticleFollowing: React.FunctionComponent = () => {
         </>
       ) : (
         <ArticleEmpty
-          iconName="account_1"
+          iconName="profile"
           iconClassName="ArticleEmpty_CircleIcon"
           description="팔로잉 중인 채널이 없습니다."
           renderButton={() => (

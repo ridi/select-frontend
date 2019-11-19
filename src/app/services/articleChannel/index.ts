@@ -2,6 +2,7 @@ import { FetchStatusFlag } from 'app/constants';
 import { ArticleResponse } from 'app/services/article/requests';
 import { ArticleChannelArticlesResponse, ArticleChannelFollowingResponse, ArticleChannelListResponse } from 'app/services/articleChannel/requests';
 import { ArticleId, DateDTO, Paginated } from 'app/types';
+import { getArticleKeyFromData } from 'app/utils/utils';
 import { Method } from 'axios';
 import { createAction, createReducer } from 'redux-act';
 
@@ -191,7 +192,7 @@ articleChannelReducer.on(Actions.loadArticleChannelArticlesSuccess, (state, acti
         ...state[channelId].itemListByPage,
         [page]: {
           fetchStatus: FetchStatusFlag.IDLE,
-          itemList: response.results.map((article) => article.id),
+          itemList: response.results.map((article) => getArticleKeyFromData(article)),
           isFetched: true,
         },
       },
