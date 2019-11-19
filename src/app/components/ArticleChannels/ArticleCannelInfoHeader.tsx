@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 
 import { Icon } from '@ridi/rsg';
 
-import { AuthorResponse } from 'app/services/article/requests';
 import { RidiSelectState } from 'app/store';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 
