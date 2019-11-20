@@ -70,7 +70,7 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   word-wrap: break-word;
-  word-break: keep-all;
+  word-break: break-all;
   white-space: normal;
 }
 
