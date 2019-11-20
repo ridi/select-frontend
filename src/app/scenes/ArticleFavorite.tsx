@@ -51,6 +51,7 @@ export const ArticleFavorite: React.FunctionComponent = () => {
               renderRegDate={true}
               renderFavoriteButton={true}
               isFullWidthAvailable={true}
+              gridListSizeClassNames="GridArticleList-large"
             />
             <MediaQuery maxWidth={840}>
               {(isMobile) => (

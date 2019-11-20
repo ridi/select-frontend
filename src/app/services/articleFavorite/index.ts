@@ -62,7 +62,7 @@ favoriteArticleListReducer.on(Actions.loadFavoriteArticleListSuccess, (state, ac
       itemCount: response.totalCount,
       [page]: {
         fetchStatus: FetchStatusFlag.IDLE,
-        itemList: response.results.map((article) => getArticleKeyFromData(article)),
+        itemList: response.results.map((data) => getArticleKeyFromData(data.article)),
         isFetched: true,
       },
     },
