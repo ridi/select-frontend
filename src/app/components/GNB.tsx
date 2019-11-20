@@ -84,11 +84,9 @@ export class GNB extends React.Component<Props> {
   }
 
   private renderGNBLogo() {
-    const { gnbType } = this.props;
-
     return (
       <Link
-        className={classNames('GNBLogoWrapper', gnbType === 'dark' && 'GNBLogoDarkColor')}
+        className="GNBLogoWrapper"
         to={RoutePaths.HOME}
       >
         <Icon
@@ -167,7 +165,6 @@ export class GNB extends React.Component<Props> {
 
   private renderLibraryButton() {
     const {
-      gnbType,
       LIBRARY_URL,
       isInApp,
     } = this.props;
@@ -177,7 +174,7 @@ export class GNB extends React.Component<Props> {
     return (
       <a
         href={LIBRARY_URL}
-        className={classNames('GNB_LinkButton', 'GNB_WebLibrary_Button', gnbType === 'dark' && 'GNB_LinkButtonDarkColor')}
+        className={classNames('GNB_LinkButton', 'GNB_WebLibrary_Button')}
         key="gnb-web-library-link-button"
       >
       내 서재
@@ -186,10 +183,7 @@ export class GNB extends React.Component<Props> {
   }
 
   private renderLoginButton() {
-    const {
-      isInApp,
-      gnbType,
-    } = this.props;
+    const { isInApp } = this.props;
 
     if (isInApp) {
       // TODO: 안드로이드 인앱에서 postRobot을 지원하기 전까지는 Toast 메세지를 띄우거나 버튼을 숨김처리.
@@ -200,7 +194,7 @@ export class GNB extends React.Component<Props> {
       <button
         type="button"
         onClick={() => moveToLogin()}
-        className={classNames('GNB_LinkButton', gnbType === 'dark' && 'GNB_LinkButtonDarkColor')}
+        className="GNB_LinkButton"
       >
         로그인
       </button>
@@ -209,7 +203,6 @@ export class GNB extends React.Component<Props> {
 
   private renderLogoutButton() {
     const {
-      gnbType,
       isInApp,
       BASE_URL_STORE,
       BASE_URL_RIDISELECT,
@@ -222,7 +215,7 @@ export class GNB extends React.Component<Props> {
     return (
       <a
         href={`${BASE_URL_STORE}/account/logout?return_url=${BASE_URL_RIDISELECT}`}
-        className={classNames('GNB_LinkButton', gnbType === 'dark' && 'GNB_LinkButtonDarkColor')}
+        className="GNB_LinkButton"
       >
         <h2 className="reset-heading">로그아웃</h2>
       </a>
@@ -267,6 +260,7 @@ export class GNB extends React.Component<Props> {
     const {
       gnbType,
       isInApp,
+      isSimpleGNB,
       backgroundColorRGBString,
     } = this.props;
 
@@ -279,7 +273,7 @@ export class GNB extends React.Component<Props> {
           >
             <div className="GNBContentWrapper">
               <div className="GNBLeft">
-                {isInApp ? (
+                {isInApp && !isSimpleGNB ? (
                   this.renderGNBTab()
                 ) : (
                   <>
@@ -293,7 +287,7 @@ export class GNB extends React.Component<Props> {
                 {this.renderGNBAccountButtons()}
               </div>
             </div>
-            {isInApp ? null : (
+            {isInApp || isSimpleGNB ? null : (
               <div className="GNBTab ">
                 {this.renderGNBTab()}
               </div>

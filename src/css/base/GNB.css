@@ -68,9 +68,10 @@
     height: 13px;
     vertical-align: top;
     fill: #000;
-  }
-  &.GNBLogoDarkColor {
-    & .GNBLogo {
+    @nest .GNBWrapper-dark & {
+      fill: #fff;
+    }
+    @nest .GNBWrapper-transparent & {
       fill: #fff;
     }
   }
@@ -243,10 +244,6 @@
   letter-spacing: -.5px;
   line-height: 28px;
   text-decoration: none;
-  &.GNB_LinkButtonDarkColor {
-    color: #fff;
-    border: solid 1px rgba(255, 255, 255, .5);
-  }
 
   & + .GNB_LinkButton {
     margin-left: 4px;
@@ -257,6 +254,15 @@
     width: 55px;
     margin-left: 10px;
     text-align: center;
+  }
+
+  @nest .GNBWrapper-dark & {
+    color: #fff;
+    border: solid 1px rgba(255, 255, 255, .5);
+  }
+  @nest .GNBWrapper-transparent & {
+    color: #fff;
+    border: solid 1px rgba(255, 255, 255, .5);
   }
 
   @nest .androidApp & {
