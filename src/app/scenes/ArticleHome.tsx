@@ -30,7 +30,7 @@ export const ArticleHome: React.FunctionComponent = () => {
     </div>
     <div className="ArticleHome_Panel">
       <ArticleHomeSection
-        title={'실시간 인기 아티클'}
+        title={'인기 아티클'}
         type={ArticleSectionType.CHART}
         articleHomeSectionType={ArticleHomeSectionType.POPULAR}
       />
