@@ -17,8 +17,10 @@ export const Intro: React.FunctionComponent = () => {
     isLoggedIn,
     BASE_URL_STORE,
     FREE_PROMOTION_MONTHS,
+    hasSubscribedBefore,
   } = useSelector((state: RidiSelectState) => ({
     isLoggedIn: state.user.isLoggedIn,
+    hasSubscribedBefore: state.user.hasSubscribedBefore,
     BASE_URL_STORE: state.environment.STORE_URL,
     FREE_PROMOTION_MONTHS: state.environment.FREE_PROMOTION_MONTHS,
   }));
@@ -79,8 +81,8 @@ export const Intro: React.FunctionComponent = () => {
             }}
           >
             {!hasSubscribedBefore ?
-              FREE_PROMOTION_MONTHS + '개월 무료로 읽어보기' :
-              '리디셀렉트 구독하기'
+              '무료로 시작하기' :
+              '다시 시작하기'
             }
             <Icon name="arrow_5_right" className="RSGIcon-arrow5Right" />
           </Button>
