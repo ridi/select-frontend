@@ -122,7 +122,7 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
                 onClick={copyUrl}
               >
                 <ShareSVG className="ArticleContent_ShareButton_Icon" />
-                공유하기
+                링크 복사하기
               </Button>
             </li>
           </ul>
