@@ -234,10 +234,10 @@
   height: 28px;
   margin-top: 8px;
   padding: 0 11px;
-  border: solid 1px rgba(0, 0, 0, .5);
+  border: solid 1px var(--slategray_20);
   border-radius: 3px;
   background-color: transparent;
-  color: #000;
+  color: var(--slategray_50);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: -.5px;
