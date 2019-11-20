@@ -1,10 +1,13 @@
 import { FetchStatusFlag } from 'app/constants';
-import { ArticleListResponse } from 'app/services/article/requests';
 import { BigBanner } from 'app/services/home';
-import { isRidiselectUrl } from 'app/utils/regexHelper';
 import { createAction, createReducer } from 'redux-act';
 
 export const Actions = {
+  loadArticleBannerRequest: createAction('loadArticleBannerRequest'),
+  loadArticleBannerSuccess: createAction<{
+    response: BigBanner[],
+  }>('loadArticleBannerSuccess'),
+  loadArticleBannerFailure: createAction('loadArticleBannerFailure'),
   loadArticleHomeSectionListRequest: createAction<{
     targetSection: ArticleHomeSectionType,
   }>('loadArticleHomeSectionListRequest'),
@@ -91,5 +94,29 @@ articleHomeReducer.on(Actions.loadArticleHomeSectionListFailure, (state = INITIA
       ...state[targetSection],
       fetchStatus: FetchStatusFlag.FETCH_ERROR,
     },
+  };
+});
+
+articleHomeReducer.on(Actions.loadArticleBannerRequest, (state) => {
+  return {
+    ...state,
+    fetchStatus: FetchStatusFlag.FETCHING,
+  };
+});
+
+articleHomeReducer.on(Actions.loadArticleBannerSuccess, (state, action) => {
+  const { response } = action;
+
+  return {
+    ...state,
+    bigBannerList: response,
+    fetchStatus: FetchStatusFlag.IDLE,
+  };
+});
+
+articleHomeReducer.on(Actions.loadArticleBannerFailure, (state) => {
+  return {
+    ...state,
+    fetchStatus: FetchStatusFlag.FETCH_ERROR,
   };
 });

@@ -20,3 +20,10 @@ export const requestHome = (): Promise<HomeResponse> => {
     method: 'GET',
   }).then((response) => camelize<AxiosResponse<HomeResponse>>(response, { recursive: true }).data);
 };
+
+export const requestBanner = (spot: string): Promise<BigBanner[]> => (
+  request({
+    url: `/api/banners/?spot=${spot}`,
+    method: 'GET',
+  }).then((response) => camelize<AxiosResponse<BigBanner[]>>(response, { recursive: true }).data)
+);

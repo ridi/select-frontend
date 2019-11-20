@@ -6,9 +6,20 @@ import { ArticleHomeSection } from 'app/components/ArticleHome/ArticleHomeSectio
 import { ConnectedBigBannerCarousel } from 'app/components/Home/BigBanner';
 import { PageTitleText } from 'app/constants';
 import { ArticleHomeSectionType, ArticleSectionType } from 'app/services/articleHome';
-import { ArticleChartsMockUp, ArticleListMockUp } from 'app/utils/mock';
+import { Actions } from 'app/services/articleHome';
+import { RidiSelectState } from 'app/store';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const ArticleHome: React.FunctionComponent = () => {
+  const { bigBannerList } = useSelector((state: RidiSelectState) => state.articleHome);
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    if (bigBannerList.length <= 0) {
+      dispatch(Actions.loadArticleBannerRequest());
+    }
+  }, []);
+
   return (
     <main
       className={classNames(
