@@ -20,7 +20,7 @@ function* loadFavoriteArticleList({ payload }: ReturnType<typeof Actions.loadFav
       data.article.isFavorite = true;
       return data.article;
     })}));
-    yield put(ChannelActions.updateChannelDetail({ channels: response.results.map((data) => data.article.channel)}));
+    // yield put(ChannelActions.updateChannelDetail({ channels: response.results.map((data) => data.article.channel)}));
     yield put(Actions.loadFavoriteArticleListSuccess({ response, page }));
   } catch (e) {
     yield put(Actions.loadFavoriteArticleListFailure({ page }));

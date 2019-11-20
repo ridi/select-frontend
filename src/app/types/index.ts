@@ -20,6 +20,7 @@ export enum ArticleRequestIncludableData {
   FOLLOWERS_COUNT = 'followers_count',
   IS_FOLLOWING = 'is_following',
   IS_FAVORITE = 'is_favorite',
+  FAVORITES_COUNT = 'favorites_count',
 }
 
 export enum ArticleRequestOrderType {

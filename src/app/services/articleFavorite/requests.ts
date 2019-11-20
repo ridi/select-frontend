@@ -15,7 +15,7 @@ export interface FavoriteArticleActionResponse {
 }
 
 export const requestFavoriteArticleList = (): Promise<FavoriteArticleListResponse> => {
-  const requestUrl = `/article/me/favorites`;
+  const requestUrl = '/article/me/favorites';
 
   return request({
     url: requestUrl,
@@ -25,7 +25,7 @@ export const requestFavoriteArticleList = (): Promise<FavoriteArticleListRespons
 
 export const requestFavoriteArticleAction = (method: Method, articleId: number): Promise<FavoriteArticleActionResponse> => {
   return request({
-    url: `/article/me/favorites`,
+    url: '/article/me/favorites',
     method,
     data: {
       article_id: articleId,
