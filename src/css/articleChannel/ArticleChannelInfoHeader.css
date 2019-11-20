@@ -32,15 +32,12 @@
   margin-left: auto;
   width: 76px;
   height: 30px;
-  border-radius: 3px;
+  line-height: 30px;
   border: none;
-  background-color: var(--dodgerblue_50);
-  font-family: NotoSansCJKkr, sans-serif;
+  box-shadow: none;
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: -.3px;
-  color: #fff;
-  line-height: 30px;
+
 
 }
 
