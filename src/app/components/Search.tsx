@@ -712,6 +712,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
             this.manageScrollDisable(false);
             this.toggleActivation(false);
           }}
+          appStatus={appStatus}
         />
         {isMobile ? (<span
           className="dim"

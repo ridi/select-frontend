@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 import { Icon } from '@ridi/rsg';
+import { AppStatus } from 'app/services/app';
 
 interface SearchHistoryProps {
   isActive: boolean;
@@ -13,6 +14,7 @@ interface SearchHistoryProps {
   clearHistory: () => void;
   removeKeyword: (keyword: string) => void;
   resetSearchState: () => void;
+  appStatus: AppStatus;
 }
 
 export class SearchHistory extends React.PureComponent<SearchHistoryProps> {
@@ -27,6 +29,7 @@ export class SearchHistory extends React.PureComponent<SearchHistoryProps> {
       clearHistory,
       removeKeyword,
       resetSearchState,
+      appStatus,
     } = this.props;
 
     if (!isActive || keywordList.length === 0) {
@@ -43,7 +46,7 @@ export class SearchHistory extends React.PureComponent<SearchHistoryProps> {
             >
               <Link
                 className="SearchHistoryKeyword"
-                to={`/search?q=${keyword}`}
+                to={`/search?q=${keyword}&type=${appStatus}`}
                 onClick={() => resetSearchState()}
               >
                 {keyword}
