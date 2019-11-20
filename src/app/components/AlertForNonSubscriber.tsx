@@ -1,10 +1,12 @@
 import * as React from 'react';
 
-import history from 'app/config/history';
+import { RidiSelectState } from 'app/store';
+import { useSelector } from 'react-redux';
 import { GoToSubscribeButton } from './GoToSubscribeButton';
 
 export const AlertForNonSubscriber: React.FunctionComponent = () => {
   const [isIgnored, setIgnoreAlert] = React.useState(false);
+  const { STORE_URL } = useSelector((state: RidiSelectState) => ({ STORE_URL: state.environment.STORE_URL }));
 
   return isIgnored ? null : (
     <div className="AlertForNonSubscriber">
@@ -12,7 +14,7 @@ export const AlertForNonSubscriber: React.FunctionComponent = () => {
       <p className="AlertForNonSubscriber_SubText">1개월 무료 후 월 6,500원, 언제든 원클릭으로 해지</p>
       <GoToSubscribeButton
         className="AlertForNonSubscriber_SubscribeButton"
-        onClick={() => history.push('/intro')}
+        onClick={() => { location.href = `${STORE_URL}/select/payments`; }}
       />
       <button
         className="AlertForNonSubscriber_CloseButton"
