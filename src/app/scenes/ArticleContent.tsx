@@ -49,7 +49,7 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
     domForCopyUrl.select();
     document.execCommand('copy');
     document.body.removeChild(domForCopyUrl);
-    toast.success('현재 주소가 복사되었습니다.');
+    toast.success('아티클 링크가 복사되었습니다.');
   };
 
   React.useEffect(() => {

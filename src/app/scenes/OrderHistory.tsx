@@ -104,7 +104,7 @@ export class OrderHistory extends React.PureComponent<Props> {
     const { itemList } = orderHistory.itemListByPage[page];
     if (!itemList || itemList.length === 0) {
       return (
-        <Empty description="결제 내역이 존재하지 않습니다." iconName="book_1" />
+        <Empty description="결제/이용권 내역이 없습니다." iconName="book_1" />
       );
     }
     const cancelableItemExists = itemList.some((item) => item.isCancellable);
