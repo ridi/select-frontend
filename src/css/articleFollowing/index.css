@@ -6,7 +6,7 @@
   padding: 30px 20px 10px;
   overflow: auto;
   @media (--mobile-layout) {
-    padding: 15px 0px;
+    padding: 15px 20px;
   }
   & .FollowingChannel {
     display: inline-block;
