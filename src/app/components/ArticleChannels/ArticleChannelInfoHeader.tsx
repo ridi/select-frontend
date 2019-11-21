@@ -36,8 +36,8 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId: numb
     dispatch(Actions.loadArticleChannelDetailRequest({ channelId: props.channelId }));
   }, []);
 
-  const handleButtonClick = (type: Method) => {
-    dispatch(Actions.articleChannelFollowingActionRequest({ channelId: props.channelId, type }));
+  const handleButtonClick = (method: Method) => {
+    dispatch(Actions.articleChannelFollowingActionRequest({ channelId: props.channelId, method }));
   };
 
   return channelState.channelMeta ? (

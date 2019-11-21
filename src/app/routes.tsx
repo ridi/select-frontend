@@ -36,7 +36,7 @@ import {
   WrongLocation,
 } from 'app/scenes';
 
-import { RoutePaths } from 'app/constants';
+import { FetchStatusFlag, RoutePaths } from 'app/constants';
 import {
   ConnectedAppManager,
   ConnectedPrivateRoute,
@@ -52,6 +52,7 @@ export interface Props {
   isLoggedIn: boolean;
   hasAvailableTicket: boolean;
   errorResponseState?: ErrorResponseStatus;
+  ticketFetchStatus: FetchStatusFlag;
 }
 
 export const inAppGnbRoutes = [
@@ -178,18 +179,8 @@ export const Routes: React.SFC<Props> = (props) => {
             {...props}
           />
           <Route
-            path={RoutePaths.ARTICLE_FOLLOWING}
-            component={ArticleFollowing}
-            {...props}
-          />
-          <Route
             path={RoutePaths.ARTICLE_CHANNELS}
             component={ArticleChannels}
-            {...props}
-          />
-          <Route
-            path={RoutePaths.ARTICLE_FAVORITE}
-            component={ArticleFavorite}
             {...props}
           />
           <Route
@@ -200,6 +191,18 @@ export const Routes: React.SFC<Props> = (props) => {
           <Route
             path={RoutePaths.ARTICLE_CONTENT}
             component={ArticleContent}
+            {...props}
+          />
+          <ConnectedPrivateRoute
+            path={RoutePaths.ARTICLE_FOLLOWING}
+            component={ArticleFollowing}
+            routeBlockLevel={RouteBlockLevel.LOGGED_IN}
+            {...props}
+          />
+          <ConnectedPrivateRoute
+            path={RoutePaths.ARTICLE_FAVORITE}
+            component={ArticleFavorite}
+            routeBlockLevel={RouteBlockLevel.LOGGED_IN}
             {...props}
           />
 
@@ -238,6 +241,7 @@ const mapStateToProps = (rootState: RidiSelectState): Props => ({
   isFetching: rootState.user.isFetching,
   hasAvailableTicket: rootState.user.hasAvailableTicket,
   errorResponseState: rootState.serviceStatus.errorResponseState,
+  ticketFetchStatus: rootState.user.ticketFetchStatus,
 });
 
 export const ConnectedRoutes = connect(mapStateToProps)(Routes);

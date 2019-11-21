@@ -12,8 +12,8 @@ export const ArticleChannelsMeta: React.FunctionComponent<ArticleChannel> = (pro
   const { id, thumbnailUrl, displayName, description, isFollowing } = props;
   const dispatch = useDispatch();
 
-  const handleButtonClick = (type: Method) => {
-    dispatch(Actions.articleChannelFollowingActionRequest({ channelId: id, type }));
+  const handleButtonClick = (method: Method) => {
+    dispatch(Actions.articleChannelFollowingActionRequest({ channelId: id, method }));
   };
 
   return (
