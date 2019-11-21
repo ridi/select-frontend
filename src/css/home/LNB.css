@@ -96,7 +96,11 @@
     &.LnbMenu_Home,
     &.LnbMenu_RecentUpdates,
     &.LnbMenu_Categories,
-    &.LnbMenu_MySelect {
+    &.LnbMenu_MySelect,
+    &.LnbMenu_ArticleHome,
+    &.LnbMenu_ArticleFollowing,
+    &.LnbMenu_ArticleChannel,
+    &.LnbMenu_ArticleFavorite {
       width: auto;
     }
   }
