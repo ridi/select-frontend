@@ -5,6 +5,7 @@ import { createAction, createReducer } from 'redux-act';
 export const Actions = {
   loadArticleBannerRequest: createAction('loadArticleBannerRequest'),
   loadArticleBannerSuccess: createAction<{
+    fetchedAt: number,
     response: BigBanner[],
   }>('loadArticleBannerSuccess'),
   loadArticleBannerFailure: createAction('loadArticleBannerFailure'),
@@ -38,6 +39,7 @@ interface ArticleHomeSectionList {
 
 export interface ArticleHomeState {
   fetchStatus: FetchStatusFlag;
+  fetchedAt: number | null;
   bigBannerList: BigBanner[];
   recentArticleList: ArticleHomeSectionList;
   popularArticleList: ArticleHomeSectionList;
@@ -46,6 +48,7 @@ export interface ArticleHomeState {
 
 export const INITIAL_ARTICLE_HOME_STATE: ArticleHomeState = {
   fetchStatus: FetchStatusFlag.IDLE,
+  fetchedAt: null,
   bigBannerList: [],
   recentArticleList: {
     fetchStatus: FetchStatusFlag.IDLE,
@@ -105,11 +108,12 @@ articleHomeReducer.on(Actions.loadArticleBannerRequest, (state) => {
 });
 
 articleHomeReducer.on(Actions.loadArticleBannerSuccess, (state, action) => {
-  const { response } = action;
+  const { response, fetchedAt } = action;
 
   return {
     ...state,
     bigBannerList: response,
+    fetchedAt,
     fetchStatus: FetchStatusFlag.IDLE,
   };
 });

@@ -1,7 +1,11 @@
 import * as React from 'react';
 
-export const BigBannerPlaceholder: React.SFC = () => (
+export interface BigBannerPlaceholderProps {
+  minHeight: number;
+}
+
+export const BigBannerPlaceholder: React.FunctionComponent<BigBannerPlaceholderProps> = (props) => (
   <div className="BigBannerSkeleton Skeleton_Wrapper">
-    <div className="Skeleton" />
+    <div className="Skeleton" style={{ height: props.minHeight }} />
   </div>
 );

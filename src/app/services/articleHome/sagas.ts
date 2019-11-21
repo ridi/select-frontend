@@ -38,7 +38,10 @@ function* loadArticleHomeSectionListRequest({ payload }: ReturnType<typeof Actio
 function* loadArticleBanner() {
   try {
     const response: BigBanner[] = yield call(requestBanner, 'article');
-    yield put(Actions.loadArticleBannerSuccess({response}));
+    yield put(Actions.loadArticleBannerSuccess({
+      response,
+      fetchedAt: Date.now(),
+    }));
   } catch (e) {
     yield put(Actions.loadArticleBannerFailure());
     if (e && e.response && e.response.data && e.response.data.status === ErrorStatus.MAINTENANCE) {

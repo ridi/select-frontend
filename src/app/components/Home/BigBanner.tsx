@@ -16,7 +16,7 @@ import { SliderControls } from './SliderControls';
 import { AppStatus } from 'app/services/app/index';
 
 const PC_BANNER_WIDTH = 432;
-const PC_MIN_HEIGHT = 432;
+const PC_BANNER_HEIGHT = 432;
 
 interface BigBannerStateProps {
   fetchedAt: number | null;
@@ -28,6 +28,8 @@ type Props = BigBannerStateProps & ReturnType<typeof mapDispatchToProps>;
 
 interface State {
   clientWidth: number;
+  currentIdx: number;
+  totalIdx: number;
 }
 
 export class BigBannerCarousel extends React.Component<Props, State> {
@@ -42,6 +44,8 @@ export class BigBannerCarousel extends React.Component<Props, State> {
 
   public state: State = {
     clientWidth: 360,
+    currentIdx: 1,
+    totalIdx: 0,
   };
 
   private handleTouchStart = (e: TouchEvent) => {
@@ -85,6 +89,14 @@ export class BigBannerCarousel extends React.Component<Props, State> {
     }
   }
 
+  public componentDidUpdate(prevProps: Props, nextState: State) {
+    if (this.props.fetchedAt !== prevProps.fetchedAt) {
+      this.setState({
+        totalIdx: this.props.bigBannerList.length,
+      });
+    }
+  }
+
   public UNSAFE_componentWillUnmount() {
     if (this.wrapper) {
       this.wrapper.removeEventListener('touchstart', this.handleTouchStart);
@@ -97,7 +109,7 @@ export class BigBannerCarousel extends React.Component<Props, State> {
     const { fetchedAt, bigBannerList, trackClick, isInApp } = this.props;
     const section = getSectionStringForTracking('home', 'big-banner');
     if (!fetchedAt || bigBannerList.length === 0) {
-      return (<BigBannerPlaceholder />);
+      return (<BigBannerPlaceholder minHeight={this.state.clientWidth} />);
     }
 
     return (
@@ -107,14 +119,14 @@ export class BigBannerCarousel extends React.Component<Props, State> {
             ref={(wrapper) => this.wrapper = wrapper}
             className={classNames(['BigBanner', isMobile && 'BigBanner-isMobile'])}
             style={{
-              maxHeight: isMobile ? Math.ceil(this.state.clientWidth * 0.7) : PC_MIN_HEIGHT,
+              maxHeight: isMobile ? document.body.clientWidth : PC_BANNER_HEIGHT,
               overflow: 'hidden',
             }}
           >
             <h2 className="a11y">메인 배너</h2>
             <Slider
               ref={(slider: Slider) => this.slider = slider}
-              dots={true}
+              dots={false}
               infinite={true}
               adaptiveHeight={false}
               arrows={false}
@@ -125,7 +137,12 @@ export class BigBannerCarousel extends React.Component<Props, State> {
               slidesToShow={1}
               slidesToScroll={1}
               onInit={() => this.setSliderImpression(section, 0)}
-              afterChange={(currentIdx) => this.setSliderImpression(section, currentIdx)}
+              afterChange={(currentIdx) => {
+                this.setState({
+                  currentIdx: currentIdx + 1,
+                });
+                this.setSliderImpression(section, currentIdx);
+              }}
               touchThreshold={BigBannerCarousel.touchThereshold}
               dotsClass="BigBanner_Dots"
             >
@@ -145,13 +162,16 @@ export class BigBannerCarousel extends React.Component<Props, State> {
                     alt={item.title}
                     style={{
                       width: isMobile ? '100%' : PC_BANNER_WIDTH,
-                      height: isMobile ? '100%' : 'auto',
+                      height: isMobile ? document.body.clientWidth : PC_BANNER_HEIGHT,
                     }}
                   />
                   <span className="a11y">배너 링크</span>
                 </BigBannerItem>
               ))}
             </Slider>
+            <div className="BigBanner-Count">
+              {this.state.currentIdx} / {this.state.totalIdx}
+            </div>
             <SliderControls
               onPrevClick={() => this.slider.slickPrev()}
               onNextClick={() => this.slider.slickNext()}

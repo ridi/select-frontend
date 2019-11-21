@@ -8,14 +8,15 @@ import { PageTitleText } from 'app/constants';
 import { ArticleHomeSectionType, ArticleSectionType } from 'app/services/articleHome';
 import { Actions } from 'app/services/articleHome';
 import { RidiSelectState } from 'app/store';
+import { differenceInHours } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const ArticleHome: React.FunctionComponent = () => {
-  const { bigBannerList } = useSelector((state: RidiSelectState) => state.articleHome);
+  const { fetchedAt } = useSelector((state: RidiSelectState) => state.articleHome);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    if (bigBannerList.length <= 0) {
+    if (!fetchedAt || Math.abs(differenceInHours(fetchedAt, Date.now())) >= 3) {
       dispatch(Actions.loadArticleBannerRequest());
     }
   }, []);
