@@ -82,3 +82,7 @@
   letter-spacing: -.3px;
   color: var(--slategray_60);
 }
+
+.ArticleChartList_Channel_Link {
+  text-decoration: none;
+}

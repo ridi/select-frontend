@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
 import { ArticleResponse } from 'app/services/article/requests';
 import { RidiSelectState } from 'app/store';
+import { articleChannelToPath } from 'app/utils/toPath';
 import { getArticleKeyFromData } from 'app/utils/utils';
 import { ThumbnailShape } from './ArticleThumbnail/types';
 
@@ -59,7 +60,12 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
                   >
                     <span className="ArticleChartList_Meta_Title">{article.title}</span>
                     {channelMeta ? (
-                      <span className="ArticleChartList_Meta_Channel">{channelMeta.displayName}</span>
+                      <Link
+                        className="ArticleChartList_Channel_Link"
+                        to={articleChannelToPath({channelId: channelMeta.id})}
+                      >
+                        <span className="ArticleChartList_Meta_Channel">{channelMeta.displayName}</span>
+                      </Link>
                     ) : null}
                   </Link>
                 </li>

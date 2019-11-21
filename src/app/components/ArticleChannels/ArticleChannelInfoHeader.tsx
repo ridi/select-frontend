@@ -1,12 +1,14 @@
 import { Method } from 'axios';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { Button, Icon } from '@ridi/rsg';
 
 import { Actions } from 'app/services/articleChannel';
 import { RidiSelectState } from 'app/store';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
+import { articleChannelToPath } from 'app/utils/toPath';
 
 export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId: number, contentKey: string }> = (props) => {
   const { channelState, articleState, authorName, isChannelFollowing } = useSelector((state: RidiSelectState) => {
@@ -42,11 +44,21 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId: numb
 
   return channelState.channelMeta ? (
     <div className="ChannelInfoHeader_Wrapper">
-      <div className="ChannelInfoHeader_Thumbnail">
-        <img src={channelState.channelMeta.thumbnailUrl} className="ChannelInfoHeader_ThumbnailImage" />
-      </div>
+      <Link
+        className="ChannelInfoHeader_ChannelLink"
+        to={articleChannelToPath({channelId: channelState.channelMeta.id})}
+      >
+        <div className="ChannelInfoHeader_Thumbnail">
+          <img src={channelState.channelMeta.thumbnailUrl} className="ChannelInfoHeader_ThumbnailImage" />
+        </div>
+      </Link>
       <div className="ChannelInfoHeader_Meta">
-        <span className="ChannelInfoHeader_Title">{channelState.channelMeta.displayName}</span>
+        <Link
+          className="ChannelInfoHeader_ChannelLink"
+          to={articleChannelToPath({channelId: channelState.channelMeta.id})}
+        >
+          <span className="ChannelInfoHeader_Title">{channelState.channelMeta.displayName}</span>
+        </Link>
         <span className="ChannelInfoHeader_Desc">
           {authorName ? `${authorName} | ` : ''}
           {buildOnlyDateFormat(articleState.article!.regDate)}
