@@ -4,9 +4,11 @@ import { Actions, ArticleChannel } from 'app/services/articleChannel';
 import { ArticleChannelArticlesResponse, ArticleChannelFollowingResponse,
   ArticleChannelListResponse, requestArticleChannelArticles,
   requestArticleChannelDetail, requestArticleChannelFollowing, requestArticleChannelList } from 'app/services/articleChannel/requests';
+import { RidiSelectState } from 'app/store';
 import { ArticleRequestIncludableData } from 'app/types';
+import toast from 'app/utils/toast';
 import showMessageForRequestError from 'app/utils/toastHelper';
-import { all, call, put, take, takeLeading } from 'redux-saga/effects';
+import { all, call, put, select, take, takeLeading } from 'redux-saga/effects';
 
 function* loadArticleChannelList() {
   try {
@@ -58,13 +60,19 @@ function* loadArticleChannelArticles({ payload }: ReturnType<typeof Actions.load
 }
 
 export function* articleChannelFollowingAction({ payload }: ReturnType<typeof Actions.articleChannelFollowingActionRequest>) {
-  const { channelId, type } = payload;
+  const { channelId, method } = payload;
   try {
-    const response: ArticleChannelFollowingResponse = yield call(requestArticleChannelFollowing, channelId, type);
+    const hasAvailableTicket = yield select((state: RidiSelectState) => state.user.hasAvailableTicket);
+    if (!hasAvailableTicket && method === 'POST') {
+      toast.failureMessage('해당 기능은 구독하신 후 이용하실 수 있습니다.');
+      yield put(Actions.articleChannelFollowingActionFailure({ channelId }));
+      return;
+    }
+    const response: ArticleChannelFollowingResponse = yield call(requestArticleChannelFollowing, channelId, method);
     yield put(Actions.articleChannelFollowingActionSuccess({ channelId, response }));
   } catch (e) {
     const { data } = e.response;
-    yield put(Actions.articleChannelFollowingActionFailure({channelId}));
+    yield put(Actions.articleChannelFollowingActionFailure({ channelId }));
     if (data && data.status === ErrorStatus.MAINTENANCE) {
       return;
     }

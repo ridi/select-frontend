@@ -20,9 +20,9 @@ export const ArticleChannelMeta: React.FunctionComponent<ArticleChannelMetaProps
 
   const dispatch = useDispatch();
 
-  const handleButtonClick = (type: Method) => {
-    dispatch(Actions.articleChannelFollowingActionRequest({ channelId: id, type }));
-    if (type === 'POST') {
+  const handleButtonClick = (method: Method) => {
+    dispatch(Actions.articleChannelFollowingActionRequest({ channelId: id, method }));
+    if (method === 'POST') {
       setFollowCount(followCount + 1);
     } else {
       setFollowCount(followCount - 1);

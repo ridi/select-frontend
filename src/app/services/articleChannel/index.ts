@@ -42,7 +42,7 @@ export const Actions = {
     page: number,
   }>('loadArticleChannelArticlesFailure'),
 
-  articleChannelFollowingActionRequest: createAction<{ channelId: number, type: Method }>('articleChannelFollowingActionRequest'),
+  articleChannelFollowingActionRequest: createAction<{ channelId: number, method: Method }>('articleChannelFollowingActionRequest'),
   articleChannelFollowingActionSuccess: createAction<{ channelId: number, response: ArticleChannelFollowingResponse }>('articleChannelFollowingActionSuccess'),
   articleChannelFollowingActionFailure: createAction<{ channelId: number }>('articleChannelFollowingActionFailure'),
 };
