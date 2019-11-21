@@ -88,12 +88,22 @@
   color: var(--dodgerblue_50);
   padding: 0;  
   cursor: pointer;
+  &:hover, &:active {
+    border-color: var(--dodgerblue_60);
+    transition: background .2s, color .2s;  
+  }
 }
+
 .ArticleChannel_Following_Button-active {
   border: none;
   background-color: var(--dodgerblue_50);
   color: #fff;   
+  &:hover, &:active {
+    background-color: var(--dodgerblue_60);
+    transition: background .2s, color .2s;  
+  }
 }
+
 .ArticleChannel_Following_Icon {
   width: 10px;
   height: 10px;
