@@ -13,6 +13,7 @@ import { Actions } from 'app/services/articleFavorite';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
 import { buildDateDistanceFormat } from 'app/utils/formatDate';
+import { articleChannelToPath } from 'app/utils/toPath';
 import { getArticleKeyFromData } from 'app/utils/utils';
 
 interface Props {
@@ -81,10 +82,12 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                 articleTitle={article.title}
               />
               <div className="GridArticleItem_Meta">
-                {renderChannelMeta ? (
-                  <div className="GridArticleItem_ChannelThumbnail">
-                    <img src={channelMeta ? channelMeta.thumbnailUrl : ''} className="GridArticleItem_ChannelThumbnailImage" />
-                  </div>
+                {renderChannelMeta && channelMeta ? (
+                  <Link to={articleChannelToPath({channelId: channelMeta.id})}>
+                    <div className="GridArticleItem_ChannelThumbnail">
+                      <img src={channelMeta.thumbnailUrl} className="GridArticleItem_ChannelThumbnailImage" />
+                    </div>
+                  </Link>
                 ) : null}
                 <Link
                   to={articleUrl}
@@ -93,10 +96,12 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                   <p className="GridArticleItem_Title">
                     {article.title}
                   </p>
-                  {renderChannelMeta ? (
-                    <p className="GridArticleItem_ChannelName">
-                      {channelMeta ? channelMeta.displayName : ''}
-                    </p>
+                  {renderChannelMeta && channelMeta ? (
+                    <Link to={articleChannelToPath({channelId: channelMeta.id})}>
+                      <p className="GridArticleItem_ChannelName">
+                        {channelMeta.displayName}
+                      </p>
+                    </Link>
                   ) : null}
                   {renderAuthor && article.author ? (
                     <span className="GridArticleItem_Author">

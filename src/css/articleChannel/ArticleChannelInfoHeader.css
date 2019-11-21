@@ -3,6 +3,9 @@
   padding: 0 18px;
   align-items: center;
 }
+.ChannelInfoHeader_ChannelLink {
+  text-decoration: none;
+}
 .ChannelInfoHeader_Thumbnail {
   margin-right: 10px;
 }

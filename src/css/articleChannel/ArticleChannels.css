@@ -67,12 +67,21 @@
   background-color: #fff;
   color: var(--dodgerblue_50);
   flex: none;
+  cursor: pointer;
+  &:hover, &:active {
+    border-color: var(--dodgerblue_60);
+    transition: background .2s, color .2s;  
+  }
 }
 
 .FollowButton {
   border: none;
   background-color: var(--dodgerblue_50);
   color: #fff; 
+  &:hover, &:active {
+    background-color: var(--dodgerblue_60); 
+    transition: background .2s, color .2s;
+  }
 }
 
 .Follow_Icon {

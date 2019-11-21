@@ -32,12 +32,8 @@
 
 .ArticleContent_ButtonElement {
   width: 50%;
-  padding-left: 8px;
+  padding: 0 4px;
   box-sizing: border-box;
-
-  &:first-child {
-    padding-left: 0;
-  }
 }
 
 .ArticleContent_Button {
@@ -71,12 +67,12 @@
     }
   }
   .ArticleContent_ButtonsWrapper {
-    padding: 60px 20px;
+    padding: 60px 12px;
   }
 }
 
 @media (--mobile-layout) {
   .ArticleContent_ButtonsWrapper {
-    padding: 30px 20px;
+    padding: 30px 12px;
   }
 }
