@@ -40,7 +40,7 @@ function* favoriteArticleAction({ payload }: ReturnType<typeof Actions.favoriteA
   try {
     const hasAvailableTicket = yield select((state: RidiSelectState) => state.user.hasAvailableTicket);
     if (!hasAvailableTicket && method === 'POST') {
-      toast.failureMessage('해당 기능은 구독하신 후 이용하실 수 있습니다.');
+      toast.failureMessage('이용권 결제 후 이용하실 수 있습니다.');
       return;
     }
     const response: FavoriteArticleActionResponse = yield call(requestFavoriteArticleAction, method, articleId);
