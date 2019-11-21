@@ -84,10 +84,13 @@ export class GNB extends React.Component<Props> {
   }
 
   private renderGNBLogo() {
+    const { appStatus } = this.props;
+    const GNBLogoLink = appStatus === AppStatus.Books ? RoutePaths.HOME : RoutePaths.ARTICLE_HOME;
+
     return (
       <Link
         className="GNBLogoWrapper"
-        to={RoutePaths.HOME}
+        to={GNBLogoLink}
       >
         <Icon
           name="logo_ridiselect_1"
