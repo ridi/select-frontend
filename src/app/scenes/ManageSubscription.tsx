@@ -63,8 +63,8 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
 
     if (subscriptionState) {
       const { nextBillDate } = subscriptionState;
-      const today = dateFns.format(new Date(), 'YYYYMMDD');
-      const billDate = dateFns.format(new Date(nextBillDate), 'YYYYMMDD');
+      const today = dateFns.format(new Date(), 'yyyyMMdd');
+      const billDate = dateFns.format(new Date(nextBillDate), 'yyyyMMdd');
       const currentHour = new Date().getHours();
       // 결제일이랑 오늘날짜가 같고, 현재 시간이 23시~23시59분 사이라면 결제 불가 알림메시지
       if (today === billDate && currentHour === 23) {
