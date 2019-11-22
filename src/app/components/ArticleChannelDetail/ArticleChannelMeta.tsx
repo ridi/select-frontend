@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 
 interface ArticleChannelMetaProps {
   id: number;
+  name: string;
   displayName: string;
   thumbnailUrl?: string;
   description?: string;
@@ -15,13 +16,13 @@ interface ArticleChannelMetaProps {
 }
 
 export const ArticleChannelMeta: React.FunctionComponent<ArticleChannelMetaProps> = (props) => {
-  const { id, displayName, thumbnailUrl, description, subDescription, followersCount = 0, isFollowing } = props;
+  const { id, name, displayName, thumbnailUrl, description, subDescription, followersCount = 0, isFollowing } = props;
   const [followCount, setFollowCount] = React.useState(followersCount);
 
   const dispatch = useDispatch();
 
   const handleButtonClick = (method: Method) => {
-    dispatch(Actions.articleChannelFollowingActionRequest({ channelId: id, method }));
+    dispatch(Actions.articleChannelFollowingActionRequest({ channelId: id, channelName: name, method }));
     if (method === 'POST') {
       setFollowCount(followCount + 1);
     } else {

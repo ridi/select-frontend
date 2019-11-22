@@ -68,7 +68,7 @@ export enum RoutePaths {
   ARTICLE_HOME = '/article/home',
   ARTICLE_FOLLOWING = '/article/following',
   ARTICLE_CHANNELS = '/article/channels',
-  ARTICLE_CHANNEL_DETAIL = '/article/channel/:channelId',
+  ARTICLE_CHANNEL_DETAIL = '/article/channel/:channelName',
   ARTICLE_FAVORITE = '/article/favorite',
   ARTICLE_CONTENT = '/article/@:channelName/:contentIndex',
 }

@@ -1,30 +1,30 @@
-import { RidiSelectState } from 'app/store';
 import * as classNames from 'classnames';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import MediaQuery from 'react-responsive';
 import { Link, LinkProps, useParams } from 'react-router-dom';
-
-import { Actions } from 'app/services/articleChannel';
-import { getPageQuery } from 'app/services/routing/selectors';
 
 import { HelmetWithTitle, Pagination } from 'app/components';
 import { ArticleChannelMeta } from 'app/components/ArticleChannelDetail/ArticleChannelMeta';
 import { GridArticleList } from 'app/components/GridArticleList';
+import { Actions } from 'app/services/articleChannel';
+import { getPageQuery } from 'app/services/routing/selectors';
+import { RidiSelectState } from 'app/store';
 import { articleChannelToPath } from 'app/utils/toPath';
-import MediaQuery from 'react-responsive';
+import { getArticleKeyFromData } from 'app/utils/utils';
 
 export const ArticleChannelDetail: React.FunctionComponent = () => {
-  const channelId = Number(useParams<{ channelId: string }>().channelId);
+  const channelName = useParams<{ channelName: string }>().channelName;
   const page = useSelector(getPageQuery);
   const itemCountPerPage = 24;
   const { articleChannelData, articlesById } = useSelector((state: RidiSelectState) => ({
-    articleChannelData: state.articleChannelById[channelId] ? state.articleChannelById[channelId] : undefined,
+    articleChannelData: state.articleChannelById[channelName] ? state.articleChannelById[channelName] : undefined,
     articlesById: state.articlesById,
   }));
   const dispatch = useDispatch();
 
   const isFetched = () => {
-    return (channelId && articleChannelData);
+    return (channelName && articleChannelData);
   };
   const isFetchedChannelMeta = () => {
     if (!isFetched()) { return false; }
@@ -40,10 +40,10 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
   };
   React.useEffect(() => {
     if (!isFetchedChannelMeta()) {
-      dispatch(Actions.loadArticleChannelDetailRequest({channelId}));
+      dispatch(Actions.loadArticleChannelDetailRequest({channelName}));
     }
     if (!isFetchedChannelArticles()) {
-      dispatch(Actions.loadArticleChannelArticlesRequest({channelId, page}));
+      dispatch(Actions.loadArticleChannelArticlesRequest({channelName, page}));
     }
   }, []);
   return articleChannelData && articleChannelData.channelMeta ? (
@@ -68,7 +68,7 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
               articleChannelData
                 .itemListByPage[page]
                 .itemList
-                .map((id) => articlesById[id].article!)
+                .map((article) => articlesById[getArticleKeyFromData(article)].article!)
             }
           />
         }
@@ -82,7 +82,7 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
                 item={{
                   el: Link,
                   getProps: (p): LinkProps => ({
-                    to: `${articleChannelToPath({ channelId })}?page=${p}`,
+                    to: `${articleChannelToPath({ channelName })}?page=${p}`,
                   }),
                 }}
               />

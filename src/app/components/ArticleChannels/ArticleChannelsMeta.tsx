@@ -9,11 +9,11 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 export const ArticleChannelsMeta: React.FunctionComponent<ArticleChannel> = (props) => {
-  const { id, thumbnailUrl, displayName, description, isFollowing } = props;
+  const { id, name, thumbnailUrl, displayName, description, isFollowing } = props;
   const dispatch = useDispatch();
 
   const handleButtonClick = (method: Method) => {
-    dispatch(Actions.articleChannelFollowingActionRequest({ channelId: id, method }));
+    dispatch(Actions.articleChannelFollowingActionRequest({ channelId: id, channelName: name, method }));
   };
 
   return (

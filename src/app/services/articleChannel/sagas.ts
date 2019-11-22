@@ -8,7 +8,7 @@ import { RidiSelectState } from 'app/store';
 import { ArticleRequestIncludableData } from 'app/types';
 import toast from 'app/utils/toast';
 import showMessageForRequestError from 'app/utils/toastHelper';
-import { all, call, put, select, take, takeLeading } from 'redux-saga/effects';
+import { all, call, put, select, takeLeading } from 'redux-saga/effects';
 
 function* loadArticleChannelList() {
   try {
@@ -26,16 +26,16 @@ function* loadArticleChannelList() {
 }
 
 function* loadArticleChannelDetail({ payload }: ReturnType<typeof Actions.loadArticleChannelDetailRequest>) {
-  const { channelId } = payload;
+  const { channelName } = payload;
   try {
     const response: ArticleChannel = yield call(
       requestArticleChannelDetail,
-      channelId,
+      channelName,
       { includes: [ArticleRequestIncludableData.FOLLOWERS_COUNT, ArticleRequestIncludableData.IS_FOLLOWING]});
-    yield put(Actions.loadArticleChannelDetailSuccess({ articleChannelDetail: response, channelId }));
+    yield put(Actions.loadArticleChannelDetailSuccess({ articleChannelDetail: response, channelName }));
   } catch (e) {
     const { data } = e.response;
-    yield put(Actions.loadArticleChannelDetailFailure({channelId}));
+    yield put(Actions.loadArticleChannelDetailFailure({channelName}));
     if (data && data.status === ErrorStatus.MAINTENANCE) {
       return;
     }
@@ -44,14 +44,14 @@ function* loadArticleChannelDetail({ payload }: ReturnType<typeof Actions.loadAr
 }
 
 function* loadArticleChannelArticles({ payload }: ReturnType<typeof Actions.loadArticleChannelArticlesRequest>) {
-  const { channelId, page } = payload;
+  const { channelName, page } = payload;
   try {
-    const response: ArticleChannelArticlesResponse = yield call(requestArticleChannelArticles, channelId, page);
+    const response: ArticleChannelArticlesResponse = yield call(requestArticleChannelArticles, channelName, page);
     yield put(ArticleActions.updateArticles({ articles: response.results }));
-    yield put(Actions.loadArticleChannelArticlesSuccess({ channelId, page, response}));
+    yield put(Actions.loadArticleChannelArticlesSuccess({ channelName, page, response}));
   } catch (e) {
     const { data } = e.response;
-    yield put(Actions.loadArticleChannelArticlesFailure({channelId, page}));
+    yield put(Actions.loadArticleChannelArticlesFailure({channelName, page}));
     if (data && data.status === ErrorStatus.MAINTENANCE) {
       return;
     }
@@ -60,19 +60,19 @@ function* loadArticleChannelArticles({ payload }: ReturnType<typeof Actions.load
 }
 
 export function* articleChannelFollowingAction({ payload }: ReturnType<typeof Actions.articleChannelFollowingActionRequest>) {
-  const { channelId, method } = payload;
+  const { channelId, channelName, method } = payload;
   try {
     const hasAvailableTicket = yield select((state: RidiSelectState) => state.user.hasAvailableTicket);
     if (!hasAvailableTicket && method === 'POST') {
       toast.failureMessage('이용권 결제 후 이용하실 수 있습니다.');
-      yield put(Actions.articleChannelFollowingActionFailure({ channelId }));
+      yield put(Actions.articleChannelFollowingActionFailure({ channelName }));
       return;
     }
     const response: ArticleChannelFollowingResponse = yield call(requestArticleChannelFollowing, channelId, method);
-    yield put(Actions.articleChannelFollowingActionSuccess({ channelId, response }));
+    yield put(Actions.articleChannelFollowingActionSuccess({ channelName, response }));
   } catch (e) {
     const { data } = e.response;
-    yield put(Actions.articleChannelFollowingActionFailure({ channelId }));
+    yield put(Actions.articleChannelFollowingActionFailure({ channelName }));
     if (data && data.status === ErrorStatus.MAINTENANCE) {
       return;
     }

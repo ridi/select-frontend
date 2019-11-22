@@ -10,10 +10,10 @@ import { RidiSelectState } from 'app/store';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import { articleChannelToPath } from 'app/utils/toPath';
 
-export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId: number, contentKey: string }> = (props) => {
+export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId: number, channelName: string, contentKey: string }> = (props) => {
   const { channelState, articleState, authorName, isChannelFollowing } = useSelector((state: RidiSelectState) => {
     const articleById = state.articlesById[props.contentKey];
-    const channelById = state.articleChannelById[props.channelId];
+    const channelById = state.articleChannelById[props.channelName];
     return {
       articleState: articleById,
       channelState: channelById,
@@ -35,11 +35,11 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId: numb
     if (typeof isChannelFollowing === 'boolean') {
       return;
     }
-    dispatch(Actions.loadArticleChannelDetailRequest({ channelId: props.channelId }));
+    dispatch(Actions.loadArticleChannelDetailRequest({ channelName: props.channelName }));
   }, []);
 
   const handleButtonClick = (method: Method) => {
-    dispatch(Actions.articleChannelFollowingActionRequest({ channelId: props.channelId, method }));
+    dispatch(Actions.articleChannelFollowingActionRequest({ channelId: props.channelId, channelName: props.channelName, method }));
   };
 
   return channelState.channelMeta ? (
