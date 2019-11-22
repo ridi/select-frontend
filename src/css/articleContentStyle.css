@@ -19,7 +19,12 @@
   & b,
   & i,
   & u,
-  & figure {
+  & figure,
+  & blockquote,
+  & q
+  & code,
+  & ul,
+  & li {
     @apply --reset-layout;
 
     font-family: NotoSansCJKkr, sans-serif;
@@ -31,23 +36,101 @@
   &,
   & p,
   & span,
-  & div,
+  & div {
+    font-size: 16px;
+    font-weight: 400;
+    & a,
+    & a:hover,
+    & a:focus,
+    & a:active {
+      font-weight: inherit;
+      font-size: inherit;
+      color: inherit;
+    }
+  }
+
+  & p {
+    margin-top: 30px;
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
   & a {
     font-size: 16px;
     font-weight: 400;
+    color: var(--dodgerblue_40);
+  }
+
+  & code {
+    background: var(--slategray_5);
+    border: 1px solid var(--slategray_20);
+    border-radius: 2px;
+    padding: 20px;
+    box-sizing: border-box;
+    max-width: 100%;
+    font-size: 14px;
+    line-height: 22px;
   }
 
   & h1,
   & h2,
-  & h3,
-  & h4,
-  & h5,
-  & h6 {
+  & h3 {
     padding-top: 10px;
+    margin-bottom: 20px;
     font-size: 18px;
     font-weight: 700;
     line-height: 1.56;
     letter-spacing: -.34px;
+  }
+
+  & h1 {
+    font-size: 24px;
+  }
+  & h2 {
+    font-size: 22px;
+  }
+  & h3 {
+    font-size: 20px;
+  }
+
+  & ul,
+  & ol {
+    margin-top: 30px;
+    & li {
+      padding-top: 7px;
+      &:first-child {
+        padding-top: 0;
+      }
+    }
+  }
+
+  & blockquote {
+    border-left: 4px solid var(--slategray_20);
+    padding-left: 20px;
+    box-sizing: border-box;
+    line-height: 28px;
+    color: var(--slategray_60);
+  }
+
+  & q {
+    position: relative;
+    text-align: center;
+    padding-top: 35.5px;
+    line-height: 28px;
+    color: var(--slategray_60);
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      margin-left: -10.5px;
+      content: '';
+      display: block;
+      width: 21px;
+      height: 15px;
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg width='22' height='16' viewBox='0 0 22 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 15.5H6.5L9.5 9.5V0.5H0.5V9.5H5L2 15.5ZM14 15.5H18.5L21.5 9.5V0.5H12.5V9.5H17L14 15.5Z' fill='%23B8BFC4'/%3E%3C/svg%3E") top left no-repeat;
+      background-size: 21px 15px;
+    }
   }
 
   & img {
@@ -55,6 +138,25 @@
     max-width: 100%;
     height: auto;
     margin: 0 auto;
+  }
+
+  & figcaption {
+    color: var(--slategray_50);
+    font-size: 12px;
+    text-align: center;
+    padding-top: 10px;
+    line-height: 17px;
+  }
+
+  & .circle {
+    & img {
+      border-radius: 100%;
+    }
+  }
+
+  /* 아웃스탠딩 주석 */
+  & .notes {
+    color: var(--slategray_50);
   }
 }
 
@@ -73,7 +175,12 @@
     & > strong,
     & > b,
     & > i,
-    & > u {
+    & > u,
+    & > blockquote,
+    & > q
+    & > code,
+    & > ul,
+    & > li {
       padding-left: 20px;
       padding-right: 20px;
     }
