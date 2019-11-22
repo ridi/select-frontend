@@ -6,6 +6,7 @@ import { FetchStatusFlag } from 'app/constants';
 import { ArticleResponse, AuthorResponse } from 'app/services/article/requests';
 import { ArticleRequestQueries, DateDTO } from 'app/types';
 import { getArticleKeyFromData } from 'app/utils/utils';
+import { Method } from 'axios';
 
 export const Actions = {
   loadArticleRequest: createAction<{
@@ -35,6 +36,10 @@ export const Actions = {
     contentIndex: number;
     isFavorite: boolean,
   }>('updateFavoriteArticleStatus'),
+  favoriteArticleActionRequest: createAction<{
+    articleId: number,
+    method: Method,
+  }>('favoriteArticleActionRequest'),
 };
 
 export interface ArticleContent {

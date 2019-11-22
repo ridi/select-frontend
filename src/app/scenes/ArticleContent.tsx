@@ -10,7 +10,6 @@ import { ArticleChannelInfoHeader } from 'app/components/ArticleChannels/Article
 import { ArticleEmpty } from 'app/components/ArticleEmpty';
 import { FetchStatusFlag } from 'app/constants';
 import { Actions } from 'app/services/article';
-import { Actions as ArticleFavoriteActions } from 'app/services/articleFavorite';
 import { RidiSelectState } from 'app/store';
 import { ArticleRequestIncludableData } from 'app/types';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
@@ -102,7 +101,7 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
                   'ArticleContent_LikeButton',
                   articleState.article.isFavorite && 'ArticleContent_LikeButton-active',
                 )}
-                onClick={() => dispatch(ArticleFavoriteActions.favoriteArticleActionRequest({
+                onClick={() => dispatch(Actions.favoriteArticleActionRequest({
                   articleId: articleState.article!.id,
                   method: articleState.article!.isFavorite ? 'DELETE' : 'POST',
                 }))}

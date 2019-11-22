@@ -8,8 +8,8 @@ import { Icon } from '@ridi/rsg';
 
 import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
+import { Actions } from 'app/services/article';
 import { ArticleResponse } from 'app/services/article/requests';
-import { Actions } from 'app/services/articleFavorite';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
 import { buildDateDistanceFormat } from 'app/utils/formatDate';
@@ -55,7 +55,6 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
     }
     dispatch(Actions.favoriteArticleActionRequest({ articleId, method }));
   };
-
   return (
     <ul
       className={classNames(
@@ -67,8 +66,8 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
       {articles.map((article, idx) => {
         const articleUrl = `/article/${getArticleKeyFromData(article)}`;
         const channelMeta = articleChannelById &&
-          articleChannelById[article.channelId] &&
-          articleChannelById[article.channelId].channelMeta;
+          articleChannelById[article.channelName] &&
+          articleChannelById[article.channelName].channelMeta;
         return (
           <li className="GridArticleItem" key={idx}>
             <ConnectedTrackImpression
@@ -89,13 +88,15 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                     </div>
                   </Link>
                 ) : null}
-                <Link
-                  to={articleUrl}
-                  className="GridArticleItem_Link"
-                >
-                  <p className="GridArticleItem_Title">
-                    {article.title}
-                  </p>
+                <div className="GridArticleItem_Meta_Link">
+                  <Link
+                    to={articleUrl}
+                    className="GridArticleItem_Link"
+                  >
+                    <p className="GridArticleItem_Title">
+                      {article.title}
+                    </p>
+                  </Link>
                   {renderChannelMeta && channelMeta ? (
                     <Link to={articleChannelToPath({channelName: channelMeta.name})}>
                       <p className="GridArticleItem_ChannelName">
@@ -103,6 +104,10 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                       </p>
                     </Link>
                   ) : null}
+                  <Link
+                    to={articleUrl}
+                    className="GridArticleItem_Link"
+                  >
                   {renderAuthor && article.author ? (
                     <span className="GridArticleItem_Author">
                       {article.author.name}
@@ -111,7 +116,8 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                   {renderRegDate && article.regDate ? (
                     <span className="GridArticleItem_RegDate"> · {buildDateDistanceFormat(article.regDate)} 전</span>
                   ) : null}
-                </Link>
+                  </Link>
+                </div>
                 {renderFavoriteButton ? (
                   <div className="GridArticleItem_ButtonWrapper">
                     <button

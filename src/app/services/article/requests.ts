@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+import { AxiosResponse, Method } from 'axios';
 
 import { camelize } from '@ridi/object-case-converter';
 
@@ -30,6 +30,12 @@ export interface ArticleListResponse {
   results: ArticleResponse[];
 }
 
+export interface FavoriteArticleActionResponse {
+  channelName: string;
+  contentId: number;
+  isFavorite: boolean;
+}
+
 export const requestArticles = (requestQueries?: ArticleRequestQueries, articleIds?: number[]): Promise<ArticleListResponse> => {
   let requestUrl = `/article/articles${buildArticleRequestQueriesToString(requestQueries)}`;
   if (articleIds) {
@@ -48,4 +54,14 @@ export const requestSingleArticle = (channelName: string, contentIndex: number, 
     url: requestUrl,
     method: 'GET',
   }).then((response) => camelize<AxiosResponse<ArticleResponse>>(response, { recursive: true }).data);
+};
+
+export const requestFavoriteArticleAction = (method: Method, articleId: number): Promise<FavoriteArticleActionResponse> => {
+  return request({
+    url: '/article/me/favorites',
+    method,
+    data: {
+      article_id: articleId,
+    },
+  }).then((response) => camelize<AxiosResponse<FavoriteArticleActionResponse>>(response, { recursive: true }).data);
 };

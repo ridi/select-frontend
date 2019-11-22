@@ -3,7 +3,6 @@ import { Article } from 'app/services/article';
 import { FavoriteArticleListResponse } from 'app/services/articleFavorite/requests';
 import { ArticleKey, Paginated } from 'app/types';
 import { getArticleKeyFromData } from 'app/utils/utils';
-import { Method } from 'axios';
 import { createAction, createReducer } from 'redux-act';
 
 export const Actions = {
@@ -17,13 +16,7 @@ export const Actions = {
   loadFavoriteArticleListFailure : createAction<{
     page: number,
   }>('loadFavoriteArticleListFailure'),
-  favoriteArticleActionRequest: createAction<FavoriteArticleAction>('favoriteArticleActionRequest'),
 };
-
-interface FavoriteArticleAction {
-  articleId: number;
-  method: Method;
-}
 
 export interface FavoriteArticle {
   id: number;
