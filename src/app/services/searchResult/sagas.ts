@@ -66,7 +66,6 @@ export function* watchCategoryBooksFailure() {
   while (true) {
     const { payload: { page, error } }: ReturnType<typeof Actions.queryKeywordFailure> = yield take(Actions.queryKeywordFailure.getType());
     if (page === 1) {
-      toast.failureMessage('없는 페이지입니다. 다시 시도해주세요.');
       return;
     }
     fixWrongPaginationScope(error.response);
