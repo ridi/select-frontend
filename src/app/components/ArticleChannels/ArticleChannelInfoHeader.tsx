@@ -42,7 +42,7 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId: numb
     dispatch(Actions.articleChannelFollowingActionRequest({ channelId: props.channelId, channelName: props.channelName, method }));
   };
 
-  return channelState.channelMeta ? (
+  return channelState && channelState.channelMeta ? (
     <div className="ChannelInfoHeader_Wrapper">
       <Link
         className="ChannelInfoHeader_ChannelLink"
