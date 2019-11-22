@@ -21,12 +21,12 @@
   & u,
   & figure,
   & blockquote,
-  & q
+  & q,
   & code,
   & ul,
   & li {
-    @apply --reset-layout;
-
+    margin: 0;
+    padding: 0;
     font-family: NotoSansCJKkr, sans-serif;
     line-height: 1.75;
     letter-spacing: -.3px;
@@ -49,13 +49,6 @@
     }
   }
 
-  & p {
-    margin-top: 30px;
-    &:first-child {
-      margin-top: 0;
-    }
-  }
-
   & a {
     font-size: 16px;
     font-weight: 400;
@@ -63,6 +56,7 @@
   }
 
   & code {
+    display: inline-block;
     background: var(--slategray_5);
     border: 1px solid var(--slategray_20);
     border-radius: 2px;
@@ -111,9 +105,12 @@
     box-sizing: border-box;
     line-height: 28px;
     color: var(--slategray_60);
+    margin: 30px 0;
   }
 
   & q {
+    display: block;
+    margin: 30px 0;
     position: relative;
     text-align: center;
     padding-top: 35.5px;
@@ -128,7 +125,7 @@
       display: block;
       width: 21px;
       height: 15px;
-      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg width='22' height='16' viewBox='0 0 22 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 15.5H6.5L9.5 9.5V0.5H0.5V9.5H5L2 15.5ZM14 15.5H18.5L21.5 9.5V0.5H12.5V9.5H17L14 15.5Z' fill='%23B8BFC4'/%3E%3C/svg%3E") top left no-repeat;
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg width='22' height='16' viewBox='0 0 22 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 15.5H6.5L9.5 9.5V0.5H0.5V9.5H5L2 15.5ZM14 15.5H18.5L21.5 9.5V0.5H12.5V9.5H17L14 15.5Z' fill='%23B8BFC4'/%3E%3C/svg%3E");
       background-size: 21px 15px;
     }
   }
@@ -177,7 +174,7 @@
     & > i,
     & > u,
     & > blockquote,
-    & > q
+    & > q,
     & > code,
     & > ul,
     & > li {
