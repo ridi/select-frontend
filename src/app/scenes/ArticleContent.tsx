@@ -73,9 +73,10 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
   return articleState && articleState.article ? (
     <main className="SceneWrapper PageArticleContent">
       <h1 className="ArticleContent_Title">{articleState.article.title}</h1>
-      {articleState.article.channelId ? (
+      {articleState.article.channelId && articleState.article.channelName ? (
         <ArticleChannelInfoHeader
           channelId={articleState.article.channelId}
+          channelName={articleState.article.channelName}
           contentKey={contentKey}
         />
       ) : null}
