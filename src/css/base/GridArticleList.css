@@ -23,14 +23,13 @@
 }
 
 .GridArticleItem_Meta {
-  display: table;
+  display: flex;
   width: 100%;
   padding-top: 10px;
   box-sizing: border-box;
 }
 
 .GridArticleItem_ChannelThumbnail {
-  display: table-cell;
   padding-right: 10px;
   vertical-align: top;
   box-sizing: border-box;
@@ -46,7 +45,6 @@
 .GridArticleItem_Link {
   @apply --reset-font-unlimited;
 
-  display: table-cell;
   vertical-align: top;
   text-decoration: none;
 }
