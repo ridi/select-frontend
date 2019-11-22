@@ -185,7 +185,11 @@ main.SceneWrapper {
   min-height: 40px;
   margin: 0 auto;
   padding: 6px 15px;
-  background-color: var(--bluegray_90);
+  background-color: #fff;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .15);
+  & .PageTitle {
+    color: #000;
+  }
 
   @media (--pc-screen) {
     width: 800px;
@@ -193,12 +197,7 @@ main.SceneWrapper {
     margin: 50px auto 17px;
     padding: 0;
     background: none;
-  }
-
-  @nest .androidApp & {
-    @media (--pc-screen) {
-      background-color: white;
-    }
+    box-shadow: none;
   }
 
   @nest .androidApp .Skeleton_Wrapper & {

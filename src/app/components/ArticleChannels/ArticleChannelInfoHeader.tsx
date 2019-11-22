@@ -67,6 +67,7 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId: numb
       <Button
         size="small"
         color="blue"
+        outline={isChannelFollowing}
         className="ChannelInfoHeader_Follow"
         onClick={() => handleButtonClick(isChannelFollowing ? 'DELETE' : 'POST')}
         spinner={typeof isChannelFollowing !== 'boolean'}
