@@ -26,8 +26,8 @@
   left: 0;
 
   @nest .ArticleThumbnail_Wrapper-square & {
-    width: auto;
     height: 100%;
+    object-fit: cover;
   }
 }
 

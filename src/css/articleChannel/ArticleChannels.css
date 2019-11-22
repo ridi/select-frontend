@@ -4,7 +4,7 @@
 }
 .ArticlePageChannelList {
   list-style: none;
-  margin: 0;
+  margin: 0 20px;
   padding: 0;
 }
 .ArticlePageChannel {
@@ -16,7 +16,6 @@
 }
 .Channel_Info {
   display: flex;
-  padding: 0 18px;
   align-items: center;
 }
 .Channel_Thumbnail {
@@ -33,6 +32,7 @@
 }
 .Channel_Meta {
   min-width: 0;
+  padding-right: 10px;
 }
 
 .Channel_Title {
