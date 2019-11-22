@@ -302,7 +302,10 @@
   font-weight: 400;
   letter-spacing: -.34px;
   color: var(--slategray_40);
-  transition: opacity .2s;
+
+  & .reset-heading {
+    transition: opacity .2s;
+  }
 
   @media (hover: hover) {
     &:hover .reset-heading {
