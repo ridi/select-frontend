@@ -50,7 +50,7 @@ articleFollowReducer.on(Actions.loadFollowingChannelListRequest, (state) => ({
 
 articleFollowReducer.on(Actions.loadFollowingChannelListSuccess, (state, { response }) => ({
   ...state,
-  followingChannelList: response.results.map((channel) => String(channel.channelId)),
+  followingChannelList: response.results.map((followingChannel) => followingChannel.channel.name),
   fetchStatus: FetchStatusFlag.IDLE,
 }));
 

@@ -11,7 +11,7 @@ export const getChannelItems = createSelector(
   [channelItemsSelector, channelByIdSelector],
   (channelItems, channelById) => {
     if (channelItems) {
-      return channelItems.map((channelId) => channelById[Number(channelId)].channelMeta!);
+      return channelItems.map((channelName) => channelById[channelName].channelMeta!);
     }
     return [];
   },

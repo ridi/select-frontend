@@ -42,10 +42,12 @@
   border-radius: 20px;
 }
 
+.GridArticleItem_Meta_Link {
+  vertical-align: top;
+}
+
 .GridArticleItem_Link {
   @apply --reset-font-unlimited;
-
-  vertical-align: top;
   text-decoration: none;
 }
 
