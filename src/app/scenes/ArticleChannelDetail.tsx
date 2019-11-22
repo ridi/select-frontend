@@ -11,7 +11,6 @@ import { Actions } from 'app/services/articleChannel';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
 import { articleChannelToPath } from 'app/utils/toPath';
-import { getArticleKeyFromData } from 'app/utils/utils';
 
 export const ArticleChannelDetail: React.FunctionComponent = () => {
   const channelName = useParams<{ channelName: string }>().channelName;
@@ -68,7 +67,7 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
               articleChannelData
                 .itemListByPage[page]
                 .itemList
-                .map((article) => articlesById[getArticleKeyFromData(article)].article!)
+                .map((articleKey) => articlesById[articleKey].article!)
             }
           />
         }
