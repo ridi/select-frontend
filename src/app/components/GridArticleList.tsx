@@ -83,7 +83,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
               />
               <div className="GridArticleItem_Meta">
                 {renderChannelMeta && channelMeta ? (
-                  <Link to={articleChannelToPath({channelId: channelMeta.id})}>
+                  <Link to={articleChannelToPath({channelName: channelMeta.name})}>
                     <div className="GridArticleItem_ChannelThumbnail">
                       <img src={channelMeta.thumbnailUrl} className="GridArticleItem_ChannelThumbnailImage" />
                     </div>
@@ -97,7 +97,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                     {article.title}
                   </p>
                   {renderChannelMeta && channelMeta ? (
-                    <Link to={articleChannelToPath({channelId: channelMeta.id})}>
+                    <Link to={articleChannelToPath({channelName: channelMeta.name})}>
                       <p className="GridArticleItem_ChannelName">
                         {channelMeta.displayName}
                       </p>

@@ -99,7 +99,7 @@ articleChannelListReducer.on(Actions.loadArticleChannelListRequest, (state) => (
 
 articleChannelListReducer.on(Actions.loadArticleChannelListSuccess, (state, { response }) => ({
   ...state,
-  channelList: response.results.map((channel) => String(channel.id)),
+  channelList: response.results.map((channel) => String(channel.name)),
   fetchStatus: FetchStatusFlag.IDLE,
   isFetched: true,
 }));

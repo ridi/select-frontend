@@ -63,7 +63,7 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
                     {channelMeta ? (
                       <Link
                         className="ArticleChartList_Channel_Link"
-                        to={articleChannelToPath({channelId: channelMeta.id})}
+                        to={articleChannelToPath({channelName: channelMeta.name})}
                       >
                         <span className="ArticleChartList_Meta_Channel">{channelMeta.displayName}</span>
                       </Link>

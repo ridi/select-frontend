@@ -8,6 +8,6 @@ export const getChannelList = createSelector(
   [channelListSelector, channelByIdSelector],
   (channelItems, channelById) => {
     const { channelList } = channelItems;
-    return channelList.map((channelId) => channelById[Number(channelId)].channelMeta!);
+    return channelList.map((channelName) => channelById[channelName].channelMeta);
   },
 );

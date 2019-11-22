@@ -18,13 +18,13 @@ export const ArticleChannelsMeta: React.FunctionComponent<ArticleChannel> = (pro
 
   return (
     <div className="Channel_Info">
-      <Link className="Channel_Link" to={articleChannelToPath({ channelId: id })}>
+      <Link className="Channel_Link" to={articleChannelToPath({ channelName: name })}>
         <div className="Channel_Thumbnail">
           <img src={thumbnailUrl} className="Channel_Image" />
         </div>
       </Link>
       <div className="Channel_Meta">
-        <Link className="Channel_Link" to={articleChannelToPath({ channelId: id })}>
+        <Link className="Channel_Link" to={articleChannelToPath({ channelName: name })}>
           <span className="Channel_Title">{displayName}</span>
         </Link>
         <span className="Channel_Desc">{description}</span>

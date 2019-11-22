@@ -46,7 +46,7 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId: numb
     <div className="ChannelInfoHeader_Wrapper">
       <Link
         className="ChannelInfoHeader_ChannelLink"
-        to={articleChannelToPath({channelId: channelState.channelMeta.id})}
+        to={articleChannelToPath({channelName: channelState.channelMeta.name})}
       >
         <div className="ChannelInfoHeader_Thumbnail">
           <img src={channelState.channelMeta.thumbnailUrl} className="ChannelInfoHeader_ThumbnailImage" />
@@ -55,7 +55,7 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId: numb
       <div className="ChannelInfoHeader_Meta">
         <Link
           className="ChannelInfoHeader_ChannelLink"
-          to={articleChannelToPath({channelId: channelState.channelMeta.id})}
+          to={articleChannelToPath({channelName: channelState.channelMeta.name})}
         >
           <span className="ChannelInfoHeader_Title">{channelState.channelMeta.displayName}</span>
         </Link>

@@ -16,7 +16,7 @@ export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = 
           channels.map((channel, idx) => (
             <li key={idx} className="FollowingChannel">
               <Link
-                to={articleChannelToPath({channelId: channel.id})}
+                to={articleChannelToPath({channelName: channel.name})}
                 className="FollowingChannel_Link"
               >
                 <div className="ChannelItem">
