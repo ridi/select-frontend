@@ -35,7 +35,7 @@ export const SearchResultArticleList: React.FunctionComponent<Props> = (props) =
               />
               <span
                 className="SearchResultArticleList_Channel"
-                dangerouslySetInnerHTML={{ __html: article.highlight.channelDisplayName || channelState[article.channelId].channelMeta!.displayName }}
+                dangerouslySetInnerHTML={{ __html: article.highlight.channelDisplayName || channelState[article.channelName].channelMeta!.displayName }}
               />
             </Link>
           </div>
