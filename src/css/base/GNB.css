@@ -289,7 +289,7 @@
   display: inline-block;
   margin-right: 24px;
   line-height: 24px;
-  padding: 10px 3px 11px 3px;
+  padding: 10px 3px 10px 3px;
   @nest .androidApp &,
   @nest .iosApp & {
     padding: 16px 3px 17px 3px;
@@ -299,9 +299,21 @@
 .GnbTab_Link {
   text-decoration: none;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: -.34px;
   color: var(--slategray_40);
+  transition: opacity .2s;
+
+  @media (hover: hover) {
+    &:hover {
+      opacity: .8;
+    }
+  }
+  @media (hover: none) {
+    &:active {
+      opacity: .8;
+    }
+  }
 
   &.GnbTab_Link-active {
     color: var(--bluegray_80);
@@ -312,8 +324,12 @@
       height: 2px;
       background-color: gray;
       left: 0;
-      bottom: 0;
+      bottom: -1px;
     }
+  }
+
+  & .reset-heading {
+    font-weight: 500;
   }
 }
 
@@ -382,7 +398,7 @@
     height: auto;
   }
   .GnbTab_Item {
-    padding: 0 3px 17px 3px;
+    padding: 7px 3px 9px 3px;
   }
 }
 
