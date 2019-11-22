@@ -30,7 +30,10 @@ const ShareSVG = (props: { className?: string; }) => (
 export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
   const { channelName, contentIndex } = props.match.params;
   const contentKey = `@${channelName}/${Number(contentIndex)}`;
-  const { articleState } = useSelector((state: RidiSelectState) => ({ articleState: state.articlesById[contentKey] }));
+  const { articleState, hasAvailableTicket } = useSelector((state: RidiSelectState) => ({
+    articleState: state.articlesById[contentKey],
+    hasAvailableTicket: state.user.hasAvailableTicket,
+  }));
   const dispatch = useDispatch();
   const checkIsFetched = () => {
     return (
@@ -90,42 +93,54 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
               }}
             />
           ) : null}
-          <ul className="ArticleContent_ButtonsWrapper">
-            <li className="ArticleContent_ButtonElement">
+          {hasAvailableTicket ? (
+            <ul className="ArticleContent_ButtonsWrapper">
+              <li className="ArticleContent_ButtonElement">
+                <Button
+                  color="gray"
+                  size="medium"
+                  outline={true}
+                  className={classNames(
+                    'ArticleContent_Button',
+                    'ArticleContent_LikeButton',
+                    articleState.article.isFavorite && 'ArticleContent_LikeButton-active',
+                  )}
+                  onClick={() => dispatch(Actions.favoriteArticleActionRequest({
+                    articleId: articleState.article!.id,
+                    method: articleState.article!.isFavorite ? 'DELETE' : 'POST',
+                  }))}
+                >
+                  <Icon
+                    name="heart_1"
+                    className="ArticleContent_LikeButton_Icon"
+                  />
+                  {typeof articleState.article.favoritesCount === 'number' ? thousandsSeperator(articleState.article.favoritesCount) : ''}
+                </Button>
+              </li>
+              <li className="ArticleContent_ButtonElement">
+                <Button
+                  color="gray"
+                  size="medium"
+                  outline={true}
+                  className="ArticleContent_Button ArticleContent_ShareButton"
+                  onClick={copyUrl}
+                >
+                  <ShareSVG className="ArticleContent_ShareButton_Icon" />
+                  링크 복사하기
+                </Button>
+              </li>
+            </ul>
+          ) : (
+            <div className="ArticleContent_UnsubscriberButtonWrapper">
               <Button
-                color="gray"
-                size="medium"
-                outline={true}
-                className={classNames(
-                  'ArticleContent_Button',
-                  'ArticleContent_LikeButton',
-                  articleState.article.isFavorite && 'ArticleContent_LikeButton-active',
-                )}
-                onClick={() => dispatch(Actions.favoriteArticleActionRequest({
-                  articleId: articleState.article!.id,
-                  method: articleState.article!.isFavorite ? 'DELETE' : 'POST',
-                }))}
+                size="large"
+                color="blue"
+                className="ArticleContent_UnsubscriberButton"
               >
-                <Icon
-                  name="heart_1"
-                  className="ArticleContent_LikeButton_Icon"
-                />
-                {typeof articleState.article.favoritesCount === 'number' ? thousandsSeperator(articleState.article.favoritesCount) : ''}
+                리디셀렉트 구독하고 바로 보기
               </Button>
-            </li>
-            <li className="ArticleContent_ButtonElement">
-              <Button
-                color="gray"
-                size="medium"
-                outline={true}
-                className="ArticleContent_Button ArticleContent_ShareButton"
-                onClick={copyUrl}
-              >
-                <ShareSVG className="ArticleContent_ShareButton_Icon" />
-                링크 복사하기
-              </Button>
-            </li>
-          </ul>
+            </div>
+          )}
         </>
       ) : <ArticleEmpty
         iconName="document"
