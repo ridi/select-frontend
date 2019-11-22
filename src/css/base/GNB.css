@@ -60,14 +60,14 @@
   box-sizing: border-box;
   display: inline-block;
   height: var(--gnb_mobile_height);
-  padding: 15px 8px 0 10px;
+  padding: 16px 6.5px 0 10px;
   transition: opacity .2s;
   vertical-align: top;
   & .GNBLogo {
-    width: 81px;
+    width: 83.5px;
     height: 13px;
     vertical-align: top;
-    fill: #000;
+    fill: var(--bluegray_80);
     @nest .GNBWrapper-dark & {
       fill: #fff;
     }
@@ -109,11 +109,11 @@
   position: relative;
   &::before {
     position: absolute;
-    top: calc((var(--gnb_mobile_height) - 10px) / 2);
+    top: calc((var(--gnb_mobile_height) - 11px) / 2);
     left: 0;
     width: 1px;
-    height: 10px;
-    background: var(--bluegray_60);
+    height: 11px;
+    background: var(--slategray_20);
     content: '';
     @nest .GNBWrapper-dark & {
       background: #fff;
@@ -132,7 +132,7 @@
   box-sizing: border-box;
   display: inline-block;
   height: var(--gnb_mobile_height);
-  padding-left: 9px;
+  padding-left: 6px;
   transition: opacity .2s;
   &.Ridibooks_Link {
     padding-top: 17px;
@@ -157,10 +157,10 @@
 
 .GNBServiceLogo {
   &.RidibooksLogo {
-    width: 65px;
-    height: 10px;
+    width: 71.5px;
+    height: 11px;
     vertical-align: top;
-    fill: var(--bluegray_30);
+    fill: var(--slategray_30);
     @nest .GNBWrapper-dark & {
       opacity: .5;
       fill: #fff;
@@ -347,10 +347,10 @@
       & .GNBLeft {
         & .GNBLogoWrapper {
           height: var(--gnb_pc_height);
-          padding: 24px 10px 0;
+          padding: 24px 11.7px 0 0;
           line-height: var(--gnb_pc_height);
           & .GNBLogo {
-            width: 100px;
+            width: 102px;
             height: 16px;
           }
         }
@@ -360,14 +360,15 @@
             height: var(--gnb_pc_height);
             line-height: calc(var(--gnb_pc_height) - 2px);
             &::before {
-              top: calc(((var(--gnb_pc_height) - 10px) / 2) + 3px);
+              height: 14px;
+              top: calc(((var(--gnb_pc_height) - 14px) / 2) + 2px);
             }
             & .GNBServiceLink {
-              padding: 28px 0 0 10px;
+              padding: 25px 0 0 10px;
             }
             & .RidibooksLogo {
-              width: 64.1px;
-              height: 9.8px;
+              width: 91px;
+              height: 14px;
             }
           }
         }
