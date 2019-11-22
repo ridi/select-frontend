@@ -6,9 +6,21 @@ import { ArticleHomeSection } from 'app/components/ArticleHome/ArticleHomeSectio
 import { ConnectedBigBannerCarousel } from 'app/components/Home/BigBanner';
 import { PageTitleText } from 'app/constants';
 import { ArticleHomeSectionType, ArticleSectionType } from 'app/services/articleHome';
-import { ArticleChartsMockUp, ArticleListMockUp } from 'app/utils/mock';
+import { Actions } from 'app/services/articleHome';
+import { RidiSelectState } from 'app/store';
+import { differenceInHours } from 'date-fns';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const ArticleHome: React.FunctionComponent = () => {
+  const { fetchedAt } = useSelector((state: RidiSelectState) => state.articleHome);
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    if (!fetchedAt || Math.abs(differenceInHours(fetchedAt, Date.now())) >= 3) {
+      dispatch(Actions.loadArticleBannerRequest());
+    }
+  }, []);
+
   return (
     <main
       className={classNames(

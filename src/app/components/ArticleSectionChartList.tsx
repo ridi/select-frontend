@@ -39,6 +39,7 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
           <ol className="ArticleChartGroup" start={groupIdx * 5 + 1} key={groupIdx}>
             {groupedArticles.map((article, idxInGroup) => {
               const index = groupIdx * CHART_GROUPING_COUNT + idxInGroup;
+              const articleUrl = `/article/${getArticleKeyFromData(article)}`;
               const channelMeta = articleChannelById &&
                 articleChannelById[article.channelId] &&
                 articleChannelById[article.channelId].channelMeta;
@@ -49,14 +50,14 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
                 >
                   <span className="ArticleChartList_Rank">{index + 1}</span>
                   <ArticleThumbnail
-                    linkUrl={`/article/${getArticleKeyFromData(article)}`}
+                    linkUrl={articleUrl}
                     imageUrl={article.thumbnailUrl}
                     articleTitle={article.title}
                     thumbnailShape={ThumbnailShape.SQUARE}
                   />
                   <Link
                     className="ArticleChartList_Meta"
-                    to={`/article/${getArticleKeyFromData(article)}`}
+                    to={articleUrl}
                   >
                     <span className="ArticleChartList_Meta_Title">{article.title}</span>
                     {channelMeta ? (

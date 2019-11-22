@@ -5,6 +5,26 @@
 .BigBanner {
   position: relative;
 }
+.BigBanner-Count {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-family: Roboto;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: -0.3px;
+  text-align: center;
+  color: #fff;  
+  background-color: rgba(0,0,0,0.5);
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid gray;
+  @media (--big-banner-breakpoint) {
+    right: auto;
+    left: 50%;
+    transform: translateX(157px);
+  }
+}
 
 .BigBanner_Dots {
   position: absolute;
@@ -48,7 +68,7 @@
   width: 100%;
   position: relative;
   @media (--pc-screen) {
-    height: 288px;
+    height: 432px;
     padding-top: 0;
   }
   @media (--mobile-screen) {
