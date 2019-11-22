@@ -190,7 +190,7 @@
   & .SettingIcon {
     width: 17.5px;
     height: 18px;
-    fill: #000;
+    fill: var(--bluegray_70);
   }
   &.GNBSettingDarkColor {
     & .SettingIcon {

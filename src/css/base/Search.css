@@ -132,7 +132,7 @@
 .GNBSearchButtonIcon {
   width: 18px;
   height: 18px;
-  fill: #000;
+  fill: var(--bluegray_70);
   @nest .GNBSearchWrapper-colored & {
     fill: #fff;
   }
