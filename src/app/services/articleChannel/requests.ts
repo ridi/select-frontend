@@ -32,8 +32,8 @@ export const requestArticleChannelList = (requestQueries?: ArticleRequestQueries
   }).then((response) => camelize<AxiosResponse<ArticleChannelListResponse>>(response, { recursive : true }).data);
 };
 
-export const requestArticleChannelDetail = (channelId: number, requestQueries?: ArticleRequestQueries): Promise<ArticleChannel> => {
-  const requestUrl = `/article/channels/${channelId}${buildArticleRequestQueriesToString(requestQueries)}`;
+export const requestArticleChannelDetail = (channelName: string, requestQueries?: ArticleRequestQueries): Promise<ArticleChannel> => {
+  const requestUrl = `/article/channels/${channelName}${buildArticleRequestQueriesToString(requestQueries)}`;
 
   return request({
     url: requestUrl,
@@ -41,9 +41,9 @@ export const requestArticleChannelDetail = (channelId: number, requestQueries?: 
   }).then((response) => camelize<AxiosResponse<ArticleChannel>>(response, { recursive : true }).data);
 };
 
-export const requestArticleChannelArticles = (channelId: number, page: number): Promise<ArticleChannelArticlesResponse> => (
+export const requestArticleChannelArticles = (channelName: string, page: number): Promise<ArticleChannelArticlesResponse> => (
   request({
-    url: `/article/articles?channel_id=${channelId}&page=${page}`,
+    url: `/article/articles?channel_name=${channelName}&page=${page}`,
     method: 'GET',
   }).then((response) => camelize<AxiosResponse<ArticleChannelArticlesResponse>>(response, { recursive: true }).data)
 );

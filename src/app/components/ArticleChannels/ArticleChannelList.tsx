@@ -22,11 +22,11 @@ export const ArticleChannelList: React.FunctionComponent = () => {
       <div className="ArticlePageChannelList_Wrap">
         <ul className="ArticlePageChannelList">
           {channelList.map((channelMeta, idx) => {
-              return (
+              return channelMeta ? (
                 <li key={idx} className="ArticlePageChannel">
                   <ArticleChannelsMeta {...channelMeta} />
                 </li>
-              );
+              ) : null;
           })}
         </ul>
       </div>
