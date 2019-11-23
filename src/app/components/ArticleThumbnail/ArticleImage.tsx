@@ -21,10 +21,17 @@ export const ArticleImage: React.FunctionComponent<ArticleImageProps> = (props) 
 
   const [isLoaded, setIsLoaded] = React.useState(false);
   const [isEndTransition, setIsEndTransition] = React.useState(false);
+  const [isWrongImage, setIsWrongImage] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!src) {
+      setIsWrongImage(true);
+    }
+  }, []);
 
   return (
     <>
-      {src ? (
+      {!isWrongImage ? (
         <img
           className={classNames(
             'ArticleThumbnail_CoverImage',
@@ -33,6 +40,7 @@ export const ArticleImage: React.FunctionComponent<ArticleImageProps> = (props) 
           src={src}
           alt={alt}
           onLoad={() => setIsLoaded(true)}
+          onError={() => setIsWrongImage(true)}
         />
       ) : (
         <span className="ArticleThumbnail_DefaultCoverImage">
