@@ -14,6 +14,7 @@ import { RidiSelectState } from 'app/store';
 import { ArticleRequestIncludableData } from 'app/types';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
 import toast from 'app/utils/toast';
+import { moveToLogin } from 'app/utils/utils';
 
 type RouteProps = RouteComponentProps<{ channelName: string; contentIndex: string }>;
 
@@ -30,9 +31,11 @@ const ShareSVG = (props: { className?: string; }) => (
 export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
   const { channelName, contentIndex } = props.match.params;
   const contentKey = `@${channelName}/${Number(contentIndex)}`;
-  const { articleState, hasAvailableTicket } = useSelector((state: RidiSelectState) => ({
+  const { articleState, hasAvailableTicket, isLoggedIn, BASE_URL_STORE } = useSelector((state: RidiSelectState) => ({
+    BASE_URL_STORE: state.environment.STORE_URL,
     articleState: state.articlesById[contentKey],
     hasAvailableTicket: state.user.hasAvailableTicket,
+    isLoggedIn: state.user.isLoggedIn,
   }));
   const dispatch = useDispatch();
   const checkIsFetched = () => {
@@ -75,77 +78,86 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
   return articleState && articleState.article ? (
     <main className="SceneWrapper PageArticleContent">
       <h1 className="ArticleContent_Title">{articleState.article.title}</h1>
-      {articleState.article.channelId && articleState.article.channelName ? (
-        <ArticleChannelInfoHeader
-          channelId={articleState.article.channelId}
-          channelName={articleState.article.channelName}
-          contentKey={contentKey}
-        />
-      ) : null}
-      {checkIsFetched() && articleState ? (
-        <>
-          {articleState.content ? (
-            <Article
-              json={articleState.content.json}
-              classes={['RidiselectArticle']}
-              style={{
-                background: 'white',
-              }}
-            />
-          ) : null}
-          {hasAvailableTicket ? (
-            <ul className="ArticleContent_ButtonsWrapper">
-              <li className="ArticleContent_ButtonElement">
+      <div className="ArticleContent_ContentWrapper">
+        {articleState.article.channelId && articleState.article.channelName ? (
+          <ArticleChannelInfoHeader
+            channelId={articleState.article.channelId}
+            channelName={articleState.article.channelName}
+            contentKey={contentKey}
+          />
+        ) : null}
+        {checkIsFetched() && articleState ? (
+          <>
+            {articleState.content ? (
+              <Article
+                json={articleState.content.json}
+                classes={['RidiselectArticle']}
+                style={{
+                  background: 'white',
+                }}
+              />
+            ) : null}
+            {hasAvailableTicket ? (
+              <ul className="ArticleContent_ButtonsWrapper">
+                <li className="ArticleContent_ButtonElement">
+                  <Button
+                    color="gray"
+                    size="medium"
+                    outline={true}
+                    className={classNames(
+                      'ArticleContent_Button',
+                      'ArticleContent_LikeButton',
+                      articleState.article.isFavorite && 'ArticleContent_LikeButton-active',
+                    )}
+                    onClick={() => dispatch(Actions.favoriteArticleActionRequest({
+                      articleId: articleState.article!.id,
+                      method: articleState.article!.isFavorite ? 'DELETE' : 'POST',
+                    }))}
+                  >
+                    <Icon
+                      name="heart_1"
+                      className="ArticleContent_LikeButton_Icon"
+                    />
+                    {typeof articleState.article.favoritesCount === 'number' ? thousandsSeperator(articleState.article.favoritesCount) : ''}
+                  </Button>
+                </li>
+                <li className="ArticleContent_ButtonElement">
+                  <Button
+                    color="gray"
+                    size="medium"
+                    outline={true}
+                    className="ArticleContent_Button ArticleContent_ShareButton"
+                    onClick={copyUrl}
+                  >
+                    <ShareSVG className="ArticleContent_ShareButton_Icon" />
+                    링크 복사하기
+                  </Button>
+                </li>
+              </ul>
+            ) : (
+              <div className="ArticleContent_GetTicketToReadButtonWrapper">
                 <Button
-                  color="gray"
-                  size="medium"
-                  outline={true}
-                  className={classNames(
-                    'ArticleContent_Button',
-                    'ArticleContent_LikeButton',
-                    articleState.article.isFavorite && 'ArticleContent_LikeButton-active',
-                  )}
-                  onClick={() => dispatch(Actions.favoriteArticleActionRequest({
-                    articleId: articleState.article!.id,
-                    method: articleState.article!.isFavorite ? 'DELETE' : 'POST',
-                  }))}
+                  size="large"
+                  color="blue"
+                  className="ArticleContent_GetTicketToReadButton"
+                  onClick={() => {
+                    if (isLoggedIn) {
+                      window.location.replace(`${BASE_URL_STORE}/select/payments`);
+                      return;
+                    }
+                    moveToLogin(`${BASE_URL_STORE}/select/payments`);
+                  }}
                 >
-                  <Icon
-                    name="heart_1"
-                    className="ArticleContent_LikeButton_Icon"
-                  />
-                  {typeof articleState.article.favoritesCount === 'number' ? thousandsSeperator(articleState.article.favoritesCount) : ''}
+                  리디셀렉트 구독하고 바로 보기
                 </Button>
-              </li>
-              <li className="ArticleContent_ButtonElement">
-                <Button
-                  color="gray"
-                  size="medium"
-                  outline={true}
-                  className="ArticleContent_Button ArticleContent_ShareButton"
-                  onClick={copyUrl}
-                >
-                  <ShareSVG className="ArticleContent_ShareButton_Icon" />
-                  링크 복사하기
-                </Button>
-              </li>
-            </ul>
-          ) : (
-            <div className="ArticleContent_UnsubscriberButtonWrapper">
-              <Button
-                size="large"
-                color="blue"
-                className="ArticleContent_UnsubscriberButton"
-              >
-                리디셀렉트 구독하고 바로 보기
-              </Button>
-            </div>
-          )}
-        </>
-      ) : <ArticleEmpty
-        iconName="document"
-        description="컨텐츠 내용이 비어있습니다."
-      />}
+              </div>
+            )}
+          </>
+        ) : <ArticleEmpty
+          iconName="document"
+          description="컨텐츠 내용이 비어있습니다."
+        />}
+      </div>
     </main>
   ) : null;
 };
