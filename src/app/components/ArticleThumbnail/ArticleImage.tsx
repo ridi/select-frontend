@@ -24,15 +24,25 @@ export const ArticleImage: React.FunctionComponent<ArticleImageProps> = (props) 
 
   return (
     <>
-      <img
-        className={classNames(
-          'ArticleThumbnail_CoverImage',
-          className,
-        )}
-        src={src}
-        alt={alt}
-        onLoad={() => setIsLoaded(true)}
-      />
+      {src ? (
+        <img
+          className={classNames(
+            'ArticleThumbnail_CoverImage',
+            className,
+          )}
+          src={src}
+          alt={alt}
+          onLoad={() => setIsLoaded(true)}
+        />
+      ) : (
+        <span className="ArticleThumbnail_DefaultCoverImage">
+          <img
+            className="ArticleThumbnail_DefaultCoverImage_Logo"
+            src={require('images/article_default_thumbnail_logo.png')}
+            alt="리디셀렉트 아티클 빈 썸네일"
+          />
+        </span>
+      )}
       {isLoaded && isEndTransition ? null : (
         <span
           className={classNames(
