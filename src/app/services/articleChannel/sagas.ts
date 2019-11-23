@@ -63,8 +63,12 @@ export function* articleChannelFollowingAction({ payload }: ReturnType<typeof Ac
   const { channelId, channelName, method } = payload;
   try {
     const hasAvailableTicket = yield select((state: RidiSelectState) => state.user.hasAvailableTicket);
-    if (!hasAvailableTicket && method === 'POST') {
-      toast.failureMessage('이용권 결제 후 이용하실 수 있습니다.');
+    if (!hasAvailableTicket) {
+      toast.failureMessage(`구독 후 ${
+        method === 'POST'
+          ? '팔로우'
+          : '팔로잉 해제'
+      }할 수 있습니다.`);
       yield put(Actions.articleChannelFollowingActionFailure({ channelName }));
       return;
     }
