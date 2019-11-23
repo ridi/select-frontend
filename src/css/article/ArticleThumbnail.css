@@ -31,3 +31,22 @@
   }
 }
 
+.ArticleThumbnail_DefaultCoverImage {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: #e6e8eb;
+}
+
+.ArticleThumbnail_DefaultCoverImage_Logo {
+  display: block;
+  align-self: center;
+  width: 30%;
+  margin: 0 auto;
+  @nest .ArticleThumbnail_Wrapper-square & {
+    width: 40%;
+  }
+}
