@@ -88,11 +88,14 @@
     display: block;
     max-width: var(--max-pc-content-width);
     margin: 0 auto;
-    padding: 0 8px;
+    padding: 0 7px;
   }
   .LnbMenu {
     display: inline-block;
     padding: 0 7px;
+    &:first-child {
+      padding-left: 0;
+    }
     &.LnbMenu_Home,
     &.LnbMenu_RecentUpdates,
     &.LnbMenu_Categories,
