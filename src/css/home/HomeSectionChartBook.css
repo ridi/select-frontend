@@ -41,11 +41,12 @@
 
 .HomeSection_ChartBookRanking {
   align-self: center;
-  min-width: 19px;
+  min-width: 16px;
   margin-right: 10px;
   color: #303538;
-  font-family: Minion Pro;
-  font-size: 20px;
+  font-family: Roboto, Sans-serif;
+  font-weight: 500;
+  font-size: 16px;
   text-align: center;
 }
 
