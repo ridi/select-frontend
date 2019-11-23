@@ -21,18 +21,36 @@ export const ArticleImage: React.FunctionComponent<ArticleImageProps> = (props) 
 
   const [isLoaded, setIsLoaded] = React.useState(false);
   const [isEndTransition, setIsEndTransition] = React.useState(false);
+  const [isWrongImage, setIsWrongImage] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!src) {
+      setIsWrongImage(true);
+    }
+  }, []);
 
   return (
     <>
-      <img
-        className={classNames(
-          'ArticleThumbnail_CoverImage',
-          className,
-        )}
-        src={src}
-        alt={alt}
-        onLoad={() => setIsLoaded(true)}
-      />
+      {!isWrongImage ? (
+        <img
+          className={classNames(
+            'ArticleThumbnail_CoverImage',
+            className,
+          )}
+          src={src}
+          alt={alt}
+          onLoad={() => setIsLoaded(true)}
+          onError={() => setIsWrongImage(true)}
+        />
+      ) : (
+        <span className="ArticleThumbnail_DefaultCoverImage">
+          <img
+            className="ArticleThumbnail_DefaultCoverImage_Logo"
+            src={require('images/article_default_thumbnail_logo.png')}
+            alt="리디셀렉트 아티클 빈 썸네일"
+          />
+        </span>
+      )}
       {isLoaded && isEndTransition ? null : (
         <span
           className={classNames(
