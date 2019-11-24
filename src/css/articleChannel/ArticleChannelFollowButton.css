@@ -1,0 +1,38 @@
+.Channel_FollowButton {
+  display: inline-block;
+  margin-left: auto;
+  width: 76px;
+  height: 30px;
+  line-height: 28px;
+  box-shadow: none;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 3px;
+  border: 0
+  @media (hover: hover) {
+    &:hover,
+    &:active {
+      transition: background .2s, color .2s;
+    }
+  }
+}
+
+.Channel_FollowButton-active {
+  border: 1px solid var(--dodgerblue_50);
+  background: #fff;
+  @media (hover: hover) {
+    &:hover,
+    &:active {
+      background: #fff;
+      border-color: var(--dodgerblue_60);
+      transition: background .2s, color .2s;
+    }
+  }
+}
+
+.Channel_FollowButton_Icon {
+  width: 10px;
+  height: 10px;
+  fill: #fff;
+  margin-right: 4px;
+}

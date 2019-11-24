@@ -31,21 +31,4 @@
   letter-spacing: -.3px;
   color: var(--slategray_60);
 }
-.ChannelInfoHeader_Follow {
-  margin-left: auto;
-  width: 76px;
-  height: 30px;
-  line-height: 28px;
-  box-shadow: none;
-  font-size: 12px;
-  font-weight: 700;
 
-
-}
-
-.ChannelInfoHeader_FollowIcon {
-  width: 10px;
-  height: 10px;
-  fill: #fff;
-  margin-right: 4px;
-}

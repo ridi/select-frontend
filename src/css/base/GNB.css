@@ -281,7 +281,8 @@
   max-width: 900px;
   margin: 0 auto;
   padding: 0;
-  padding-left: 16px;
+  padding-left: 8px;
+  box-sizing: border-box;
 }
 
 .GnbTab_Item {
@@ -345,6 +346,7 @@
       margin: 0 auto;
       border: none;
       & .GNBLeft {
+        padding-left: 8px;
         & .GNBLogoWrapper {
           height: var(--gnb_pc_height);
           padding: 24px 11.7px 0 0;

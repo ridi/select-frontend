@@ -1,8 +1,11 @@
-import { Icon } from '@ridi/rsg';
-import { Actions } from 'app/services/articleChannel';
 import { Method } from 'axios';
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
+
+import { Icon } from '@ridi/rsg';
+
+import { ArticleChannelFollowButton } from 'app/components/ArticleChannels/ArticleChannelFollowButton';
+import { Actions } from 'app/services/articleChannel';
 
 interface ArticleChannelMetaProps {
   id: number;
@@ -19,10 +22,7 @@ export const ArticleChannelMeta: React.FunctionComponent<ArticleChannelMetaProps
   const { id, name, displayName, thumbnailUrl, description, subDescription, followersCount = 0, isFollowing } = props;
   const [followCount, setFollowCount] = React.useState(followersCount);
 
-  const dispatch = useDispatch();
-
-  const handleButtonClick = (method: Method) => {
-    dispatch(Actions.articleChannelFollowingActionRequest({ channelId: id, channelName: name, method }));
+  const setChannelFollowCount = (method: Method) => {
     if (method === 'POST') {
       setFollowCount(followCount + 1);
     } else {
@@ -41,14 +41,11 @@ export const ArticleChannelMeta: React.FunctionComponent<ArticleChannelMetaProps
           <p className="ArticleChannel_Meta_Desc">{description}</p>
           <span className="ArticleChannel_Meta_Serial">{subDescription}</span>
           <span className="ArticleChannel_Meta_Following">팔로잉 <strong className="ArticleChannel_Meta_FollowingNumber">{followCount}</strong></span>
-          {isFollowing ? (
-              <button type="button" className="ArticleChannel_Following_Button" onClick={() => handleButtonClick('DELETE')}>팔로잉</button>
-          ) : (
-              <button type="button" className="ArticleChannel_Following_Button ArticleChannel_Following_Button-active" onClick={() => handleButtonClick('POST')}>
-                <Icon name="plus_1" className="ArticleChannel_Following_Icon" />
-                팔로우
-              </button>
-          )}
+          <ArticleChannelFollowButton
+            channelId={id}
+            channelName={name}
+            afterAction={setChannelFollowCount}
+          />
         </div>
       </div>
     </section>

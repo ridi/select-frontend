@@ -59,7 +59,7 @@
   text-align: center;
   text-decoration: none;
   & .reset-heading {
-    color: #000;
+    color: var(--bluegray_80);
     font-size: 14px;
     font-weight: 400;
     line-height: var(--lnb_mobile_height);
@@ -67,13 +67,10 @@
   &:focus .reset-heading,
   &:active .reset-heading,
   &:visited .reset-heading {
-    color: #000;
+    color: var(--bluegray_80);
   }
-  &.LnbMenu_Link-active {
-    & .reset-heading {
-      color: var(--bluegray_80);
-      font-weight: 700;
-    }
+  &.LnbMenu_Link-active .reset-heading {
+    font-weight: 700;
   }
   @nest .iosApp & {
     & .reset-heading {

@@ -1,20 +1,16 @@
+import { Method } from 'axios';
 import * as React from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import { Icon } from '@ridi/rsg';
+import { ArticleChannelFollowButton } from 'app/components/ArticleChannels/ArticleChannelFollowButton';
 import { Actions } from 'app/services/articleChannel';
 import { ArticleChannel } from 'app/services/articleChannel';
 import { articleChannelToPath } from 'app/utils/toPath';
-import { Method } from 'axios';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 export const ArticleChannelsMeta: React.FunctionComponent<ArticleChannel> = (props) => {
   const { id, name, thumbnailUrl, displayName, description, isFollowing } = props;
   const dispatch = useDispatch();
-
-  const handleButtonClick = (method: Method) => {
-    dispatch(Actions.articleChannelFollowingActionRequest({ channelId: id, channelName: name, method }));
-  };
 
   return (
     <div className="Channel_Info">
@@ -29,16 +25,10 @@ export const ArticleChannelsMeta: React.FunctionComponent<ArticleChannel> = (pro
         </Link>
         <span className="Channel_Desc">{description}</span>
       </div>
-      {isFollowing ? (
-        <button className="Channel_Follow" onClick={() => handleButtonClick('DELETE')}>
-          팔로잉
-        </button>
-      ) : (
-        <button className="Channel_Follow FollowButton" onClick={() => handleButtonClick('POST')}>
-          <Icon name="plus_1" className="Follow_Icon" />
-          팔로우
-        </button>
-      )}
+      <ArticleChannelFollowButton
+        channelId={id}
+        channelName={name}
+      />
     </div>
   );
 };

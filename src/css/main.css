@@ -57,5 +57,6 @@
 @import 'articleContent/index.css';
 @import 'articleFollowing/index.css';
 @import 'articleChannel/ArticleChannelInfoHeader.css';
-@import 'articleChannel/ArticleChannels.css';
 @import 'articleChannel/ArticleChannel.css';
+@import 'articleChannel/ArticleChannelList.css';
+@import 'articleChannel/ArticleChannelFollowButton.css';

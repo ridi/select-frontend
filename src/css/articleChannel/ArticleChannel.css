@@ -8,7 +8,7 @@
   @media (min-width: 600px) {
     display: flex;
   }
-  & .ArticleChannel_Thumbnail {    
+  & .ArticleChannel_Thumbnail {
     margin-right: 18px;
     & .ArticleChannel_Image {
       width: 80px;
@@ -18,12 +18,16 @@
       border-radius: 999px;
     }
   }
+  & .Channel_FollowButton {
+    width: 100px;
+    margin-top: 10px;
+  }
 }
 
 .ArticleChannel_Meta {
   @media (max-width: 600px) {
     margin-top: 10px;
-  }    
+  }
 }
 
 .ArticleChannel_Meta_Title {
@@ -32,7 +36,7 @@
   font-weight: 700;
   line-height: 1.55;
   letter-spacing: -0.5px;
-  color: var(--gray_100);      
+  color: var(--gray_100);
   margin: 0;
   padding: 0;
 }
@@ -43,7 +47,7 @@
   font-family: NotoSansCJKkr;
   font-size: 13px;
   letter-spacing: -0.3px;
-  color: var(--slategray_90);      
+  color: var(--slategray_90);
 }
 
 
@@ -71,44 +75,14 @@
   font-size: 13px;
   font-weight: 700;
   letter-spacing: -0.3px;
-  color: var(--dodgerblue_50);        
-}
-
-.ArticleChannel_Following_Button {
-  margin-top: 10px;
-  width: 100px;
-  height: 30px;
-  border-radius: 3px;
-  border: solid 1px var(--dodgerblue_50);
-  background-color: #fff;
-  font-family: NotoSansCJKkr;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: -0.3px;
   color: var(--dodgerblue_50);
-  padding: 0;  
-  cursor: pointer;
-  &:hover, &:active {
-    border-color: var(--dodgerblue_60);
-    transition: background .2s, color .2s;  
-  }
-}
-
-.ArticleChannel_Following_Button-active {
-  border: none;
-  background-color: var(--dodgerblue_50);
-  color: #fff;   
-  &:hover, &:active {
-    background-color: var(--dodgerblue_60);
-    transition: background .2s, color .2s;  
-  }
 }
 
 .ArticleChannel_Following_Icon {
   width: 10px;
   height: 10px;
   fill: #fff;
-  margin-right: 4px;  
+  margin-right: 4px;
 }
 
 
@@ -117,6 +91,6 @@
   @media (--pc-screen) {
     max-width: 840px;
     margin: 0 auto;
-  }  
+  }
   margin-bottom: 30px;
 }

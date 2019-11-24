@@ -9,6 +9,8 @@ import { Actions } from 'app/services/articleChannel';
 import { RidiSelectState } from 'app/store';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import { articleChannelToPath } from 'app/utils/toPath';
+import * as classNames from 'classnames';
+import { ArticleChannelFollowButton } from './ArticleChannelFollowButton';
 
 export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId: number, channelName: string, contentKey: string }> = (props) => {
   const { channelState, articleState, authorName, isChannelFollowing } = useSelector((state: RidiSelectState) => {
@@ -38,10 +40,6 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId: numb
     dispatch(Actions.loadArticleChannelDetailRequest({ channelName: props.channelName }));
   }, []);
 
-  const handleButtonClick = (method: Method) => {
-    dispatch(Actions.articleChannelFollowingActionRequest({ channelId: props.channelId, channelName: props.channelName, method }));
-  };
-
   return channelState && channelState.channelMeta ? (
     <div className="ChannelInfoHeader_Wrapper">
       <Link
@@ -64,25 +62,10 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId: numb
           {buildOnlyDateFormat(articleState.article!.regDate)}
         </span>
       </div>
-      <Button
-        size="small"
-        color="blue"
-        outline={isChannelFollowing}
-        className="ChannelInfoHeader_Follow"
-        onClick={() => handleButtonClick(isChannelFollowing ? 'DELETE' : 'POST')}
-        spinner={typeof isChannelFollowing !== 'boolean'}
-      >
-        {typeof isChannelFollowing === 'boolean'
-          ? isChannelFollowing
-            ?  '팔로잉'
-            : (
-              <>
-                <Icon name="plus_1" className="ChannelInfoHeader_FollowIcon" />
-                팔로우
-              </>
-            )
-          : null}
-      </Button>
+      <ArticleChannelFollowButton
+        channelId={props.channelId}
+        channelName={props.channelName}
+      />
     </div>
   ) : null;
 };
