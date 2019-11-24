@@ -14,6 +14,7 @@ export interface PrivateRouteProps extends RouteProps {
   isRidiApp: boolean;
   isFetching: boolean;
   isLoggedIn: boolean;
+  BASE_URL_STORE: string;
   ticketFetchStatus: FetchStatusFlag;
   hasAvailableTicket: boolean;
   routeBlockLevel?: RouteBlockLevel;
@@ -23,6 +24,7 @@ export const PrivateRoute: React.SFC<PrivateRouteProps & RouteComponentProps> = 
   const {
     isFetching,
     isLoggedIn,
+    BASE_URL_STORE,
     ticketFetchStatus,
     hasAvailableTicket,
     routeBlockLevel = RouteBlockLevel.HAS_AVAILABLE_TICKET,
@@ -33,13 +35,15 @@ export const PrivateRoute: React.SFC<PrivateRouteProps & RouteComponentProps> = 
     return <div className="SplashScreen SplashScreen-whiteScreen" />;
   }
 
+  if (routeBlockLevel === RouteBlockLevel.LOGGED_IN && !isLoggedIn) {
+    window.location.replace(`${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${window.location.href}`);
+    return null;
+  }
+
   if (
-    routeBlockLevel === RouteBlockLevel.LOGGED_IN && !isLoggedIn ||
     routeBlockLevel === RouteBlockLevel.HAS_AVAILABLE_TICKET && !hasAvailableTicket
   ) {
-    toast.failureMessage(
-      routeBlockLevel === RouteBlockLevel.LOGGED_IN ? '로그인 후 접근할 수 있는 화면입니다.' : '이용권 결제 후 접근할 수 있는 화면입니다.',
-    );
+    toast.failureMessage('이용권 결제 후 접근할 수 있는 화면입니다.');
     props.history.replace({
       pathname: RoutePaths.HOME,
       search: props.location.search,
