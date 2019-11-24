@@ -52,6 +52,7 @@ export interface Props {
   isFetching: boolean;
   isLoggedIn: boolean;
   hasAvailableTicket: boolean;
+  BASE_URL_STORE: string;
   errorResponseState?: ErrorResponseStatus;
   ticketFetchStatus: FetchStatusFlag;
 }
@@ -248,6 +249,7 @@ const mapStateToProps = (rootState: RidiSelectState): Props => ({
   isLoggedIn: rootState.user.isLoggedIn,
   isRidiApp: selectIsInApp(rootState),
   isFetching: rootState.user.isFetching,
+  BASE_URL_STORE: rootState.environment.STORE_URL,
   hasAvailableTicket: rootState.user.hasAvailableTicket,
   errorResponseState: rootState.serviceStatus.errorResponseState,
   ticketFetchStatus: rootState.user.ticketFetchStatus,
