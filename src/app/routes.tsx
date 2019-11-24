@@ -36,24 +36,31 @@ import {
   WrongLocation,
 } from 'app/scenes';
 
+import { AlertForNonSubscriber } from 'app/components/AlertForNonSubscriber';
 import { FetchStatusFlag, RoutePaths } from 'app/constants';
 import {
   ConnectedAppManager,
   ConnectedPrivateRoute,
   RouteBlockLevel,
 } from 'app/hocs';
+import { ArticleContent } from 'app/scenes/ArticleContent';
+import { getIsIosInApp, selectIsInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
-import { ArticleContent } from './scenes/ArticleContent';
-import { selectIsInApp } from './services/environment/selectors';
 
 export interface Props {
   isRidiApp: boolean;
+  isIosInApp: boolean;
   isFetching: boolean;
   isLoggedIn: boolean;
   hasAvailableTicket: boolean;
   errorResponseState?: ErrorResponseStatus;
   ticketFetchStatus: FetchStatusFlag;
 }
+
+export const HomeRoutes = [
+  RoutePaths.HOME,
+  RoutePaths.ARTICLE_HOME,
+];
 
 export const inAppGnbRoutes = [
   RoutePaths.HOME,
@@ -82,7 +89,7 @@ export const PrimaryRoutes = [
 ];
 
 export const Routes: React.SFC<Props> = (props) => {
-  const { errorResponseState } = props;
+  const { errorResponseState, isIosInApp, isFetching, hasAvailableTicket } = props;
   return !errorResponseState ? (
     <ConnectedRouter history={history}>
       <ConnectedAppManager>
@@ -229,6 +236,15 @@ export const Routes: React.SFC<Props> = (props) => {
             {...props}
           />
         </Switch>
+        <Route
+          render={({ location }) => (
+            !isIosInApp &&
+            !isFetching &&
+            !hasAvailableTicket &&
+            HomeRoutes.includes(location.pathname as RoutePaths) &&
+            <AlertForNonSubscriber />
+          )}
+        />
         {!props.isRidiApp && <ConnectedFooter />}
       </ConnectedAppManager>
     </ConnectedRouter>
@@ -238,6 +254,7 @@ export const Routes: React.SFC<Props> = (props) => {
 const mapStateToProps = (rootState: RidiSelectState): Props => ({
   isLoggedIn: rootState.user.isLoggedIn,
   isRidiApp: selectIsInApp(rootState),
+  isIosInApp: getIsIosInApp(rootState),
   isFetching: rootState.user.isFetching,
   hasAvailableTicket: rootState.user.hasAvailableTicket,
   errorResponseState: rootState.serviceStatus.errorResponseState,
