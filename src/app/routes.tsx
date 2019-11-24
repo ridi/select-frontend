@@ -36,15 +36,16 @@ import {
   WrongLocation,
 } from 'app/scenes';
 
+import { AlertForNonSubscriber } from 'app/components/AlertForNonSubscriber';
 import { FetchStatusFlag, RoutePaths } from 'app/constants';
 import {
   ConnectedAppManager,
   ConnectedPrivateRoute,
   RouteBlockLevel,
 } from 'app/hocs';
+import { ArticleContent } from 'app/scenes/ArticleContent';
+import { selectIsInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
-import { ArticleContent } from './scenes/ArticleContent';
-import { selectIsInApp } from './services/environment/selectors';
 
 export interface Props {
   isRidiApp: boolean;
@@ -54,6 +55,11 @@ export interface Props {
   errorResponseState?: ErrorResponseStatus;
   ticketFetchStatus: FetchStatusFlag;
 }
+
+export const HomeRoutes = [
+  RoutePaths.HOME,
+  RoutePaths.ARTICLE_HOME,
+];
 
 export const inAppGnbRoutes = [
   RoutePaths.HOME,
@@ -229,6 +235,9 @@ export const Routes: React.SFC<Props> = (props) => {
             {...props}
           />
         </Switch>
+        <Route
+          render={({ location }) => (HomeRoutes.includes(location.pathname as RoutePaths) && <AlertForNonSubscriber />)}
+        />
         {!props.isRidiApp && <ConnectedFooter />}
       </ConnectedAppManager>
     </ConnectedRouter>
