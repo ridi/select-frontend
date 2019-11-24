@@ -44,12 +44,11 @@ import {
   RouteBlockLevel,
 } from 'app/hocs';
 import { ArticleContent } from 'app/scenes/ArticleContent';
-import { getIsIosInApp, selectIsInApp } from 'app/services/environment/selectors';
+import { selectIsInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 
 export interface Props {
   isRidiApp: boolean;
-  isIosInApp: boolean;
   isFetching: boolean;
   isLoggedIn: boolean;
   hasAvailableTicket: boolean;
@@ -89,7 +88,7 @@ export const PrimaryRoutes = [
 ];
 
 export const Routes: React.SFC<Props> = (props) => {
-  const { errorResponseState, isIosInApp, isFetching, hasAvailableTicket } = props;
+  const { errorResponseState } = props;
   return !errorResponseState ? (
     <ConnectedRouter history={history}>
       <ConnectedAppManager>
@@ -237,13 +236,7 @@ export const Routes: React.SFC<Props> = (props) => {
           />
         </Switch>
         <Route
-          render={({ location }) => (
-            !isIosInApp &&
-            !isFetching &&
-            !hasAvailableTicket &&
-            HomeRoutes.includes(location.pathname as RoutePaths) &&
-            <AlertForNonSubscriber />
-          )}
+          render={({ location }) => (HomeRoutes.includes(location.pathname as RoutePaths) && <AlertForNonSubscriber />)}
         />
         {!props.isRidiApp && <ConnectedFooter />}
       </ConnectedAppManager>
@@ -254,7 +247,6 @@ export const Routes: React.SFC<Props> = (props) => {
 const mapStateToProps = (rootState: RidiSelectState): Props => ({
   isLoggedIn: rootState.user.isLoggedIn,
   isRidiApp: selectIsInApp(rootState),
-  isIosInApp: getIsIosInApp(rootState),
   isFetching: rootState.user.isFetching,
   hasAvailableTicket: rootState.user.hasAvailableTicket,
   errorResponseState: rootState.serviceStatus.errorResponseState,
