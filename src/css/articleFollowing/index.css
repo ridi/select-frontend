@@ -1,13 +1,17 @@
 .FollowingChannelList {
-  max-width: 900px;
+  max-width: 760px;
   margin: 0 auto;
   display: flex;
   flex-direction: row;
-  padding: 30px 20px 10px;
+  padding: 30px 0px 10px;
   overflow: auto;
+  @media (min-width: 415px) and (max-width: 799px) {
+    padding-left: 20px;
+  }
   @media (--mobile-layout) {
     padding: 15px 10px;
   }
+
   & .FollowingChannel {
     display: inline-block;
     &:last-child {
@@ -44,7 +48,7 @@
 }
 
 .FollowingArticleList {
-  max-width: 940px;
+  max-width: 800px;
   margin: 0 auto;
 }
 
