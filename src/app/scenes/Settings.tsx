@@ -9,6 +9,7 @@ import { ConnectedSubscriptionInfo } from 'app/components/Settings/SubscriptionI
 import env from 'app/config/env';
 import { FetchStatusFlag, PageTitleText, RoutePaths } from 'app/constants';
 import { SettingPlaceholder } from 'app/placeholder/SettingPlaceholder';
+import { Actions as CommonUIActions } from 'app/services/commonUI';
 import { EnvironmentState } from 'app/services/environment';
 import { getIsIosInApp, selectIsInApp } from 'app/services/environment/selectors';
 import { Actions, SubscriptionState } from 'app/services/user';
@@ -158,14 +159,19 @@ export class Settings extends React.PureComponent<SettingProps> {
       dispatchLoadAccountMeRequest,
       dispatchLoadOrderHistory,
       dispatchLoadSubscriptionRequest,
+      dispatchUpdateGNBTabExpose,
     } = this.props;
 
     if (!isLoggedIn && !isFetching && !isAccountMeRetried) {
       dispatchLoadAccountMeRequest();
     }
-
+    dispatchUpdateGNBTabExpose(false);
     dispatchLoadSubscriptionRequest();
     dispatchLoadOrderHistory(1);
+  }
+
+  public componentWillUnmount() {
+    this.props.dispatchUpdateGNBTabExpose(true);
   }
 
   public render() {
@@ -214,6 +220,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(Actions.loadSubscriptionRequest()),
   dispatchLoadOrderHistory: (page: number) =>
     dispatch(Actions.loadPurchasesRequest({ page })),
+  dispatchUpdateGNBTabExpose: (isGnbTab: boolean) => dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
 });
 
 export const ConnectedSetting = connect(

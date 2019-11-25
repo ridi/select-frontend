@@ -60,7 +60,7 @@
   box-sizing: border-box;
   display: inline-block;
   height: var(--gnb_mobile_height);
-  padding: 16px 6.5px 0 10px;
+  padding: 16px 6px 0 10px;
   transition: opacity .2s;
   vertical-align: top;
   & .GNBLogo {
