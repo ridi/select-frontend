@@ -15,7 +15,7 @@ import { articleChannelToPath } from 'app/utils/toPath';
 export const ArticleChannelDetail: React.FunctionComponent = () => {
   const channelName = useParams<{ channelName: string }>().channelName;
   const page = useSelector(getPageQuery);
-  const itemCountPerPage = 24;
+  const itemCountPerPage = 12;
   const { articleChannelData, articlesById } = useSelector((state: RidiSelectState) => ({
     articleChannelData: state.articleChannelById[channelName] ? state.articleChannelById[channelName] : undefined,
     articlesById: state.articlesById,
@@ -44,7 +44,7 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
     if (!isFetchedChannelArticles()) {
       dispatch(Actions.loadArticleChannelArticlesRequest({channelName, page}));
     }
-  }, []);
+  }, [page]);
   return articleChannelData && articleChannelData.channelMeta ? (
     <main
       className={classNames(
@@ -71,7 +71,7 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
             }
           />
         }
-        {articleChannelData.itemCount &&
+        {articleChannelData.itemCount! > 0 &&
           <MediaQuery maxWidth={840}>
             {(isMobile) => (
               <Pagination
