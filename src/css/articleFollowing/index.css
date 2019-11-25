@@ -30,6 +30,7 @@
         border: 1px solid #eee;
         border-radius: 999px;
         box-sizing: border-box;
+        object-fit: cover;
       }
       & .ChannelName {
         width: 62px;

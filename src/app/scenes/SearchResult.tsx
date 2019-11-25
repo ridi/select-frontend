@@ -55,7 +55,8 @@ export class SearchResult extends React.Component<Props, State> {
   }
 
   private renderEmpty() {
-    const { query } = this.state;
+    const { query, type } = this.state;
+    const searchType = type === 'books' ? '도서' : '아티클';
 
     return (
       <div className="SearchResult_EmptyWrapper">
@@ -66,7 +67,7 @@ export class SearchResult extends React.Component<Props, State> {
           />
         </div>
         <h3 className="SearchResult_EmptyTitle">
-          {`'`}<strong>{query}</strong>{`'에 대한 검색결과가 없습니다.`}
+          {`'`}<strong>{query}</strong>{`'에 대한 ${searchType} 검색결과가 없습니다.`}
         </h3>
       </div>
     );
@@ -95,11 +96,12 @@ export class SearchResult extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
-    const { dispatchRequestSearchResult, page } = this.props;
+    const { dispatchRequestSearchResult, dispatchUpdateGNBTabExpose, page } = this.props;
     const { query, type } = this.state;
     if (!this.isFetched(query, page)) {
       dispatchRequestSearchResult(query, page, type.substring(0, type.length - 1));
     }
+    dispatchUpdateGNBTabExpose(false);
   }
 
   public shouldComponentUpdate(nextProps: Props, nextState: State) {
@@ -119,6 +121,7 @@ export class SearchResult extends React.Component<Props, State> {
   public componentWillUnmount() {
     this.props.dispatchUpdateGNBSearchActiveType(GNBSearchActiveType.cover);
     this.unlistenToHistory();
+    this.props.dispatchUpdateGNBTabExpose(true);
   }
 
   public render() {
@@ -241,6 +244,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       dispatch(SearchResultActions.queryKeywordRequest({ keyword, page, type })),
     dispatchUpdateGNBSearchActiveType: (type: GNBSearchActiveType) =>
       dispatch(CommonUIActions.updateSearchActiveType({ gnbSearchActiveType: type })),
+    dispatchUpdateGNBTabExpose: (isGnbTab: boolean) => dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
   };
 };
 export const ConnectedSearchResult = withRouter(
