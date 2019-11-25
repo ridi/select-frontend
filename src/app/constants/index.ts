@@ -65,10 +65,11 @@ export enum RoutePaths {
   CLOSING_RESERVED_BOOKS = '/closing-reserved-book',
   VOUCHER = '/voucher',
   /* 셀렉트 2.0 아티클 */
+  ARTICLE_ROOTE = '/article',
   ARTICLE_HOME = '/article/home',
   ARTICLE_FOLLOWING = '/article/following',
   ARTICLE_CHANNELS = '/article/channels',
-  ARTICLE_CHANNEL_DETAIL = '/article/channel/:channelName',
+  ARTICLE_CHANNEL_DETAIL = '/article/channel/@:channelName',
   ARTICLE_FAVORITE = '/article/favorite',
   ARTICLE_CONTENT = '/article/@:channelName/:contentIndex',
 }

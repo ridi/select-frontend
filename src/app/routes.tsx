@@ -105,6 +105,7 @@ export const Routes: React.SFC<Props> = (props) => {
         />
         <Switch>
           <Redirect exact={true} from={RoutePaths.ROOT} to={RoutePaths.HOME} />
+          <Redirect exact={true} from={RoutePaths.ARTICLE_ROOTE} to={RoutePaths.ARTICLE_HOME} />
           <Route
             path={RoutePaths.HOME}
             component={ConnectedHome}
