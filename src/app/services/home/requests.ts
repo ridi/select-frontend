@@ -9,6 +9,7 @@ import { camelize } from '@ridi/object-case-converter';
 
 export interface HomeResponse {
   bigBanners: BigBanner[];
+  banners: BigBanner[];
   collections: CollectionResponse[];
 }
 

@@ -43,7 +43,7 @@ export const requestArticleChannelDetail = (channelName: string, requestQueries?
 
 export const requestArticleChannelArticles = (channelName: string, page: number): Promise<ArticleChannelArticlesResponse> => (
   request({
-    url: `/article/articles?channel_name=${channelName}&page=${page}`,
+    url: `/article/articles?channel_name=${channelName}&page=${page}&size=12`,
     method: 'GET',
   }).then((response) => camelize<AxiosResponse<ArticleChannelArticlesResponse>>(response, { recursive: true }).data)
 );

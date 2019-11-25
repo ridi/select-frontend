@@ -17,8 +17,8 @@
 
 @custom-media --pc-layout (min-width: 835px);
 @custom-media --mobile-layout (max-width: 414px);
-@custom-media --big-mobile-layout (min-width: 415px and max-width: 600px);
-@custom-media --tablet-layout (min-width: 601px and max-width: 834px);
+@custom-media --big-mobile-layout (min-width: 415px) and (max-width: 600px);
+@custom-media --tablet-layout (min-width: 601px) and (max-width: 834px);
 
 
 @keyframes SpinnerRotation {

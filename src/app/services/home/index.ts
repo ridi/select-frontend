@@ -56,8 +56,8 @@ homeReducer.on(Actions.loadHomeSuccess, (state, action) => {
     ...state,
     fetchedAt,
     bigBannerList: isIosInApp
-      ? response.bigBanners.filter((bigBanner) => isRidiselectUrl(bigBanner.linkUrl))
-      : response.bigBanners,
+      ? response.banners.filter((banner) => isRidiselectUrl(banner.linkUrl))
+      : response.banners,
     collectionIdList: response.collections.map((collection) => collection.collectionId),
     fetchStatus: FetchStatusFlag.IDLE,
   };
