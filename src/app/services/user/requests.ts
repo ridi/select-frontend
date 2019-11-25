@@ -83,12 +83,12 @@ export const requestSubscription = (): Promise<AxiosResponse<SubscriptionRespons
   }).then((response: AxiosResponse<SubscriptionResponse>) =>
     camelize<AxiosResponse<SubscriptionResponse>>(response.data, { recursive: true }));
 
-export const requestTicketInfo = (): Promise<AxiosResponse<{ ticketEndDate: DateDTO }>> =>
+export const requestTicketInfo = (): Promise<AxiosResponse<{ availableUntil: DateDTO }>> =>
   request({
-    url: `${env.STORE_API}/api/select/users/me/ticket`,
+    url: `${env.STORE_API}/users/me/tickets/available`,
     method: 'GET',
-  }).then((response: AxiosResponse<{ ticketEndDate: DateDTO }>) =>
-    camelize<AxiosResponse<{ ticketEndDate: DateDTO }>>(response.data, { recursive: true }));
+  }).then((response: AxiosResponse<{ availableUntil: DateDTO }>) =>
+    camelize<AxiosResponse<{ availableUntil: DateDTO }>>(response.data, { recursive: true }));
 
 export const requestPurchases = (page: number): Promise<AxiosResponse<PurchasesResponse>> =>
   request({

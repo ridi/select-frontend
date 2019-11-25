@@ -15,7 +15,7 @@ interface SubscriptionInfoStateProps {
   uId: string;
   isIosInApp: boolean;
   BASE_URL_STORE: string;
-  ticketEndDate?: DateDTO;
+  availableUntil?: DateDTO;
   hasSubscribedBefore: boolean;
   hasAvailableTicket: boolean;
   subscriptionState?: SubscriptionState | null;
@@ -48,13 +48,13 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
   }
 
   private renderSubscriptionTermInfo() {
-    const { ticketEndDate } = this.props;
+    const { availableUntil } = this.props;
 
     return (
       <li className="CurrentSubscriptionInfo" key="current-subscription-info">
         <strong className="CurrentSubscriptionInfo_Title">셀렉트 구독</strong>
         <span className="CurrentSubscriptionInfo_Term">
-          {`${buildDateAndTimeFormat(ticketEndDate)} 까지`}
+          {`${buildDateAndTimeFormat(availableUntil)} 까지`}
         </span>
       </li>
     );
@@ -173,7 +173,7 @@ const mapStateToProps = (state: RidiSelectState): SubscriptionInfoStateProps => 
     uId: state.user.uId,
     isIosInApp: getIsIosInApp(state),
     BASE_URL_STORE: state.environment.STORE_URL,
-    ticketEndDate: state.user.ticketEndDate,
+    availableUntil: state.user.availableUntil,
     hasAvailableTicket: state.user.hasAvailableTicket,
     subscriptionState: state.user.subscription,
     hasSubscribedBefore: state.user.hasSubscribedBefore,

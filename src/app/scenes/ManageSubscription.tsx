@@ -130,7 +130,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
                 <li className="SubscriptionInfo">
                   <p className="SubscriptionInfo_Title">이용 기간</p>
                   <p className="SubscriptionInfo_Data">
-                    {`${buildDateAndTimeFormat(userState.ticketEndDate)} 까지`}
+                    {`${buildDateAndTimeFormat(userState.availableUntil)} 까지`}
                   </p>
                 </li>
                 {subscriptionState.isOptout
@@ -217,7 +217,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
                   </Button>
                 )}
               </div>
-              {!subscriptionState.isOptout && <p className="UnsubscriptionInfoText">지금 해지 예약하셔도 {buildOnlyDateFormat(userState.ticketEndDate)}까지 이용할 수 있습니다.</p>}
+              {!subscriptionState.isOptout && <p className="UnsubscriptionInfoText">지금 해지 예약하셔도 {buildOnlyDateFormat(userState.availableUntil)}까지 이용할 수 있습니다.</p>}
               {subscriptionState.isOptout
                 && !subscriptionState.isOptoutCancellable
                 && subscriptionState.optoutReasonKor

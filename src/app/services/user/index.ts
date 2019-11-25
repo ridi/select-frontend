@@ -159,7 +159,7 @@ export interface UserState {
   isAccountMeRetried: boolean;
   uId: string;
   email: string;
-  ticketEndDate?: DateDTO;
+  availableUntil?: DateDTO;
   ticketFetchStatus: FetchStatusFlag;
   hasAvailableTicket: boolean;
   hasSubscribedBefore: boolean;

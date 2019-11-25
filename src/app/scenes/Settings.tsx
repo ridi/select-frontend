@@ -21,7 +21,6 @@ interface SettingStateProps {
   isAccountMeRetried: boolean;
   isLoggedIn: boolean;
   hasAvailableTicket: boolean;
-  ticketEndDate?: DateDTO;
   ticketFetchStatus: FetchStatusFlag;
   subscriptionFetchStatus: FetchStatusFlag;
   subscriptionState?: SubscriptionState | null;
@@ -202,7 +201,6 @@ const mapStateToProps = (state: RidiSelectState): SettingStateProps => {
   return {
     isFetching: state.user.isFetching,
     hasAvailableTicket: state.user.hasAvailableTicket,
-    ticketEndDate: state.user.ticketEndDate,
     ticketFetchStatus: state.user.ticketFetchStatus,
     isAccountMeRetried: state.user.isAccountMeRetried,
     isLoggedIn: state.user.isLoggedIn,

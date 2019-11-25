@@ -6,7 +6,7 @@ import axios, { AxiosError } from 'axios';
 
 interface RidiSelectTicketDTO {
   hasAvailableTicket: boolean;
-  ticketEndDate?: DateDTO;
+  availableUntil?: DateDTO;
   fetchTicketError: AxiosError|null;
 }
 
@@ -20,7 +20,7 @@ export interface UserDTO {
   isLoggedIn: boolean;
   uId: string;
   email: string;
-  ticketEndDate?: DateDTO;
+  availableUntil?: DateDTO;
   hasAvailableTicket: boolean;
 }
 
@@ -32,11 +32,11 @@ const NOT_LOGGED_IN_ACCOUNT_INFO: RidiSelectAccountDTO = {
 
 const fetchTicketInfo = async (): Promise<RidiSelectTicketDTO> => {
   return request({
-    url: `${env.STORE_API}/api/select/users/me/ticket`,
+    url: `${env.STORE_API}/api/select/users/me/tickets/available`,
     withCredentials: true,
   }).then((response) => ({
     hasAvailableTicket: true,
-    ticketEndDate: response.data.ticket_end_date,
+    availableUntil: response.data.available_until,
     fetchTicketError: null,
   })).catch((e) => ({
     hasAvailableTicket: false,
@@ -58,16 +58,16 @@ const fetchAccountInfo = async (): Promise<RidiSelectAccountDTO> => {
 
 export const fetchUserInfo = async (): Promise<UserDTO> => {
   const fetchedTicketInfo = await fetchTicketInfo();
-  const { fetchTicketError, hasAvailableTicket, ticketEndDate } = fetchedTicketInfo;
+  const { fetchTicketError, hasAvailableTicket, availableUntil } = fetchedTicketInfo;
 
   // 401 응답이 아닌 경우에만 계정 정보 fetch
   return (fetchTicketError === null || (fetchTicketError.response && fetchTicketError.response.status !== 401)) ? {
     hasAvailableTicket,
-    ticketEndDate,
+    availableUntil,
     ...await fetchAccountInfo(),
   } : {
     hasAvailableTicket,
-    ticketEndDate,
+    availableUntil,
     ...NOT_LOGGED_IN_ACCOUNT_INFO,
   };
 };
