@@ -7,6 +7,7 @@ import { ConnectedPageHeader, HelmetWithTitle, UnsubscribeWarningPopup } from 'a
 import history from 'app/config/history';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
+import { Actions as CommonUIActions } from 'app/services/commonUI';
 import { EnvironmentState } from 'app/services/environment';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import { Actions, SubscriptionState, UserState } from 'app/services/user';
@@ -18,7 +19,7 @@ import * as dateFns from 'date-fns';
 interface ManageSubscriptionStateProps {
   userState: UserState;
   environment: EnvironmentState;
-  subscriptionState?: SubscriptionState;
+  subscriptionState?: SubscriptionState | null;
   isIosInApp: boolean;
 }
 
@@ -102,6 +103,11 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
     if (!this.props.subscriptionState) {
       this.props.dispatchLoadSubscriptionRequest();
     }
+    this.props.dispatchUpdateGNBTabExpose(false);
+  }
+
+  public componentWillUnmount() {
+    this.props.dispatchUpdateGNBTabExpose(true);
   }
 
   public render() {
@@ -263,6 +269,7 @@ const mapDispatchToProps = (dispatch: any) => {
     dispatchLoadSubscriptionRequest: () => dispatch(Actions.loadSubscriptionRequest()),
     dispatchUnsubscribeRequest: () => dispatch(Actions.unsubscribeRequest()),
     dispatchCancelUnsubscriptionRequest: () => dispatch(Actions.cancelUnsubscriptionRequest()),
+    dispatchUpdateGNBTabExpose: (isGnbTab: boolean) => dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
   };
 };
 

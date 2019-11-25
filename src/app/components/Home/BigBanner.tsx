@@ -87,6 +87,11 @@ export class BigBannerCarousel extends React.Component<Props, State> {
       this.wrapper.addEventListener('touchmove', this.preventTouch, { passive: false });
       window.addEventListener('resize', this.handleWindowResize);
     }
+    if (this.props.fetchedAt) {
+      this.setState({
+        totalIdx: this.props.bigBannerList.length,
+      });
+    }
   }
 
   public componentDidUpdate(prevProps: Props, nextState: State) {

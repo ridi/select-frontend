@@ -11,9 +11,10 @@ import { ConnectedPageHeader, HelmetWithTitle, Pagination } from 'app/components
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
 
+import { Actions as CommonUIActions } from 'app/services/commonUI';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { Actions, PurchaseHistory } from 'app/services/user';
-import { Ticket, TicketToBeCanceledWith } from 'app/services/user/requests';
+import { Ticket } from 'app/services/user/requests';
 import { RidiSelectState } from 'app/store';
 import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
 import toast from 'app/utils/toast';
@@ -142,10 +143,15 @@ export class OrderHistory extends React.PureComponent<Props> {
   }
 
   public componentDidMount() {
-    const { dispatchLoadOrderHistory, page } = this.props;
+    const {
+      dispatchLoadOrderHistory,
+      dispatchUpdateGNBTabExpose,
+      page,
+    } = this.props;
     if (!this.isFetched(page)) {
       dispatchLoadOrderHistory(page);
     }
+    dispatchUpdateGNBTabExpose(false);
   }
 
   public shouldComponentUpdate(nextProps: Props) {
@@ -161,6 +167,7 @@ export class OrderHistory extends React.PureComponent<Props> {
 
   public componentWillUnmount() {
     this.props.dispatchClearPurchases();
+    this.props.dispatchUpdateGNBTabExpose(true);
   }
 
   public render() {
@@ -224,6 +231,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     dispatchLoadOrderHistory: (page: number) => dispatch(Actions.loadPurchasesRequest({ page })),
     dispatchClearPurchases: () => dispatch(Actions.clearPurchases()),
     dispatchCancelPurchase: (purchaseId: number) => dispatch(Actions.cancelPurchaseRequest({ purchaseId })),
+    dispatchUpdateGNBTabExpose: (isGnbTab: boolean) => dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
   };
 };
 

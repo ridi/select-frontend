@@ -10,6 +10,7 @@ import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 
 import { ExpireRemaningTime } from 'app/components/ExpireRemainingTime';
+import { Actions as CommonUIActions } from 'app/services/commonUI';
 import { MySelectBook } from 'app/services/mySelect';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { Actions, MySelectHistroyState } from 'app/services/user';
@@ -97,6 +98,10 @@ class MySelectHistory extends React.Component<Props, State> {
 
   public componentDidMount() {
     this.props.dispatchLoadMySelectHistoryRequest(this.props.page);
+    this.props.dispatchUpdateGNBTabExpose(false);
+  }
+  public componentWillUnmount() {
+    this.props.dispatchUpdateGNBTabExpose(true);
   }
   public componentDidUpdate(prevProps: Props) {
     if (prevProps.page !== this.props.page) {
@@ -235,6 +240,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(Actions.deleteMySelectHistoryRequest({ mySelectBookIds, page })),
   dispatchResetMySelectHistoryFetchedStatus: () =>
     dispatch(Actions.resetMySelectHistoryFetchedStatus()),
+  dispatchUpdateGNBTabExpose: (isGnbTab: boolean) => dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
 });
 
 export const ConnectedMySelectHistory = connect(mapStateToProps, mapDispatchToProps)(MySelectHistory);
