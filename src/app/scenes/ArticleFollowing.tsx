@@ -15,7 +15,7 @@ import MediaQuery from 'react-responsive';
 import { Link, LinkProps } from 'react-router-dom';
 
 export const ArticleFollowing: React.FunctionComponent = () => {
-  const itemCountPerPage = 24;
+  const itemCountPerPage = 12;
 
   const dispatch = useDispatch();
   const {
@@ -34,7 +34,8 @@ export const ArticleFollowing: React.FunctionComponent = () => {
 
     return {
       page: pageFromQuery,
-      itemCount: state.articleFollowing.itemCount ? state.articleFollowing.itemCount : 1,
+      itemCount: state.articleFollowing.followingArticleList && state.articleFollowing.followingArticleList.itemCount ?
+        state.articleFollowing.followingArticleList.itemCount : 1,
       channelFetchStatus: state.articleFollowing.fetchStatus,
       articleFetchStatus: followingArticleListFetchStatus,
       channelItems: getChannelItems(state),
@@ -49,7 +50,7 @@ export const ArticleFollowing: React.FunctionComponent = () => {
     if (articleFetchStatus === FetchStatusFlag.IDLE) {
       dispatch(Actions.loadFollowingArticleListRequest({ page }));
     }
-  }, []);
+  }, [page]);
 
   return (
     <main

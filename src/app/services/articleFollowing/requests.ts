@@ -25,7 +25,7 @@ export const requestFollowingChannelList = (requestQueries?: ArticleRequestQueri
 
 export const requestFollowingArticleList = (page: number): Promise<FollowingArticleListResponse> => (
   request({
-    url: `/article/me/feeds`,
+    url: `/article/me/feeds?size=12&page=${page}`,
     method: 'GET',
   }).then((response) => camelize<AxiosResponse<FollowingArticleListResponse>>(response, { recursive: true }).data)
 );

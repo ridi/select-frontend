@@ -14,7 +14,7 @@ import MediaQuery from 'react-responsive';
 import { Link, LinkProps } from 'react-router-dom';
 
 export const ArticleFavorite: React.FunctionComponent = () => {
-  const itemCountPerPage = 24;
+  const itemCountPerPage = 12;
 
   const page = useSelector(getPageQuery);
   const articleItems = useSelector(getFavoriteArticleList);
@@ -28,7 +28,7 @@ export const ArticleFavorite: React.FunctionComponent = () => {
     if (favoriteArticleFetchStatus === FetchStatusFlag.IDLE) {
       dispatch(Actions.loadFavoriteArticleListRequest({ page }));
     }
-  }, []);
+  }, [page]);
 
   return (
     <main

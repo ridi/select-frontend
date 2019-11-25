@@ -12,7 +12,7 @@ import showMessageForRequestError from 'app/utils/toastHelper';
 function* loadFavoriteArticleList({ payload }: ReturnType<typeof Actions.loadFavoriteArticleListRequest>) {
   const { page } = payload;
   try {
-    const response: FavoriteArticleListResponse = yield call(requestFavoriteArticleList);
+    const response: FavoriteArticleListResponse = yield call(requestFavoriteArticleList, page);
     yield put(ArticleActions.updateArticles({ articles: response.results.map((data) => {
       data.article.isFavorite = true;
       return data.article;

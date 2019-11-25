@@ -8,8 +8,8 @@ export interface FavoriteArticleListResponse {
   results: FavoriteArticle[];
 }
 
-export const requestFavoriteArticleList = (): Promise<FavoriteArticleListResponse> => {
-  const requestUrl = '/article/me/favorites';
+export const requestFavoriteArticleList = (page: number): Promise<FavoriteArticleListResponse> => {
+  const requestUrl = `/article/me/favorites?size=12&page=${page}`;
 
   return request({
     url: requestUrl,
