@@ -12,7 +12,7 @@ const getArticleApiUrl = (channelName: string, contentIndex?: string) => {
   return `https://select-api.ridibooks.com/article/channels/${channelName}`;
 }
 
-router.get('/article/@:channelName/:contentIndex', async (req, res) => {
+router.get('/@:channelName/:contentIndex', async (req, res) => {
   const { channelName, contentIndex } = req.params;
   try {
     const data = await (await fetch(getArticleApiUrl(channelName, contentIndex))).json();
@@ -33,7 +33,7 @@ router.get('/article/@:channelName/:contentIndex', async (req, res) => {
   }
 });
 
-router.get('/article/channel/@:channelName', async (req, res) => {
+router.get('/channel/@:channelName', async (req, res) => {
   const { channelName } = req.params;
   try {
     const data = await (await fetch(getArticleApiUrl(channelName))).json();
