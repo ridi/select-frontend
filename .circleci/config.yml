@@ -193,12 +193,12 @@ jobs:
       - install:
           key: select-serverless
           serverless_build: true
-      - run:
+      - deploy:
           environment:
-            AWS_PROFILE: "default"
-            AWS_ACCESS_KEY_ID: ${SLS_AWS_ACCESS_KEY_ID}
-            AWS_SECRET_ACCESS_KEY: ${SLS_AWS_SECRET_ACCESS_KEY}
-          command: cd serverless && echo $AWS_ACCESS_KEY_ID
+            AWS_PROFILE: 'default'
+            AWS_ACCESS_KEY_ID: $SLS_AWS_ACCESS_KEY_ID
+            AWS_SECRET_ACCESS_KEY: $SLS_AWS_SECRET_ACCESS_KEY
+          command: cd serverless && echo $SLS_AWS_ACCESS_KEY_ID && echo $SLS_AWS_SECRET_ACCESS_KEY
 
 workflows:
   version: 2
