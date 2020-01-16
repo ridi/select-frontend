@@ -200,7 +200,6 @@ jobs:
             echo "export AWS_SECRET_ACCESS_KEY=$SLS_AWS_SECRET_ACCESS_KEY" >> $BASH_ENV
       - deploy:
           command: cd serverless && yarn serverless deploy --stage production -v
-
 workflows:
   version: 2
   deploy-dev:
