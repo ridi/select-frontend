@@ -199,7 +199,7 @@ jobs:
             echo "export AWS_ACCESS_KEY_ID=$SLS_AWS_ACCESS_KEY_ID" >> $BASH_ENV
             echo "export AWS_SECRET_ACCESS_KEY=$SLS_AWS_SECRET_ACCESS_KEY" >> $BASH_ENV
       - deploy:
-          command: cd serverless && echo $AWS_ACCESS_KEY_ID && echo $AWS_SECRET_ACCESS_KEY
+          command: cd serverless && yarn serverless deploy --stage production -v
 
 workflows:
   version: 2
@@ -245,11 +245,7 @@ workflows:
           prod: true
       - wait-serverless-approval:
           type: approval
-          filters: &master_only
-            branches:
-              only:
-                - release
-                - fix/serverless-deploy
+          filters: *release_only
       - serverless:
           requires:
             - wait-serverless-approval
