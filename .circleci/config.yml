@@ -197,7 +197,7 @@ jobs:
           key: select-serverless
           serverless_build: true
       - deploy:
-          command: cd serverless && yarn serverless deploy --stage production -v
+          command: cd serverless && echo $AWS_ACCESS_KEY_ID
 workflows:
   version: 2
   deploy-dev:
@@ -242,7 +242,11 @@ workflows:
           prod: true
       - wait-serverless-approval:
           type: approval
-          filters: *release_only
+          filters: &master_only
+            branches:
+              only:
+                - release
+                - fix/serverless-deploy
       - serverless:
           requires:
             - wait-serverless-approval
