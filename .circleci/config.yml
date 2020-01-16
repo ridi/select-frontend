@@ -196,9 +196,10 @@ jobs:
       - deploy:
           environment:
             AWS_PROFILE: 'default'
-            AWS_ACCESS_KEY_ID: $SLS_AWS_ACCESS_KEY_ID
-            AWS_SECRET_ACCESS_KEY: $SLS_AWS_SECRET_ACCESS_KEY
-          command: cd serverless && echo $SLS_AWS_ACCESS_KEY_ID && echo $SLS_AWS_SECRET_ACCESS_KEY
+          command: |
+            echo "export AWS_ACCESS_KEY_ID=$SLS_AWS_ACCESS_KEY_ID" >> $BASH_ENV
+            echo "export AWS_SECRET_ACCESS_KEY=$SLS_AWS_SECRET_ACCESS_KEY" >> $BASH_ENV
+            cd serverless && echo $AWS_ACCESS_KEY_ID && echo $AWS_SECRET_ACCESS_KEY
 
 workflows:
   version: 2
