@@ -197,9 +197,11 @@ jobs:
           environment:
             AWS_PROFILE: 'default'
           command: |
+            cd serverless
             echo "export AWS_ACCESS_KEY_ID=$SLS_AWS_ACCESS_KEY_ID" >> $BASH_ENV
             echo "export AWS_SECRET_ACCESS_KEY=$SLS_AWS_SECRET_ACCESS_KEY" >> $BASH_ENV
-            cd serverless && echo $AWS_ACCESS_KEY_ID && echo $AWS_SECRET_ACCESS_KEY
+            echo $AWS_ACCESS_KEY_ID
+            echo $AWS_SECRET_ACCESS_KEY
 
 workflows:
   version: 2
