@@ -193,15 +193,13 @@ jobs:
       - install:
           key: select-serverless
           serverless_build: true
-      - deploy:
-          environment:
-            AWS_PROFILE: 'default'
+      - run:
+          name: Set environment variables
           command: |
-            cd serverless
             echo "export AWS_ACCESS_KEY_ID=$SLS_AWS_ACCESS_KEY_ID" >> $BASH_ENV
             echo "export AWS_SECRET_ACCESS_KEY=$SLS_AWS_SECRET_ACCESS_KEY" >> $BASH_ENV
-            echo $AWS_ACCESS_KEY_ID
-            echo $AWS_SECRET_ACCESS_KEY
+      - deploy:
+          command: cd serverless && echo $AWS_ACCESS_KEY_ID && echo $AWS_SECRET_ACCESS_KEY
 
 workflows:
   version: 2
