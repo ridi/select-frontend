@@ -188,16 +188,19 @@ jobs:
     docker:
       - image: circleci/node:lts
     working_directory: ~/select-frontend
-    environment:
-      AWS_ACCESS_KEY_ID: $SLS_AWS_ACCESS_KEY_ID
-      AWS_SECRET_ACCESS_KEY: $SLS_AWS_SECRET_ACCESS_KEY
     steps:
       - checkout
       - install:
           key: select-serverless
           serverless_build: true
-      - deploy:
-          command: cd serverless && echo $AWS_ACCESS_KEY_ID
+      - run:
+          environment:
+            AWS_PROFILE: "default"
+            AWS_ACCESS_KEY_ID: ${SLS_AWS_ACCESS_KEY_ID}
+            AWS_SECRET_ACCESS_KEY: ${SLS_AWS_SECRET_ACCESS_KEY}
+          deploy:
+            command: cd serverless && echo $AWS_ACCESS_KEY_ID
+
 workflows:
   version: 2
   deploy-dev:
