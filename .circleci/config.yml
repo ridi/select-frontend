@@ -188,11 +188,13 @@ jobs:
     docker:
       - image: circleci/node:lts
     working_directory: ~/select-frontend
-    environment:
-      AWS_ACCESS_KEY_ID: ${SLS_AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${SLS_AWS_SECRET_ACCESS_KEY}
     steps:
       - checkout
+      - run:
+          name: Set environment variables
+          command: |
+            echo "export AWS_ACCESS_KEY_ID=$SLS_AWS_ACCESS_KEY_ID" >> $BASH_ENV
+            echo "export AWS_SECRET_ACCESS_KEY=$SLS_AWS_SECRET_ACCESS_KEY" >> $BASH_ENV
       - install:
           key: select-serverless
           serverless_build: true
