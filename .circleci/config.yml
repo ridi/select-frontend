@@ -198,8 +198,7 @@ jobs:
             AWS_PROFILE: "default"
             AWS_ACCESS_KEY_ID: ${SLS_AWS_ACCESS_KEY_ID}
             AWS_SECRET_ACCESS_KEY: ${SLS_AWS_SECRET_ACCESS_KEY}
-          deploy:
-            command: cd serverless && echo $AWS_ACCESS_KEY_ID
+          command: cd serverless && echo $AWS_ACCESS_KEY_ID
 
 workflows:
   version: 2
