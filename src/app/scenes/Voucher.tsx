@@ -1,3 +1,4 @@
+import { css } from '@emotion/core';
 import * as qs from 'qs';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,14 +12,13 @@ import { Actions as VoucherActions } from 'app/services/voucher';
 import { RidiSelectState } from 'app/store';
 import toast from 'app/utils/toast';
 import { moveToLogin } from 'app/utils/utils';
+import TicketIcon from 'svgs/Ticket.svg';
 
-const TicketSVG: React.FunctionComponent<{ className?: string }> = (props) => (
-  <svg width="24px" height="24px" viewBox="0 0 24 24" className={props.className}>
-    <g fillRule="nonzero">
-      <path d="M22,10 L22,6 C22,4.89 21.1,4 20,4 L4,4 C2.9,4 2.01,4.89 2.01,6 L2.01,10 C3.11,10 4,10.9 4,12 C4,13.1 3.11,14 2,14 L2,18 C2,19.1 2.9,20 4,20 L20,20 C21.1,20 22,19.1 22,18 L22,14 C20.9,14 20,13.1 20,12 C20,10.9 20.9,10 22,10 Z M20,8.54 C18.81,9.23 18,10.53 18,12 C18,13.47 18.81,14.77 20,15.46 L20,18 L4,18 L4,15.46 C5.19,14.77 6,13.47 6,12 C6,10.52 5.2,9.23 4.01,8.54 L4,6 L20,6 L20,8.54 Z M11,15 L13,15 L13,17 L11,17 L11,15 Z M11,11 L13,11 L13,13 L11,13 L11,11 Z M11,7 L13,7 L13,9 L11,9 L11,7 Z" />
-    </g>
-  </svg>
-);
+const ticketIconStyle = css`
+  fill: rgb(31, 140, 230);
+  width: 40px;
+  height: 40px;
+`;
 
 export const Voucher: React.FunctionComponent = () => {
   const [isLoaded, setIsLoaded] = React.useState(false);
@@ -49,7 +49,7 @@ export const Voucher: React.FunctionComponent = () => {
   };
 
   const submitVoucherCode = (voucherCode: string) => {
-    const trimmedCode = voucherCode.replace(/\-/g, '');
+    const trimmedCode = voucherCode.replace(/-/g, '');
     if (trimmedCode.length < 16) {
       toast.failureMessage('올바른 이용권 코드가 아닙니다.');
       return;
@@ -94,7 +94,7 @@ export const Voucher: React.FunctionComponent = () => {
       )}
       <section className="VoucherContent_Wrapper">
         <div className="VoucherContent">
-          <TicketSVG className="VoucherContent_TicketSVG" />
+          <TicketIcon css={ticketIconStyle} />
           <h2 className="VoucherContent_MainCopy">리디셀렉트 이용권 등록</h2>
           <p className="VoucherContent_Description">
             {/* 베스트셀러부터 프리미엄 아티클까지<br/> 무제한 월정액 서비스 리디셀렉트 */}

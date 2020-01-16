@@ -62,8 +62,8 @@ export interface SearchResultArticle extends Article {
   highlight: SearchResultHighlight;
 }
 
-export interface KeywordSearchResult extends Paginated<SearchResultItem> {}
-export interface ArticleKeywordSearchResult extends Paginated<ArticleSearchResultItem> {}
+export type KeywordSearchResult = Paginated<SearchResultItem>
+export type ArticleKeywordSearchResult = Paginated<ArticleSearchResultItem>
 
 export interface SearchResultState {
   books: {

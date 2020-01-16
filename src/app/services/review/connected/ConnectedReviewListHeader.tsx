@@ -26,8 +26,8 @@ export interface ReviewListHeaderProps {
 }
 
 export type ReviewListHeaderStateProps = Pick<
-  ReviewListHeaderProps,
-  'currentUserFilterType' | 'currentSortBy' | 'summary' | 'sortingCriteriaList'
+ReviewListHeaderProps,
+'currentUserFilterType' | 'currentSortBy' | 'summary' | 'sortingCriteriaList'
 >;
 
 function mapStateToProps(
@@ -43,8 +43,8 @@ function mapStateToProps(
 }
 
 export type ReviewListHeaderDispatchProps = Pick<
-  ReviewListHeaderProps,
-  'changeTab' | 'changeOrder'
+ReviewListHeaderProps,
+'changeTab' | 'changeOrder'
 >;
 
 function mapDispatchToProps(

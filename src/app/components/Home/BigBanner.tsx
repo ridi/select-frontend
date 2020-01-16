@@ -1,6 +1,7 @@
 import { BigBannerPlaceholder } from 'app/placeholder/BigBannerPlaceholder';
+import { Actions as ArticleBannerActions } from 'app/services/articleHome';
 import { selectIsInApp } from 'app/services/environment/selectors';
-import { BigBanner } from 'app/services/home';
+import { Actions as BookBannerActions, BigBanner } from 'app/services/home';
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
@@ -22,6 +23,7 @@ interface BigBannerStateProps {
   appStatus: AppStatus;
   fetchedAt: number | null;
   bigBannerList: BigBanner[];
+  currentIdx: number;
   isInApp: boolean;
 }
 
@@ -45,7 +47,7 @@ export class BigBannerCarousel extends React.Component<Props, State> {
 
   public state: State = {
     clientWidth: 360,
-    currentIdx: 1,
+    currentIdx: 0,
     totalIdx: 0,
   };
 
@@ -90,6 +92,7 @@ export class BigBannerCarousel extends React.Component<Props, State> {
     }
     if (this.props.fetchedAt) {
       this.setState({
+        currentIdx: this.props.currentIdx,
         totalIdx: this.props.bigBannerList.length,
       });
     }
@@ -98,17 +101,20 @@ export class BigBannerCarousel extends React.Component<Props, State> {
   public componentDidUpdate(prevProps: Props, nextState: State) {
     if (this.props.fetchedAt !== prevProps.fetchedAt) {
       this.setState({
+        currentIdx: this.props.currentIdx,
         totalIdx: this.props.bigBannerList.length,
       });
     }
   }
 
-  public UNSAFE_componentWillUnmount() {
+  public componentWillUnmount() {
+    const { updateCurrentIdx, appStatus } = this.props;
     if (this.wrapper) {
       this.wrapper.removeEventListener('touchstart', this.handleTouchStart);
       this.wrapper.removeEventListener('touchmove', this.preventTouch);
       window.removeEventListener('resize', this.handleWindowResize);
     }
+    updateCurrentIdx(this.state.currentIdx, appStatus);
   }
 
   public render() {
@@ -143,10 +149,11 @@ export class BigBannerCarousel extends React.Component<Props, State> {
               speed={200}
               slidesToShow={1}
               slidesToScroll={1}
-              onInit={() => this.setSliderImpression(section, 0)}
+              onInit={() => this.setSliderImpression(section, this.props.currentIdx)}
+              initialSlide={this.props.currentIdx}
               afterChange={(currentIdx) => {
                 this.setState({
-                  currentIdx: currentIdx + 1,
+                  currentIdx,
                 });
                 this.setSliderImpression(section, currentIdx);
               }}
@@ -177,7 +184,7 @@ export class BigBannerCarousel extends React.Component<Props, State> {
               ))}
             </Slider>
             <div className="BigBanner-Count">
-              {this.state.currentIdx} / {this.state.totalIdx}
+              {this.state.currentIdx + 1} / {this.state.totalIdx}
             </div>
             <SliderControls
               onPrevClick={() => this.slider.slickPrev()}
@@ -196,6 +203,7 @@ const mapStateToProps = (state: RidiSelectState): BigBannerStateProps => {
     appStatus,
     fetchedAt: appStatus === AppStatus.Books ? state.home.fetchedAt : state.articleHome.fetchedAt,
     bigBannerList: appStatus === AppStatus.Books ? state.home.bigBannerList : state.articleHome.bigBannerList,
+    currentIdx: appStatus === AppStatus.Books ? state.home.currentIdx : state.articleHome.currentIdx,
     isInApp: selectIsInApp(state),
   };
 };
@@ -203,6 +211,11 @@ const mapStateToProps = (state: RidiSelectState): BigBannerStateProps => {
 const mapDispatchToProps = (dispatch: any) => ({
   trackClick: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackClick({ trackingParams })),
   trackImpression: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackImpression({ trackingParams })),
+  updateCurrentIdx: (currentIdx: number, appType: AppStatus) => {
+    const targetAction = appType === AppStatus.Books ? BookBannerActions : ArticleBannerActions;
+
+    return dispatch(targetAction.updateBannerIndex({ currentIdx }));
+  },
 });
 
 export const ConnectedBigBannerCarousel = connect(mapStateToProps, mapDispatchToProps)(BigBannerCarousel);

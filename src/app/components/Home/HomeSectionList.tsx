@@ -103,7 +103,7 @@ export class HomeSectionList extends React.Component<HomeCollectionListStateProp
           .map((collectionGroup, idx) => (
             <div
               className="PageHome_Panel"
-              key={idx}
+              key={`home_collection_group_${idx}`}
               ref={(ref) => {
                 if (this.panels[idx] !== ref) {
                   this.panels[idx] = ref!;
@@ -112,29 +112,24 @@ export class HomeSectionList extends React.Component<HomeCollectionListStateProp
               }}
             >
               {collectionGroup.map((collection, collectionIdx) => (
-                <>
-                  <ConnectedHomeSection
-                    key={collection.id}
-                    collection={collection}
-                    onScreen={renderedLastGroupIdx >= idx}
-                    order={idx === 0 ? collectionIdx : (idx + collectionIdx + 1)}
-                  />
-                </>
+                <ConnectedHomeSection
+                  key={`home_collection_${collection.id}`}
+                  collection={collection}
+                  onScreen={renderedLastGroupIdx >= idx}
+                  order={idx === 0 ? collectionIdx : (idx + collectionIdx + 1)}
+                />
               ))}
             </div>
-          ),
-        )}
+          ))}
       </div>
     );
   }
 }
 
-const mapStateToProps = (state: RidiSelectState): HomeCollectionListStateProps => {
-  return {
-    fetchedAt: state.home.fetchedAt,
-    collectionIdList: state.home.collectionIdList,
-    collections: state.collectionsById,
-  };
-};
+const mapStateToProps = (state: RidiSelectState): HomeCollectionListStateProps => ({
+  fetchedAt: state.home.fetchedAt,
+  collectionIdList: state.home.collectionIdList,
+  collections: state.collectionsById,
+});
 
 export const ConnectedHomeSectionList = connect(mapStateToProps, null)(HomeSectionList);

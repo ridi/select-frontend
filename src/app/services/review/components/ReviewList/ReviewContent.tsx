@@ -47,7 +47,7 @@ export class ReviewContent extends React.Component<ReviewContentProps, ReviewCon
         >
           {this.props.children.split('\n').map((child, i, arr) => {
             const line = <span key={i}>{child}</span>;
-            return i === arr.length - 1 ? line : [line, <br key={i + 'br'} />];
+            return i === arr.length - 1 ? line : [line, <br key={`${i  }br`} />];
           })}
         </Truncate>
       </div>

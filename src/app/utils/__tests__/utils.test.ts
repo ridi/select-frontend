@@ -1,4 +1,4 @@
-import { buildAuthorString } from "app/utils/utils";
+import { buildAuthorString } from 'app/utils/utils';
 
 describe('buildAuthorString', () => {
   it('should build author string correctly', () => {

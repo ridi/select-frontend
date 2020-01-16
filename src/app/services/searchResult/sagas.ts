@@ -2,10 +2,10 @@ import { all, call, put, take, takeEvery } from 'redux-saga/effects';
 
 import history from 'app/config/history';
 import { FetchErrorFlag } from 'app/constants';
-import { Actions as ArticleActions } from 'app/services/article';
-import { Article } from 'app/services/article';
-import { Actions as BookActions } from 'app/services/book';
-import { Book } from 'app/services/book';
+import { Actions as ArticleActions , Article } from 'app/services/article';
+
+import { Actions as BookActions , Book } from 'app/services/book';
+
 import { Actions, SearchResultArticle, SearchResultBook } from 'app/services/searchResult';
 
 import { requestArticles } from 'app/services/article/requests';

@@ -8,8 +8,8 @@ import { ArticleHomeSection } from 'app/components/ArticleHome/ArticleHomeSectio
 import { ConnectedBigBannerCarousel } from 'app/components/Home/BigBanner';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { Actions as ArticleFollowingActions } from 'app/services/articleFollowing';
-import { Actions } from 'app/services/articleHome';
-import { ArticleHomeSectionType, ArticleSectionType } from 'app/services/articleHome';
+import { Actions , ArticleHomeSectionType, ArticleSectionType } from 'app/services/articleHome';
+
 import { RidiSelectState } from 'app/store';
 import { sendPostRobotInitialRendered } from 'app/utils/inAppMessageEvents';
 
@@ -47,33 +47,33 @@ export const ArticleHome: React.FunctionComponent = () => {
         'SceneWrapper_WithLNB',
       )}
     >
-    <HelmetWithTitle titleName={PageTitleText.ARTICLE_HOME} />
-    <div className="a11y"><h1>리디셀렉트 아티클 홈</h1></div>
-    <ConnectedBigBannerCarousel />
-    <div className="ArticleHome_Panel">
-      <ArticleHomeSection
-        title={'최근 추가된 아티클'}
-        type={ArticleSectionType.LIST}
-        articleHomeSectionType={ArticleHomeSectionType.RECENT}
-        order={0}
-      />
-    </div>
-    <div className="ArticleHome_Panel">
-      <ArticleHomeSection
-        title={'인기 아티클'}
-        type={ArticleSectionType.CHART}
-        articleHomeSectionType={ArticleHomeSectionType.POPULAR}
-        order={1}
-      />
-    </div>
-    <div className="ArticleHome_Panel">
-      <ArticleHomeSection
-        title={'추천 아티클'}
-        type={ArticleSectionType.LIST}
-        articleHomeSectionType={ArticleHomeSectionType.RECOMMEND}
-        order={2}
-      />
-    </div>
+      <HelmetWithTitle titleName={PageTitleText.ARTICLE_HOME} />
+      <div className="a11y"><h1>리디셀렉트 아티클 홈</h1></div>
+      <ConnectedBigBannerCarousel />
+      <div className="ArticleHome_Panel">
+        <ArticleHomeSection
+          title={'최근 추가된 아티클'}
+          type={ArticleSectionType.LIST}
+          articleHomeSectionType={ArticleHomeSectionType.RECENT}
+          order={0}
+        />
+      </div>
+      <div className="ArticleHome_Panel">
+        <ArticleHomeSection
+          title={'인기 아티클'}
+          type={ArticleSectionType.CHART}
+          articleHomeSectionType={ArticleHomeSectionType.POPULAR}
+          order={1}
+        />
+      </div>
+      <div className="ArticleHome_Panel">
+        <ArticleHomeSection
+          title={'추천 아티클'}
+          type={ArticleSectionType.LIST}
+          articleHomeSectionType={ArticleHomeSectionType.RECOMMEND}
+          order={2}
+        />
+      </div>
     </main>
   );
 };

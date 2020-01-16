@@ -90,8 +90,8 @@ export const reviewsReducer = (
         state,
         action.payload.bookId,
         'content',
-      FetchStatusFlag.FETCHING,
-    );
+        FetchStatusFlag.FETCHING,
+      );
     case actions.POST_REVIEW_SUCCESS:
       return setMyReviewContent(
         state,
@@ -104,16 +104,16 @@ export const reviewsReducer = (
         state,
         action.payload.bookId,
         'content',
-      FetchStatusFlag.FETCH_ERROR,
-    );
+        FetchStatusFlag.FETCH_ERROR,
+      );
 
     case actions.DELETE_REVIEW_REQUEST:
       return setMyReviewFetchStatus(
         state,
         action.payload.bookId,
         'delete',
-      FetchStatusFlag.FETCHING,
-    );
+        FetchStatusFlag.FETCHING,
+      );
     case actions.DELETE_REVIEW_SUCCESS:
       return deleteMyReview(
         state,
@@ -126,8 +126,8 @@ export const reviewsReducer = (
         state,
         action.payload.bookId,
         'delete',
-      FetchStatusFlag.FETCH_ERROR,
-    );
+        FetchStatusFlag.FETCH_ERROR,
+      );
 
     case actions.START_EDITING_REVIEW:
       return toggleMyReviewEditingStatus(

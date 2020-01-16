@@ -1,10 +1,8 @@
 import { keyBy } from 'lodash-es';
-import * as qs from 'qs';
 import { all, call, put, select, take, takeEvery, takeLatest } from 'redux-saga/effects';
-import { requestTicketInfo } from './requests';
 
 import history from 'app/config/history';
-import { FetchErrorFlag, RoutePaths } from 'app/constants';
+import { FetchErrorFlag, RoutePaths, ErrorStatus } from 'app/constants';
 import { Book } from 'app/services/book';
 import { requestBooks } from 'app/services/book/requests';
 import { getIsIosInApp } from 'app/services/environment/selectors';
@@ -32,7 +30,6 @@ import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import { fixWrongPaginationScope, isValidPaginationParameter, updateQueryStringParam } from 'app/utils/request';
 import toast from 'app/utils/toast';
 import showMessageForRequestError from 'app/utils/toastHelper';
-import { try } from 'q';
 
 export function* initializeUser({ payload }: ReturnType<typeof Actions.initializeUser>) {
   yield put(TrackingActions.trackingArgsUpdate({

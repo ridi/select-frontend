@@ -4,7 +4,7 @@ export function getBaseUrl(host: string): string {
   return host.startsWith('select.')
     ? host.split('.')
       .filter((part) => !ridiSelectPrefixRegex
-      .test(part))
+        .test(part))
       .join('.')
     : host;
 }

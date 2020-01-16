@@ -1,8 +1,8 @@
 import { createAction, createReducer } from 'redux-act';
 
 import { FetchStatusFlag } from 'app/constants';
-import { MySelectBook } from 'app/services/mySelect';
-import { userRidiSelectBookToMySelectBook } from 'app/services/mySelect';
+import { MySelectBook , userRidiSelectBookToMySelectBook } from 'app/services/mySelect';
+
 import { UserDTO } from 'app/services/user/helper';
 import { MySelectHistoryResponse, PurchasesResponse, SubscriptionResponse, Ticket } from 'app/services/user/requests';
 import { DateDTO, ItemListByPage, Paginated } from 'app/types';
@@ -354,15 +354,13 @@ userReducer.on(Actions.deleteMySelectHistoryFailure, (state = INITIAL_STATE) => 
   },
 }));
 
-userReducer.on(Actions.resetMySelectHistoryFetchedStatus, (state = INITIAL_STATE) => {
-  return {
-    ...state,
-    mySelectHistory: {
-      ...state.mySelectHistory,
-      itemListByPage: {},
-    },
-  };
-});
+userReducer.on(Actions.resetMySelectHistoryFetchedStatus, (state = INITIAL_STATE) => ({
+  ...state,
+  mySelectHistory: {
+    ...state.mySelectHistory,
+    itemListByPage: {},
+  },
+}));
 
 userReducer.on(Actions.loadPurchasesRequest, (state = INITIAL_STATE, payload) => ({
   ...state,

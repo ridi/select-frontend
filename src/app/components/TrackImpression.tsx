@@ -77,10 +77,8 @@ export class TrackImpression extends React.Component<TrackImpressionProps> {
   }
 }
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    trackImpression: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackImpression({ trackingParams })),
-  };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+  trackImpression: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackImpression({ trackingParams })),
+});
 
 export const ConnectedTrackImpression = connect(null, mapDispatchToProps)(TrackImpression);

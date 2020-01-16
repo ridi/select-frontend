@@ -55,12 +55,6 @@
   }
 }
 
-.VoucherContent_TicketSVG {
-  fill: var(--dodgerblue_50);
-  width: 40px;
-  height: 40px;
-}
-
 .VoucherContent_MainCopy {
   @apply --reset-layout;
 

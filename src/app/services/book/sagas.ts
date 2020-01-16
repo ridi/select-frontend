@@ -3,8 +3,8 @@ import { RecommendedBook, requestBookToBookRecommendation } from './requests';
 
 import history from 'app/config/history';
 import { FetchErrorFlag, RoutePaths } from 'app/constants';
-import { Actions } from 'app/services/book';
-import { BookOwnershipStatus, BookState, LegacyStaticBookState, LocalStorageStaticBookState, StaticBookState } from 'app/services/book';
+import { Actions , BookOwnershipStatus, BookState, LegacyStaticBookState, LocalStorageStaticBookState, StaticBookState } from 'app/services/book';
+
 import { BookDetailResponse, BookDetailResponseV1, BookDetailResponseV2, requestBookDetail, requestBookOwnership } from 'app/services/book/requests';
 import { RidiSelectState } from 'app/store';
 import toast from 'app/utils/toast';

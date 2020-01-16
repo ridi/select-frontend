@@ -11,6 +11,9 @@ export const Actions = {
     isIosInApp: boolean,
   }>('loadHomeSuccess'),
   loadHomeFailure: createAction('loadHomeFailure'),
+  updateBannerIndex: createAction<{
+    currentIdx: number,
+  }>('updateBannerIndex'),
 };
 
 export enum CollectionType {
@@ -29,6 +32,7 @@ export interface BigBanner {
 export interface HomeState {
   fetchedAt: number | null;
   fetchStatus: FetchStatusFlag;
+  currentIdx: number;
   bigBannerList: BigBanner[];
   collectionIdList: number[];
 }
@@ -36,18 +40,17 @@ export interface HomeState {
 export const INITIAL_HOME_STATE: HomeState = {
   fetchedAt: null,
   fetchStatus: FetchStatusFlag.IDLE,
+  currentIdx: 0,
   bigBannerList: [],
   collectionIdList: [],
 };
 
 export const homeReducer = createReducer<typeof INITIAL_HOME_STATE>({}, INITIAL_HOME_STATE);
 
-homeReducer.on(Actions.loadHomeRequest, (state, action) => {
-  return {
-    ...state,
-    fetchStatus: FetchStatusFlag.FETCHING,
-  };
-});
+homeReducer.on(Actions.loadHomeRequest, (state, action) => ({
+  ...state,
+  fetchStatus: FetchStatusFlag.FETCHING,
+}));
 
 homeReducer.on(Actions.loadHomeSuccess, (state, action) => {
   const { response, fetchedAt, isIosInApp } = action;
@@ -63,9 +66,15 @@ homeReducer.on(Actions.loadHomeSuccess, (state, action) => {
   };
 });
 
-homeReducer.on(Actions.loadHomeFailure, (state, action) => {
+homeReducer.on(Actions.loadHomeFailure, (state, action) => ({
+  ...state,
+  fetchStatus: FetchStatusFlag.FETCH_ERROR,
+}));
+
+homeReducer.on(Actions.updateBannerIndex, (state, action) => {
+  const { currentIdx } = action;
   return {
     ...state,
-    fetchStatus: FetchStatusFlag.FETCH_ERROR,
+    currentIdx, 
   };
 });

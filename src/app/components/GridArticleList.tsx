@@ -141,6 +141,26 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                         className="GridArticleItem_Link"
                         onClick={() => trackingClick(idx, article.id, JSON.stringify({sect_ch: `ch:${channelMeta!.id}`}))}
                       >
+                        {renderAuthor && article.author ? (
+                          <span className="GridArticleItem_Author">
+                            {article.author.name}
+                          </span>
+                        ) : null}
+                        {renderPublishDate && article.publishDate ? (
+                          <span className="GridArticleItem_RegDate"> · {buildDateDistanceFormat(article.publishDate)} 전</span>
+                        ) : null}
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <p className="GridArticleItem_Title">
+                        {article.title}
+                      </p>
+                      {renderChannelMeta && channelMeta ? (
+                        <p className="GridArticleItem_ChannelName">
+                          {channelMeta.displayName}
+                        </p>
+                      ) : null}
                       {renderAuthor && article.author ? (
                         <span className="GridArticleItem_Author">
                           {article.author.name}
@@ -149,27 +169,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                       {renderPublishDate && article.publishDate ? (
                         <span className="GridArticleItem_RegDate"> · {buildDateDistanceFormat(article.publishDate)} 전</span>
                       ) : null}
-                      </Link>
                     </>
-                  ) : (
-                   <>
-                    <p className="GridArticleItem_Title">
-                      {article.title}
-                    </p>
-                    {renderChannelMeta && channelMeta ? (
-                      <p className="GridArticleItem_ChannelName">
-                        {channelMeta.displayName}
-                      </p>
-                    ) : null}
-                    {renderAuthor && article.author ? (
-                      <span className="GridArticleItem_Author">
-                        {article.author.name}
-                      </span>
-                    ) : null}
-                    {renderPublishDate && article.publishDate ? (
-                      <span className="GridArticleItem_RegDate"> · {buildDateDistanceFormat(article.publishDate)} 전</span>
-                    ) : null}
-                   </>
                   )}
                 </div>
                 {renderFavoriteButton ? (

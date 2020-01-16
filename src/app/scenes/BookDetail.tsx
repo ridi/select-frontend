@@ -155,15 +155,13 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    dispatchLoadBookRequest: (bookId: number) => dispatch(BookActions.loadBookDetailRequest({ bookId })),
-    dispatchLoadBookToBookRecommendation: (bookId: number) => dispatch(BookActions.loadBookToBookRecommendationRequest({ bookId })),
-    dispatchLoadBookOwnershipRequest: (bookId: number) =>
-      dispatch(BookActions.loadBookOwnershipRequest({ bookId })),
-    dispatchAddMySelect: (bookId: BookId) => dispatch(MySelectActions.addMySelectRequest({ bookId })),
-  };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+  dispatchLoadBookRequest: (bookId: number) => dispatch(BookActions.loadBookDetailRequest({ bookId })),
+  dispatchLoadBookToBookRecommendation: (bookId: number) => dispatch(BookActions.loadBookToBookRecommendationRequest({ bookId })),
+  dispatchLoadBookOwnershipRequest: (bookId: number) =>
+    dispatch(BookActions.loadBookOwnershipRequest({ bookId })),
+  dispatchAddMySelect: (bookId: BookId) => dispatch(MySelectActions.addMySelectRequest({ bookId })),
+});
 
 export const ConnectedBookDetail = withRouter(
   connect(mapStateToProps, mapDispatchToProps)(BookDetail),

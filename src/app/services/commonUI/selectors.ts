@@ -23,9 +23,7 @@ export const getBackgroundColorRGBString = createSelector(
     (state: RidiSelectState): RidiSelectState => state,
     selectTransparentType,
   ],
-  (state: RidiSelectState, gnbTransparentType: GNBTransparentType): string => {
-    return gnbTransparentType === GNBTransparentType.transparent ? 'rgba(0,0,0,0)' : getSolidBackgroundColorRGBString(state);
-  },
+  (state: RidiSelectState, gnbTransparentType: GNBTransparentType): string => gnbTransparentType === GNBTransparentType.transparent ? 'rgba(0,0,0,0)' : getSolidBackgroundColorRGBString(state),
 );
 
 export const getBackgroundColorGradientToRight = createSelector(
@@ -44,9 +42,7 @@ export const getBackgroundColorGradientToLeft = createSelector(
 
 export const getGNBType = createSelector(
   [selectTransparentType, selectGnbColorLevel],
-  (gnbTransparentType: GNBTransparentType, gnbColorLevel: GNBColorLevel): GNBColorLevel => {
-    return gnbTransparentType === GNBTransparentType.transparent ?
-      GNBColorLevel.TRANSPARENT :
-      gnbColorLevel;
-  },
+  (gnbTransparentType: GNBTransparentType, gnbColorLevel: GNBColorLevel): GNBColorLevel => gnbTransparentType === GNBTransparentType.transparent ?
+    GNBColorLevel.TRANSPARENT :
+    gnbColorLevel,
 );

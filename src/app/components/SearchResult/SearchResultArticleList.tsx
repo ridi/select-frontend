@@ -64,9 +64,8 @@ export const SearchResultArticleList: React.FunctionComponent<Props> = (props) =
                     className="SearchResultArticleList_Author"
                     dangerouslySetInnerHTML={{ __html: article.highlight.authorNames }}
                   />) : (
-                    article.authors && <span className="SearchResultArticleList_Author">{article.authors.map((author) => author.name).join(',')}</span>
-                  )
-                }
+                  article.authors && <span className="SearchResultArticleList_Author">{article.authors.map((author) => author.name).join(',')}</span>
+                )}
                 <span
                   className="SearchResultArticleList_Channel"
                   dangerouslySetInnerHTML={{ __html:

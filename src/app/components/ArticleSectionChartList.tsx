@@ -93,13 +93,13 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
                       onLinkClick={() => trackingClick(index, article.id, JSON.stringify({ sect_ch: `ch:${channelMeta!.id}`}))}
                     />
                     <div className="ArticleChartList_Meta">
-                    <Link
-                      className="ArticleChartList_Meta_Link"
-                      to={articleUrl}
-                      onClick={() => trackingClick(index, article.id, JSON.stringify({ sect_ch: `ch:${channelMeta!.id}`}))}
-                    >
-                      <span className="ArticleChartList_Meta_Title">{article.title}</span>
-                    </Link>
+                      <Link
+                        className="ArticleChartList_Meta_Link"
+                        to={articleUrl}
+                        onClick={() => trackingClick(index, article.id, JSON.stringify({ sect_ch: `ch:${channelMeta!.id}`}))}
+                      >
+                        <span className="ArticleChartList_Meta_Title">{article.title}</span>
+                      </Link>
                       {channelMeta ? (
                         <Link
                           className="ArticleChartList_Channel_Link"
@@ -115,8 +115,7 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
               );
             })}
           </ol>
-        ),
-      )}
+        ))}
     </div>
   );
 };

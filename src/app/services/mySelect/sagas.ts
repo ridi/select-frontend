@@ -1,7 +1,7 @@
 import history from 'app/config/history';
 import { FetchErrorFlag } from 'app/constants';
-import { Actions as BookActions } from 'app/services/book';
-import { Book } from 'app/services/book';
+import { Actions as BookActions , Book } from 'app/services/book';
+
 import { requestBooks } from 'app/services/book/requests';
 import { Actions } from 'app/services/mySelect';
 import {

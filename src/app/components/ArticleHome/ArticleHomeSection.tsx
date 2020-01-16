@@ -86,15 +86,15 @@ export const ArticleHomeSection: React.FunctionComponent<ArticleHomeSectionProps
         </>
       ) : (
         <>
-        <ArticleSectionHeader title={title} />
-        <GridArticleList
-          serviceTitleForTracking="select-article"
-          pageTitleForTracking="home"
-          uiPartTitleForTracking={`${articleHomeSectionType.replace('ArticleList', '')}`}
-          miscTracking={JSON.stringify({sect_order: order})}
-          renderChannelMeta={true}
-          articles={sectionData.articles && sectionData.articles.slice(0, 4).map((id) => articles[id].article!)}
-        />
+          <ArticleSectionHeader title={title} />
+          <GridArticleList
+            serviceTitleForTracking="select-article"
+            pageTitleForTracking="home"
+            uiPartTitleForTracking={`${articleHomeSectionType.replace('ArticleList', '')}`}
+            miscTracking={JSON.stringify({sect_order: order})}
+            renderChannelMeta={true}
+            articles={sectionData.articles && sectionData.articles.slice(0, 4).map((id) => articles[id].article!)}
+          />
         </>
       )}
     </section>

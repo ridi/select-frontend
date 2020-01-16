@@ -1,0 +1,16 @@
+plugins:
+  - removeTitle: true
+  - removeXMLNS: true
+  - removeDimensions: true
+  - removeAttrs:
+      attrs:
+        - 'fill'
+        - 'fill-rule'
+        - 'stroke'
+        - 'version'
+        - 'class'
+  - sortAttrs:
+      order:
+        - 'viewBox'
+        - 'class'
+  - collapseGroups: true

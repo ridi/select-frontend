@@ -110,7 +110,7 @@ export class ReviewForm extends React.Component<ReviewFormProps, ReviewFormState
                 isFullButton={true}
                 onClick={() => onSubmit(reviewContent, hasSpoiler)}
               >
-               {initialReviewContent ? '수정 완료' : '리뷰 남기기'}
+                {initialReviewContent ? '수정 완료' : '리뷰 남기기'}
               </SubmitButton>
             </li>
           </ul>
@@ -143,7 +143,7 @@ export class ReviewForm extends React.Component<ReviewFormProps, ReviewFormState
                 isDisabled={reviewContent.length < 10}
                 onClick={() => onSubmit(reviewContent, hasSpoiler)}
               >
-               {initialReviewContent ? '수정 완료' : '리뷰 남기기'}
+                {initialReviewContent ? '수정 완료' : '리뷰 남기기'}
               </SubmitButton>
             </div>
           </div>

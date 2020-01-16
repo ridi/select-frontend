@@ -10,7 +10,7 @@ import {
 import { Paginated } from 'app/types';
 import { responseCommentsToCommentIdListByPage } from '../review/reducer.helpers';
 
-export interface ClosingReservedBooksTermState extends Paginated<Book> {}
+export type ClosingReservedBooksTermState = Paginated<Book>
 export interface ClosingReservedBooksState {
   [termType: string]: ClosingReservedBooksTermState;
 }

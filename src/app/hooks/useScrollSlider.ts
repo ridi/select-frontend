@@ -6,8 +6,8 @@ import { useScrollPosition } from './useScrollPosition';
 
 export const useScrollSlider = (
   ref: React.RefObject<HTMLElement>,
-  listenResizeEvent: boolean = false,
-  debounceDelay: number = 50,
+  listenResizeEvent = false,
+  debounceDelay = 50,
 ): [() => void, () => void, boolean, boolean] => {
   const [isOnTheLeft, isOnTheRight, scrollTo] = useScrollPosition(
     ref,

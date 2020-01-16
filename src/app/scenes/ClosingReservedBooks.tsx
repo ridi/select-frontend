@@ -96,7 +96,7 @@ export class ClosingReservedBooks extends React.Component<Props> {
     const { page, closingReservedBooks, currentTerm } = this.props;
     const { isInitialized } = this.state;
     const { itemCount, itemListByPage } = closingReservedBooks[currentTerm];
-    const itemCountPerPage: number = 24;
+    const itemCountPerPage = 24;
     return (
       <main className="SceneWrapper">
         <HelmetWithTitle titleName={PageTitleText.CLOSING_RESERVED_BOOKS} />
@@ -132,9 +132,9 @@ export class ClosingReservedBooks extends React.Component<Props> {
                 />
               ) : (
                 <>
-                <div className="ClosingReservedBooks_NoticeWrapper">
-                  <Notice mainText="각 도서의 서비스 종료 일정은 변경될 수 있습니다." />
-                </div>
+                  <div className="ClosingReservedBooks_NoticeWrapper">
+                    <Notice mainText="각 도서의 서비스 종료 일정은 변경될 수 있습니다." />
+                  </div>
                   <ConnectedGridBookList
                     serviceTitleForTracking="select-book"
                     pageTitleForTracking="closing-reserved"
@@ -167,19 +167,15 @@ export class ClosingReservedBooks extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = (rootState: RidiSelectState): ClosingReservedBooksStateProps => {
-  return {
-    closingReservedBooks: rootState.closingReservedBooks,
-    currentTerm: getClosingReservedBooksTermQuery(rootState),
-    page: getPageQuery(rootState),
-  };
-};
+const mapStateToProps = (rootState: RidiSelectState): ClosingReservedBooksStateProps => ({
+  closingReservedBooks: rootState.closingReservedBooks,
+  currentTerm: getClosingReservedBooksTermQuery(rootState),
+  page: getPageQuery(rootState),
+});
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    dispatchLoadClosingReservedBooks: (termType: closingReservedTermType, page: number) => dispatch(Actions.loadClosingReservedBooksRequest({ termType, page })),
-  };
-};
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  dispatchLoadClosingReservedBooks: (termType: closingReservedTermType, page: number) => dispatch(Actions.loadClosingReservedBooksRequest({ termType, page })),
+});
 
 export const ConnectedClosingReservedBooks = withRouter(
   connect(mapStateToProps, mapDispatchToProps)(ClosingReservedBooks),

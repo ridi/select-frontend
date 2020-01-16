@@ -13,7 +13,7 @@ export function isValidPaginationParameter(paramValue: any) {
   return !isNaN(paramValue) && paramValue > 0;
 }
 
-export function fixWrongPaginationScope(response?: AxiosResponse, paramKeyName: string = 'page') {
+export function fixWrongPaginationScope(response?: AxiosResponse, paramKeyName = 'page') {
   const { config = {}, status } = response!;
   if (!config.params || !config.params[paramKeyName]) {
     return;
@@ -49,7 +49,7 @@ export function buildArticleRequestQueriesToString(requestQueries?: ArticleReque
     queries.push(`type=${requestQueries.type}`);
   }
   if (requestQueries && requestQueries.exceptRidiChannel) {
-    queries.push(`except_ridi=1`);
+    queries.push('except_ridi=1');
   }
 
   return queries.length > 0 ? `?${queries.join('&')}` : '';

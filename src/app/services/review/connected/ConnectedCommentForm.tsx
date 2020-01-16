@@ -14,8 +14,8 @@ import { RidiSelectState } from 'app/store';
 import { Omit } from 'app/types';
 
 export type CommentFormStateProps = Pick<
-  CommentFormProps,
-  'content' | 'isSubmitting'
+CommentFormProps,
+'content' | 'isSubmitting'
 >;
 
 function mapStateToProps(
@@ -29,8 +29,8 @@ function mapStateToProps(
 }
 
 export type CommentFormDispatchProps = Pick<
-  CommentFormProps,
-  'onChange' | 'onSubmit'
+CommentFormProps,
+'onChange' | 'onSubmit'
 >;
 
 function mapDispatchToProps(

@@ -189,31 +189,29 @@ export class Settings extends React.PureComponent<SettingProps> {
         <ConnectedPageHeader pageTitle={PageTitleText.SETTING} />
         {subscriptionFetchStatus === FetchStatusFlag.IDLE &&
         ticketFetchStatus === FetchStatusFlag.IDLE &&
-        isLoggedIn ? (
+        isLoggedIn ? 
           <ConnectedSubscriptionInfo />
-        ) : (
-          <SettingPlaceholder />
-        )}
+          : (
+            <SettingPlaceholder />
+          )}
         {this.renderMenus()}
       </main>
     );
   }
 }
 
-const mapStateToProps = (state: RidiSelectState): SettingStateProps => {
-  return {
-    isFetching: state.user.isFetching,
-    hasAvailableTicket: state.user.hasAvailableTicket,
-    ticketFetchStatus: state.user.ticketFetchStatus,
-    isAccountMeRetried: state.user.isAccountMeRetried,
-    isLoggedIn: state.user.isLoggedIn,
-    subscriptionFetchStatus: state.user.subscriptionFetchStatus,
-    subscriptionState: state.user.subscription,
-    environment: state.environment,
-    isInApp: selectIsInApp(state),
-    isIosInApp: getIsIosInApp(state),
-  };
-};
+const mapStateToProps = (state: RidiSelectState): SettingStateProps => ({
+  isFetching: state.user.isFetching,
+  hasAvailableTicket: state.user.hasAvailableTicket,
+  ticketFetchStatus: state.user.ticketFetchStatus,
+  isAccountMeRetried: state.user.isAccountMeRetried,
+  isLoggedIn: state.user.isLoggedIn,
+  subscriptionFetchStatus: state.user.subscriptionFetchStatus,
+  subscriptionState: state.user.subscription,
+  environment: state.environment,
+  isInApp: selectIsInApp(state),
+  isIosInApp: getIsIosInApp(state),
+});
 
 const mapDispatchToProps = (dispatch: any) => ({
   dispatchLoadAccountMeRequest: () => dispatch(Actions.loadAccountsMeRequest()),

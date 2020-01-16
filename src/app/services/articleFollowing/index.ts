@@ -27,7 +27,7 @@ export const Actions = {
   loadUnseenFollowingFeedsFailure: createAction('loadUnseenFollowingFeedsFailure'),
   setUnseenFollowingFeedsToSeenRequest: createAction('setUnseenFollowingFeedsToSeenRequest'),
   setUnseenFollowingFeedsToSeenSuccess: createAction<
-    setAllFollowingFeedsToSeen
+  setAllFollowingFeedsToSeen
   >('setUnseenFollowingFeedsToSeenSuccess'),
   setUnseenFollowingFeedsToSeenFailure: createAction('setUnseenFollowingFeedsToSeenFailure'),
 };
@@ -39,7 +39,7 @@ export interface FollowingChannel {
   channel: ArticleChannel;
 }
 
-export interface FollowingArticleStateItem extends Paginated<ArticleKey> {}
+export type FollowingArticleStateItem = Paginated<ArticleKey>
 
 export interface ArticleFollowingState {
   followingChannelList?: string[];

@@ -1,6 +1,6 @@
 // easing functions
 // https://gist.github.com/gre/1650294
-const easings = {
+const easings: { [key: string] : (t:number) => number } = {
   linear(t: number) {
     return t;
   },
@@ -17,6 +17,7 @@ const easings = {
     return t * t * t;
   },
   easeOutCubic(t: number) {
+    // eslint-disable-next-line no-param-reassign
     return --t * t * t + 1;
   },
   easeInOutCubic(t: number) {
@@ -26,18 +27,22 @@ const easings = {
     return t * t * t * t;
   },
   easeOutQuart(t: number) {
+    // eslint-disable-next-line no-param-reassign
     return 1 - --t * t * t * t;
   },
   easeInOutQuart(t: number) {
+    // eslint-disable-next-line no-param-reassign
     return t < 0.5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t;
   },
   easeInQuint(t: number) {
     return t * t * t * t * t;
   },
   easeOutQuint(t: number) {
+    // eslint-disable-next-line no-param-reassign
     return 1 + --t * t * t * t * t;
   },
   easeInOutQuint(t: number) {
+    // eslint-disable-next-line no-param-reassign
     return t < 0.5 ? 16 * t * t * t * t * t : 1 + 16 * --t * t * t * t * t;
   },
 };

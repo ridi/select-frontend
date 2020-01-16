@@ -125,8 +125,8 @@ export function responseReviewsToPaginatedReviewIds(
 
 export function responseReviewToStateReview(responseReview: ResponseReview): Review {
   const comm = omit(responseReview, ['comments', 'commentsTotalCount', 'content']) as Omit<
-    ResponseReview,
-    keyof ResponseReviewDiff
+  ResponseReview,
+  keyof ResponseReviewDiff
   >;
   return {
     ...comm,
@@ -167,30 +167,30 @@ export function responseReviewsToReviewsSet(
   params: RequestReviewsParameters,
   responseReviews: ResponseReviews,
 ): ReviewsSet {
-    return {
-      ...state[bookId],
-      fetchStatus: FetchStatusFlag.IDLE,
-      reviewSummary: responseReviews.reviewSummary,
-      myReview: responseReviewToStateMyReview(responseReviews.my.review),
-      reviewIdsByUserFilterType: {
-        ...state[bookId].reviewIdsByUserFilterType,
-        [params.userFilterType]: {
-          ...state[bookId].reviewIdsByUserFilterType[params.userFilterType],
-          [params.sortBy]: responseReviewsToPaginatedReviewIds(
-            params.page,
-            state[bookId].reviewIdsByUserFilterType[params.userFilterType][params.sortBy],
-            responseReviews,
-          ),
-        },
+  return {
+    ...state[bookId],
+    fetchStatus: FetchStatusFlag.IDLE,
+    reviewSummary: responseReviews.reviewSummary,
+    myReview: responseReviewToStateMyReview(responseReviews.my.review),
+    reviewIdsByUserFilterType: {
+      ...state[bookId].reviewIdsByUserFilterType,
+      [params.userFilterType]: {
+        ...state[bookId].reviewIdsByUserFilterType[params.userFilterType],
+        [params.sortBy]: responseReviewsToPaginatedReviewIds(
+          params.page,
+          state[bookId].reviewIdsByUserFilterType[params.userFilterType][params.sortBy],
+          responseReviews,
+        ),
       },
-      reviewsById: {
-        ...state[bookId].reviewsById,
-        ...(responseReviews.my.review
+    },
+    reviewsById: {
+      ...state[bookId].reviewsById,
+      ...(responseReviews.my.review
             && responseReviews.my.review.id
             && responseReviewsToReviewsById([responseReviews.my.review])),
-        ...responseReviewsToReviewsById(responseReviews.reviews),
-      },
-    };
+      ...responseReviewsToReviewsById(responseReviews.reviews),
+    },
+  };
 }
 
 export function setReviewFetchError(
@@ -201,22 +201,22 @@ export function setReviewFetchError(
   if (state[bookId].fetchStatus === FetchStatusFlag.FETCHING) {
     return Immutable(state)
       .set([
-          `${bookId}`,
-          'fetchStatus',
-        ],
-        FetchStatusFlag.FETCH_ERROR,
+        `${bookId}`,
+        'fetchStatus',
+      ],
+      FetchStatusFlag.FETCH_ERROR,
       )
       .value();
   }
   return Immutable(state)
-      .set([
-        `${bookId}`,
-        'reviewIdsByUserFilterType',
-        params.userFilterType,
-        params.sortBy,
-        `${params.page}`,
-      ], FetchStatusFlag.FETCH_ERROR)
-      .value();
+    .set([
+      `${bookId}`,
+      'reviewIdsByUserFilterType',
+      params.userFilterType,
+      params.sortBy,
+      `${params.page}`,
+    ], FetchStatusFlag.FETCH_ERROR)
+    .value();
 }
 
 export function setMyReviewFetchStatus(
@@ -430,15 +430,15 @@ export function changeUserFilterTab(
   userFilterType: UserFilterType,
 ) {
   return Immutable(state)
-  .set([
-    `${bookId}`,
-    'userFilterType',
-  ], userFilterType)
-  .set([
-    `${bookId}`,
-    'sortBy',
-  ], getAvailableSortBy(state[bookId].sortBy, userFilterType))
-  .value();
+    .set([
+      `${bookId}`,
+      'userFilterType',
+    ], userFilterType)
+    .set([
+      `${bookId}`,
+      'sortBy',
+    ], getAvailableSortBy(state[bookId].sortBy, userFilterType))
+    .value();
 }
 
 export function changeSortByInState(

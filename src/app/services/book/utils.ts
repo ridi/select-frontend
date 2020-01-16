@@ -15,13 +15,13 @@ export function formatFileCount(count: number): string {
   let unit = '';
 
   if (count < 1000) {
-      // DO NOTHING
+    // DO NOTHING
   } else if (count < 10000) {
-      floorNums = Number(Math.round(count / 100)) / 10;
-      unit = '천';
+    floorNums = Number(Math.round(count / 100)) / 10;
+    unit = '천';
   } else if (count < 100000000) {
-      floorNums = Number(Math.round(count / 1000)) / 10;
-      unit = '만';
+    floorNums = Number(Math.round(count / 1000)) / 10;
+    unit = '만';
   }
 
   return (

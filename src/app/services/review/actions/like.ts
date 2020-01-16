@@ -13,31 +13,31 @@ export interface ReviewLikeActionParams {
   reviewId: number;
 }
 
-export interface ActionPostReviewLikeRequest extends Action<
+export type ActionPostReviewLikeRequest = Action<
   typeof POST_REVIEW_LIKE_REQUEST,
-  ReviewLikeActionParams
-> {}
-export interface ActionPostReviewLikeSuccess extends Action<
+ReviewLikeActionParams
+>
+export type ActionPostReviewLikeSuccess = Action<
   typeof POST_REVIEW_LIKE_SUCCESS,
-  ReviewLikeActionParams
-> {}
-export interface ActionPostReviewLikeFailure extends Action<
+ReviewLikeActionParams
+>
+export type ActionPostReviewLikeFailure = Action<
   typeof POST_REVIEW_LIKE_FAILURE,
-  ReviewLikeActionParams
-> {}
+ReviewLikeActionParams
+>
 
-export interface ActionDeleteReviewLikeRequest extends Action<
+export type ActionDeleteReviewLikeRequest = Action<
   typeof DELETE_REVIEW_LIKE_REQUEST,
-  ReviewLikeActionParams
-> {}
-export interface ActionDeleteReviewLikeSuccess extends Action<
+ReviewLikeActionParams
+>
+export type ActionDeleteReviewLikeSuccess = Action<
   typeof DELETE_REVIEW_LIKE_SUCCESS,
-  ReviewLikeActionParams
-> {}
-export interface ActionDeleteReviewLikeFailure extends Action<
+ReviewLikeActionParams
+>
+export type ActionDeleteReviewLikeFailure = Action<
   typeof DELETE_REVIEW_LIKE_FAILURE,
-  ReviewLikeActionParams
-> {}
+ReviewLikeActionParams
+>
 
 export type ReviewLikeActionTypes =
   ActionPostReviewLikeRequest |
@@ -50,41 +50,29 @@ export type ReviewLikeActionTypes =
 export const postReviewLikeRequest = (
   bookId: number,
   reviewId: number,
-): ActionPostReviewLikeRequest => {
-  return { type: POST_REVIEW_LIKE_REQUEST, payload: { bookId, reviewId } };
-};
+): ActionPostReviewLikeRequest => ({ type: POST_REVIEW_LIKE_REQUEST, payload: { bookId, reviewId } });
 
 export const postReviewLikeSuccess = (
   bookId: number,
   reviewId: number,
-): ActionPostReviewLikeSuccess => {
-  return { type: POST_REVIEW_LIKE_SUCCESS, payload: { bookId, reviewId } };
-};
+): ActionPostReviewLikeSuccess => ({ type: POST_REVIEW_LIKE_SUCCESS, payload: { bookId, reviewId } });
 
 export const postReviewLikeFailure = (
   bookId: number,
   reviewId: number,
-): ActionPostReviewLikeFailure => {
-  return { type: POST_REVIEW_LIKE_FAILURE, payload: { bookId, reviewId } };
-};
+): ActionPostReviewLikeFailure => ({ type: POST_REVIEW_LIKE_FAILURE, payload: { bookId, reviewId } });
 
 export const deleteReviewLikeRequest = (
   bookId: number,
   reviewId: number,
-): ActionDeleteReviewLikeRequest => {
-  return { type: DELETE_REVIEW_LIKE_REQUEST, payload: { bookId, reviewId } };
-};
+): ActionDeleteReviewLikeRequest => ({ type: DELETE_REVIEW_LIKE_REQUEST, payload: { bookId, reviewId } });
 
 export const deleteReviewLikeSuccess = (
   bookId: number,
   reviewId: number,
-): ActionDeleteReviewLikeSuccess => {
-  return { type: DELETE_REVIEW_LIKE_SUCCESS, payload: { bookId, reviewId } };
-};
+): ActionDeleteReviewLikeSuccess => ({ type: DELETE_REVIEW_LIKE_SUCCESS, payload: { bookId, reviewId } });
 
 export const deleteReviewLikeFailure = (
   bookId: number,
   reviewId: number,
-): ActionDeleteReviewLikeFailure => {
-  return { type: DELETE_REVIEW_LIKE_FAILURE, payload: { bookId, reviewId } };
-};
+): ActionDeleteReviewLikeFailure => ({ type: DELETE_REVIEW_LIKE_FAILURE, payload: { bookId, reviewId } });

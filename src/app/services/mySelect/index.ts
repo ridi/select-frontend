@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import produce from 'immer';
+import { produce } from 'immer';
 import { createAction, createReducer } from 'redux-act';
 
 import { FetchErrorFlag, FetchStatusFlag } from 'app/constants';
@@ -70,15 +70,13 @@ export const INITIAL_MYSELECT_STATE: MySelectState = {
   isReSubscribed: false,
 };
 
-export const userRidiSelectBookToMySelectBook = (userRidiSelectbook: UserRidiSelectBookResponse): MySelectBook => {
-  return {
-    ...userRidiSelectbook.book,
-    startDate: userRidiSelectbook.startDate,
-    endDate: userRidiSelectbook.endDate,
-    mySelectBookId: userRidiSelectbook.id,
-    expire: userRidiSelectbook.expire,
-  };
-};
+export const userRidiSelectBookToMySelectBook = (userRidiSelectbook: UserRidiSelectBookResponse): MySelectBook => ({
+  ...userRidiSelectbook.book,
+  startDate: userRidiSelectbook.startDate,
+  endDate: userRidiSelectbook.endDate,
+  mySelectBookId: userRidiSelectbook.id,
+  expire: userRidiSelectbook.expire,
+});
 
 export const mySelectReducer = createReducer<MySelectState>({}, INITIAL_MYSELECT_STATE);
 

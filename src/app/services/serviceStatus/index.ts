@@ -1,5 +1,5 @@
 import { FetchStatusFlag } from 'app/constants';
-import produce from 'immer';
+import { produce } from 'immer';
 import { createAction, createReducer } from 'redux-act';
 
 export type ErrorResponseStatus = number;

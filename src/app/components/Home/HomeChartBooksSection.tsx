@@ -21,7 +21,7 @@ interface HomeChartBooksSectionProps {
   books: Book[];
   title: string;
   collectionId: CollectionId;
-  order: number;
+  order?: number;
 }
 
 type Props = HomeChartBooksSectionProps & ReturnType<typeof mapDispatchToProps>;
@@ -45,7 +45,7 @@ export class HomeChartBooksSection extends React.Component<Props> {
                       section={section}
                       index={index}
                       id={book.id}
-                      misc={JSON.stringify({sect_order: order})}
+                      misc={order ? JSON.stringify({sect_order: order}) : undefined}
                     >
                       <span className="HomeSection_ChartBookRanking">
                         {index + 1}

@@ -76,11 +76,11 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
       if (cardSubscription) {
         const cardSubscriptionString = cardSubscription.join(',');
         if (
-            cardSubscriptionString.indexOf('리디캐시 자동충전') >= 0 &&
+          cardSubscriptionString.indexOf('리디캐시 자동충전') >= 0 &&
             !confirm('리디캐시 자동충전이 설정된 카드입니다.\n결제 수단 변경 시 변경된 카드로 자동 충전됩니다.')
-           ) {
-            return;
-          }
+        ) {
+          return;
+        }
       }
       window.location.href = locationUrl;
     }
@@ -173,35 +173,35 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
               <div className="ToggleSubscriptionButton_Wrapper">
                 {subscriptionState.isOptout ?
                   (subscriptionState.optoutReason === 'OPTOUT_BY_RIDI_PAY' || subscriptionState.optoutReason === 'OPTOUT_BY_RECUR_PAYMENT_FAILURE' ?
-                  (!isIosInApp &&
-                    <Button
-                      className="ToggleSubscriptionButton"
-                      onClick={() => { this.handleChangePaymentButtonClick('unsubscription'); }}
-                      outline={true}
-                    >
-                      결제 수단 변경
-                    </Button>
+                    (!isIosInApp &&
+                      <Button
+                        className="ToggleSubscriptionButton"
+                        onClick={() => { this.handleChangePaymentButtonClick('unsubscription'); }}
+                        outline={true}
+                      >
+                        결제 수단 변경
+                      </Button>
+                    ) : (
+                      <Button
+                        className="ToggleSubscriptionButton"
+                        onClick={this.handleCancelUnsubscriptionButtonClick}
+                        spinner={this.props.userState.unsubscriptionCancellationFetchStatus === FetchStatusFlag.FETCHING}
+                        color="blue"
+                        disabled={!subscriptionState.isOptoutCancellable}
+                      >
+                      구독 해지 예약 취소
+                      </Button>
+                    )
                   ) : (
                     <Button
                       className="ToggleSubscriptionButton"
-                      onClick={this.handleCancelUnsubscriptionButtonClick}
-                      spinner={this.props.userState.unsubscriptionCancellationFetchStatus === FetchStatusFlag.FETCHING}
-                      color="blue"
-                      disabled={!subscriptionState.isOptoutCancellable}
+                      onClick={() => this.handleUnsubscribeButtonClick()}
+                      outline={true}
+                      spinner={this.props.userState.unsubscriptionFetchStatus === FetchStatusFlag.FETCHING}
                     >
-                      구독 해지 예약 취소
-                    </Button>
-                  )
-                ) : (
-                  <Button
-                    className="ToggleSubscriptionButton"
-                    onClick={() => this.handleUnsubscribeButtonClick()}
-                    outline={true}
-                    spinner={this.props.userState.unsubscriptionFetchStatus === FetchStatusFlag.FETCHING}
-                  >
                     구독 해지 예약
-                  </Button>
-                )}
+                    </Button>
+                  )}
               </div>
               {!subscriptionState.isOptout && <p className="UnsubscriptionInfoText">지금 해지 예약하셔도 {buildOnlyDateFormat(userState.availableUntil)}까지 이용할 수 있습니다.</p>}
               {subscriptionState.isOptout
@@ -235,22 +235,18 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
   }
 }
 
-const mapStateToProps = (state: RidiSelectState): ManageSubscriptionStateProps => {
-  return {
-    userState: state.user,
-    environment: state.environment,
-    subscriptionState: state.user.subscription,
-    isIosInApp: getIsIosInApp(state),
-  };
-};
+const mapStateToProps = (state: RidiSelectState): ManageSubscriptionStateProps => ({
+  userState: state.user,
+  environment: state.environment,
+  subscriptionState: state.user.subscription,
+  isIosInApp: getIsIosInApp(state),
+});
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    dispatchLoadSubscriptionRequest: () => dispatch(Actions.loadSubscriptionRequest()),
-    dispatchUnsubscribeRequest: () => dispatch(Actions.unsubscribeRequest()),
-    dispatchCancelUnsubscriptionRequest: () => dispatch(Actions.cancelUnsubscriptionRequest()),
-    dispatchUpdateGNBTabExpose: (isGnbTab: boolean) => dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
-  };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+  dispatchLoadSubscriptionRequest: () => dispatch(Actions.loadSubscriptionRequest()),
+  dispatchUnsubscribeRequest: () => dispatch(Actions.unsubscribeRequest()),
+  dispatchCancelUnsubscriptionRequest: () => dispatch(Actions.cancelUnsubscriptionRequest()),
+  dispatchUpdateGNBTabExpose: (isGnbTab: boolean) => dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
+});
 
 export const ConnectedManageSubscription = connect(mapStateToProps, mapDispatchToProps)(ManageSubscription);

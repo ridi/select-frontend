@@ -29,23 +29,23 @@ export const StarRating: React.SFC<StarRatingProps> = (props) => {
   };
 
   return (
+    <span
+      className={classNames('StarRating_IconBox', className, { dark: props.darkBackground })}
+      style={inlineStyleIconSize}
+    >
       <span
-        className={classNames('StarRating_IconBox', className, { dark: props.darkBackground })}
+        className="StarRating_Icon_Background"
         style={inlineStyleIconSize}
+      />
+      <span
+        className="StarRating_Icon_Foreground_Mask"
+        style={inlineStyleForegroundWrapperSize}
       >
         <span
-          className="StarRating_Icon_Background"
+          className="StarRating_Icon_Foreground"
           style={inlineStyleIconSize}
         />
-        <span
-          className="StarRating_Icon_Foreground_Mask"
-          style={inlineStyleForegroundWrapperSize}
-        >
-          <span
-            className="StarRating_Icon_Foreground"
-            style={inlineStyleIconSize}
-          />
-        </span>
       </span>
+    </span>
   );
 };

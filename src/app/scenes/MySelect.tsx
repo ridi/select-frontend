@@ -92,12 +92,10 @@ class MySelect extends React.Component<Props, State> {
     const { mySelectBooks, page } = this.props;
     const books = mySelectBooks.itemListByPage[page].itemList;
     this.setState({
-      bookInputs: books.reduce((prev, book) => {
-        return {
-          ...prev,
-          [book.mySelectBookId]: !this.areEveryBookChecked(),
-        };
-      }, {}),
+      bookInputs: books.reduce((prev, book) => ({
+        ...prev,
+        [book.mySelectBookId]: !this.areEveryBookChecked(),
+      }), {}),
     });
   }
 
@@ -179,21 +177,19 @@ class MySelect extends React.Component<Props, State> {
       mySelectBooks &&
       mySelectBooks.itemListByPage[page] &&
       mySelectBooks.itemListByPage[page].itemList ?
-      mySelectBooks.itemListByPage[page].itemList : [];
+        mySelectBooks.itemListByPage[page].itemList : [];
     const prevBooksLength =
       prevProps.mySelectBooks &&
       prevProps.mySelectBooks.itemListByPage[prevProps.page] &&
       prevProps.mySelectBooks.itemListByPage[prevProps.page].itemList ?
-      prevProps.mySelectBooks.itemListByPage[prevProps.page].itemList.length : 0;
+        prevProps.mySelectBooks.itemListByPage[prevProps.page].itemList.length : 0;
     if (prevBooksLength !== books.length) {
       // Set up state for checkboxes
       this.setState({
-        bookInputs: Object.values(books).reduce((prev, book: MySelectBook) => {
-          return {
-            ...prev,
-            [book.mySelectBookId]: this.state.bookInputs[book.mySelectBookId] || false,
-          };
-        }, {}),
+        bookInputs: Object.values(books).reduce((prev, book: MySelectBook) => ({
+          ...prev,
+          [book.mySelectBookId]: this.state.bookInputs[book.mySelectBookId] || false,
+        }), {}),
       });
     }
   }
@@ -296,109 +292,101 @@ class MySelect extends React.Component<Props, State> {
           {!this.isFetched(page) ? (
             <LandscapeBookListSkeleton hasCheckbox={true} />
           ) : mySelectBooks.itemCount && mySelectBooks.itemCount > 0 ? (
-                <>
-                  <PCPageHeader pageTitle="마이 셀렉트" />
-                  <div className="PageMySelect">
-                    <div className="MySelectControls">
-                      <div className="MySelectControls_CheckBoxWrapper">
-                        <CheckBox
-                          className="MySelectControls_CheckBox"
-                          checked={this.areEveryBookChecked()}
-                          onChange={this.handleSelectAllCheckBoxChange}
-                        >
-                          전체 선택
-                        </CheckBox>
-                    </div>
-                    <Button
-                      onClick={this.handleDeleteButtonClick}
-                      className="MySelectControls_Button"
-                      outline={true}
-                      spinner={this.props.deletionFetchStatus === FetchStatusFlag.FETCHING}
+            <>
+              <PCPageHeader pageTitle="마이 셀렉트" />
+              <div className="PageMySelect">
+                <div className="MySelectControls">
+                  <div className="MySelectControls_CheckBoxWrapper">
+                    <CheckBox
+                      className="MySelectControls_CheckBox"
+                      checked={this.areEveryBookChecked()}
+                      onChange={this.handleSelectAllCheckBoxChange}
                     >
-                      선택 삭제
-                    </Button>
-                    <Button
-                      className="MySelectControls_Button"
-                      color="blue"
-                      onClick={this.handleDownloadSelectedBooksButtonClick}
-                    >
-                      다운로드
-                    </Button>
+                      전체 선택
+                    </CheckBox>
                   </div>
-                  {this.renderBooks(mySelectBooks.itemListByPage[page].itemList)}
-                </div>
-                <MediaQuery maxWidth={MAX_WIDTH}>
-                  {
-                    (isMobile) => <Pagination
-                      currentPage={page}
-                      totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                      isMobile={isMobile}
-                      item={{
-                        el: Link,
-                        getProps: (p): LinkProps => ({
-                          to: `/my-select?page=${p}`,
-                        }),
-                      }}
-                    />
-                  }
-                </MediaQuery>
-              </>
-            ) : (!isUserFetching && isLoggedIn && hasAvailableTicket && isReSubscribed) ? (
-              /* 도서 이용 내역 확인하기 버튼 위치 */
-              <>
-                <Empty className={'Empty_HasButton'} description="이전에 이용한 책을 도서 이용 내역에서 확인해보세요." iconName="book_1" />
-                <Link to={`/my-select-history`} className="MySelectBookList_Link">
                   <Button
-                    color="blue"
+                    onClick={this.handleDeleteButtonClick}
+                    className="MySelectControls_Button"
                     outline={true}
-                    className="PageSearchResult_RidibooksResult"
-                    size="large"
-                    style={{
-                      marginTop: '10px',
-                    }}
+                    spinner={this.props.deletionFetchStatus === FetchStatusFlag.FETCHING}
                   >
-                    도서 이용 내역 확인하기
-                    <Icon
-                      name="arrow_5_right"
-                      className="PageSearchResult_RidibooksResultIcon"
-                    />
+                    선택 삭제
                   </Button>
-                </Link>
-              </>
-            ) : (
-              <Empty description="마이 셀렉트에 등록된 도서가 없습니다." iconName="book_1" />
-            )
-          }
+                  <Button
+                    className="MySelectControls_Button"
+                    color="blue"
+                    onClick={this.handleDownloadSelectedBooksButtonClick}
+                  >
+                    다운로드
+                  </Button>
+                </div>
+                {this.renderBooks(mySelectBooks.itemListByPage[page].itemList)}
+              </div>
+              <MediaQuery maxWidth={MAX_WIDTH}>
+                {(isMobile) => <Pagination
+                  currentPage={page}
+                  totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                  isMobile={isMobile}
+                  item={{
+                    el: Link,
+                    getProps: (p): LinkProps => ({
+                      to: `/my-select?page=${p}`,
+                    }),
+                  }}
+                />}
+              </MediaQuery>
+            </>
+          ) : (!isUserFetching && isLoggedIn && hasAvailableTicket && isReSubscribed) ? (
+            <>
+              <Empty className={'Empty_HasButton'} description="이전에 이용한 책을 도서 이용 내역에서 확인해보세요." iconName="book_1" />
+              <Link to={'/my-select-history'} className="MySelectBookList_Link">
+                <Button
+                  color="blue"
+                  outline={true}
+                  className="PageSearchResult_RidibooksResult"
+                  size="large"
+                  style={{
+                    marginTop: '10px',
+                  }}
+                >
+                    도서 이용 내역 확인하기
+                  <Icon
+                    name="arrow_5_right"
+                    className="PageSearchResult_RidibooksResultIcon"
+                  />
+                </Button>
+              </Link>
+            </>
+          ) : (
+            <Empty description="마이 셀렉트에 등록된 도서가 없습니다." iconName="book_1" />
+          )}
         </div>
       </main>
     );
   }
 }
 
-const mapStateToProps = (state: RidiSelectState): StateProps => {
-  return {
-    isAndroidInApp: getIsAndroidInApp(state),
-    BASE_URL_STORE: state.environment.STORE_URL,
-    isUserFetching: state.user.isFetching,
-    isLoggedIn: state.user.isLoggedIn,
-    hasAvailableTicket: state.user.hasAvailableTicket,
-    mySelectBooks: state.mySelect.mySelectBooks,
-    deletionFetchStatus: state.mySelect.deletionFetchStatus,
-    isReSubscribed: state.mySelect.isReSubscribed,
-    page: getPageQuery(state),
-  };
-};
+const mapStateToProps = (state: RidiSelectState): StateProps => ({
+  isAndroidInApp: getIsAndroidInApp(state),
+  BASE_URL_STORE: state.environment.STORE_URL,
+  isUserFetching: state.user.isFetching,
+  isLoggedIn: state.user.isLoggedIn,
+  hasAvailableTicket: state.user.hasAvailableTicket,
+  mySelectBooks: state.mySelect.mySelectBooks,
+  deletionFetchStatus: state.mySelect.deletionFetchStatus,
+  isReSubscribed: state.mySelect.isReSubscribed,
+  page: getPageQuery(state),
+});
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    dispatchLoadMySelectRequest: (page: number) =>
-      dispatch(Actions.loadMySelectRequest({ page })),
-    dispatchDeleteMySelectRequest: (deleteBookIdPairs: BookIdsPair[], page: number, isEveryBookChecked: boolean) =>
-      dispatch(Actions.deleteMySelectRequest({ deleteBookIdPairs, page, isEveryBookChecked })),
-    dispatchResetMySelectPageFetchedStatus: (page: number) =>
-      dispatch(Actions.resetMySelectPageFetchedStatus({ page })),
-    trackClick: (trackingParams: DefaultTrackingParams) => dispatch(TrackingActions.trackClick({ trackingParams })),
-  };
-};
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  dispatchLoadMySelectRequest: (page: number) =>
+    dispatch(Actions.loadMySelectRequest({ page })),
+  dispatchDeleteMySelectRequest: (deleteBookIdPairs: BookIdsPair[], page: number, isEveryBookChecked: boolean) =>
+    dispatch(Actions.deleteMySelectRequest({ deleteBookIdPairs, page, isEveryBookChecked })),
+  dispatchResetMySelectPageFetchedStatus: (page: number) =>
+    dispatch(Actions.resetMySelectPageFetchedStatus({ page })),
+  trackClick: (trackingParams: DefaultTrackingParams) => dispatch(TrackingActions.trackClick({ trackingParams })),
+});
 
 export const ConnectedMySelect = connect(mapStateToProps, mapDispatchToProps)(MySelect);

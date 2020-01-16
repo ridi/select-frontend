@@ -125,8 +125,8 @@ export const Routes: React.SFC<Props> = (props) => {
           >
             {
               props.appStatus !== AppStatus.Articles
-              ? <Redirect to={RoutePaths.HOME} />
-              : <Redirect to={RoutePaths.ARTICLE_HOME} />
+                ? <Redirect to={RoutePaths.HOME} />
+                : <Redirect to={RoutePaths.ARTICLE_HOME} />
             }
           </Route>
           <Redirect exact={true} from={RoutePaths.ARTICLE_ROOTE} to={RoutePaths.ARTICLE_HOME} />

@@ -13,9 +13,9 @@ export const selectReview = (state: RidiSelectState, props: any) =>
 export const getCommentIds = createSelector(
   [selectReview],
   (review: Review): CommentId[] => review.commentIdsByPage.itemCount ? flatMap(
-      range(1, review.commentIdsByPage.currentPage + 1).reverse(),
-      (page) => !!review.commentIdsByPage.itemListByPage[page] && review.commentIdsByPage.itemListByPage[page].itemList,
-    ) : [],
+    range(1, review.commentIdsByPage.currentPage + 1).reverse(),
+    (page) => !!review.commentIdsByPage.itemListByPage[page] && review.commentIdsByPage.itemListByPage[page].itemList,
+  ) : [],
 );
 
 export const getCommentList = createSelector(

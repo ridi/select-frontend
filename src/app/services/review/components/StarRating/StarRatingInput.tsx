@@ -39,11 +39,11 @@ export const StarRatingInput: React.SFC<StarRatingInputProps> = (props) => {
             onTouchStart={() => isTouchDevice && onMouseOver(ratingData)}
             onTouchMove={(e) => isTouchDevice && onMouseOver(
               e.touches[0].clientX ?
-              Number(
-                document
-                  .elementFromPoint(e.touches[0].clientX, e.touches[0].clientY)
-                  .getAttribute('data-rating'),
-              ) : ratingData,
+                Number(
+                  document
+                    .elementFromPoint(e.touches[0].clientX, e.touches[0].clientY)
+                    .getAttribute('data-rating'),
+                ) : ratingData,
             )}
           >
             <span className="a11y">{`${ratingData}점`}</span>

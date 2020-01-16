@@ -42,8 +42,8 @@ export class ErrorPage extends React.Component<Props> {
       return null;
     }
     return responseData && responseData.period && responseData.unavailableService ? (
-        <MaintenanceContext responseData={responseData} />
-     ) : (
+      <MaintenanceContext responseData={responseData} />
+    ) : (
       <ErrorContext responseState={responseState} resetErrorState={resetErrorState} />
     );
   }
@@ -52,7 +52,7 @@ export class ErrorPage extends React.Component<Props> {
     this.getMaintenanceData();
   }
 
-  public componentWillUpdate() {
+  public UNSAFE_componentWillUpdate() {
     this.getMaintenanceData();
   }
 
@@ -66,19 +66,15 @@ export class ErrorPage extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = (state: RidiSelectState): ErrorPageStateProps => {
-  return {
-    fetchStatus: state.serviceStatus.fetchStatus,
-    responseState: state.serviceStatus.errorResponseState,
-    responseData: state.serviceStatus.errorResponseData,
-  };
-};
+const mapStateToProps = (state: RidiSelectState): ErrorPageStateProps => ({
+  fetchStatus: state.serviceStatus.fetchStatus,
+  responseState: state.serviceStatus.errorResponseState,
+  responseData: state.serviceStatus.errorResponseData,
+});
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    resetErrorState: () => dispatch(ServiceStatusActions.resetState()),
-    requestMaintenanceData: () => dispatch(ServiceStatusActions.loadMaintenanceData()),
-  };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+  resetErrorState: () => dispatch(ServiceStatusActions.resetState()),
+  requestMaintenanceData: () => dispatch(ServiceStatusActions.loadMaintenanceData()),
+});
 
 export const ConnectedErrorPage = connect(mapStateToProps, mapDispatchToProps)(ErrorPage);

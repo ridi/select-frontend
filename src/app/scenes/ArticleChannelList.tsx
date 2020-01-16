@@ -50,26 +50,24 @@ export const ArticleChannelList: React.FunctionComponent = () => {
           <ArticleChannelListPlaceholder /> : (
             <div className="ArticleChannelList_Wrapper">
               <ul className="ArticleChannelList">
-                {channelList.map((channelMeta, idx) => {
-                    return channelMeta ? (
-                      <li key={idx} className="ArticleChannelList_Item">
-                        <ConnectedTrackImpression
-                          section={section}
-                          index={idx}
-                          id={`ch:${channelMeta.id}`}
-                        >
-                          <ArticleChannelMeta
-                            idx={idx}
-                            section={section}
-                            {...channelMeta}
-                          />
-                        </ConnectedTrackImpression>
-                      </li>
-                    ) : null;
-                })}
+                {channelList.map((channelMeta, idx) => channelMeta ? (
+                  <li key={idx} className="ArticleChannelList_Item">
+                    <ConnectedTrackImpression
+                      section={section}
+                      index={idx}
+                      id={`ch:${channelMeta.id}`}
+                    >
+                      <ArticleChannelMeta
+                        idx={idx}
+                        section={section}
+                        {...channelMeta}
+                      />
+                    </ConnectedTrackImpression>
+                  </li>
+                ) : null)}
               </ul>
             </div>
-        )}
+          )}
       </section>
     </main>
   );

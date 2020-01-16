@@ -33,6 +33,7 @@ export const BookThumbnail: React.SFC<BookThumbnailProps> = (props) => {
     bookTitle,
     linkUrl,
     linkType = 'Link',
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     onLinkClick = () => {},
     shadow = true,
     lazyload = true,

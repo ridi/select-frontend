@@ -100,8 +100,8 @@ export class InstantSearch extends React.PureComponent<InstantSearchProps> {
                       dangerouslySetInnerHTML={{__html:
                         article.highlight.articleChannel &&
                         article.highlight.articleChannel.displayName ?
-                        article.highlight.articleChannel.displayName :
-                        article.articleChannel.displayName,
+                          article.highlight.articleChannel.displayName :
+                          article.articleChannel.displayName,
                       }}
                     />
                   </Link>

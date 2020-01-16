@@ -171,7 +171,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
     };
   }
 
-  private setStateClean(keyword: string = ''): void {
+  private setStateClean(keyword = ''): void {
     this.setState({
       isActive: false,
       keyword,
@@ -292,19 +292,19 @@ export class Search extends React.Component<SearchProps, SearchState> {
       request({
         baseURL: env.SEARCH_API,
         method: 'get',
-        url: `/search`,
+        url: '/search',
         withCredentials: false,
         params: requestParams,
       }).then((axResponse: AxiosResponse) => this.setState({
-          fetchStatus: FetchStatusFlag.IDLE,
-          instantSearchResultsByKeyword: {
-            ...instantSearchResultsByKeyword,
-            [appStatus]: {
-              ...instantSearchResultsByKeyword[appStatus],
-              [value]: camelize(axResponse.data[appStatus.toLowerCase()], { recursive: true }),
-            },
+        fetchStatus: FetchStatusFlag.IDLE,
+        instantSearchResultsByKeyword: {
+          ...instantSearchResultsByKeyword,
+          [appStatus]: {
+            ...instantSearchResultsByKeyword[appStatus],
+            [value]: camelize(axResponse.data[appStatus.toLowerCase()], { recursive: true }),
           },
-        }, () => this.manageScrollDisable(false)))
+        },
+      }, () => this.manageScrollDisable(false)))
         .catch((axError: AxiosError) => this.setState({
           fetchStatus: FetchStatusFlag.FETCH_ERROR,
           currentHelperType: SearchHelperFlag.NONE,
@@ -742,16 +742,14 @@ export class Search extends React.Component<SearchProps, SearchState> {
   }
 }
 
-const mapStateToProps = (state: RidiSelectState): SearchStoreProps => {
-  return {
-    gnbColorLevel: state.commonUI.gnbColorLevel,
-    solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(state),
-    gnbSearchActiveType: state.commonUI.gnbSearchActiveType,
-    searchQuery: state.router.location!.search,
-    isIosInApp: getIsIosInApp(state),
-    isInApp: selectIsInApp(state),
-    appStatus: state.app.appStatus,
-  };
-};
+const mapStateToProps = (state: RidiSelectState): SearchStoreProps => ({
+  gnbColorLevel: state.commonUI.gnbColorLevel,
+  solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(state),
+  gnbSearchActiveType: state.commonUI.gnbSearchActiveType,
+  searchQuery: state.router.location!.search,
+  isIosInApp: getIsIosInApp(state),
+  isInApp: selectIsInApp(state),
+  appStatus: state.app.appStatus,
+});
 
 export const ConnectedSearch = connect(mapStateToProps)(Search);

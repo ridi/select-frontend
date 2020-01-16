@@ -133,9 +133,7 @@ const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailDownloadBut
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    dispatchAddMySelect: (bookId: BookId) => dispatch(MySelectActions.addMySelectRequest({ bookId })),
-  };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+  dispatchAddMySelect: (bookId: BookId) => dispatch(MySelectActions.addMySelectRequest({ bookId })),
+});
 export const ConnectedBookDetailDownloadButton = connect(mapStateToProps, mapDispatchToProps)(BookDetailDownloadButton);

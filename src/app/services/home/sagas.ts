@@ -1,5 +1,5 @@
-import { Actions as BookActions } from 'app/services/book';
-import { Book } from 'app/services/book';
+import { Actions as BookActions , Book } from 'app/services/book';
+
 import { Actions as CollectionActions } from 'app/services/collection';
 import { CollectionResponse } from 'app/services/collection/requests';
 import { Actions } from 'app/services/home';
@@ -18,19 +18,15 @@ export function* watchLoadHome() {
       const state: RidiSelectState = yield select((s) => s);
 
       // This array might have duplicated book item
-      const books = response.collections.reduce((concatedBooks: Book[], section) => {
-        return concatedBooks.concat(section.books);
-      }, []);
+      const books = response.collections.reduce((concatedBooks: Book[], section) => concatedBooks.concat(section.books), []);
       yield put(BookActions.updateBooks({ books }));
-      const collections = response.collections.map((section): CollectionResponse => {
-        return {
-          type: section.type,
-          collectionId: section.collectionId,
-          title: section.title,
-          books: section.books,
-          totalCount: 0, // TODO: Ask @minQ
-        };
-      });
+      const collections = response.collections.map((section): CollectionResponse => ({
+        type: section.type,
+        collectionId: section.collectionId,
+        title: section.title,
+        books: section.books,
+        totalCount: 0, // TODO: Ask @minQ
+      }));
       yield put(CollectionActions.updateCollections({ collections }));
       yield put(Actions.loadHomeSuccess({
         response,

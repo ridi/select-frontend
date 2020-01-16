@@ -58,23 +58,21 @@ export class OrderHistory extends React.PureComponent<Props> {
     return `${payment.paymentMethod}${suffix}`;
   }
 
-  private renderHistoryInfo = (payment: Ticket) => {
-    return (
-      <>
-        <p className="Ordered_Date">{buildDateAndTimeFormat(payment.purchaseDate)}</p>
-        <p className="Ordered_Name">
-          {payment.title}
-          {payment.voucherCode && !payment.isFreePromotion ? (
-            <>
-              <span className="Ordered_VoucherInfo">{payment.voucherCode.match(/.{1,4}/g)!.join('-')} ({buildOnlyDateFormat(payment.voucherExpireDate)}까지)</span>
-              <span className="Ordered_Term">이용 기간: {buildOnlyDateFormat(payment.startDate)}~{buildOnlyDateFormat(payment.endDate)}</span>
-            </>
-          ) : null}
-        </p>
-        <p className="Ordered_Type">{this.getPaymentMethodTypeName(payment)}</p>
-      </>
-    );
-  }
+  private renderHistoryInfo = (payment: Ticket) => (
+    <>
+      <p className="Ordered_Date">{buildDateAndTimeFormat(payment.purchaseDate)}</p>
+      <p className="Ordered_Name">
+        {payment.title}
+        {payment.voucherCode && !payment.isFreePromotion ? (
+          <>
+            <span className="Ordered_VoucherInfo">{payment.voucherCode.match(/.{1,4}/g)!.join('-')} ({buildOnlyDateFormat(payment.voucherExpireDate)}까지)</span>
+            <span className="Ordered_Term">이용 기간: {buildOnlyDateFormat(payment.startDate)}~{buildOnlyDateFormat(payment.endDate)}</span>
+          </>
+        ) : null}
+      </p>
+      <p className="Ordered_Type">{this.getPaymentMethodTypeName(payment)}</p>
+    </>
+  )
 
   private renderAmountInfo = (payment: Ticket, shouldDisplayCancel: boolean) => {
     const { isFreePromotion, formattedPrice, voucherCode, isCancellable, id } = payment;
@@ -121,31 +119,29 @@ export class OrderHistory extends React.PureComponent<Props> {
     return (
       <ul className="OrderHistoryList">
         <MediaQuery maxWidth={MAX_WIDTH}>
-          {(isMobile) => {
-            return itemList.map((item) => (
-              <li
-                className={classNames({
-                  'OrderHistoryItem': true,
-                  'OrderHistoryItem-canceled': item.isCanceled,
-                })}
-                key={item.id}
-              >
-                {isMobile ? (
-                  <>
-                    <div className="OrderHistoryItem_Info">{this.renderHistoryInfo(item)}</div>
-                    <div className="OrderHistoryItem_AmountInfo">
-                      {this.renderAmountInfo(item, cancelableItemExists)}
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    {this.renderHistoryInfo(item)}
+          {(isMobile) => itemList.map((item) => (
+            <li
+              className={classNames({
+                'OrderHistoryItem': true,
+                'OrderHistoryItem-canceled': item.isCanceled,
+              })}
+              key={item.id}
+            >
+              {isMobile ? (
+                <>
+                  <div className="OrderHistoryItem_Info">{this.renderHistoryInfo(item)}</div>
+                  <div className="OrderHistoryItem_AmountInfo">
                     {this.renderAmountInfo(item, cancelableItemExists)}
-                  </>
-                )}
-              </li>
-            ));
-          }}
+                  </div>
+                </>
+              ) : (
+                <>
+                  {this.renderHistoryInfo(item)}
+                  {this.renderAmountInfo(item, cancelableItemExists)}
+                </>
+              )}
+            </li>
+          ))}
         </MediaQuery>
       </ul>
     );
@@ -188,7 +184,7 @@ export class OrderHistory extends React.PureComponent<Props> {
     const { page, orderHistory, subscriptionFetchStatus } = this.props;
 
     const itemCount: number = orderHistory.itemCount ? orderHistory.itemCount : 0;
-    const itemCountPerPage: number = 10;
+    const itemCountPerPage = 10;
     return (
       <main
         className={classNames(
@@ -202,56 +198,52 @@ export class OrderHistory extends React.PureComponent<Props> {
           !this.isFetched(page) ||
           subscriptionFetchStatus === FetchStatusFlag.FETCHING ||
           isNaN(page)
-        ) ? (
+        ) ? 
           <SubscriptionListPlaceholder />
-        ) : (
-          <>
-          {this.renderItems(this.props.page)}
-          {itemCount > 0 &&
+          : (
             <>
-              <MediaQuery maxWidth={MAX_WIDTH}>
-                {(isMobile) => <Pagination
-                  currentPage={page}
-                  totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                  isMobile={isMobile}
-                  item={{
-                    el: Link,
-                    getProps: (p): LinkProps => ({
-                      to: `/order-history?page=${p}`,
-                    }),
-                  }}
-                />}
-              </MediaQuery>
-              <ul className="NoticeList">
-                <li className="NoticeItem">결제 취소는 결제일로부터 7일 이내 이용권 대상 도서를 1권 이상 다운로드하지 않는 경우에만 가능합니다.</li>
-                <li className="NoticeItem">결제 취소 시 리디셀렉트 구독이 자동으로 해지됩니다.</li>
-              </ul>
+              {this.renderItems(this.props.page)}
+              {itemCount > 0 &&
+                <>
+                  <MediaQuery maxWidth={MAX_WIDTH}>
+                    {(isMobile) => <Pagination
+                      currentPage={page}
+                      totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                      isMobile={isMobile}
+                      item={{
+                        el: Link,
+                        getProps: (p): LinkProps => ({
+                          to: `/order-history?page=${p}`,
+                        }),
+                      }}
+                    />}
+                  </MediaQuery>
+                  <ul className="NoticeList">
+                    <li className="NoticeItem">결제 취소는 결제일로부터 7일 이내 이용권 대상 도서를 1권 이상 다운로드하지 않는 경우에만 가능합니다.</li>
+                    <li className="NoticeItem">결제 취소 시 리디셀렉트 구독이 자동으로 해지됩니다.</li>
+                  </ul>
+                </>
+              }
             </>
-          }
-          </>
-        )}
+          )}
       </main>
     );
   }
 }
 
-const mapStateToProps = (rootState: RidiSelectState): OrderStateProps => {
-  return {
-    orderHistory: rootState.user.purchaseHistory,
-    subscriptionFetchStatus: rootState.user.subscriptionFetchStatus,
-    subscriptionState: rootState.user.subscription,
-    page: getPageQuery(rootState),
-  };
-};
+const mapStateToProps = (rootState: RidiSelectState): OrderStateProps => ({
+  orderHistory: rootState.user.purchaseHistory,
+  subscriptionFetchStatus: rootState.user.subscriptionFetchStatus,
+  subscriptionState: rootState.user.subscription,
+  page: getPageQuery(rootState),
+});
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    dispatchLoadOrderHistory: (page: number) => dispatch(Actions.loadPurchasesRequest({ page })),
-    dispatchLoadSubscriptionRequest: () => dispatch(Actions.loadSubscriptionRequest()),
-    dispatchClearPurchases: () => dispatch(Actions.clearPurchases()),
-    dispatchCancelPurchase: (purchaseId: number) => dispatch(Actions.cancelPurchaseRequest({ purchaseId })),
-    dispatchUpdateGNBTabExpose: (isGnbTab: boolean) => dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
-  };
-};
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  dispatchLoadOrderHistory: (page: number) => dispatch(Actions.loadPurchasesRequest({ page })),
+  dispatchLoadSubscriptionRequest: () => dispatch(Actions.loadSubscriptionRequest()),
+  dispatchClearPurchases: () => dispatch(Actions.clearPurchases()),
+  dispatchCancelPurchase: (purchaseId: number) => dispatch(Actions.cancelPurchaseRequest({ purchaseId })),
+  dispatchUpdateGNBTabExpose: (isGnbTab: boolean) => dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
+});
 
 export const ConnectedOrderHistory = connect(mapStateToProps, mapDispatchToProps)(OrderHistory);

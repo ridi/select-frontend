@@ -79,7 +79,7 @@ export class NewReleases extends React.Component<Props> {
   public render() {
     const { newReleases, books, page } = this.props;
     const itemCount: number = newReleases.itemCount ? newReleases.itemCount : 0;
-    const itemCountPerPage: number = 24;
+    const itemCountPerPage = 24;
     return (
       <main
         className={classNames(
@@ -92,51 +92,47 @@ export class NewReleases extends React.Component<Props> {
         <PCPageHeader pageTitle={PageTitleText.NEW_RELEASE} />
         {(
           !this.isFetched(page) || isNaN(page)
-        ) ? (
+        ) ? 
           <GridBookListSkeleton />
-        ) : (
-          <>
-            <ConnectedGridBookList
-              serviceTitleForTracking="select-book"
-              pageTitleForTracking="recent"
-              uiPartTitleForTracking="book-list"
-              miscTracking={JSON.stringify({ sect_page: page })}
-              books={newReleases.itemListByPage[page].itemList.map((id) => books[id].book!)}
-            />
-            {itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
-              {
-                (isMobile) => <Pagination
-                  currentPage={page}
-                  totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                  isMobile={isMobile}
-                  item={{
-                    el: Link,
-                    getProps: (p): LinkProps => ({
-                      to: `/new-releases?page=${p}`,
-                    }),
-                  }}
-                />
-              }
-            </MediaQuery>}
-          </>
-        )}
+          : (
+            <>
+              <ConnectedGridBookList
+                serviceTitleForTracking="select-book"
+                pageTitleForTracking="recent"
+                uiPartTitleForTracking="book-list"
+                miscTracking={JSON.stringify({ sect_page: page })}
+                books={newReleases.itemListByPage[page].itemList.map((id) => books[id].book!)}
+              />
+              {itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
+                {
+                  (isMobile) => <Pagination
+                    currentPage={page}
+                    totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                    isMobile={isMobile}
+                    item={{
+                      el: Link,
+                      getProps: (p): LinkProps => ({
+                        to: `/new-releases?page=${p}`,
+                      }),
+                    }}
+                  />
+                }
+              </MediaQuery>}
+            </>
+          )}
       </main>
     );
   }
 }
 
-const mapStateToProps = (rootState: RidiSelectState): CollectionStateProps => {
-  return {
-    newReleases: rootState.collectionsById.recent,
-    books: rootState.booksById,
-    page: getPageQuery(rootState),
-  };
-};
-const mapDispatchToProps = (dispatch: Dispatch): CollectionDispatchProps => {
-  return {
-    dispatchLoadNewReleases: (page: number) => dispatch(Actions.loadCollectionRequest({ collectionId: 'recent', page })),
-  };
-};
+const mapStateToProps = (rootState: RidiSelectState): CollectionStateProps => ({
+  newReleases: rootState.collectionsById.recent,
+  books: rootState.booksById,
+  page: getPageQuery(rootState),
+});
+const mapDispatchToProps = (dispatch: Dispatch): CollectionDispatchProps => ({
+  dispatchLoadNewReleases: (page: number) => dispatch(Actions.loadCollectionRequest({ collectionId: 'recent', page })),
+});
 export const ConnectedNewReleases = withRouter(
   connect(mapStateToProps, mapDispatchToProps)(NewReleases),
 );

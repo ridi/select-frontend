@@ -32,8 +32,8 @@ export const ArticleFollowing: React.FunctionComponent = () => {
   } = useSelector((state: RidiSelectState) => {
     const pageFromQuery = getPageQuery(state);
     const followingArticleListByPage = state.articleFollowing.followingArticleList && state.articleFollowing.followingArticleList.itemListByPage[pageFromQuery]
-        ? state.articleFollowing.followingArticleList.itemListByPage[pageFromQuery]
-        : null;
+      ? state.articleFollowing.followingArticleList.itemListByPage[pageFromQuery]
+      : null;
     const followingArticleListFetchStatus = followingArticleListByPage ? followingArticleListByPage.fetchStatus : FetchStatusFlag.IDLE;
 
     return {
@@ -76,59 +76,60 @@ export const ArticleFollowing: React.FunctionComponent = () => {
       <div className="a11y"><h1>리디셀렉트 아티클 팔로잉</h1></div>
       {channelItems ? (
         channelItems.length > 0 ? (
-        <>
-          <SlideChannelList
-            channels={channelItems}
-          />
-          <div className="FollowingArticleList">
-            {articleItems && articleItems.length > 0 ?
-              <GridArticleList
-                serviceTitleForTracking="select-article"
-                pageTitleForTracking="following"
-                uiPartTitleForTracking="article-list"
-                miscTracking={JSON.stringify({ sect_page: page })}
-                articles={articleItems}
-                renderChannelThumbnail={true}
-                renderChannelMeta={true}
-                renderAuthor={false}
-                renderPublishDate={true}
-                renderFavoriteButton={true}
-                isFullWidthAvailable={true}
-                gridListSizeClassNames="GridArticleList-large"
-              /> :
-              <GridArticleListPlaceholder
-                gridSize={'large'}
-              />
-            }
-          </div>
-          <MediaQuery maxWidth={MAX_WIDTH}>
-            {(isMobile) => (
-              <Pagination
-                currentPage={page}
-                totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                isMobile={isMobile}
-                item={{
-                  el: Link,
-                  getProps: (p): LinkProps => ({
-                    to: `${RoutePaths.ARTICLE_FOLLOWING}?page=${p}`,
-                  }),
-                }}
-              />
-            )}
-          </MediaQuery>
-        </>
-      ) : (
-        <ArticleEmpty
-          iconName="profile"
-          iconClassName="ArticleEmpty_CircleIcon"
-          description="팔로잉 중인 채널이 없습니다."
-          renderButton={() => (
-            <Link to={RoutePaths.ARTICLE_CHANNELS} className="ArticleEmpty_Button">
+          <>
+            <SlideChannelList
+              channels={channelItems}
+            />
+            <div className="FollowingArticleList">
+              {articleItems && articleItems.length > 0 ?
+                <GridArticleList
+                  serviceTitleForTracking="select-article"
+                  pageTitleForTracking="following"
+                  uiPartTitleForTracking="article-list"
+                  miscTracking={JSON.stringify({ sect_page: page })}
+                  articles={articleItems}
+                  renderChannelThumbnail={true}
+                  renderChannelMeta={true}
+                  renderAuthor={false}
+                  renderPublishDate={true}
+                  renderFavoriteButton={true}
+                  isFullWidthAvailable={true}
+                  gridListSizeClassNames="GridArticleList-large"
+                /> :
+                <GridArticleListPlaceholder
+                  gridSize={'large'}
+                />
+              }
+            </div>
+            <MediaQuery maxWidth={MAX_WIDTH}>
+              {(isMobile) => (
+                <Pagination
+                  currentPage={page}
+                  totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                  isMobile={isMobile}
+                  item={{
+                    el: Link,
+                    getProps: (p): LinkProps => ({
+                      to: `${RoutePaths.ARTICLE_FOLLOWING}?page=${p}`,
+                    }),
+                  }}
+                />
+              )}
+            </MediaQuery>
+          </>
+        ) : (
+          <ArticleEmpty
+            iconName="profile"
+            iconClassName="ArticleEmpty_CircleIcon"
+            description="팔로잉 중인 채널이 없습니다."
+            renderButton={() => (
+              <Link to={RoutePaths.ARTICLE_CHANNELS} className="ArticleEmpty_Button">
               전체 채널 보기
-            </Link>
-          )}
-        />
-      )) : (
+              </Link>
+            )}
+          />
+        )
+      ) : (
         <>
           <SlideChannelListPlaceholder />
           <div className="FollowingArticleList">
@@ -138,7 +139,7 @@ export const ArticleFollowing: React.FunctionComponent = () => {
           </div>
         </>
       )
-    }
+      }
     </main>
   );
 };

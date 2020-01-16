@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import { Link, LinkProps, useParams } from 'react-router-dom';
 
-import { HelmetWithTitle, Pagination } from 'app/components';
-import { ConnectedPageHeader } from 'app/components';
+import { HelmetWithTitle, Pagination , ConnectedPageHeader } from 'app/components';
+
 import { ArticleChannelMeta } from 'app/components/ArticleChannelDetail/ArticleChannelMeta';
 import { GridArticleList } from 'app/components/GridArticleList';
 import { MAX_WIDTH } from 'app/constants';
@@ -27,9 +27,7 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
 
   const dispatch = useDispatch();
 
-  const isFetched = () => {
-    return (channelName && articleChannelData);
-  };
+  const isFetched = () => (channelName && articleChannelData);
   const isFetchedChannelMeta = () => {
     if (!isFetched()) { return false; }
     return articleChannelData!.isMetaFetched;
@@ -60,8 +58,8 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
       <div className="a11y"><h1>리디셀렉트 아티클 채널</h1></div>
       {
         isFetchedChannelMeta() && articleChannelData ?
-        <ArticleChannelMeta {...articleChannelData.channelMeta!} /> :
-        <ArticleChannelDetailPlaceholder />
+          <ArticleChannelMeta {...articleChannelData.channelMeta!} /> :
+          <ArticleChannelDetailPlaceholder />
       }
       <div className="Channel_ArticleList">
         {isFetchedChannelArticles() && articleChannelData ?

@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 
 import { Icon } from '@ridi/rsg';
 import { ConnectedInlineHorizontalBookList } from 'app/components/InlineHorizontalBookList';
-import { MAX_WIDTH } from 'app/constants';
-import { FetchStatusFlag } from 'app/constants';
+import { MAX_WIDTH , FetchStatusFlag } from 'app/constants';
+
 import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
 import { Book, BookState } from 'app/services/book';
 import { DefaultCollectionState, SpotlightCollectionState } from 'app/services/collection';
@@ -19,7 +19,7 @@ import { ConnectedHomeSpotlightSection } from './HomeSpotlightSection';
 interface HomeSectionProps {
   collection: DefaultCollectionState | SpotlightCollectionState;
   onScreen: boolean;
-  order: number;
+  order?: number;
 }
 
 interface HomeCollectionStateProps {
@@ -28,33 +28,30 @@ interface HomeCollectionStateProps {
 
 type Props = HomeSectionProps & HomeCollectionStateProps;
 
-export const SectionHeader: React.SFC<{ title: string; link: string }> = (props) => {
-  return (
-    <div className="HomeSection_Header">
-      <MediaQuery maxWidth={MAX_WIDTH}>
-        {(isMobile) =>
-          isMobile ? (
-            <Link to={props.link}>
-              <h2 className="HomeSection_Title reset-heading">
-                {props.title}
-                <Icon name="arrow_5_right" className="HomeSection_TitleArrowIcon" />
-              </h2>
-            </Link>
-          ) : (
-            <div className="HomeSection_Title">
-              <h2 className="reset-heading">{props.title}</h2>
-              {/* TODO: This class name is weird */}
-              <Link to={props.link} className="HomeSection_TitleLink">
+export const SectionHeader: React.SFC<{ title: string; link: string }> = (props) => (
+  <div className="HomeSection_Header">
+    <MediaQuery maxWidth={MAX_WIDTH}>
+      {(isMobile) =>
+        isMobile ? (
+          <Link to={props.link}>
+            <h2 className="HomeSection_Title reset-heading">
+              {props.title}
+              <Icon name="arrow_5_right" className="HomeSection_TitleArrowIcon" />
+            </h2>
+          </Link>
+        ) : (
+          <div className="HomeSection_Title">
+            <h2 className="reset-heading">{props.title}</h2>
+            <Link to={props.link} className="HomeSection_TitleLink">
                 전체 보기
-                <Icon name="arrow_5_right" className="HomeSection_TitleArrowIcon" />
-              </Link>
-            </div>
-          )
-        }
-      </MediaQuery>
-    </div>
-  );
-};
+              <Icon name="arrow_5_right" className="HomeSection_TitleArrowIcon" />
+            </Link>
+          </div>
+        )
+      }
+    </MediaQuery>
+  </div>
+);
 
 export class HomeSection extends React.Component<Props> {
   public render() {
@@ -122,10 +119,8 @@ export class HomeSection extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = (state: RidiSelectState, ownProps: HomeSectionProps): HomeCollectionStateProps => {
-  return {
-    books: state.booksById,
-  };
-};
+const mapStateToProps = (state: RidiSelectState, ownProps: HomeSectionProps): HomeCollectionStateProps => ({
+  books: state.booksById,
+});
 
 export const ConnectedHomeSection = connect(mapStateToProps, null)(HomeSection);

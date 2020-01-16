@@ -86,32 +86,30 @@ export const INITIAL_STATE: CollectionsState = {
 
 export const collectionReducer = createReducer<CollectionsState>({}, INITIAL_STATE);
 
-collectionReducer.on(Actions.updateCollections, (state = INITIAL_STATE, { collections = [] }) => {
-  return collections.reduce((prev, collection) => {
-    // Don't need to update data if data exists
-    const { collectionId } = collection;
-    if (!!state[collectionId]) {
-      prev[collectionId] = state[collectionId];
-    } else {
-      prev[collectionId] = {
-        ...state[collectionId],
-        id: collectionId,
-        itemCount: collection.totalCount, // TODO: Ask to @minq if we can get this number in home response
-        itemListByPage: {
-          1: {
-            fetchStatus: FetchStatusFlag.IDLE,
-            itemList: collection.books.map((book) => book.id),
-            isFetched: false,
-          },
+collectionReducer.on(Actions.updateCollections, (state = INITIAL_STATE, { collections = [] }) => collections.reduce((prev, collection) => {
+  // Don't need to update data if data exists
+  const { collectionId } = collection;
+  if (!!state[collectionId]) {
+    prev[collectionId] = state[collectionId];
+  } else {
+    prev[collectionId] = {
+      ...state[collectionId],
+      id: collectionId,
+      itemCount: collection.totalCount, // TODO: Ask to @minq if we can get this number in home response
+      itemListByPage: {
+        1: {
+          fetchStatus: FetchStatusFlag.IDLE,
+          itemList: collection.books.map((book) => book.id),
+          isFetched: false,
         },
-        pageCount: 0,
-        title: collection.title,
-        type: collection.type,
-      };
-    }
-    return prev;
-  }, state);
-});
+      },
+      pageCount: 0,
+      title: collection.title,
+      type: collection.type,
+    };
+  }
+  return prev;
+}, state));
 
 collectionReducer.on(Actions.updateSpotlight, (state = INITIAL_STATE, { spotlight }) => ({
   ...state,

@@ -32,9 +32,9 @@ const NOT_LOGGED_IN_ACCOUNT_INFO: RidiSelectAccountDTO = {
   email: '',
 };
 
-const fetchTicketInfo = async (): Promise<RidiSelectTicketDTO> => {
+const fetchTicketInfo = async (): Promise<RidiSelectTicketDTO> => 
   // TODO: hasSubscribedBefore 키 네임이 더이상 구독 여부가 아니라 반대로 현재 무료 프로모션 가능여부인지 값으로 변경되어 수정 필요
-  return request({
+  request({
     url: `${env.STORE_API}/api/select/users/me/tickets/available`,
     withCredentials: true,
   }).then((response) => ({
@@ -48,20 +48,14 @@ const fetchTicketInfo = async (): Promise<RidiSelectTicketDTO> => {
       (e.response && e.response.data) ? !e.response.data.is_free_promotion_available : true
     ),
     fetchTicketError: e,
-  }));
-};
+  }))
+;
 
-const fetchAccountInfo = async (): Promise<RidiSelectAccountDTO> => {
-  return requestAccountsMe().then((response) => {
-    return {
-      isLoggedIn: true,
-      uId: response.data.result.id,
-      email: response.data.result.email,
-    };
-  }).catch((e) => {
-    return NOT_LOGGED_IN_ACCOUNT_INFO;
-  });
-};
+const fetchAccountInfo = async (): Promise<RidiSelectAccountDTO> => requestAccountsMe().then((response) => ({
+  isLoggedIn: true,
+  uId: response.data.result.id,
+  email: response.data.result.email,
+})).catch((e) => NOT_LOGGED_IN_ACCOUNT_INFO);
 
 export const fetchUserInfo = async (): Promise<UserDTO> => {
   const fetchedTicketInfo = await fetchTicketInfo();

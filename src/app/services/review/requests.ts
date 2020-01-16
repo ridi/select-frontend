@@ -47,8 +47,8 @@ export interface ResponseReviewDiff {
 }
 
 export type ResponseReview = Omit<
-  Review,
-  'commentIdsByPage' | 'commentsById' | 'fetchStatus' | 'commentInput' | 'content'
+Review,
+'commentIdsByPage' | 'commentsById' | 'fetchStatus' | 'commentInput' | 'content'
 > & ResponseReviewDiff;
 
 export interface ResponseReviews {
@@ -69,51 +69,51 @@ export const requestGetReviews = (
   bookId: number,
   params: RequestReviewsParameters,
 ): Promise<AxiosResponse<ResponseReviews>> => request({
-    url: `${env.STORE_API}/api/select/books/${bookId}/reviews`,
-    method: 'GET',
-    params: decamelize({
-      page: params.page,
-      sort: snakeCase(params.sortBy),
-      buyerOnly: params.userFilterType === UserFilterType.buyer,
-    }),
-  }).then((response: AxiosResponse<object>) =>
-    camelize<AxiosResponse<ResponseReviews>>(response, camelizeOptions));
+  url: `${env.STORE_API}/api/select/books/${bookId}/reviews`,
+  method: 'GET',
+  params: decamelize({
+    page: params.page,
+    sort: snakeCase(params.sortBy),
+    buyerOnly: params.userFilterType === UserFilterType.buyer,
+  }),
+}).then((response: AxiosResponse<object>) =>
+  camelize<AxiosResponse<ResponseReviews>>(response, camelizeOptions));
 
 export const requestPostReview = (
   bookId: number,
   content: TextWithLF,
   hasSpoiler: boolean,
 ): Promise<AxiosResponse<ResponseDataReview>> => request({
-    url: `${env.STORE_API}/api/select/books/${bookId}/reviews/my/content`,
-    method: 'POST',
-    data: decamelize({ content, hasSpoiler }),
-  }).then((response: AxiosResponse<object>) =>
+  url: `${env.STORE_API}/api/select/books/${bookId}/reviews/my/content`,
+  method: 'POST',
+  data: decamelize({ content, hasSpoiler }),
+}).then((response: AxiosResponse<object>) =>
   camelize<AxiosResponse<ResponseDataReview>>(response, camelizeOptions));
 
 export const requestDeleteReview = (
   bookId: number,
 ): Promise<AxiosResponse<ResponseDataReview>> => request({
-    url: `${env.STORE_API}/api/select/books/${bookId}/reviews/my/content`,
-    method: 'DELETE',
-  }).then((response: AxiosResponse<object>) =>
+  url: `${env.STORE_API}/api/select/books/${bookId}/reviews/my/content`,
+  method: 'DELETE',
+}).then((response: AxiosResponse<object>) =>
   camelize<AxiosResponse<ResponseDataReview>>(response, camelizeOptions));
 
 export const requestPostRating = (
   bookId: number,
   rating: number,
 ): Promise<AxiosResponse<ResponseDataReview>> => request({
-    url: `${env.STORE_API}/api/select/books/${bookId}/reviews/my/rating`,
-    method: 'POST',
-    data: decamelize({ rating }),
-  }).then((response: AxiosResponse<object>) =>
+  url: `${env.STORE_API}/api/select/books/${bookId}/reviews/my/rating`,
+  method: 'POST',
+  data: decamelize({ rating }),
+}).then((response: AxiosResponse<object>) =>
   camelize<AxiosResponse<ResponseDataReview>>(response, camelizeOptions));
 
 export const requestDeleteRating = (
   bookId: number,
 ): Promise<AxiosResponse<DeleteRatingResponseDataReview>> => request({
-    url: `${env.STORE_API}/api/select/books/${bookId}/reviews/my/rating`,
-    method: 'DELETE',
-  }).then((response: AxiosResponse<object>) =>
+  url: `${env.STORE_API}/api/select/books/${bookId}/reviews/my/rating`,
+  method: 'DELETE',
+}).then((response: AxiosResponse<object>) =>
   camelize<AxiosResponse<DeleteRatingResponseDataReview>>(response, camelizeOptions));
 
 export const requestReportReview = (
@@ -121,36 +121,36 @@ export const requestReportReview = (
   reviewId: number,
   reason: number,
 ): Promise<AxiosResponse> => request({
-    url: `${env.STORE_API}/api/select/books/${bookId}/reviews/${reviewId}/report`,
-    method: 'POST',
-    data: decamelize({ reason }),
-  });
+  url: `${env.STORE_API}/api/select/books/${bookId}/reviews/${reviewId}/report`,
+  method: 'POST',
+  data: decamelize({ reason }),
+});
 
 export const requestLikeReview = (
   bookId: number,
   reviewId: number,
 ): Promise<AxiosResponse> => request({
-    url: `${env.STORE_API}/api/select/books/${bookId}/reviews/${reviewId}/like`,
-    method: 'POST',
-  });
+  url: `${env.STORE_API}/api/select/books/${bookId}/reviews/${reviewId}/like`,
+  method: 'POST',
+});
 
 export const requestCancelReviewLike = (
   bookId: number,
   reviewId: number,
 ): Promise<AxiosResponse> => request({
-    url: `${env.STORE_API}/api/select/books/${bookId}/reviews/${reviewId}/like`,
-    method: 'DELETE',
-  });
+  url: `${env.STORE_API}/api/select/books/${bookId}/reviews/${reviewId}/like`,
+  method: 'DELETE',
+});
 
 export const requestPostComment = (
   bookId: number,
   reviewId: number,
   content: TextWithLF,
 ): Promise<AxiosResponse<ResponseComment>> => request({
-    url: `${env.STORE_API}/api/select/books/${bookId}/reviews/${reviewId}/comments`,
-    method: 'POST',
-    data: decamelize({ content }),
-  }).then((response: AxiosResponse<object>) =>
+  url: `${env.STORE_API}/api/select/books/${bookId}/reviews/${reviewId}/comments`,
+  method: 'POST',
+  data: decamelize({ content }),
+}).then((response: AxiosResponse<object>) =>
   camelize<AxiosResponse<ResponseComment>>(response, camelizeOptions));
 
 export const requestDeleteComment = (
@@ -158,6 +158,6 @@ export const requestDeleteComment = (
   reviewId: number,
   commentId: number,
 ): Promise<AxiosResponse> => request({
-    url: `${env.STORE_API}/api/select/books/${bookId}/reviews/${reviewId}/comments/${commentId}`,
-    method: 'DELETE',
-  });
+  url: `${env.STORE_API}/api/select/books/${bookId}/reviews/${reviewId}/comments/${commentId}`,
+  method: 'DELETE',
+});

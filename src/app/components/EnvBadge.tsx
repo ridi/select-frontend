@@ -14,6 +14,7 @@ declare global {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 const useProduction = window.__RIDISELECT_USE_PRODUCTION__ || (() => {});
 
 export const EnvBadge: React.SFC<EnvBadgeState> = (props) => {

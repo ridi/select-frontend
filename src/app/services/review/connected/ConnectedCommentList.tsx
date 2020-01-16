@@ -14,8 +14,8 @@ import { RidiSelectState } from 'app/store';
 import { Omit } from 'app/types';
 
 export type CommentListStateProps = Pick<
-  CommentListProps,
-  'commentList' | 'nextPageCount' | 'currentPage'
+CommentListProps,
+'commentList' | 'nextPageCount' | 'currentPage'
 >;
 
 function mapStateToProps(
@@ -30,8 +30,8 @@ function mapStateToProps(
 }
 
 export type CommentListDispatchProps = Pick<
-  CommentListProps,
-  'deleteComment' | 'showPageComments'
+CommentListProps,
+'deleteComment' | 'showPageComments'
 >;
 
 function mapDispatchToProps(

@@ -394,17 +394,6 @@ main.SceneWrapper {
   opacity: 1;
 }
 
-.CoverImage_Placeholder {
-  position: absolute;
-  display: block;
-  bottom: 0;
-  left: 0;
-  &.CoverImage_Placeholder-fadeout {
-    transition: opacity .2s;
-    opacity: 0;
-  }
-}
-
 .RSGBookThumbnail_CoverImage_Shadow {
   background:
     linear-gradient(

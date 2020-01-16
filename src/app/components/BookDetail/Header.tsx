@@ -18,6 +18,7 @@ import {
 } from 'app/services/commonUI/selectors';
 import { RidiSelectState } from 'app/store';
 import { withThumbnailQuery } from 'app/utils/withThumbnailQuery';
+import { FetchStatusFlag } from 'app/constants';
 
 interface BookDetailHeaderPorps {
   bookId: number;
@@ -160,16 +161,14 @@ const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailHeaderPorps
     // Data that can be pre-fetched in home
     title: !!bookDetail ? bookDetail.title : !!book ? book.title : undefined,
     thumbnail: !!bookDetail ? bookDetail.thumbnail : !!book ? book.thumbnail : undefined,
-    };
-};
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    dispatchUpdateGNBTabExpose: (isGnbTab: boolean) => dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
-    dispatchUpdateGNBColor: (color: RGB) => dispatch(CommonUIActions.updateGNBColor({ color })),
-    dispatchUpdateDominantColor: (bookId: number, color: RGB) =>
-      dispatch(BookActions.updateDominantColor({ bookId, color })),
   };
 };
+
+const mapDispatchToProps = (dispatch: any) => ({
+  dispatchUpdateGNBTabExpose: (isGnbTab: boolean) => dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
+  dispatchUpdateGNBColor: (color: RGB) => dispatch(CommonUIActions.updateGNBColor({ color })),
+  dispatchUpdateDominantColor: (bookId: number, color: RGB) =>
+    dispatch(BookActions.updateDominantColor({ bookId, color })),
+});
 
 export const ConnectedBookDetailHeader = connect(mapStateToProps, mapDispatchToProps)(BookDetailHeader);

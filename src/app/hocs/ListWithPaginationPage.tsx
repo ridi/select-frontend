@@ -98,10 +98,8 @@ export class ListWithPaginationPage extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = (state: RidiSelectState): StateProps => {
-  return {
-    page: getPageQuery(state),
-  };
-};
+const mapStateToProps = (state: RidiSelectState): StateProps => ({
+  page: getPageQuery(state),
+});
 
 export const ConnectedListWithPagination =  connect(mapStateToProps)(ListWithPaginationPage);

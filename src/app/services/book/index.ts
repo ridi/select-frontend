@@ -261,15 +261,13 @@ bookReducer.on(Actions.loadBookOwnershipFailure, (state, action) => {
 
 bookReducer.on(Actions.clearBookOwnership, (state, action) => {
   const { bookIds } = action;
-  return bookIds.reduce((newState, bookId) => {
-    return {
-      ...newState,
-      [bookId]: {
-        ...newState[bookId],
-        ownershipStatus: undefined,
-      },
-    };
-  }, state);
+  return bookIds.reduce((newState, bookId) => ({
+    ...newState,
+    [bookId]: {
+      ...newState[bookId],
+      ownershipStatus: undefined,
+    },
+  }), state);
 });
 
 bookReducer.on(Actions.updateDominantColor, (state, action) => {

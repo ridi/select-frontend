@@ -1,8 +1,8 @@
 import { connectRouter, routerMiddleware, RouterState } from 'connected-react-router';
 import { isEmpty } from 'lodash-es';
 import * as qs from 'qs';
-import { Dispatch } from 'redux';
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
+import { Dispatch , applyMiddleware, combineReducers, compose, createStore } from 'redux';
+
 import { loggers } from 'redux-act';
 import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
@@ -38,13 +38,13 @@ import { closingReservedBooksRootSaga } from 'app/services/closingReservedBooks/
 import { collectionReducer, CollectionsState } from 'app/services/collection';
 import { collectionsRootSaga } from 'app/services/collection/sagas';
 import { environmentReducer, EnvironmentState } from 'app/services/environment';
-import { MySelectState } from 'app/services/mySelect';
-import { mySelectReducer } from 'app/services/mySelect';
+import { MySelectState , mySelectReducer } from 'app/services/mySelect';
+
 import { mySelectRootSaga } from 'app/services/mySelect/sagas';
 import { reviewsReducer, ReviewsState } from 'app/services/review';
 import { reviewRootSaga } from 'app/services/review/sagas';
-import { searchResultReducer } from 'app/services/searchResult';
-import { SearchResultState } from 'app/services/searchResult';
+import { searchResultReducer , SearchResultState } from 'app/services/searchResult';
+
 import { searchResultRootSaga } from 'app/services/searchResult/sagas';
 import { serviceStatusReducer, ServiceStatusState } from 'app/services/serviceStatus';
 import { serviceStatusSaga } from 'app/services/serviceStatus/sagas';

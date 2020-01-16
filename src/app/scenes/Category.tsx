@@ -7,8 +7,8 @@ import history from 'app/config/history';
 import { MAX_WIDTH, PageTitleText } from 'app/constants';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { BookState } from 'app/services/book';
-import { Category as CategoryState, CategoryCollectionState } from 'app/services/category';
-import { Actions as categoryActions } from 'app/services/category';
+import { Category as CategoryState, CategoryCollectionState , Actions as categoryActions } from 'app/services/category';
+
 import { getIdFromLocationSearch, isValidNumber } from 'app/services/category/utils';
 import { RidiSelectState } from 'app/store';
 
@@ -64,7 +64,7 @@ export class Category extends React.Component<Props, State> {
             >
               {category.name}
             </option>
-          ))}}
+          ))}
         </select>
         <svg viewBox="0 0 48 28" className="RUISelectBox_OpenIcon">
           <path d="M48 .6H0l24 26.8z"/>
@@ -112,7 +112,7 @@ export class Category extends React.Component<Props, State> {
 
     if (nextProps.page !== this.props.page ||
         nextProps.categoryId !== this.props.categoryId
-      ) {
+    ) {
       const { dispatchLoadCategoryBooks, page, category } = nextProps;
 
       if (!(category && category.itemListByPage[page] && category.itemListByPage[page].isFetched)) {
@@ -139,7 +139,7 @@ export class Category extends React.Component<Props, State> {
       page,
     } = this.props;
     const itemCount: any  = category ? category.itemCount : 0;
-    const itemCountPerPage: number = 24;
+    const itemCountPerPage = 24;
 
     const selectBoxTemplate = (isValidNumber(categoryId) && this.renderSelectBox());
     return (
@@ -161,52 +161,48 @@ export class Category extends React.Component<Props, State> {
             </div>
           )}
         </MediaQuery>
-        {(
-          !isCategoryListFetched || !isValidNumber(categoryId) || !this.isFetched(page)
-        ) ? (
-          <GridBookListSkeleton />
-        ) : (
+        {!isCategoryListFetched || !isValidNumber(categoryId) || !this.isFetched(page)
+          ? <GridBookListSkeleton />
+          : 
           <>
-          <ConnectedGridBookList
-            serviceTitleForTracking="select-book"
-            pageTitleForTracking="category"
-            uiPartTitleForTracking="book-list"
-            miscTracking={JSON.stringify({sect_cat_id : categoryId , sect_page : page})}
-            books={category.itemListByPage[page].itemList.map((id) => books[id].book!)}
-          />
-          {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
-            {
-              (isMobile) => <Pagination
-                currentPage={page}
-                totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                isMobile={isMobile}
-                item={{
-                  el: Link,
-                  getProps: (p): LinkProps => ({
-                    to: `/categories?id=${categoryId}&page=${p}`,
-                  }),
-                }}
-              />
-            }
-          </MediaQuery>}
+            <ConnectedGridBookList
+              serviceTitleForTracking="select-book"
+              pageTitleForTracking="category"
+              uiPartTitleForTracking="book-list"
+              miscTracking={JSON.stringify({sect_cat_id : categoryId , sect_page : page})}
+              books={category.itemListByPage[page].itemList.map((id) => books[id].book!)}
+            />
+            {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
+              {
+                (isMobile) => <Pagination
+                  currentPage={page}
+                  totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                  isMobile={isMobile}
+                  item={{
+                    el: Link,
+                    getProps: (p): LinkProps => ({
+                      to: `/categories?id=${categoryId}&page=${p}`,
+                    }),
+                  }}
+                />
+              }
+            </MediaQuery>}
           </>
-        )}
+        }
       </main>
     );
   }
 }
 
-const mapStateToProps = (rootState: RidiSelectState): CategoryStateProps => {
-  return {
-    isIosInApp: getIsIosInApp(rootState),
-    isCategoryListFetched: rootState.categories.isFetched,
-    categoryList: rootState.categories.itemList,
-    categoryId: Number(getIdFromLocationSearch(rootState.router.location!.search)),
-    category: rootState.categoriesById[Number(getIdFromLocationSearch(rootState.router.location!.search))],
-    books: rootState.booksById,
-    page: getPageQuery(rootState),
-  };
-};
+const mapStateToProps = (rootState: RidiSelectState): CategoryStateProps => ({
+  isIosInApp: getIsIosInApp(rootState),
+  isCategoryListFetched: rootState.categories.isFetched,
+  categoryList: rootState.categories.itemList,
+  categoryId: Number(getIdFromLocationSearch(rootState.router.location!.search)),
+  category: rootState.categoriesById[Number(getIdFromLocationSearch(rootState.router.location!.search))],
+  books: rootState.booksById,
+  page: getPageQuery(rootState),
+});
 
 const mapDispatchToProps = (dispatch: any) => ({
   dispatchInitializeCategoriesWhole: (shouldFetchCategoryList: boolean, shouldInitializeCategoryId: boolean) =>

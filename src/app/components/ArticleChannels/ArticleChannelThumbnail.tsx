@@ -1,9 +1,10 @@
-import { BlockIconComponent } from 'app/components/ArticleThumbnail/index';
-import * as classNames from 'classnames';
-import * as Modernizr from 'modernizr';
 import * as React from 'react';
 import Lazyload from 'react-lazyload';
+import * as Modernizr from 'modernizr';
 import { Link } from 'react-router-dom';
+import * as classNames from 'classnames';
+
+import { BlockIconComponent } from 'app/components/ArticleThumbnail/index';
 
 interface ArticleChannelThumbnailProps {
   thumbnailClassName?: string;
@@ -22,21 +23,12 @@ export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThum
     linkUrl,
     imageUrl,
     channelName,
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     onLinkClick = () => {},
     isEnabled = true,
   } = props;
 
-  const [isLoaded, setIsLoaded] = React.useState(false);
-  const [isEndTransition, setIsEndTransition] = React.useState(false);
   const [isWrongImage, setIsWrongImage] = React.useState(false);
-  const coverPlaceholder = React.useRef<HTMLSpanElement>(null);
-
-  if (coverPlaceholder && coverPlaceholder.current) {
-    coverPlaceholder.current.addEventListener(
-      'transitionend',
-      () => setIsEndTransition(true),
-    );
-  }
 
   const renderThumbnailImage = () => {
     if (!Modernizr.objectfit) {
@@ -63,7 +55,6 @@ export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThum
           )}
           src={imageUrl}
           alt={channelName}
-          onLoad={() => setIsLoaded(true)}
           onError={() => setIsWrongImage(true)}
         />
         <span className="ArticleChannelThumbnail_CoverShadow" />
@@ -122,18 +113,6 @@ export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThum
                 alt="리디셀렉트 채널 빈 썸네일"
               />
             </span>
-          )}
-          {!imageUrl || ((isLoaded || isWrongImage) && isEndTransition) ? null : (
-            <span
-              className={classNames(
-                'Skeleton',
-                'CoverImage_Placeholder',
-                'ArticleChannelCoverImage_Placeholder',
-                isLoaded || isWrongImage ? 'CoverImage_Placeholder-fadeout' : null,
-              )}
-              onTransitionEnd={() => setIsEndTransition(true)}
-              ref={coverPlaceholder}
-            />
           )}
         </Lazyload>
       </Link>

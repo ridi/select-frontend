@@ -37,7 +37,6 @@ module.exports = (env, argv) => ({
         exclude: /node_modules/,
         use: [
           'babel-loader',
-          'tslint-loader',
         ],
       },
       {
@@ -55,6 +54,18 @@ module.exports = (env, argv) => ({
             },
           },
         ],
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: '@svgr/webpack',
+            options: {
+              prettier: false,
+            },
+          },
+        ],
+        exclude: path.resolve(__dirname, './src/images/public/'),
       },
       {
         include: /(fonts|images)\//,

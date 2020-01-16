@@ -21,6 +21,9 @@ export const Actions = {
   loadArticleHomeSectionListFailure: createAction<{
     targetSection: ArticleHomeSectionType,
   }>('loadArticleHomeSectionListFailure'),
+  updateBannerIndex: createAction<{
+    currentIdx: number,
+  }>('updateBannerIndex'),
 };
 
 export enum ArticleSectionType {
@@ -42,6 +45,7 @@ interface ArticleHomeSectionList {
 export interface ArticleHomeState {
   fetchStatus: FetchStatusFlag;
   fetchedAt: number | null;
+  currentIdx: number;
   bigBannerList: BigBanner[];
   recentArticleList: ArticleHomeSectionList;
   popularArticleList: ArticleHomeSectionList;
@@ -51,6 +55,7 @@ export interface ArticleHomeState {
 export const INITIAL_ARTICLE_HOME_STATE: ArticleHomeState = {
   fetchStatus: FetchStatusFlag.IDLE,
   fetchedAt: null,
+  currentIdx: 0,
   bigBannerList: [],
   recentArticleList: {
     fetchStatus: FetchStatusFlag.IDLE,
@@ -102,12 +107,10 @@ articleHomeReducer.on(Actions.loadArticleHomeSectionListFailure, (state = INITIA
   };
 });
 
-articleHomeReducer.on(Actions.loadArticleBannerRequest, (state) => {
-  return {
-    ...state,
-    fetchStatus: FetchStatusFlag.FETCHING,
-  };
-});
+articleHomeReducer.on(Actions.loadArticleBannerRequest, (state) => ({
+  ...state,
+  fetchStatus: FetchStatusFlag.FETCHING,
+}));
 
 articleHomeReducer.on(Actions.loadArticleBannerSuccess, (state, action) => {
   const { response, fetchedAt, isIosInApp } = action;
@@ -122,9 +125,15 @@ articleHomeReducer.on(Actions.loadArticleBannerSuccess, (state, action) => {
   };
 });
 
-articleHomeReducer.on(Actions.loadArticleBannerFailure, (state) => {
+articleHomeReducer.on(Actions.loadArticleBannerFailure, (state) => ({
+  ...state,
+  fetchStatus: FetchStatusFlag.FETCH_ERROR,
+}));
+
+articleHomeReducer.on(Actions.updateBannerIndex, (state, action) => {
+  const { currentIdx } = action;
   return {
     ...state,
-    fetchStatus: FetchStatusFlag.FETCH_ERROR,
+    currentIdx,
   };
 });

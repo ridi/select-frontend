@@ -101,20 +101,18 @@ export class ReportPopup extends React.Component<ReviewPopupProps, ReportPopupSt
         >
           <span className="ReportPopup_Header">신고하는 이유를 선택해주세요.</span>
           <ul className="ReportPopup_RadioInputList">
-            {Object.keys(reportReasonMap).map((reasonValue) => {
-              return (
-                <li key={reasonValue} className="ReportPopup_RadioInputItem">
-                  <RUIRadioInput
-                    id={`${inputName}${Number(reasonValue)}`}
-                    inputName={inputName}
-                    value={Number(reasonValue)}
-                    displayName={reportReasonMap[Number(reasonValue)]}
-                    isChecked={Number(reasonValue) === selectedReasonValue}
-                    onChange={this.onChangeReportReason}
-                  />
-                </li>
-              );
-            })}
+            {Object.keys(reportReasonMap).map((reasonValue) => (
+              <li key={reasonValue} className="ReportPopup_RadioInputItem">
+                <RUIRadioInput
+                  id={`${inputName}${Number(reasonValue)}`}
+                  inputName={inputName}
+                  value={Number(reasonValue)}
+                  displayName={reportReasonMap[Number(reasonValue)]}
+                  isChecked={Number(reasonValue) === selectedReasonValue}
+                  onChange={this.onChangeReportReason}
+                />
+              </li>
+            ))}
           </ul>
         </Popup>
       </div>

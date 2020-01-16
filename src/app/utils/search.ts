@@ -8,9 +8,7 @@ export interface SearchLocalStorageData {
   };
 }
 
-export const removeFromArray = (targetArray: any[], targetValue: any): any[] => {
-  return targetArray.filter((element: any) => element !== targetValue);
-};
+export const removeFromArray = (targetArray: any[], targetValue: any): any[] => (targetArray.filter((element: any) => element !== targetValue));
 
 export const localStorageManager = (() => ({
   load: (): SearchLocalStorageData => {
@@ -25,7 +23,7 @@ export const localStorageManager = (() => ({
         enabled: (parsedLocalStorageData.enabled !== undefined) && (parsedLocalStorageData.enabled !== null) ?
           parsedLocalStorageData.enabled :
           true,
-          bookKeywordList: parsedLocalStorageData.bookKeywordList ? parsedLocalStorageData.bookKeywordList : [],
+        bookKeywordList: parsedLocalStorageData.bookKeywordList ? parsedLocalStorageData.bookKeywordList : [],
         articleKeywordList: parsedLocalStorageData.articleKeywordList ? parsedLocalStorageData.articleKeywordList : [],
       },
     };
@@ -52,7 +50,7 @@ export function getAuthorsCount(authors?: string): number {
   return authors ? authors.split(', ').length : 0;
 }
 
-export function getSortedAuthorsHtmlString(authors: string, totalAuthorsCount: number, count: number = 2): string {
+export function getSortedAuthorsHtmlString(authors: string, totalAuthorsCount: number, count = 2): string {
   const redundantCount = totalAuthorsCount - count;
   return authors
     .split(', ')

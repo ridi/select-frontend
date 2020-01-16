@@ -85,7 +85,7 @@ export function requestDownloadUserBook(bookIds: number[], preprocess: boolean, 
 // Trigger App
 // In app Download
 export function downloadUserBookInApp(appUri: string) {
-   // 6.x 버전까지는 goDownload 지원 필요
+  // 6.x 버전까지는 goDownload 지원 필요
   const uri = (Number(window.navigator.appVersion) <= 6.30)
     ? 'app:/goDownload/'
     : appUri;

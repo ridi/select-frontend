@@ -140,15 +140,15 @@ export function deleteComment(
   ));
   if (!commentPage) {
     return Immutable(state)
-    .set([
-      `${bookId}`,
-      'reviewsById',
-      `${reviewId}`,
-      'commentsById',
-      `${commentId}`,
-      'fetchStatus',
-    ], FetchStatusFlag.IDLE)
-    .value();
+      .set([
+        `${bookId}`,
+        'reviewsById',
+        `${reviewId}`,
+        'commentsById',
+        `${commentId}`,
+        'fetchStatus',
+      ], FetchStatusFlag.IDLE)
+      .value();
   }
 
   const commentIndexFromPage = findIndex(

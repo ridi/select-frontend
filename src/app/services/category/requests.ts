@@ -14,15 +14,13 @@ export interface CategoryBooksResponse  {
 export const requestCategoryBooks = (
   categoryId: number,
   page: number,
-): Promise<CategoryBooksResponse> => {
-  return request({
-    url: `/api/categories/${categoryId}/books`,
-    method: 'GET',
-    params: { page },
-  }).then((response) => camelize<AxiosResponse<CategoryBooksResponse>>(response, { recursive: true }).data);
-};
+): Promise<CategoryBooksResponse> => request({
+  url: `/api/categories/${categoryId}/books`,
+  method: 'GET',
+  params: { page },
+}).then((response) => camelize<AxiosResponse<CategoryBooksResponse>>(response, { recursive: true }).data);
 
 export const requestCategoryList = (): Promise<Category[]> => (request({
-  url: `/api/categories`,
+  url: '/api/categories',
   method: 'GET',
 }).then((response) => response.data));

@@ -138,7 +138,7 @@ class Toast {
 
     this.documentRootElement.addEventListener('mouseout', (event: MouseEvent) => {
       const target = event.target as HTMLElement;
-      if (target.classList.contains(`vex-content`) && Object.keys(vex.getAll()).length > 0) {
+      if (target.classList.contains('vex-content') && Object.keys(vex.getAll()).length > 0) {
         this.setTimer(TOAST_DEFAULT_DURATION);
       }
     });

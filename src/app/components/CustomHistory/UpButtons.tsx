@@ -34,10 +34,8 @@ const mapStateToProps = (rootState: RidiSelectState) => ({
   isIosInApp: getIsIosInApp(rootState),
 });
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    goToUpperPath: () => dispatch(Actions.navigateUp()),
-  };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+  goToUpperPath: () => dispatch(Actions.navigateUp()),
+});
 
 export const ConnectedUpButton = connect(mapStateToProps, mapDispatchToProps)(UpButton);

@@ -20,10 +20,8 @@ export const CompactPageHeader: React.FunctionComponent<CompactPageHeaderStatePr
   </header>
 );
 
-const mapStateToProps = (state: RidiSelectState): CompactPageHeaderStateProps => {
-  return {
-    selectUrl: state.environment.SELECT_URL,
-  };
-};
+const mapStateToProps = (state: RidiSelectState): CompactPageHeaderStateProps => ({
+  selectUrl: state.environment.SELECT_URL,
+});
 
 export const ConnectedCompactPageHeader = connect(mapStateToProps, null)(CompactPageHeader);

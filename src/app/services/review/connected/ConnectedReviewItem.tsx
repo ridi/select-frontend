@@ -12,8 +12,8 @@ import { RidiSelectState } from 'app/store';
 import { Omit } from 'app/types';
 
 export type ReviewItemStateProps = Pick<
-  ReviewItemProps,
-  'fetchStatus' | 'isInApp' | 'isIosInApp'
+ReviewItemProps,
+'fetchStatus' | 'isInApp' | 'isIosInApp'
 >;
 
 function mapStateToProps(
@@ -28,8 +28,8 @@ function mapStateToProps(
 }
 
 export type ReviewItemDispatchProps = Pick<
-  ReviewItemProps,
-  'submitReport' | 'postLike' | 'deleteLike'
+ReviewItemProps,
+'submitReport' | 'postLike' | 'deleteLike'
 >;
 
 function mapDispatchToProps(

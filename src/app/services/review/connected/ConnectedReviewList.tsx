@@ -39,8 +39,8 @@ export interface ReviewListProps {
 }
 
 export type ReviewListStateProps = Pick<
-  ReviewListProps,
-  'reviewList' | 'currentUserFilterType' | 'currentSortBy' | 'nextPage' | 'nextPageCount' | 'pageFetchStatus'
+ReviewListProps,
+'reviewList' | 'currentUserFilterType' | 'currentSortBy' | 'nextPage' | 'nextPageCount' | 'pageFetchStatus'
 >;
 
 function mapStateToProps(

@@ -22,8 +22,8 @@ import {
 import { Omit } from 'app/types';
 
 export type MyReviewStateProps = Pick<
-  MyReviewProps,
-  'review' | 'fetchStatus' | 'myReviewFetchStatus' | 'selectedRating' | 'isBeingEdited' | 'isDisabled'
+MyReviewProps,
+'review' | 'fetchStatus' | 'myReviewFetchStatus' | 'selectedRating' | 'isBeingEdited' | 'isDisabled'
 >;
 
 function mapStateToProps(
@@ -41,8 +41,8 @@ function mapStateToProps(
 }
 
 export type MyReviewDispatchProps = Pick<
-  MyReviewProps,
-  'submitReview' | 'deleteReview' | 'postLike' | 'deleteLike' | 'startEditing' | 'endEditing'
+MyReviewProps,
+'submitReview' | 'deleteReview' | 'postLike' | 'deleteLike' | 'startEditing' | 'endEditing'
 >;
 
 function mapDispatchToProps(

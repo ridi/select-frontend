@@ -16,7 +16,7 @@ export interface HomeResponse {
 export const requestHome = (): Promise<HomeResponse> => {
   const queryString = qs.parse(window.location.search, { ignoreQueryPrefix: true });
   return request({
-    url: `/api/pages/home`,
+    url: '/api/pages/home',
     params: queryString.test_group && queryString.test_group.length > 0 ? { test_group: queryString.test_group } : {},
     method: 'GET',
   }).then((response) => camelize<AxiosResponse<HomeResponse>>(response, { recursive: true }).data);

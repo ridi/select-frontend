@@ -7,8 +7,8 @@ import { useDebouncedCallback as useDebounce } from 'use-debounce';
 
 export const useScrollPosition = (
   ref: React.RefObject<HTMLElement>,
-  listenResizeEvent: boolean = false,
-  debounceDelay: number = 50,
+  listenResizeEvent = false,
+  debounceDelay = 50,
 ): [boolean, boolean, (leftValue: number) => void, () => void] => {
   const [isOnTheLeft, setIsOnTheLeft] = useState(false);
   const [isOnTheRight, setIsOnTheRight] = useState(false);
@@ -77,6 +77,7 @@ export const useScrollPosition = (
         }
       };
     }
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     return () => {};
   }, [
     ref,

@@ -34,10 +34,9 @@ const BookDetailNoticeList: React.FunctionComponent<Props> = (props) => {
     bookEndDateTime,
   } = props;
 
-  const noticeContents = isIosInApp && noticeList ? noticeList.map(({ id, content }) => {
-    content = content.replace(/<a(\s[^>]*)?>.*?<\/a>/ig, '');
-    return { id, content };
-  }) : noticeList;
+  const noticeContents = isIosInApp && noticeList ? noticeList.map(({ id, content }) => 
+    ({ id, content: content.replace(/<a(\s[^>]*)?>.*?<\/a>/ig, '') })
+  ) : noticeList;
 
   return (
     <>

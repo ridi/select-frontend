@@ -15,8 +15,8 @@ import {
 } from './../selectors';
 
 export type StarRatingFormStateProps = Pick<
-  StarRatingFormProps,
-  'ratingFetchStatus' | 'selectedRating' | 'isRatingCancelable'
+StarRatingFormProps,
+'ratingFetchStatus' | 'selectedRating' | 'isRatingCancelable'
 >;
 
 function mapStateToProps(
@@ -31,8 +31,8 @@ function mapStateToProps(
 }
 
 export type StarRatingFormDispatchProps = Pick<
-  StarRatingFormProps,
-  'onSubmitRating' | 'onCancel'
+StarRatingFormProps,
+'onSubmitRating' | 'onCancel'
 >;
 
 function mapDispatchToProps(

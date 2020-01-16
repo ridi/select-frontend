@@ -81,12 +81,10 @@ class MySelectHistory extends React.Component<Props, State> {
   private handleSelectAllCheckBoxClick = () => {
     const { page } = this.props;
     this.setState({
-      inputs: this.props.mySelectHistory.itemListByPage[page].itemList.reduce((prev, book) => {
-        return {
-          ...prev,
-          [book.mySelectBookId]: !this.areEveryBookChecked(page),
-        };
-      }, {}),
+      inputs: this.props.mySelectHistory.itemListByPage[page].itemList.reduce((prev, book) => ({
+        ...prev,
+        [book.mySelectBookId]: !this.areEveryBookChecked(page),
+      }), {}),
     });
   }
 
@@ -224,12 +222,10 @@ class MySelectHistory extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RidiSelectState): StateProps => {
-  return {
-    mySelectHistory: state.user.mySelectHistory,
-    page: getPageQuery(state),
-  };
-};
+const mapStateToProps = (state: RidiSelectState): StateProps => ({
+  mySelectHistory: state.user.mySelectHistory,
+  page: getPageQuery(state),
+});
 
 const mapDispatchToProps = (dispatch: any) => ({
   dispatchClearMySelectHistory: () =>

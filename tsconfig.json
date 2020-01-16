@@ -5,8 +5,10 @@
     "paths": { // To use absolute paths for local modules with "moduleResolution: node"
       "app/*": ["./src/app/*"],
       "css/*": ["./src/css/*"],
-      "images/*": ["./src/images/*"]
+      "images/*": ["./src/images/*"],
+      "svgs/*": ["./src/svgs/*"],
     },
+    "esModuleInterop": true,
     // To apply right loaders to @ridi packages via test regex '/node_modules/'
     // You have to disable this option to watch @ridi or other symlinked node modules
     "preserveSymlinks": true,

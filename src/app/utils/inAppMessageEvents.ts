@@ -91,7 +91,7 @@ export function sendPostRobotMySelectBookInserted(bookId: number) {
 }
 
 export function sendPostRobotOpenBrowser(url: string) {
-  const urlForInApp = url.replace('https\:', '');
+  const urlForInApp = url.replace('https:', '');
 
   if (window.postRobot) {
     window.postRobot

@@ -1,5 +1,6 @@
 import * as express from 'express';
 import book from './book';
+import article from './article';
 
 import { override, OpenGraph } from './utils/override';
 import { getTitleByPath } from './utils/getTitleByPath';
@@ -7,6 +8,7 @@ import { getTitleByPath } from './utils/getTitleByPath';
 const app = express();
 
 app.use('/book', book);
+app.use('/article', article);
 
 app.use(async (req, res) => {
   const openGraph: Pick<OpenGraph, 'title' | 'url'> = {

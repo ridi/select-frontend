@@ -1,9 +1,10 @@
-import { ThumbnailShape } from 'app/components/ArticleThumbnail/types';
-import * as classNames from 'classnames';
-import * as Modernizr from 'modernizr';
 import * as React from 'react';
 import Lazyload from 'react-lazyload';
+import * as Modernizr from 'modernizr';
 import { Link } from 'react-router-dom';
+import * as classNames from 'classnames';
+
+import { ThumbnailShape } from 'app/components/ArticleThumbnail/types';
 
 interface ArticleThumbnailProps {
   thumbnailShape?: ThumbnailShape;
@@ -29,23 +30,14 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
     imageUrl,
     articleTitle,
     imageClassName,
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     onLinkClick = () => {},
     thumbnailShape = ThumbnailShape.RECTANGLE,
     thumbnailClassName,
     isEnabled = true,
   } = props;
 
-  const [isLoaded, setIsLoaded] = React.useState(false);
-  const [isEndTransition, setIsEndTransition] = React.useState(false);
   const [isWrongImage, setIsWrongImage] = React.useState(false);
-  const coverPlaceholder = React.useRef<HTMLSpanElement>(null);
-
-  if (coverPlaceholder && coverPlaceholder.current) {
-    coverPlaceholder.current.addEventListener(
-      'transitionend',
-      () => setIsEndTransition(true),
-    );
-  }
 
   React.useEffect(() => {
     if (!imageUrl) {
@@ -78,7 +70,6 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
           )}
           src={imageUrl}
           alt={articleTitle}
-          onLoad={() => setIsLoaded(true)}
           onError={() => setIsWrongImage(true)}
         />
         <span className="ArticleThumbnail_CoverShadow" />
@@ -121,7 +112,7 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
           throttle={true}
           resize={true}
           overflow={false}
-          placeholder={<div className="Skeleton CoverImage_Placeholder ArticleCoverImage_Placeholder" />}
+          placeholder={<div className="Skeleton ArticleCoverImage_Placeholder" />}
         >
           {!isWrongImage ? (
             renderThumbnailImage()
@@ -133,18 +124,6 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
                 alt="리디셀렉트 아티클 빈 썸네일"
               />
             </span>
-          )}
-          {!imageUrl || ((isLoaded || isWrongImage) && isEndTransition) ? null : (
-            <span
-              className={classNames(
-                'Skeleton',
-                'CoverImage_Placeholder',
-                'ArticleCoverImage_Placeholder',
-                isLoaded || isWrongImage ? 'CoverImage_Placeholder-fadeout' : null,
-              )}
-              onTransitionEnd={() => setIsEndTransition(true)}
-              ref={coverPlaceholder}
-            />
           )}
         </Lazyload>
       </Link>

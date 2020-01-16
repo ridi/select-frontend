@@ -31,6 +31,7 @@ export class GridBookList extends React.Component<Props & ReturnType<typeof mapD
     const {
       isChart = false,
       thumbnailLinkType = 'Link',
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       onLinkClick = () => {},
       trackClick,
     } = this.props;
@@ -139,10 +140,8 @@ export class GridBookList extends React.Component<Props & ReturnType<typeof mapD
   }
 }
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    trackClick: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackClick({ trackingParams } )),
-  };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+  trackClick: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackClick({ trackingParams } )),
+});
 
 export const ConnectedGridBookList = connect(null, mapDispatchToProps)(GridBookList);

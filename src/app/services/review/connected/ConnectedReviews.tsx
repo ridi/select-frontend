@@ -24,8 +24,8 @@ interface ReviewsProps {
 }
 
 export type ReviewsStateProps = Pick<
-  ReviewsProps,
-  'reviewsSetFetchStatus' | 'reviewsSet'
+ReviewsProps,
+'reviewsSetFetchStatus' | 'reviewsSet'
 >;
 
 function mapStateToProps(
@@ -88,14 +88,14 @@ export class Reviews extends React.Component<ReviewsProps> {
     }
 
     return (
-        <div className="Reviews">
-          <span className="a11y">리뷰</span>
-          <ConnectedReviewsHeader bookId={bookId} checkAuth={checkAuth}/>
-          <ConnectedReviewListHeader bookId={bookId} />
-          <ConnectedReviewList bookId={bookId} checkAuth={checkAuth} />
-          <AboutIndicatingBuyer />
-        </div>
-      );
+      <div className="Reviews">
+        <span className="a11y">리뷰</span>
+        <ConnectedReviewsHeader bookId={bookId} checkAuth={checkAuth}/>
+        <ConnectedReviewListHeader bookId={bookId} />
+        <ConnectedReviewList bookId={bookId} checkAuth={checkAuth} />
+        <AboutIndicatingBuyer />
+      </div>
+    );
   }
 }
 

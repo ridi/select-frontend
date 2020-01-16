@@ -18,11 +18,11 @@ const settingMenuIcon = (icon: string) => {
     case 'card':
       return <CardIconComponent className="SettingMenu_Icon" />;
     case 'book':
-        return <BookIconComponent className="SettingMenu_Icon" />;
+      return <BookIconComponent className="SettingMenu_Icon" />;
     case 'user':
-        return <UserIconComponent className="SettingMenu_Icon" />;
+      return <UserIconComponent className="SettingMenu_Icon" />;
     default:
-        return null;
+      return null;
   }
 };
 
@@ -72,17 +72,14 @@ export const SettingMenuItem: React.FunctionComponent<SettingMenuItemProps> = (p
   ) : null;
 };
 
-export const SettingMenu: React.FunctionComponent<SettingMenuStateProps> = ({ title, icon, children }) => {
-
-  return children ? (
-    <React.Fragment>
-      <div className="SettingGroupTitle">
-        {settingMenuIcon(icon)}
-        {title}
-      </div>
-      <ul className="SettingMenu">
-        {children}
-      </ul>
-    </React.Fragment>
-  ) : null;
-};
+export const SettingMenu: React.FunctionComponent<SettingMenuStateProps> = ({ title, icon, children }) => children ? (
+  <React.Fragment>
+    <div className="SettingGroupTitle">
+      {settingMenuIcon(icon)}
+      {title}
+    </div>
+    <ul className="SettingMenu">
+      {children}
+    </ul>
+  </React.Fragment>
+) : null;

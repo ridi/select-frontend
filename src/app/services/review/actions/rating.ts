@@ -12,31 +12,31 @@ export const DELETE_RATING_REQUEST = 'DELETE_RATING_REQUEST';
 export const DELETE_RATING_SUCCESS = 'DELETE_RATING_SUCCESS';
 export const DELETE_RATING_FAILURE = 'DELETE_RATING_FAILURE';
 
-export interface ActionPostRatingRequest extends Action<typeof POST_RATING_REQUEST, {
+export type ActionPostRatingRequest = Action<typeof POST_RATING_REQUEST, {
   bookId: number,
   rating: number,
-}> {}
-export interface ActionPostRatingSuccess extends Action<typeof POST_RATING_SUCCESS, {
+}>
+export type ActionPostRatingSuccess = Action<typeof POST_RATING_SUCCESS, {
   bookId: number,
   review: ResponseReview,
   reviewSummary: ReviewSummary,
-}> {}
-export interface ActionPostRatingFailure extends Action<typeof POST_RATING_FAILURE, {
+}>
+export type ActionPostRatingFailure = Action<typeof POST_RATING_FAILURE, {
   bookId: number,
   error?: AxiosError,
-}> {}
+}>
 
-export interface ActionDeleteRatingRequest extends Action<typeof DELETE_RATING_REQUEST, {
+export type ActionDeleteRatingRequest = Action<typeof DELETE_RATING_REQUEST, {
   bookId: number,
-}> {}
-export interface ActionDeleteRatingSuccess extends Action<typeof DELETE_RATING_SUCCESS, {
+}>
+export type ActionDeleteRatingSuccess = Action<typeof DELETE_RATING_SUCCESS, {
   bookId: number,
   reviewSummary: ReviewSummary,
-}> {}
-export interface ActionDeleteRatingFailure extends Action<typeof DELETE_RATING_FAILURE, {
+}>
+export type ActionDeleteRatingFailure = Action<typeof DELETE_RATING_FAILURE, {
   bookId: number,
   error?: AxiosError,
-}> {}
+}>
 
 export type RatingActionTypes =
   ActionPostRatingRequest |
@@ -49,41 +49,29 @@ export type RatingActionTypes =
 export const postRatingRequest = (
   bookId: number,
   rating: number,
-): ActionPostRatingRequest => {
-  return { type: POST_RATING_REQUEST, payload: { bookId, rating } };
-};
+): ActionPostRatingRequest => ({ type: POST_RATING_REQUEST, payload: { bookId, rating } });
 
 export const postRatingSuccess = (
   bookId: number,
   review: ResponseReview,
   reviewSummary: ReviewSummary,
-): ActionPostRatingSuccess => {
-  return { type: POST_RATING_SUCCESS, payload: { bookId, review, reviewSummary } };
-};
+): ActionPostRatingSuccess => ({ type: POST_RATING_SUCCESS, payload: { bookId, review, reviewSummary } });
 
 export const postRatingFailure = (
   bookId: number,
   error?: AxiosError,
-): ActionPostRatingFailure => {
-  return { type: POST_RATING_FAILURE, payload: { bookId, error } };
-};
+): ActionPostRatingFailure => ({ type: POST_RATING_FAILURE, payload: { bookId, error } });
 
 export const deleteRatingRequest = (
   bookId: number,
-): ActionDeleteRatingRequest => {
-  return { type: DELETE_RATING_REQUEST, payload: { bookId } };
-};
+): ActionDeleteRatingRequest => ({ type: DELETE_RATING_REQUEST, payload: { bookId } });
 
 export const deleteRatingSuccess = (
   bookId: number,
   reviewSummary: ReviewSummary,
-): ActionDeleteRatingSuccess => {
-  return { type: DELETE_RATING_SUCCESS, payload: { bookId, reviewSummary } };
-};
+): ActionDeleteRatingSuccess => ({ type: DELETE_RATING_SUCCESS, payload: { bookId, reviewSummary } });
 
 export const deleteRatingFailure = (
   bookId: number,
   error?: AxiosError,
-): ActionDeleteRatingFailure => {
-  return { type: DELETE_RATING_FAILURE, payload: { bookId, error } };
-};
+): ActionDeleteRatingFailure => ({ type: DELETE_RATING_FAILURE, payload: { bookId, error } });

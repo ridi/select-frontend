@@ -15,7 +15,7 @@ export const ToggleNoticeButton: React.SFC<ToggleNoticeButtonProps> = (props) =>
     <Button
       className={classNames(
         'ReviewForm_ToggleNoticeButton',
-      { pressed: isPressed },
+        { pressed: isPressed },
       )}
       outline={true}
       onClick={onClick}
@@ -61,9 +61,9 @@ export const SubmitButton: React.SFC<SubmitButtonProps> = (props) => {
     <Button
       className={classNames(
         'ReviewForm_SubmitReviewButton',
-      { disabled: isDisabled || isFetching },
-      { spinner: isFetching },
-      { full: isFullButton },
+        { disabled: isDisabled || isFetching },
+        { spinner: isFetching },
+        { full: isFullButton },
       )}
       color="blue"
       spinner={isFetching}
@@ -88,7 +88,7 @@ export const CancelButton: React.SFC<CancelButtonProps> = (props) => {
     <Button
       className={classNames(
         'ReviewForm_CancelReviewButton',
-      { full: isFullButton },
+        { full: isFullButton },
       )}
       size={isFullButton ? 'large' : 'medium'}
       onClick={onClick}

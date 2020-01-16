@@ -94,11 +94,11 @@ function getLNBMenuSearch(menu: Menu, props: MenuStateProps) {
   return flow(
     (search: string) => qs.parse(search, { ignoreQueryPrefix: true }),
     (parsedSearch: object) => menu.defaultSearch ?
-        assignIn(
-          parsedSearch,
-          { [menu.defaultSearch.searchKey]: props[menu.defaultSearch.propKeyForValue] },
-        ) :
+      assignIn(
         parsedSearch,
+        { [menu.defaultSearch.searchKey]: props[menu.defaultSearch.propKeyForValue] },
+      ) :
+      parsedSearch,
     (searchObject: object) => qs.stringify(searchObject, { addQueryPrefix: true }),
   )(currentPathname === menu.pathname ? currentSearch : '');
 }
@@ -153,16 +153,14 @@ export const LNB: React.SFC<MenuStateProps> = (props) => {
   );
 };
 
-const mapStateToProps = (state: RidiSelectState): MenuStateProps => {
-  return {
-    appStatus: state.app.appStatus,
-    isLoggedIn: state.user.isLoggedIn,
-    isAndroidInApp: getIsAndroidInApp(state),
-    solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(state),
-    currentPathname: state.router.location!.pathname,
-    currentSearch: state.router.location!.search,
-    lastSelectedCategoryId: state.categories.lastSelectedCategoryId,
-  };
-};
+const mapStateToProps = (state: RidiSelectState): MenuStateProps => ({
+  appStatus: state.app.appStatus,
+  isLoggedIn: state.user.isLoggedIn,
+  isAndroidInApp: getIsAndroidInApp(state),
+  solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(state),
+  currentPathname: state.router.location!.pathname,
+  currentSearch: state.router.location!.search,
+  lastSelectedCategoryId: state.categories.lastSelectedCategoryId,
+});
 
 export const ConnectedLNB = connect(mapStateToProps)(LNB);

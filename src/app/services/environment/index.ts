@@ -1,7 +1,7 @@
 import { createAction, createReducer } from 'redux-act';
 
 import env from 'app/config/env';
-import produce from 'immer';
+import { produce } from 'immer';
 
 const INITIAL_STATE = {
   ...env,

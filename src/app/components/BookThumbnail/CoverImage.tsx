@@ -1,7 +1,6 @@
 import * as classNames from 'classnames';
 import * as React from 'react';
 
-import { getThumbnailHeight } from 'app/components/BookThumbnail/helpers';
 import { ThumbnailSize } from 'app/components/BookThumbnail/types';
 
 export interface CoverImageProps {
@@ -29,31 +28,14 @@ const NotAvailableComponent = (props: any) => {
 };
 
 export class CoverImage extends React.Component<CoverImageProps, CoverImageState> {
-  private coverPlaceholder: HTMLSpanElement;
-  public state: CoverImageState = {
-    isLoaded: false,
-    isEndTransition: false,
-  };
-
-  public componentDidUpdate() {
-    if (this.coverPlaceholder) {
-      this.coverPlaceholder.addEventListener(
-        'transitionend',
-        () => this.setState({ isEndTransition: true }),
-      );
-    }
-  }
-
   public render() {
     const {
       className,
       src,
       alt,
       shadow,
-      width,
       expired,
     } = this.props;
-    const { isLoaded, isEndTransition } = this.state;
 
     return (
       <>
@@ -64,20 +46,6 @@ export class CoverImage extends React.Component<CoverImageProps, CoverImageState
           onLoad={() => this.setState({ isLoaded: true })}
         />
         {shadow && <span className="RSGBookThumbnail_CoverImage_Shadow" />}
-        {isLoaded && isEndTransition ? null : (
-          <span
-            className={classNames(
-              'Skeleton',
-              'CoverImage_Placeholder',
-              isLoaded ? 'CoverImage_Placeholder-fadeout' : null,
-            )}
-            style={{
-              width,
-              height: getThumbnailHeight(width),
-            }}
-            ref={(ref) => (this.coverPlaceholder = ref!)}
-          />
-        )}
         {expired &&
           <React.Fragment>
             <div className={'BookThumbnail_Dimm'} />

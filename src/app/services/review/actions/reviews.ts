@@ -34,67 +34,67 @@ export const DELETE_REVIEW_FAILURE = 'DELETE_REVIEW_FAILURE';
 export const START_EDITING_REVIEW = 'START_EDITING_REVIEW';
 export const END_EDITING_REVIEW = 'END_EDITING_REVIEW';
 
-export interface ActionGetReviewsRequest extends Action<typeof GET_REVIEWS_REQUEST, {
+export type ActionGetReviewsRequest = Action<typeof GET_REVIEWS_REQUEST, {
   bookId: number,
   params: RequestReviewsParameters,
-}> {}
-export interface ActionGetReviewsSuccess extends Action<typeof GET_REVIEWS_SUCCESS, {
+}>
+export type ActionGetReviewsSuccess = Action<typeof GET_REVIEWS_SUCCESS, {
   bookId: number,
   params: RequestReviewsParameters,
   response: ResponseReviews,
-}> {}
-export interface ActionGetReviewsFailure extends Action<typeof GET_REVIEWS_FAILURE, {
+}>
+export type ActionGetReviewsFailure = Action<typeof GET_REVIEWS_FAILURE, {
   bookId: number,
   params: RequestReviewsParameters,
-}> {}
+}>
 
-export interface ActionResetReviewPages extends Action<typeof RESET_REVIEW_PAGES, {
+export type ActionResetReviewPages = Action<typeof RESET_REVIEW_PAGES, {
   bookId: number,
-}> {}
+}>
 
-export interface ActionChangeUserFilterTab extends Action<typeof CHANGE_USER_FILTER_TAB, {
+export type ActionChangeUserFilterTab = Action<typeof CHANGE_USER_FILTER_TAB, {
   bookId: number,
   userFilterType: UserFilterType,
-}> {}
-export interface ActionChangeSortBy extends Action<typeof CHANGE_SORT_BY, {
+}>
+export type ActionChangeSortBy = Action<typeof CHANGE_SORT_BY, {
   bookId: number,
   sortBy: ReviewSortingCriteria,
-}> {}
+}>
 
-export interface ActionPostReviewRequest extends Action<typeof POST_REVIEW_REQUEST, {
+export type ActionPostReviewRequest = Action<typeof POST_REVIEW_REQUEST, {
   bookId: number,
   content: TextWithLF,
   hasSpoiler: boolean,
-}> {}
-export interface ActionPostReviewSuccess extends Action<typeof POST_REVIEW_SUCCESS, {
+}>
+export type ActionPostReviewSuccess = Action<typeof POST_REVIEW_SUCCESS, {
   bookId: number,
   review: ResponseReview,
   reviewSummary: ReviewSummary,
-}> {}
-export interface ActionPostReviewFailure extends Action<typeof POST_REVIEW_FAILURE, {
+}>
+export type ActionPostReviewFailure = Action<typeof POST_REVIEW_FAILURE, {
   bookId: number,
   error?: AxiosError,
-}> {}
+}>
 
-export interface ActionDeleteReviewRequest extends Action<typeof DELETE_REVIEW_REQUEST, {
+export type ActionDeleteReviewRequest = Action<typeof DELETE_REVIEW_REQUEST, {
   bookId: number,
-}> {}
-export interface ActionDeleteReviewSuccess extends Action<typeof DELETE_REVIEW_SUCCESS, {
+}>
+export type ActionDeleteReviewSuccess = Action<typeof DELETE_REVIEW_SUCCESS, {
   bookId: number,
   review: ResponseReview,
   reviewSummary: ReviewSummary,
-}> {}
-export interface ActionDeleteReviewFailure extends Action<typeof DELETE_REVIEW_FAILURE, {
+}>
+export type ActionDeleteReviewFailure = Action<typeof DELETE_REVIEW_FAILURE, {
   bookId: number,
   error?: AxiosError,
-}> {}
+}>
 
-export interface ActionStartEditingReview extends Action<typeof START_EDITING_REVIEW, {
+export type ActionStartEditingReview = Action<typeof START_EDITING_REVIEW, {
   bookId: number,
-}> {}
-export interface ActionEndEditingReview extends Action<typeof END_EDITING_REVIEW, {
+}>
+export type ActionEndEditingReview = Action<typeof END_EDITING_REVIEW, {
   bookId: number,
-}> {}
+}>
 
 export type ReviewsActionTypes =
   ActionGetReviewsRequest |
@@ -115,97 +115,69 @@ export type ReviewsActionTypes =
 export const getReviewsRequest = (
   bookId: number,
   params: RequestReviewsParameters,
-): ActionGetReviewsRequest => {
-  return { type: GET_REVIEWS_REQUEST, payload: { bookId, params } };
-};
+): ActionGetReviewsRequest => ({ type: GET_REVIEWS_REQUEST, payload: { bookId, params } });
 
 export const getReviewsSuccess = (
   bookId: number,
   params: RequestReviewsParameters,
   response: ResponseReviews,
-): ActionGetReviewsSuccess => {
-  return { type: GET_REVIEWS_SUCCESS, payload: { bookId, params, response} };
-};
+): ActionGetReviewsSuccess => ({ type: GET_REVIEWS_SUCCESS, payload: { bookId, params, response} });
 
 export const getReviewsFailure = (
   bookId: number,
   params: RequestReviewsParameters,
-): ActionGetReviewsFailure => {
-  return { type: GET_REVIEWS_FAILURE, payload: { bookId, params } };
-};
+): ActionGetReviewsFailure => ({ type: GET_REVIEWS_FAILURE, payload: { bookId, params } });
 
 export const resetReviews = (
   bookId: number,
-): ActionResetReviewPages => {
-  return { type: RESET_REVIEW_PAGES, payload: { bookId } };
-};
+): ActionResetReviewPages => ({ type: RESET_REVIEW_PAGES, payload: { bookId } });
 
 export const changeUserFilterTab = (
   bookId: number,
   userFilterType: UserFilterType,
-): ActionChangeUserFilterTab => {
-  return { type: CHANGE_USER_FILTER_TAB, payload: { bookId, userFilterType } };
-};
+): ActionChangeUserFilterTab => ({ type: CHANGE_USER_FILTER_TAB, payload: { bookId, userFilterType } });
 
 export const changeSortBy = (
   bookId: number,
   sortBy: ReviewSortingCriteria,
-): ActionChangeSortBy => {
-  return { type: CHANGE_SORT_BY, payload: { bookId, sortBy } };
-};
+): ActionChangeSortBy => ({ type: CHANGE_SORT_BY, payload: { bookId, sortBy } });
 
 export const postReviewRequest = (
   bookId: number,
   content: TextWithLF,
   hasSpoiler: boolean,
-): ActionPostReviewRequest => {
-  return { type: POST_REVIEW_REQUEST, payload: { bookId, content, hasSpoiler } };
-};
+): ActionPostReviewRequest => ({ type: POST_REVIEW_REQUEST, payload: { bookId, content, hasSpoiler } });
 
 export const postReviewSuccess = (
   bookId: number,
   review: ResponseReview,
   reviewSummary: ReviewSummary,
-): ActionPostReviewSuccess => {
-  return { type: POST_REVIEW_SUCCESS, payload: { bookId, review, reviewSummary } };
-};
+): ActionPostReviewSuccess => ({ type: POST_REVIEW_SUCCESS, payload: { bookId, review, reviewSummary } });
 
 export const postReviewFailure = (
   bookId: number,
   error?: AxiosError,
-): ActionPostReviewFailure => {
-  return { type: POST_REVIEW_FAILURE, payload: { bookId, error } };
-};
+): ActionPostReviewFailure => ({ type: POST_REVIEW_FAILURE, payload: { bookId, error } });
 
 export const deleteReviewRequest = (
   bookId: number,
-): ActionDeleteReviewRequest => {
-  return { type: DELETE_REVIEW_REQUEST, payload: { bookId } };
-};
+): ActionDeleteReviewRequest => ({ type: DELETE_REVIEW_REQUEST, payload: { bookId } });
 
 export const deleteReviewSuccess = (
   bookId: number,
   review: ResponseReview,
   reviewSummary: ReviewSummary,
-): ActionDeleteReviewSuccess => {
-  return { type: DELETE_REVIEW_SUCCESS, payload: { bookId, review, reviewSummary } };
-};
+): ActionDeleteReviewSuccess => ({ type: DELETE_REVIEW_SUCCESS, payload: { bookId, review, reviewSummary } });
 
 export const deleteReviewFailure = (
   bookId: number,
   error?: AxiosError,
-): ActionDeleteReviewFailure => {
-  return { type: DELETE_REVIEW_FAILURE, payload: { bookId, error } };
-};
+): ActionDeleteReviewFailure => ({ type: DELETE_REVIEW_FAILURE, payload: { bookId, error } });
 
 export const startEditingReview = (
   bookId: number,
-): ActionStartEditingReview => {
-  return { type: START_EDITING_REVIEW, payload: { bookId } };
-};
+): ActionStartEditingReview => ({ type: START_EDITING_REVIEW, payload: { bookId } });
 
 export const endEditingReview = (
   bookId: number,
-): ActionEndEditingReview => {
-  return { type: END_EDITING_REVIEW, payload: { bookId } };
-};
+): ActionEndEditingReview => ({ type: END_EDITING_REVIEW, payload: { bookId } });

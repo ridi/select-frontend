@@ -32,7 +32,7 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
       return;
     }
 
-    let confirmMessage = `결제를 취소하시겠습니까?\n결제를 취소할 경우 즉시 이용할 수 없습니다.`;
+    let confirmMessage = '결제를 취소하시겠습니까?\n결제를 취소할 경우 즉시 이용할 수 없습니다.';
 
     if (subscriptionState && subscriptionState.isSubscribedWithOldPrice) {
       confirmMessage = `결제를 취소하시겠습니까?\n결제 금액이 인상되어 결제 취소 이후\n월 ${subscriptionState.formattedNewMonthlyPayPrice}이 적용됩니다.`;
@@ -85,7 +85,7 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
       <li className="LatestBillDateInfo" key="latest-bill-date-info">
         <strong className="LatestBillDateInfo_Title">최근 결제일</strong>
         <span className="LatestBillDateInfo_Term">
-        {`${buildOnlyDateFormat(latestPurchaseDate)}`}
+          {buildOnlyDateFormat(latestPurchaseDate)}
           {isPurchaseCancellable && latestPurchaseId &&
             <span className="CancelSubscriptionButton_Wrapper">
               <Button
@@ -175,19 +175,17 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
   }
 }
 
-const mapStateToProps = (state: RidiSelectState): SubscriptionInfoStateProps => {
-  return {
-    uId: state.user.uId,
-    isIosInApp: getIsIosInApp(state),
-    BASE_URL_STORE: state.environment.STORE_URL,
-    availableUntil: state.user.availableUntil,
-    hasAvailableTicket: state.user.hasAvailableTicket,
-    subscriptionState: state.user.subscription,
-    hasSubscribedBefore: state.user.hasSubscribedBefore,
-    latestPurchaseTicket: !!state.user.purchaseHistory.itemListByPage[1] && state.user.purchaseHistory.itemListByPage[1].itemList[0],
-    isPurchaseCancelFetching: state.user.purchaseHistory.isCancelFetching,
-  };
-};
+const mapStateToProps = (state: RidiSelectState): SubscriptionInfoStateProps => ({
+  uId: state.user.uId,
+  isIosInApp: getIsIosInApp(state),
+  BASE_URL_STORE: state.environment.STORE_URL,
+  availableUntil: state.user.availableUntil,
+  hasAvailableTicket: state.user.hasAvailableTicket,
+  subscriptionState: state.user.subscription,
+  hasSubscribedBefore: state.user.hasSubscribedBefore,
+  latestPurchaseTicket: !!state.user.purchaseHistory.itemListByPage[1] && state.user.purchaseHistory.itemListByPage[1].itemList[0],
+  isPurchaseCancelFetching: state.user.purchaseHistory.isCancelFetching,
+});
 
 const mapDispatchToProps = (dispatch: any) => ({
   dispatchCancelPurchase: (purchaseId: number) => dispatch(Actions.cancelPurchaseRequest({ purchaseId })),

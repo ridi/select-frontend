@@ -74,17 +74,13 @@ export class Home extends React.PureComponent<HomeStateProps & ReturnType<typeof
   }
 }
 
-const mapStateToProps = (state: RidiSelectState): HomeStateProps => {
-  return {
-    fetchedAt: state.home.fetchedAt,
-  };
-};
+const mapStateToProps = (state: RidiSelectState): HomeStateProps => ({
+  fetchedAt: state.home.fetchedAt,
+});
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    dispatchLoadHomeRequest: () => dispatch(Actions.loadHomeRequest()),
-    dispatchLoadCollectionRequest: (collectionId: CollectionId) => dispatch(CollectionActions.loadCollectionRequest({ collectionId, page: 1 })),
-  };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+  dispatchLoadHomeRequest: () => dispatch(Actions.loadHomeRequest()),
+  dispatchLoadCollectionRequest: (collectionId: CollectionId) => dispatch(CollectionActions.loadCollectionRequest({ collectionId, page: 1 })),
+});
 
 export const ConnectedHome = connect(mapStateToProps, mapDispatchToProps)(Home);

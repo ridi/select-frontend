@@ -24,7 +24,7 @@ export interface FavoriteArticle {
   article: Article;
 }
 
-export interface FavoriteArticleListState extends Paginated<ArticleKey> {}
+export type FavoriteArticleListState = Paginated<ArticleKey>
 
 export const INITIAL_STATE: FavoriteArticleListState = {
   itemListByPage: {},

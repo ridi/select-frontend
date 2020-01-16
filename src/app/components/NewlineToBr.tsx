@@ -6,12 +6,8 @@ interface NewlineToBrProps {
   text: TextWithLF;
 }
 
-export const NewlineToBr: React.SFC<NewlineToBrProps> = (props) => {
-  return (
-    <>
-      {props.text.split('\n').map((line, i, arr) => {
-        return <p key={i}>{line}</p>;
-      })}
-    </>
-  );
-};
+export const NewlineToBr: React.SFC<NewlineToBrProps> = (props) => (
+  <>
+    {props.text.split('\n').map((line, i, arr) => <p key={i}>{line}</p>)}
+  </>
+);

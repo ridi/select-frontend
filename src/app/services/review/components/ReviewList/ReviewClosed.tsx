@@ -40,7 +40,7 @@ export const ReviewClosed: React.SFC<ReviewClosedProps> = (props) => {
               className="Review_Alert_Button"
               href="https://ridibooks.com/support/notice/458"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               리뷰 운영 정책 보기
             </a>

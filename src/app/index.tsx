@@ -1,3 +1,5 @@
+import createCache from '@emotion/cache';
+import { css, CacheProvider } from '@emotion/core';
 import * as React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
@@ -22,6 +24,8 @@ initializeScrollEnd();
 
 setInitializeInAppEvent();
 
+const styleCache = createCache();
+
 class App extends React.Component {
   public componentDidMount() {
     fetchUserInfo().then((user) => {
@@ -35,10 +39,10 @@ class App extends React.Component {
   public render() {
     return (
       <Provider store={store}>
-        <>
+        <CacheProvider value={styleCache}>
           <ConnectedEnvBadge />
           <ConnectedRoutes />
-        </>
+        </CacheProvider>
       </Provider>
     );
   }

@@ -95,10 +95,8 @@ const mapStateToProps = (rootState: RidiSelectState): AppManagerProps => ({
   appStatus: rootState.app.appStatus,
 });
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    dispatchUpdateAppStatus: (appStatus: AppStatus) => dispatch(appActions.updateAppStatus({ appStatus })),
-  };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+  dispatchUpdateAppStatus: (appStatus: AppStatus) => dispatch(appActions.updateAppStatus({ appStatus })),
+});
 
 export const ConnectedAppManager = connect(mapStateToProps, mapDispatchToProps)(withRouter(AppManager));
