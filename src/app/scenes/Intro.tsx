@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 import * as classNames from 'classnames';
 import * as qs from 'qs';
 import * as React from 'react';
+=======
+import React from 'react';
+import classNames from 'classnames';
+>>>>>>> 7bed5698... remove promotion code
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, Icon } from '@ridi/rsg';
@@ -35,19 +40,6 @@ export const Intro: React.FunctionComponent = () => {
     };
   }, []);
 
-  const elevenMonthVoucherEventEndDate = new Date();
-  elevenMonthVoucherEventEndDate.setUTCSeconds(59);
-  elevenMonthVoucherEventEndDate.setUTCMinutes(59);
-  elevenMonthVoucherEventEndDate.setUTCHours(23 - 9);
-  elevenMonthVoucherEventEndDate.setUTCDate(17);
-  elevenMonthVoucherEventEndDate.setUTCMonth(1 - 1);
-  elevenMonthVoucherEventEndDate.setUTCFullYear(2020);
-
-  const currentDate = new Date();
-
-  const isInEventTerm = elevenMonthVoucherEventEndDate >= currentDate;
-  const queryString = qs.parse(location.search, { ignoreQueryPrefix: true });
-
   return (
     <main className="SceneWrapper">
       <HelmetWithTitle
@@ -79,71 +71,28 @@ export const Intro: React.FunctionComponent = () => {
           <p className="SectionMain_Description">
             1개월 무료
           </p>
-          {isInEventTerm ? (
-            <>
-              <Button
-                type="button"
-                className={classNames([
-                  'SectionMain_Button',
-                  'Intro_Subscription_Button',
-                ])}
-                color="gray"
-                size="large"
-                onClick={() => {
-                  if (isLoggedIn) {
-                    window.location.replace(`${BASE_URL_STORE}/select/payments`);
-                    return;
-                  }
-                  moveToLogin(`${BASE_URL_STORE}/select/payments`);
-                }}
-              >
-                <span className="SectionMain_Button_MainLabel">매월 정기 결제</span>
-                <span className="SectionMain_Button_SubLabel">월 9,900원</span>
-              </Button>
-              <Button
-                component="a"
-                target="_self"
-                className={classNames([
-                  'SectionMain_Button',
-                  'Intro_GetVoucher_Button',
-                ])}
-                color="blue"
-                size="large"
-                href={`https://ridibooks.com/event/18707?utm_source=operation&utm_medium=button&utm_campaign=inhouse&utm_content=10m_half${
-                  queryString.utm_source ? `&utm_term=${queryString.utm_source}` : ''}`
-                }
-              >
-                <span className="SectionMain_Button_MainLabel">11개월치 반값 결제</span>
-                <span className="SectionMain_Button_SubLabel">월 4,500원</span>
-              </Button>
-              <p className="SectionMain_ButtonCaption">반값 결제 이벤트 2020.01.17.까지</p>
-            </>
-          ) : (
-            <>
-              <Button
-                type="button"
-                className="SectionMain_Button"
-                color="blue"
-                size="large"
-                onClick={() => {
-                  if (isLoggedIn) {
-                    window.location.replace(`${BASE_URL_STORE}/select/payments`);
-                    return;
-                  }
-                  moveToLogin(`${BASE_URL_STORE}/select/payments`);
-                }}
-              >
-                {!hasSubscribedBefore ?
-                  '무료로 시작하기' :
-                  '다시 시작하기'
-                }
-                <Icon name="arrow_5_right" className="RSGIcon-arrow5Right" />
-              </Button>
-              <p className="SectionMain_ButtonCaption">
-                {`${FREE_PROMOTION_MONTHS}개월 후 월 9,900원. 언제든 원클릭으로 해지`}
-              </p>
-            </>
-          )}
+          <Button
+            type="button"
+            className="SectionMain_Button"
+            color="blue"
+            size="large"
+            onClick={() => {
+              if (isLoggedIn) {
+                window.location.replace(`${BASE_URL_STORE}/select/payments`);
+                return;
+              }
+              moveToLogin(`${BASE_URL_STORE}/select/payments`);
+            }}
+          >
+            {!hasSubscribedBefore ?
+              '무료로 시작하기' :
+              '다시 시작하기'
+            }
+            <Icon name="arrow_5_right" className="RSGIcon-arrow5Right" />
+          </Button>
+          <p className="SectionMain_ButtonCaption">
+            {`${FREE_PROMOTION_MONTHS}개월 후 월 9,900원. 언제든 원클릭으로 해지`}
+          </p>
         </div>
       </section>
     </main>
