@@ -84,9 +84,9 @@ export const Intro: React.FunctionComponent = () => {
               moveToLogin(`${BASE_URL_STORE}/select/payments`);
             }}
           >
-            {!hasSubscribedBefore ?
-              '무료로 시작하기' :
-              '다시 시작하기'
+            {isLoggedIn && hasSubscribedBefore ?
+              '다시 시작하기' :
+              '무료로 시작하기'
             }
             <Icon name="arrow_5_right" className="RSGIcon-arrow5Right" />
           </Button>
