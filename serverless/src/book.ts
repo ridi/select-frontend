@@ -1,3 +1,4 @@
+import { replace } from 'connected-react-router';
 import Router from 'express-promise-router';
 
 import fetch from 'node-fetch';
@@ -27,7 +28,9 @@ router.get('/:id', async (req, res) => {
   try {
     const data = await (await fetch(getBookApiUrl(bookId))).json();
     const { descriptions } = await (await fetch(getBookApiUrl(bookId, '/descriptions'))).json();
-    const description = htmlToText.fromString(descriptions.intro, { wordwrap: null });
+    const description = htmlToText
+      .fromString(descriptions.intro, { wordwrap: null })
+      .replace(/&(\w+);/, '');
     const openGraph: Partial<OpenGraph> = {
       title: `${data.title.main} - 리디셀렉트`,
       description: ellipsis(description, MAX_DESCRIPTION_LENGTH),

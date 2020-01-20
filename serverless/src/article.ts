@@ -37,9 +37,10 @@ router.get('/channel/@:channelName', async (req, res) => {
   const { channelName } = req.params;
   try {
     const data = await (await fetch(getArticleApiUrl(channelName))).json();
+    const description = data.description.replace(/&(\w+);/, '');
     const openGraph: Partial<OpenGraph> = {
       title: `${data.display_name} - 리디셀렉트`,
-      description: data.description,
+      description,
       type: 'article',
       url: `https://select.ridibooks.com/article/channel/@${channelName}`,
       image: data.thumbnail_url,
