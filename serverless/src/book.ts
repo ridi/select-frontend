@@ -1,4 +1,3 @@
-import { replace } from 'connected-react-router';
 import Router from 'express-promise-router';
 
 import fetch from 'node-fetch';
