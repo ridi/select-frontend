@@ -10,6 +10,7 @@
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.16.4",
     "express-promise-router": "^3.0.3",
+    "html-entities": "^1.2.1",
     "html-to-text": "^5.0.0",
     "node-fetch": "^2.3.0",
     "serverless-http": "^1.9.1",

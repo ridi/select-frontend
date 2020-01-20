@@ -1,7 +1,12 @@
 import Router from 'express-promise-router';
 
-import { override, OpenGraph } from './utils/override';
 import fetch from 'node-fetch';
+import ellipsis from 'text-ellipsis';
+import { AllHtmlEntities } from 'html-entities';
+
+import { override, OpenGraph } from './utils/override';
+
+const MAX_DESCRIPTION_LENGTH = 175;
 
 const router = Router();
 
@@ -37,7 +42,13 @@ router.get('/channel/@:channelName', async (req, res) => {
   const { channelName } = req.params;
   try {
     const data = await (await fetch(getArticleApiUrl(channelName))).json();
-    const description = data.description.replace(/&(\w+);/, '');
+    const entities = new AllHtmlEntities();
+    const description = entities.decode(
+      ellipsis(
+        data.description.replace(/&(\w+);/, ''),
+        MAX_DESCRIPTION_LENGTH
+      )
+    );
     const openGraph: Partial<OpenGraph> = {
       title: `${data.display_name} - 리디셀렉트`,
       description,

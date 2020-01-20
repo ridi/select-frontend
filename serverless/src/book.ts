@@ -2,8 +2,9 @@ import { replace } from 'connected-react-router';
 import Router from 'express-promise-router';
 
 import fetch from 'node-fetch';
-import * as htmlToText from 'html-to-text';
 import ellipsis from 'text-ellipsis';
+import * as htmlToText from 'html-to-text';
+import { AllHtmlEntities } from 'html-entities';
 
 import { override, OpenGraph } from './utils/override';
 
@@ -27,13 +28,17 @@ router.get('/:id', async (req, res) => {
   const { id: bookId } = req.params;
   try {
     const data = await (await fetch(getBookApiUrl(bookId))).json();
+    const entities = new AllHtmlEntities();
     const { descriptions } = await (await fetch(getBookApiUrl(bookId, '/descriptions'))).json();
-    const description = htmlToText
-      .fromString(descriptions.intro, { wordwrap: null })
-      .replace(/&(\w+);/, '');
+    const description = entities.decode(
+      ellipsis(
+        htmlToText.fromString(descriptions.intro, { wordwrap: null }),
+        MAX_DESCRIPTION_LENGTH
+      )
+    );
     const openGraph: Partial<OpenGraph> = {
       title: `${data.title.main} - 리디셀렉트`,
-      description: ellipsis(description, MAX_DESCRIPTION_LENGTH),
+      description,
       type: 'book',
       url: `https://select.ridibooks.com/book/${bookId}`,
       image: getThumbnailUrl(data.thumbnail),

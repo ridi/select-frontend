@@ -2471,6 +2471,11 @@ homedir-polyfill@^1.0.1:
   dependencies:
     parse-passwd "^1.0.0"
 
+html-entities@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/html-entities/-/html-entities-1.2.1.tgz#0df29351f0721163515dfb9e5543e5f6eed5162f"
+  integrity sha1-DfKTUfByEWNRXfueVUPl9u7VFi8=
+
 html-to-text@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/html-to-text/-/html-to-text-5.0.0.tgz#5752501e7fdb9a76ef8ca24f37fdf161c2c4bab4"
