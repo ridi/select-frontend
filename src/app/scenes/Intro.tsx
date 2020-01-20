@@ -63,7 +63,7 @@ export const Intro: React.FunctionComponent = () => {
             프리미엄 아티클까지
           </h2>
           <p className="SectionMain_Description">
-            1개월 무료
+            {isLoggedIn && hasSubscribedBefore ? '모두 무제한으로' : '1개월 무료'}
           </p>
           <Button
             type="button"
@@ -78,15 +78,14 @@ export const Intro: React.FunctionComponent = () => {
               moveToLogin(`${BASE_URL_STORE}/select/payments`);
             }}
           >
-            {isLoggedIn && hasSubscribedBefore ?
-              '다시 시작하기' :
-              '무료로 시작하기'
-            }
+            {isLoggedIn && hasSubscribedBefore ? '다시 시작하기' : '무료로 시작하기'}
             <Icon name="arrow_5_right" className="RSGIcon-arrow5Right" />
           </Button>
-          <p className="SectionMain_ButtonCaption">
-            {`${FREE_PROMOTION_MONTHS}개월 후 월 9,900원. 언제든 원클릭으로 해지`}
-          </p>
+          {isLoggedIn && hasSubscribedBefore ? null : (
+            <p className="SectionMain_ButtonCaption">
+              {`${FREE_PROMOTION_MONTHS}개월 후 월 9,900원. 언제든 원클릭으로 해지`}
+            </p>
+          )}
         </div>
       </section>
     </main>
