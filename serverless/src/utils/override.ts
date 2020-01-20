@@ -29,7 +29,7 @@ export const override = async (og?: Partial<OpenGraph>): Promise<string> => {
   }
 
   if (og.description) {
-    $('meta[name="description"]').text(og.description);
+    $('description').text(og.description);
     $('meta[property="og:description"]').attr('content', og.description);
   }
 
