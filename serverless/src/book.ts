@@ -29,7 +29,7 @@ router.get('/:id', async (req, res) => {
     const data = await (await fetch(getBookApiUrl(bookId))).json();
     const entities = new AllHtmlEntities();
     const { descriptions } = await (await fetch(getBookApiUrl(bookId, '/descriptions'))).json();
-    const description = entities.decode(
+    const description = entities.encode(
       ellipsis(
         htmlToText.fromString(descriptions.intro, { wordwrap: null }),
         MAX_DESCRIPTION_LENGTH

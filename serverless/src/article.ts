@@ -43,7 +43,7 @@ router.get('/channel/@:channelName', async (req, res) => {
   try {
     const data = await (await fetch(getArticleApiUrl(channelName))).json();
     const entities = new AllHtmlEntities();
-    const description = entities.decode(
+    const description = entities.encode(
       ellipsis(
         data.description.replace(/&(\w+);/, ''),
         MAX_DESCRIPTION_LENGTH
