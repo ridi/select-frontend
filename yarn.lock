@@ -5646,6 +5646,11 @@ eslint-plugin-eslint-plugin@^2.1.0:
   resolved "https://registry.yarnpkg.com/eslint-plugin-eslint-plugin/-/eslint-plugin-eslint-plugin-2.1.0.tgz#a7a00f15a886957d855feacaafee264f039e62d5"
   integrity sha512-kT3A/ZJftt28gbl/Cv04qezb/NQ1dwYIbi8lyf806XMxkus7DvOVCLIfTXMrorp322Pnoez7+zabXH29tADIDg==
 
+eslint-plugin-immer-reducer@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-immer-reducer/-/eslint-plugin-immer-reducer-0.1.1.tgz#b761807fd7f106c2b36e5f5987b06eeab3e954b4"
+  integrity sha512-q/xyxnAIiVpA9xC+00QMNTt/uIkF96xjfmjo6htGuJBZcK/t031v9NkcsGzU+we89U0jzs6ZceSTwFUqxdqeQg==
+
 eslint-plugin-import@^2.19.1:
   version "2.19.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.19.1.tgz#5654e10b7839d064dd0d46cd1b88ec2133a11448"
@@ -6955,10 +6960,22 @@ ignore@^5.0.4:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.1.4.tgz#84b7b3dbe64552b6ef0eca99f6743dbec6d97adf"
   integrity sha512-MzbUSahkTW1u7JpKKjY7LCARd1fU5W2rLdxlM4kdkayuCwZImjkpluF9CM1aLewYJguPDqewLam18Y6AU69A8A==
 
+immer-reducer@^0.7.10:
+  version "0.7.10"
+  resolved "https://registry.yarnpkg.com/immer-reducer/-/immer-reducer-0.7.10.tgz#54d620ab6f9bc5bf0c9c0a985e063cda4c6aa7fa"
+  integrity sha512-X1TgUJbgywhArPBoG+IO+6n703+MD+oC+FYSSlkFaqCPrIXQyJUFjQd1hzysWXPJ5/LdAT4UyaYAetLpmqMVyQ==
+  dependencies:
+    immer "^1.4.0 || ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0"
+
 immer@^1.12.1:
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/immer/-/immer-1.12.1.tgz#40c6e5b292c00560836c2993bda3a24379d466f5"
   integrity sha512-3fmKM6ovaqDt0CdC9daXpNi5x/YCYS3i4cwLdTVkhJdk5jrDXoPs7lCm3IqM3yhfSnz4tjjxbRG2CziQ7m8ztg==
+
+"immer@^1.4.0 || ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0":
+  version "5.3.2"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-5.3.2.tgz#e3a1c9f3550f925278fd86b8d2d644f7d5e9561b"
+  integrity sha512-wPWsSV0fv8iT7QQVs3rxBDWTbi5pHrVgnQv/McMfaRGJTLfQ3jFMEr08UibqS8hM17KCQXcjjYYzQzYe5e7BIA==
 
 immutable@^3.8.1:
   version "3.8.2"
