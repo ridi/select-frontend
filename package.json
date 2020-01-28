@@ -67,6 +67,7 @@
     "lint-staged": "^8.1.0",
     "mini-css-extract-plugin": "^0.9.0",
     "modernizr-loader": "^1.0.1",
+    "onchange": "^6.1.0",
     "path-to-regexp": "^3.0.0",
     "postcss": "^7.0.26",
     "postcss-base64": "^0.7.1",
@@ -85,7 +86,8 @@
     "typescript": "^3.7.4",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1"
+    "webpack-dev-server": "^3.10.1",
+    "webpackbar": "^4.0.0"
   },
   "dependencies": {
     "@babel/polyfill": "^7.7.0",
@@ -137,7 +139,7 @@
     "webfontloader": "^1.6.28"
   },
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server & onchange '**/*.{js,jsx,ts,tsx,html,json}' -e 'dist/**/*.*' -- prettier --write {{changed}}",
     "build": "webpack --mode production",
     "lint": "eslint --ext=jsx,ts,tsx src",
     "test": "jest --collectCoverage --no-cache"
