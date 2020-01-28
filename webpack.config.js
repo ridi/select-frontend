@@ -1,8 +1,8 @@
 const path = require('path');
 
 const { ProgressPlugin, NoEmitOnErrorsPlugin, HotModuleReplacementPlugin } = require('webpack');
-const WebpackBar = require('webpackbar');
 
+const WebpackBar = require('webpackbar');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
