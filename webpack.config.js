@@ -13,6 +13,13 @@ require('dotenv').config();
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
+  const devtool = isProduction
+    ? 'cheap-source-map'
+    : argv.liveReload
+      ? 'cheap-module-eval-source-map'
+      : 'cheap-module-source-map';
+  const { env: { ASSET_PATH, SELECT_URL } } = process;
+
   const config = {
     entry: {
       app: ['url-polyfill', '@babel/polyfill', './src/app/index.tsx', './src/css/main.css'],
@@ -21,7 +28,7 @@ module.exports = (env, argv) => {
     output: {
       filename: '[name].[hash].js',
       path: path.join(__dirname, 'dist'),
-      publicPath: process.env.ASSET_PATH || '/',
+      publicPath: ASSET_PATH || '/',
     },
     mode: 'development',
     module: {
@@ -93,7 +100,7 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         template: 'src/index.html',
         templateParameters: {
-          host: process.env.SELECT_URL,
+          host: SELECT_URL,
           isStaging: false,
         },
         minify: {
@@ -106,7 +113,7 @@ module.exports = (env, argv) => {
         filename: 'staging.html',
         template: 'src/index.html',
         templateParameters: {
-          host: process.env.SELECT_URL,
+          host: SELECT_URL,
           isStaging: true,
         },
       }),
@@ -144,12 +151,12 @@ module.exports = (env, argv) => {
         warnings: true,
         warningsFilter: 'size limit',
       },
-      public: process.env.SELECT_URL,
+      public: SELECT_URL,
       contentBase: path.resolve(__dirname, 'dist'),
       sockPort: 443,
-      allowedHosts: ['select.local.ridi.io'],
+      allowedHosts: [SELECT_URL],
     },
-    devtool: isProduction ? 'cheap-source-map' : !argv.liveReload ? 'cheap-module-source-map' : 'cheap-module-eval-source-map',
+    devtool,
     optimization: {
       minimizer: [
         new TerserPlugin({
