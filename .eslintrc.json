@@ -30,7 +30,6 @@
   },
   "plugins": ["react", "prettier", "@typescript-eslint", "react-hooks", "emotion"],
   "rules": {
-    // Rule을 작성해야 함..
     "prettier/prettier": "error",
     // 세미콜론을 무조건 넣어줘야 할 필요는 없을것 같다.
     "semi": 0,
@@ -115,8 +114,6 @@
     "react/no-unescaped-entities": 0,
     // vanilla emotion 사용시 에러 처리(React 사용하기 때문에)
     "emotion/no-vanilla": "error",
-    // indent를 2-space로 맞춘다.
-    "@typescript-eslint/indent": ["error", 2],
     // camelcase 고정 허용 X
     "@typescript-eslint/camelcase": 0,
     // 인터페이스 프리픽스를 `I`로 고정하지 않는다.
