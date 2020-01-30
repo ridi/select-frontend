@@ -31,18 +31,7 @@
   "plugins": ["react", "prettier", "@typescript-eslint", "react-hooks", "emotion"],
   "rules": {
     // Rule을 작성해야 함..
-    "prettier/prettier": [
-      0,
-      {
-        "singleQuote": true,
-        "trailingComma": "es5",
-        "printWidth": 180,
-        "tabWidth": 2,
-        "arrowParens": "avoid",
-        "jsxSingleQuote": false,
-        "jsxBracketSameLine": true
-      }
-    ],
+    "prettier/prettier": "error",
     // 세미콜론을 무조건 넣어줘야 할 필요는 없을것 같다.
     "semi": 0,
     // 비교문에 === 와 !== 가 강제됨

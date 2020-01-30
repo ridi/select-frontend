@@ -139,7 +139,7 @@
     "webfontloader": "^1.6.28"
   },
   "scripts": {
-    "start": "webpack-dev-server & onchange '**/*.{js,jsx,ts,tsx,html,json}' -e 'dist/**/*.*' -- prettier --write {{changed}}",
+    "start": "webpack-dev-server & onchange '**/*.{js,jsx,ts,tsx,html,json,css}' -e 'dist/**/*.*' -- prettier --write {{changed}}",
     "build": "webpack --mode production",
     "lint": "eslint --ext=jsx,ts,tsx src",
     "test": "jest --collectCoverage --no-cache"
