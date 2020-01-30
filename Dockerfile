@@ -1,3 +1,7 @@
 FROM node:12-alpine
 WORKDIR /app
-CMD /app/docker-entrypoint.sh
+
+COPY package.json yarn.lock ./
+
+RUN yarn install --frozen-lockfile
+CMD yarn start

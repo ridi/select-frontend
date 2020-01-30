@@ -30,9 +30,10 @@ $ docker-compose up [-d] [--build]
 $ yarn install --frozen-lockfile
 ```
 
-**패키지 의존성이 변경되면 이미지 재빌드가 필요합니다.**
+**패키지 의존성이 변경되면 볼륨 제거 후 이미지 재빌드가 필요합니다.**
 
 ```sh
+$ docker-compose down -v
 $ yarn add/remove [-D] packages
 $ docker-compose up --build [--force-recreate]
 ```

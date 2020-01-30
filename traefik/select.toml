@@ -1,8 +1,0 @@
-[frontends.select]
-backend = "select"
-passHostHeader = true
-[frontends.select.routes.web]
-rule = "Host:select.local.ridi.io"
-
-[backends.select.servers.web]
-url = "http://host.docker.internal:9000"
