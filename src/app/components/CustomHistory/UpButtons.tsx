@@ -4,8 +4,8 @@ import { PrimaryRoutes } from 'app/routes';
 import { Actions } from 'app/services/customHistory';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
-import * as classNames from 'classnames';
-import * as React from 'react';
+import classNames from 'classnames';
+import React from 'react';
 import { connect } from 'react-redux';
 
 interface UpButtonStateProps {

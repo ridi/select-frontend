@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { Icon } from '@ridi/rsg';
 import { ReviewInvisibilityType } from 'app/services/review';

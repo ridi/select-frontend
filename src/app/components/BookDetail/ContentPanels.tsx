@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import LazyLoad from 'react-lazyload';
 import { connect } from 'react-redux';
 

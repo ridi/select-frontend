@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 export const BookDetailPlaceholder: React.SFC = () => (
   <main className="SceneWrapper PageBookDetail Skeleton_Wrapper">

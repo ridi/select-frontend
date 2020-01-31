@@ -1,5 +1,5 @@
 import { range } from 'lodash-es';
-import * as React from 'react';
+import React from 'react';
 
 interface GridBookListSkeletonProps {
   displayRanking?: boolean;

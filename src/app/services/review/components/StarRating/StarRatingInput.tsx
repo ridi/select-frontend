@@ -1,6 +1,6 @@
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import detectIt from 'detect-it';
-import * as React from 'react';
+import React from 'react';
 
 const ratingList = [1, 2, 3, 4, 5];
 

@@ -1,7 +1,7 @@
 import { RidiSelectState } from 'app/store';
 import { sendPostRobotOpenBrowser } from 'app/utils/inAppMessageEvents';
 import { isRidiselectUrl } from 'app/utils/regexHelper';
-import * as React from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { HomeSpotlightSection } from 'app/components/Home/HomeSpotlightSection';
 import { render, cleanup } from '@testing-library/react';
 

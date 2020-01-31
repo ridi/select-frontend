@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 
@@ -15,7 +15,7 @@ import { RidiSelectState } from 'app/store';
 import { Pagination } from 'app/components/Pagination';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import { getPageQuery } from 'app/services/routing/selectors';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import { Link, LinkProps } from 'react-router-dom';
 
 interface CategoryStateProps {

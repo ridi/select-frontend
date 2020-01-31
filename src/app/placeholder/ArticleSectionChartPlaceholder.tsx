@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 export const ArticleSectionChartPlaceholder: React.FunctionComponent = () => (
   <li className="ArticleChartList_Article">

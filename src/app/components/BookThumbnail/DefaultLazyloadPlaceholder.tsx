@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 export const DefaultLazyloadPlaceholder: React.SFC<{ size: { width: number, height: number }}> = (props) => {
   const { size } = props;

@@ -255,6 +255,7 @@
   letter-spacing: -.5px;
   line-height: 28px;
   text-decoration: none;
+  cursor: pointer;
 
   & + .GNB_LinkButton {
     margin-left: 4px;

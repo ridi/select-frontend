@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { ReportPopup } from 'app/services/review/components/ReviewList/ReportPopup';
 import { DateDTO } from 'app/types';

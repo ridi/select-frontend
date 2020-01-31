@@ -2,7 +2,7 @@ import { Pagination } from 'app/components/Pagination';
 import { MAX_WIDTH } from 'app/constants';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import { Link, LinkProps } from 'react-router-dom';

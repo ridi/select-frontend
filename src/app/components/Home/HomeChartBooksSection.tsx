@@ -1,5 +1,5 @@
 import { RidiSelectState } from 'app/store';
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';

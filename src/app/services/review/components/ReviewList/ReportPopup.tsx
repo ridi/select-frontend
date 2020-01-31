@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { Popup } from '@ridi/rsg';
 import { RUIRadioInput } from 'app/services/review/components';

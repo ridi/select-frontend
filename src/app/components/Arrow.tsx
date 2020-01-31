@@ -1,8 +1,8 @@
 /**
  * made by jeongsik@ridi.com
  */
-import * as classNames from 'classnames';
-import * as React from 'react';
+import classNames from 'classnames';
+import React from 'react';
 import MediaQuery from 'react-responsive';
 
 interface ArrowProps {
@@ -43,4 +43,4 @@ const Arrow: React.FunctionComponent<ArrowProps> = (props) => {
   );
 };
 
-export default Arrow;
+export default React.memo(Arrow);

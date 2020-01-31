@@ -1,7 +1,7 @@
 import { Button } from '@ridi/rsg';
 import { RidiSelectState } from 'app/store';
-import * as classNames from 'classnames';
-import * as React from 'react';
+import classNames from 'classnames';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 interface GoToSubscribeButtonProps {

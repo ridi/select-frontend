@@ -1,5 +1,5 @@
 import { throttle } from 'lodash-es';
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import { ConnectedHomeSection } from 'app/components/Home/HomeSection';

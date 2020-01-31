@@ -11,6 +11,7 @@ export function* useVoucher({ payload }: ReturnType<typeof Actions.useVoucher>) 
   const state: RidiSelectState = yield select((s) => s);
   try {
     yield call(requestUseVoucher, voucherCode);
+    alert('이용권이 등록되었습니다.');
     window.location.replace(RoutePaths.HOME);
   } catch (e) {
     if (!e.response || !e.response.data) {

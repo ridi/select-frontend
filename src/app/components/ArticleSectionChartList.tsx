@@ -6,7 +6,7 @@ import { getSectionStringForTracking, mixedMiscTracking } from 'app/services/tra
 import { RidiSelectState } from 'app/store';
 import { articleChannelToPath } from 'app/utils/toPath';
 import { getArticleKeyFromData } from 'app/utils/utils';
-import * as React from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ThumbnailShape } from './ArticleThumbnail/types';

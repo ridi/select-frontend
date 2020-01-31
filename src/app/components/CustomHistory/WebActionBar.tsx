@@ -3,8 +3,8 @@ import { GNBColorLevel } from 'app/services/commonUI';
 import { getSolidBackgroundColorRGBString, selectGnbColorLevel } from 'app/services/commonUI/selectors';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
-import * as classNames from 'classnames';
-import * as React from 'react';
+import classNames from 'classnames';
+import React from 'react';
 import { connect } from 'react-redux';
 
 const WINDOW_HAS_WEB_ACTION_BAR = 'hasWebActionBar';

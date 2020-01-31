@@ -1,8 +1,8 @@
 import { AxiosError, AxiosResponse } from 'axios';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import { isString, take } from 'lodash-es';
 import * as qs from 'qs';
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, tap, throttleTime } from 'rxjs/operators';

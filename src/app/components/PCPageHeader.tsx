@@ -1,5 +1,5 @@
 import { MAX_WIDTH } from 'app/constants';
-import * as React from 'react';
+import React from 'react';
 import MediaQuery from 'react-responsive';
 import { ConnectedPageHeader, PageHeaderOwnProps } from './PageHeader';
 

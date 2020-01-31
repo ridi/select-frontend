@@ -1,6 +1,6 @@
 import { setFixedScrollToTop } from 'app/utils/utils';
 import * as qs from 'qs';
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import { RoutePaths } from 'app/constants';

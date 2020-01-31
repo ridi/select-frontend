@@ -1,5 +1,5 @@
 import toast from 'app/utils/toast';
-import * as React from 'react';
+import React from 'react';
 
 import history from 'app/config/history';
 import { RoutePaths } from 'app/constants';

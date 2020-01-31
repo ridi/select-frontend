@@ -1,6 +1,6 @@
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import { some } from 'lodash-es';
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import { Button, Icon } from '@ridi/rsg';

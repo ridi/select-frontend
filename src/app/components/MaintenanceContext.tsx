@@ -1,7 +1,7 @@
 import { Icon } from '@ridi/rsg';
 import { ConnectedCompactPageHeader } from 'app/components/CompactPageHeader';
 import { ErrorResponseData } from 'app/services/serviceStatus';
-import * as React from 'react';
+import React from 'react';
 
 interface MaintenanceContextProps {
   responseData: ErrorResponseData;

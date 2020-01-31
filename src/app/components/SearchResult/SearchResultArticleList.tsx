@@ -5,7 +5,7 @@ import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
 import { getArticleKeyFromData } from 'app/utils/utils';
-import * as React from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ThumbnailShape } from '../ArticleThumbnail/types';

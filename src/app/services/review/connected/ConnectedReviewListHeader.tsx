@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { connect, Dispatch } from 'react-redux';
 
 import { RidiSelectState } from 'app/store';

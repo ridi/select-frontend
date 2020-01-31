@@ -4,7 +4,7 @@ import { inAppGnbRoutes } from 'app/routes';
 import { selectIsInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import { Location } from 'history';
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { PageTitle } from './PageTitle';
 

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import MediaQuery from 'react-responsive';
 
 import { MAX_WIDTH } from 'app/constants';

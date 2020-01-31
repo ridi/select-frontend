@@ -1,5 +1,5 @@
 import { getNotAvailableConvertDate, getNotAvailableConvertDateDiff } from 'app/utils/expiredDate';
-import * as React from 'react';
+import React from 'react';
 
 interface ExpireRemaningTimeProps {
   expireDate: string;

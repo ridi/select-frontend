@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import MediaQuery from 'react-responsive';
 
 import { Icon } from '@ridi/rsg';

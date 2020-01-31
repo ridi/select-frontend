@@ -1,4 +1,8 @@
-.AlertForNonSubscriber {
+import { css } from '@emotion/core';
+import Colors from 'app/styles/colors';
+import { resetButton } from 'app/styles/customProperties';
+
+export const wrapper = css`
   position: fixed;
   bottom: 0;
   left: 0;
@@ -10,40 +14,44 @@
   text-align: center;
   box-shadow: 0 -10px 20px 0 rgba(0, 0, 0, 0.1);
   z-index: 999;
+`;
 
-}
-.AlertForNonSubscriber_MainText {
+export const mainText = css`
   margin: 0;
   padding-top: 20px;
   font-size: 16px;
   font-weight: 700;
   line-height: 1.4em;
   color: #fff;
-}
-.AlertForNonSubscriber_SubText {
+`;
+
+export const subText = css`
   margin: 0;
   padding-top: 10px;
   font-size: 13px;
-  color: var(--slategray_20);
-}
+  color: ${Colors.slategray_20};
+`;
 
-.AlertForNonSubscriber_SubscribeButton {
-  height: 40px;
-  line-height: 38px;
+export const subscribeButton = css`
   margin-top: 20px;
-}
+  .GoToSubscribeButton {
+    height: 40px;
+    line-height: 38px;
+  }
+`;
 
-.AlertForNonSubscriber_CloseButton {
-  @apply --reset-button;
+export const closeButton = css`
+  ${resetButton}
   position: absolute;
   width: 44px;
   height: 44px;
   top: 0;
   right: 0;
   padding: 10px;
-}
-.AlertForNonSubscriber_CloseButton_Icon {
+`;
+
+export const closeButtonIcon = css`
   width: 24px;
   height: 24px;
-  fill: var(--slategray_50);
-}
+  fill: ${Colors.slategray_50};
+`;

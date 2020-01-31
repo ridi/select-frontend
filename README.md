@@ -51,5 +51,14 @@ $ docker-compose up --build [--force-recreate]
 
 * `release` 브랜치로 머지되면 프로덕션 환경([https://select.ridibooks.com](https://select.ridibooks.com))에 배포됩니다.
 
-* 프로덕션 배포 이후에 serverless 배포는, Circle-ci 에서 `Manual Job`으로 실행할 수 있습니다.
 
+---
+## Serverless
+
+serverless 디렉토리에서 별도로 관리합니다.
+배포는 Circle-ci 에서 Approval job 으로 실행할 수 있습니다.
+
+### test
+```sh
+$ yarn serverless invoke local -f server -d '{"httpMethod": "GET", "path": "/"}'
+```

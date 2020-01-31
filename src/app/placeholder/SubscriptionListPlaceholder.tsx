@@ -1,5 +1,5 @@
 import { range } from 'lodash-es';
-import * as React from 'react';
+import React from 'react';
 
 export const SubscriptionListPlaceholder: React.SFC = () => (
   <ul className="SubscriptionList_Skeleton">

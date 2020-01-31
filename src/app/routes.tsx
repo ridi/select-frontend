@@ -1,6 +1,6 @@
 import { ConnectedRouter } from 'connected-react-router';
 import * as pathToRegexp from 'path-to-regexp';
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router';
 import { Route } from 'react-router-dom';
@@ -26,7 +26,7 @@ import {
   ConnectedMySelect,
   ConnectedMySelectHistory,
   ConnectedNewReleases,
-  ConnectedOrderHistory,
+  OrderHistory,
   ConnectedSearchResult,
   ConnectedSetting,
   Intro,
@@ -173,7 +173,7 @@ export const Routes: React.SFC<Props> = (props) => {
           />
           <ConnectedPrivateRoute
             path={RoutePaths.ORDER_HISTORY}
-            component={ConnectedOrderHistory}
+            component={OrderHistory}
             routeBlockLevel={RouteBlockLevel.LOGGED_IN}
             {...props}
           />

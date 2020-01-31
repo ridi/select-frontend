@@ -1,6 +1,6 @@
 import createCache from '@emotion/cache';
 import { css, CacheProvider } from '@emotion/core';
-import * as React from 'react';
+import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 

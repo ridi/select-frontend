@@ -3,7 +3,7 @@ import { ArticleChannelInfoHeader } from 'app/components/ArticleChannels/Article
 import { ArticleContentHeaderPlaceholder } from 'app/placeholder/ArticleContentHeaderPlaceholder';
 import { selectIsInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
-import * as React from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 export const ArticleContentHeader: React.FunctionComponent<{ contentKey: string }> = (props) => {

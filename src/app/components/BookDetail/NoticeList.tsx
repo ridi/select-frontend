@@ -1,5 +1,5 @@
 import { isWithinInterval } from 'date-fns';
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import { NoticeResponse } from 'app/services/book/requests';

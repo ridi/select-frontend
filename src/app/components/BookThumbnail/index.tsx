@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { CoverImage } from 'app/components/BookThumbnail/CoverImage';
 import { LazyloadWrapper } from 'app/components/BookThumbnail/LazyloadWrapper';

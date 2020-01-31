@@ -8,7 +8,7 @@ import { ReviewSummary } from 'app/services/review/reducer.state';
 import { getMyReview, getReviewSummary } from 'app/services/review/selectors';
 import { RidiSelectState } from 'app/store';
 import { Omit } from 'app/types';
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 

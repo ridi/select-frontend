@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 export const ReviewListEmpty: React.SFC = () => (
   <div className="ReviewListEmpty">

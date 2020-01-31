@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import { Link, LinkProps } from 'react-router-dom';
@@ -18,7 +18,7 @@ import { RidiSelectState } from 'app/store';
 import { getNotAvailableConvertDateDiff } from 'app/utils/expiredDate';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import toast from 'app/utils/toast';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 
 interface StateProps {
   mySelectHistory: MySelectHistroyState;

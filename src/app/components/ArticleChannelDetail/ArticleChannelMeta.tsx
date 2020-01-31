@@ -1,7 +1,7 @@
 import { ArticleChannelFollowButton } from 'app/components/ArticleChannels/ArticleChannelFollowButton';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
 import * as Modernizr from 'modernizr';
-import * as React from 'react';
+import React from 'react';
 
 interface ArticleChannelMetaProps {
   id: number;

@@ -10,7 +10,7 @@ import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import toast from 'app/utils/toast';
 import { articleChannelToPath } from 'app/utils/toPath';
 import { Method } from 'axios';
-import * as React from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 

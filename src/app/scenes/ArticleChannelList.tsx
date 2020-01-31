@@ -8,8 +8,8 @@ import { getChannelList } from 'app/services/articleChannel/selectors';
 import { Actions as ArticleFollowingActions } from 'app/services/articleFollowing';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
-import * as classNames from 'classnames';
-import * as React from 'react';
+import classNames from 'classnames';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const ArticleChannelList: React.FunctionComponent = () => {

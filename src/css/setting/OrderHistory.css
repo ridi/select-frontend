@@ -98,7 +98,7 @@
     text-decoration: line-through;
   }
 }
-.CancelOrderButton_Wrapper {
+.OrderHistoryButtons {
   display: inline-block;
   margin: 0;
   padding: 0;
@@ -110,9 +110,26 @@
   width: 66px;
   padding: 1px 0;
   font-size: 11px;
-  text-align: center;
+  text-align: right;
   pointer-events: all;
   vertical-align: middle;
+}
+.CashReceiptIssue_Button {
+  display: inline-block;
+  width: 75px;
+  font-size: 13px;
+}
+.CashReceiptCancel_Button {
+  display: inline-block;
+  width: 64px;
+  margin: 4px 0;
+  font-size: 13px;
+}
+.CashReceiptPrint_Button {
+  display: inline-block;
+  width: 75px;
+  margin: 4px 0;
+  font-size: 13px;
 }
 .NoticeList {
   @apply --reset-list;
@@ -159,7 +176,7 @@
   .Ordered_Name,
   .Ordered_Type,
   .Ordered_Amount,
-  .CancelOrderButton_Wrapper {
+  .OrderHistoryButtons {
     display: table-cell;
     height: 60px;
     vertical-align: middle;
@@ -185,7 +202,7 @@
     font-size: 16px;
     text-align: right;
   }
-  .CancelOrderButton_Wrapper {
+  .OrderHistoryButtons {
     width: 84px;
     text-align: right;
   }

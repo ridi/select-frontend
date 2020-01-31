@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 export const ArticleChannelMetaPlaceholder: React.FunctionComponent = () => (
   <li className="ArticleChannel_Skeleton">

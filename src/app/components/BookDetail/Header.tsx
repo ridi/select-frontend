@@ -1,7 +1,7 @@
 // tslint:disable-next-line
 const Vibrant = require('node-vibrant');
 
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import { Palette as VibrantPalette } from 'node-vibrant/lib/color';

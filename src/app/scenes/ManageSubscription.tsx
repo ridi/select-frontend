@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import { Button, Icon } from '@ridi/rsg';
@@ -12,7 +12,7 @@ import { getIsIosInApp } from 'app/services/environment/selectors';
 import { Actions, SubscriptionState, UserState } from 'app/services/user';
 import { RidiSelectState } from 'app/store';
 import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import * as dateFns from 'date-fns';
 
 interface ManageSubscriptionStateProps {

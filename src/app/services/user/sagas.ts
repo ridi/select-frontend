@@ -23,9 +23,11 @@ import {
   requestSubscription,
   requestUnsubscribe,
   SubscriptionResponse,
+  requestCashReceiptIssue,
+  CashReceiptIssueResponse,
+  cashReceiptIssueResponseCode,
 } from 'app/services/user/requests';
 import { RidiSelectState } from 'app/store';
-import { DateDTO } from 'app/types';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import { fixWrongPaginationScope, isValidPaginationParameter, updateQueryStringParam } from 'app/utils/request';
 import toast from 'app/utils/toast';
@@ -244,6 +246,38 @@ export function* watchCancelUnsubscription() {
   }
 }
 
+
+export function* cashReceiptIssueRequest({ payload }: ReturnType<typeof Actions.cashReceiptIssueRequest>) {
+  const { ticketId, method, issuePurpose, issueNumber } = payload;
+  try {
+    const { cashReceiptUrl }: CashReceiptIssueResponse = yield call(requestCashReceiptIssue, ticketId, method, issuePurpose, issueNumber);
+    yield put(Actions.cashReceiptIssueSuccess({
+      ticketId,
+      method,
+      cashReceiptUrl: cashReceiptUrl ? cashReceiptUrl : null,
+    }));
+    toast.success(`현금영수증이 ${method === 'POST' ? '발급' : '취소'}되었습니다.`);
+  } catch (e) {
+    yield put(Actions.cashReceiptIssueFailure());
+    if (
+      e.response.status === 400 && e.response.data.code === cashReceiptIssueResponseCode.invalidParams ||
+      e.response.status === 500 && (
+        e.response.data.code === cashReceiptIssueResponseCode.cashReceiptIssueFailed ||
+        e.response.data.code === cashReceiptIssueResponseCode.cashReceiptCancellationFailed
+      )
+    ) {
+      toast.failureMessage(e.response.data.message);
+      return;
+    }
+    toast.failureMessage('알 수 없는 문제가 발생했습니다. 다시 시도해주세요.')
+  }
+}
+
+export function* watchCashReceiptIssueRequest() {
+  yield takeLatest(Actions.cashReceiptIssueRequest.getType(), cashReceiptIssueRequest);
+}
+
+
 export function* userRootSaga() {
   yield all([
     watchInitializeUser(),
@@ -256,5 +290,6 @@ export function* userRootSaga() {
     watchCancelPurchase(),
     watchUnsubscribe(),
     watchCancelUnsubscription(),
+    watchCashReceiptIssueRequest(),
   ]);
 }

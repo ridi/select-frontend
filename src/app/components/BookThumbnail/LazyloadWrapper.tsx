@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Lazyload from 'react-lazyload';
 
 import { DefaultLazyloadPlaceholder } from 'app/components/BookThumbnail/DefaultLazyloadPlaceholder';

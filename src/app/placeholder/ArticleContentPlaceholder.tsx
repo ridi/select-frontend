@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 export const ArticleContentPlaceholder: React.FunctionComponent = () => (
   <div className="ArticleContent_ContentWrapper">

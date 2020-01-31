@@ -1,5 +1,5 @@
 import { Button, Group, Icon } from '@ridi/rsg';
-import * as React from 'react';
+import React from 'react';
 
 export interface PaginationProps {
   currentPage: number;

@@ -5,7 +5,17 @@ import env from 'app/config/env';
 import { UserRidiSelectBookResponse } from 'app/services/mySelect/requests';
 import { SubscriptionState } from 'app/services/user';
 import { DateDTO } from 'app/types';
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse, Method } from 'axios';
+
+export enum cashReceiptIssueResponseCode {
+  notEnoughParams = 'SUBSCRIPTION_REQUIRED_VOUCHER',
+  invalidParams = 'INVALID_PARAM',
+  ticketNotFound  = 'TICKET_NOT_FOUND',
+  cashReceiptIssueFailed = 'CASH_RECEIPT_ISSUE_FAILED',
+  internalServerError = 'INTERNAL_SERVER_ERROR',
+  cashReceiptCancellationFailed = 'CASH_RECEIPT_CANCELLATION_FAILED',
+}
+
 
 export interface Ticket {
   id: number;
@@ -24,6 +34,9 @@ export interface Ticket {
   voucherCode?: string;
   voucherExpireDate?: DateDTO;
   ticketIdsToBeCanceledWith: number[];
+  cashReceiptUrl?: string;
+  pgReceiptUrl?: string;
+  isCashReceiptIssuable?: boolean;
 }
 
 // export interface SubscriptionResponse extends SubscriptionState {
@@ -74,6 +87,10 @@ export interface Card {
   logo_image_url: string;
   payment_method_id: string;
   subscriptions: string[];
+}
+
+export interface CashReceiptIssueResponse {
+  cashReceiptUrl?: string;
 }
 
 export const requestSubscription = (): Promise<AxiosResponse<SubscriptionResponse>> =>
@@ -132,6 +149,22 @@ export const requestCancelUnsubscription = (subscriptionId: number): Promise<Axi
     url: `${env.STORE_API}/api/select/users/me/subscription/${subscriptionId}`,
     method: 'PUT',
   });
+
+export const requestCashReceiptIssue = (ticketId: number, method: Method, issuePurpose?: string, issueNumber?: string): Promise<AxiosResponse<CashReceiptIssueResponse>> => {
+  let data = null;
+  if (issuePurpose && issueNumber) {
+    data = {
+      issue_purpose: issuePurpose,
+      issue_number: issueNumber,
+    };
+  }
+  return axios({
+    url: `${env.STORE_API}/api/select/users/me/tickets/${ticketId}/cash-receipt`,
+    method,
+    data,
+    withCredentials: true,
+  }).then((response) => camelize<AxiosResponse<CashReceiptIssueResponse>>(response.data, { recursive: true }));
+}
 
 export const requestAccountsMe = (): Promise<AxiosResponse<AccountsMeResponse>> =>
   axios({

@@ -1,5 +1,5 @@
-import * as classNames from 'classnames';
-import * as React from 'react';
+import classNames from 'classnames';
+import React from 'react';
 
 import { getThumbnailHeight } from 'app/components/BookThumbnail/helpers';
 import { DEFAULT_THUMBNAIL_SIZE, ThumbnailSize } from 'app/components/BookThumbnail/types';

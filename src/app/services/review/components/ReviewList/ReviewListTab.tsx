@@ -1,6 +1,6 @@
 import { MAX_WIDTH, MIN_WIDTH } from 'app/constants';
 import { RSGTab, ScopedTab, ScopedTabProps } from 'app/services/review/components';
-import * as React from 'react';
+import React from 'react';
 import MediaQuery from 'react-responsive';
 
 export type ReviewListTabProps = ScopedTabProps;

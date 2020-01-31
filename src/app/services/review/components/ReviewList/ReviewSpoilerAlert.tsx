@@ -1,5 +1,5 @@
 import { Icon } from '@ridi/rsg';
-import * as React from 'react';
+import React from 'react';
 
 export interface ReviewSpoilerAlertProps {
   onButtonClick: () => void;

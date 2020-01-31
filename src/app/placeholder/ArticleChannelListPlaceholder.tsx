@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { ArticleChannelMetaPlaceholder } from './ArticleChannelMetaPlaceholder';
 
 export const ArticleChannelListPlaceholder: React.FunctionComponent = () => (

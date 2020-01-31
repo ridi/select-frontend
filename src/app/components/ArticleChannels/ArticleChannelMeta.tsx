@@ -2,7 +2,7 @@ import { ArticleChannelFollowButton } from 'app/components/ArticleChannels/Artic
 import { ArticleChannel } from 'app/services/articleChannel';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 import { articleChannelToPath } from 'app/utils/toPath';
-import * as React from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ArticleChannelThumbnail } from './ArticleChannelThumbnail';

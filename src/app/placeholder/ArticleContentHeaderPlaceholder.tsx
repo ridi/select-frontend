@@ -1,5 +1,5 @@
 import { ArticleChannelInfoHeaderPlaceholder } from 'app/placeholder/ArticleChannelInfoHeaderPlaceholder';
-import * as React from 'react';
+import React from 'react';
 
 export const ArticleContentHeaderPlaceholder: React.FunctionComponent = () => (
   <>
