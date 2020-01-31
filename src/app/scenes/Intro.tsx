@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 import * as classNames from 'classnames';
 import * as qs from 'qs';
 import * as React from 'react';
-=======
-import React from 'react';
-import classNames from 'classnames';
->>>>>>> 7bed5698... remove promotion code
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, Icon } from '@ridi/rsg';
