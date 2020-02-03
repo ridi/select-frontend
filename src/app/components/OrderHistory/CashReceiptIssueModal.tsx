@@ -26,7 +26,7 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
   enum InputPlaceholders {
     RegistrationPlaceholder = '주민등록번호 13자리 입력',
     PhonePlaceholder = '휴대폰 번호 11자리 입력',
-    CashReceiptCardNumber = '현금영수증 카드번호 18자리 입력',
+    CashReceiptCardNumber = '현금영수증 카드 번호 18자리 입력',
     BusinessNumber = '사업자 번호 입력',
   };
 
