@@ -33,8 +33,6 @@
     "prettier/prettier": "error",
     // 비교문에 === 와 !== 가 강제됨
     "eqeqeq": [1, "always"],
-    // ``, "", '' 일관되게 사용 (""내에는 ''만 허용)
-    "quotes": [1, "single"],
     // jsx 내에서 string literal엔 ""을 사용
     "jsx-quotes": [2, "prefer-double"],
     // 글로벌 변수의 경우 따로 명시해줘야 하는 귀찮음이 있어서 패스
@@ -94,8 +92,6 @@
     "jsx-a11y/no-autofocus": 0,
     // jsx multiline에 괄호 강제하기. 허용 X
     "react/jsx-wrap-multilines": 0,
-    // jsx 들여쓰기 확인
-    "react/jsx-indent": [2, 2],
     // jsx boolean 값 무조건 지정할 필요 없음
     "react/jsx-boolean-value": 0,
     // jsx 닫는 태그 위치 확인
