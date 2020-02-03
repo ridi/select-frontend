@@ -114,6 +114,8 @@
     "@typescript-eslint/interface-name-prefix": 0,
     // 클래스나 인터페이스명에 PascalCase를 적용한다.
     "@typescript-eslint/class-name-casing": 1,
+    // method 는 비어있는 함수 허용 (for immer-reducer)
+    "@typescript-eslint/no-empty-function": [1, { "allow": ["methods"] }],
     // any 타입 허용
     "@typescript-eslint/no-explicit-any": 0,
     // 사용하지 않는 변수는 허용하지 않는다.
