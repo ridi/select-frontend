@@ -31,8 +31,6 @@
   "plugins": ["react", "prettier", "@typescript-eslint", "react-hooks", "emotion"],
   "rules": {
     "prettier/prettier": "error",
-    // 세미콜론을 무조건 넣어줘야 할 필요는 없을것 같다.
-    "semi": 0,
     // 비교문에 === 와 !== 가 강제됨
     "eqeqeq": [1, "always"],
     // ``, "", '' 일관되게 사용 (""내에는 ''만 허용)
