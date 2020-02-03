@@ -6,5 +6,5 @@ module.exports = {
   tabWidth: 2,
   arrowParens: 'avoid',
   jsxSingleQuote: false,
-  jsxBracketSameLine: true,
+  jsxBracketSameLine: false,
 };
