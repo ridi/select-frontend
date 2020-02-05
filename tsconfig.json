@@ -2,11 +2,12 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "baseUrl": ".", // To use paths option
-    "paths": { // To use absolute paths for local modules with "moduleResolution: node"
+    "paths": {
+      // To use absolute paths for local modules with "moduleResolution: node"
       "app/*": ["./src/app/*"],
       "css/*": ["./src/css/*"],
       "images/*": ["./src/images/*"],
-      "svgs/*": ["./src/svgs/*"],
+      "svgs/*": ["./src/svgs/*"]
     },
     "esModuleInterop": true,
     // To apply right loaders to @ridi packages via test regex '/node_modules/'
@@ -15,11 +16,7 @@
     "module": "esnext", // To take full advantage of webpack optimization (Module Concatenation etc.)
     "moduleResolution": "node", // To use type declaration info from package.json
     "target": "es3",
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable"
-    ],
+    "lib": ["esnext", "dom", "dom.iterable"],
     "jsx": "react",
     "noEmitOnError": true,
     "noImplicitAny": true,

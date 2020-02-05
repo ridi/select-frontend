@@ -13,7 +13,7 @@ export interface StarRatingProps {
   className?: any;
 }
 
-export const StarRating: React.SFC<StarRatingProps> = (props) => {
+export const StarRating: React.SFC<StarRatingProps> = props => {
   const { rating, width = DEFAULT_WIDTH, className } = props;
 
   const height = Math.ceil(width * RATIO);
@@ -33,18 +33,9 @@ export const StarRating: React.SFC<StarRatingProps> = (props) => {
       className={classNames('StarRating_IconBox', className, { dark: props.darkBackground })}
       style={inlineStyleIconSize}
     >
-      <span
-        className="StarRating_Icon_Background"
-        style={inlineStyleIconSize}
-      />
-      <span
-        className="StarRating_Icon_Foreground_Mask"
-        style={inlineStyleForegroundWrapperSize}
-      >
-        <span
-          className="StarRating_Icon_Foreground"
-          style={inlineStyleIconSize}
-        />
+      <span className="StarRating_Icon_Background" style={inlineStyleIconSize} />
+      <span className="StarRating_Icon_Foreground_Mask" style={inlineStyleForegroundWrapperSize}>
+        <span className="StarRating_Icon_Foreground" style={inlineStyleIconSize} />
       </span>
     </span>
   );

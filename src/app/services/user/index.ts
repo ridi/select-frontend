@@ -1,83 +1,88 @@
 import { createAction, createReducer } from 'redux-act';
 
 import { FetchStatusFlag } from 'app/constants';
-import { MySelectBook , userRidiSelectBookToMySelectBook } from 'app/services/mySelect';
+import { MySelectBook, userRidiSelectBookToMySelectBook } from 'app/services/mySelect';
 
 import { UserDTO } from 'app/services/user/helper';
-import { MySelectHistoryResponse, PurchasesResponse, SubscriptionResponse, Ticket } from 'app/services/user/requests';
+import {
+  MySelectHistoryResponse,
+  PurchasesResponse,
+  SubscriptionResponse,
+  Ticket,
+} from 'app/services/user/requests';
 import { DateDTO, ItemListByPage, Paginated } from 'app/types';
 import { AxiosError, Method } from 'axios';
 
 export const Actions = {
   fetchUserInfo: createAction<{
-    isFetching: boolean,
+    isFetching: boolean;
   }>('fetchUserInfo'),
 
   initializeUser: createAction<{
-    userDTO: UserDTO,
+    userDTO: UserDTO;
   }>('initializeUser'),
 
   loadSubscriptionRequest: createAction('loadSubscriptionRequest'),
 
   loadSubscriptionSuccess: createAction<{
-    response: SubscriptionResponse,
+    response: SubscriptionResponse;
   }>('loadSubscriptionSuccess'),
 
   loadSubscriptionFailure: createAction<{
-    isFetched: boolean,
+    isFetched: boolean;
   }>('loadSubscriptionFailure'),
 
   clearPurchases: createAction('clearPurchases'),
 
   loadPurchasesRequest: createAction<{
-    page: number,
+    page: number;
   }>('loadPurchasesRequest'),
 
   loadPurchasesSuccess: createAction<{
-    page: number,
-    response: PurchasesResponse,
+    page: number;
+    response: PurchasesResponse;
   }>('loadPurchasesSuccess'),
 
   loadPurchasesFailure: createAction<{
-    page: number,
+    page: number;
   }>('loadPurchasesFailure'),
 
   cancelPurchaseRequest: createAction<{
-    purchaseId: number,
+    purchaseId: number;
   }>('cancelPurchaseRequest'),
 
   cancelPurchaseSuccess: createAction<{
-    purchaseId: number,
+    purchaseId: number;
   }>('cancelPurchaseSuccess'),
 
   cancelPurchaseFailure: createAction<{
-    purchaseId: number,
+    purchaseId: number;
   }>('cancelPurchaseFailure'),
 
   loadMySelectHistoryRequest: createAction<{
-    page: number,
+    page: number;
   }>('loadMySelectHistoryRequest'),
 
   loadMySelectHistorySuccess: createAction<{
-    page: number,
-    response: MySelectHistoryResponse,
+    page: number;
+    response: MySelectHistoryResponse;
   }>('loadMySelectHistorySuccess'),
 
   loadMySelectHistoryFailure: createAction<{
-    page: number,
-    error: AxiosError,
+    page: number;
+    error: AxiosError;
   }>('loadMySelectHistoryFailure'),
 
   clearMySelectHistory: createAction('clearMySelectHistory'),
 
   deleteMySelectHistoryRequest: createAction<{
-    mySelectBookIds: number[],
-    page: number,
+    mySelectBookIds: number[];
+    page: number;
   }>('deleteMySelectHistoryRequest'),
 
   deleteMySelectHistorySuccess: createAction<{
-    page: number,
-    response: MySelectHistoryResponse,
+    page: number;
+    response: MySelectHistoryResponse;
   }>('deleteMySelectHistorySuccess'),
 
   deleteMySelectHistoryFailure: createAction('deleteMySelectHistoryFailure'),
@@ -93,21 +98,21 @@ export const Actions = {
 
   loadAccountsMeRequest: createAction('loadAccountsMeRequest'),
   loadAccountsMeSuccess: createAction<{
-    uId: string,
-    email: string,
+    uId: string;
+    email: string;
   }>('loadAccountsMeSuccess'),
   loadAccountsMeFailure: createAction('loadAccountsMeFailure'),
 
   cashReceiptIssueRequest: createAction<{
-    ticketId: number,
-    method: Method,
-    issuePurpose?: string,
-    issueNumber?: string,
+    ticketId: number;
+    method: Method;
+    issuePurpose?: string;
+    issueNumber?: string;
   }>('CashReceiptIssueRequest'),
   cashReceiptIssueSuccess: createAction<{
-    ticketId: number,
-    method: Method,
-    cashReceiptUrl: string | null,
+    ticketId: number;
+    method: Method;
+    cashReceiptUrl: string | null;
   }>('CashReceiptIssueRequest'),
   cashReceiptIssueFailure: createAction('CashReceiptIssueRequest'),
 };
@@ -287,7 +292,9 @@ userReducer.on(Actions.loadMySelectHistoryRequest, (state = INITIAL_STATE, paylo
 }));
 
 userReducer.on(Actions.loadMySelectHistorySuccess, (state = INITIAL_STATE, payload) => {
-  const { response: { userRidiSelectBooks, totalCount } } = payload;
+  const {
+    response: { userRidiSelectBooks, totalCount },
+  } = payload;
   return {
     ...state,
     mySelectHistory: {
@@ -346,7 +353,10 @@ userReducer.on(Actions.deleteMySelectHistoryRequest, (state = INITIAL_STATE, pay
 }));
 
 userReducer.on(Actions.deleteMySelectHistorySuccess, (state = INITIAL_STATE, payload) => {
-  const { response: { userRidiSelectBooks, totalCount, totalPage }, page } = payload;
+  const {
+    response: { userRidiSelectBooks, totalCount, totalPage },
+    page,
+  } = payload;
   return {
     ...state,
     mySelectHistory: {
@@ -449,22 +459,23 @@ userReducer.on(Actions.cancelPurchaseSuccess, (state = INITIAL_STATE, payload) =
   ...state,
   purchaseHistory: {
     ...state.purchaseHistory,
-    itemListByPage: Object
-      .keys(state.purchaseHistory.itemListByPage)
-      .reduce((listByPage, p): ItemListByPage<Ticket> => {
+    itemListByPage: Object.keys(state.purchaseHistory.itemListByPage).reduce(
+      (listByPage, p): ItemListByPage<Ticket> => {
         const page = Number(p);
         return {
           ...listByPage,
           [page]: {
             ...state.purchaseHistory.itemListByPage[page],
-            itemList: state.purchaseHistory.itemListByPage[page].itemList.map((item) => ({
+            itemList: state.purchaseHistory.itemListByPage[page].itemList.map(item => ({
               ...item,
               isCancellable: item.id === payload.purchaseId ? false : item.isCancellable,
               isCanceled: item.id === payload.purchaseId ? true : item.isCanceled,
             })),
           },
         };
-      }, {}),
+      },
+      {},
+    ),
     isCancelFetching: false,
   },
 }));
@@ -519,28 +530,27 @@ userReducer.on(Actions.cashReceiptIssueSuccess, (state = INITIAL_STATE, payload)
   ...state,
   purchaseHistory: {
     ...state.purchaseHistory,
-    itemListByPage: Object
-      .keys(state.purchaseHistory.itemListByPage)
-      .reduce((listByPage, p): ItemListByPage<Ticket> => {
+    itemListByPage: Object.keys(state.purchaseHistory.itemListByPage).reduce(
+      (listByPage, p): ItemListByPage<Ticket> => {
         const page = Number(p);
         return {
           ...listByPage,
           [page]: {
             ...state.purchaseHistory.itemListByPage[page],
-            itemList: state.purchaseHistory.itemListByPage[page].itemList.map((item) => ({
+            itemList: state.purchaseHistory.itemListByPage[page].itemList.map(item => ({
               ...item,
-              cashReceiptUrl: item.id === payload.ticketId ?
-                payload.cashReceiptUrl :
-                item.cashReceiptUrl,
-              isCashReceiptIssuable: item.id !== payload.ticketId ?
-                item.isCashReceiptIssuable :
-                payload.method === 'POST' ?
-                  false :
-                  true,
+              cashReceiptUrl:
+                item.id === payload.ticketId ? payload.cashReceiptUrl : item.cashReceiptUrl,
+              isCashReceiptIssuable:
+                item.id !== payload.ticketId
+                  ? item.isCashReceiptIssuable
+                  : payload.method !== 'POST',
             })),
           },
         };
-      }, {}),
+      },
+      {},
+    ),
     isCashReceiptIssueFetching: false,
   },
 }));
@@ -552,4 +562,3 @@ userReducer.on(Actions.cashReceiptIssueFailure, (state = INITIAL_STATE) => ({
     isCashReceiptIssueFetching: false,
   },
 }));
-

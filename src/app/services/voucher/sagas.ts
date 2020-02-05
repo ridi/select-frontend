@@ -8,7 +8,7 @@ import toast from 'app/utils/toast';
 
 export function* useVoucher({ payload }: ReturnType<typeof Actions.useVoucher>) {
   const { voucherCode } = payload;
-  const state: RidiSelectState = yield select((s) => s);
+  const state: RidiSelectState = yield select(s => s);
   try {
     yield call(requestUseVoucher, voucherCode);
     alert('이용권이 등록되었습니다.');
@@ -52,7 +52,5 @@ export function* watchUseVoucher() {
 }
 
 export function* voucherRootSaga() {
-  yield all([
-    watchUseVoucher(),
-  ]);
+  yield all([watchUseVoucher()]);
 }

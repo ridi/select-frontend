@@ -84,34 +84,29 @@ export class GridBookList extends React.Component<Props & ReturnType<typeof mapD
         </Link>
       </div>
     );
-  }
+  };
 
   public getSection = () => {
     const { serviceTitleForTracking, pageTitleForTracking, uiPartTitleForTracking } = this.props;
-    return !!serviceTitleForTracking && !!pageTitleForTracking ?
-      getSectionStringForTracking(serviceTitleForTracking, pageTitleForTracking, uiPartTitleForTracking) :
-      undefined;
-  }
+    return !!serviceTitleForTracking && !!pageTitleForTracking
+      ? getSectionStringForTracking(
+          serviceTitleForTracking,
+          pageTitleForTracking,
+          uiPartTitleForTracking,
+        )
+      : undefined;
+  };
 
   public getRank = (current: number) => {
     const { page = 1, itemCountPerPage = 24 } = this.props;
-    return (current + 1) + (page - 1) * itemCountPerPage;
-  }
+    return current + 1 + (page - 1) * itemCountPerPage;
+  };
 
   public render() {
-    const {
-      books,
-      isChart = false,
-      miscTracking,
-    } = this.props;
+    const { books, isChart = false, miscTracking } = this.props;
 
     return (
-      <ul
-        className={classNames([
-          'GridBookList',
-          isChart && 'GridBookList-isChart',
-        ])}
-      >
+      <ul className={classNames(['GridBookList', isChart && 'GridBookList-isChart'])}>
         {books.map((book, index) => (
           <li className="GridBookList_Item" key={book.id}>
             <ConnectedTrackImpression
@@ -141,7 +136,8 @@ export class GridBookList extends React.Component<Props & ReturnType<typeof mapD
 }
 
 const mapDispatchToProps = (dispatch: any) => ({
-  trackClick: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackClick({ trackingParams } )),
+  trackClick: (trackingParams: DefaultTrackingParams) =>
+    dispatch(Actions.trackClick({ trackingParams })),
 });
 
 export const ConnectedGridBookList = connect(null, mapDispatchToProps)(GridBookList);

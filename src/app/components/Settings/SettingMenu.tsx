@@ -26,7 +26,7 @@ const settingMenuIcon = (icon: string) => {
   }
 };
 
-const CardIconComponent = (props: { className: string; }) => (
+const CardIconComponent = (props: { className: string }) => (
   <svg width={20} height={20} {...props}>
     <path
       fill="#808991"
@@ -35,7 +35,7 @@ const CardIconComponent = (props: { className: string; }) => (
   </svg>
 );
 
-const BookIconComponent = (props: { className: string; }) => (
+const BookIconComponent = (props: { className: string }) => (
   <svg width={20} height={20} {...props}>
     <path
       fill="#808991"
@@ -44,7 +44,7 @@ const BookIconComponent = (props: { className: string; }) => (
   </svg>
 );
 
-const UserIconComponent = (props: { className: string; }) => (
+const UserIconComponent = (props: { className: string }) => (
   <svg width={20} height={20} {...props}>
     <path
       fill="#808991"
@@ -53,13 +53,8 @@ const UserIconComponent = (props: { className: string; }) => (
   </svg>
 );
 
-export const SettingMenuItem: React.FunctionComponent<SettingMenuItemProps> = (props) => {
-  const {
-    renderCondition = true,
-    linkComponent,
-    children,
-    ...extraProps
-  } = props;
+export const SettingMenuItem: React.FunctionComponent<SettingMenuItemProps> = props => {
+  const { renderCondition = true, linkComponent, children, ...extraProps } = props;
 
   const Wrapper = linkComponent || 'a';
 
@@ -72,14 +67,17 @@ export const SettingMenuItem: React.FunctionComponent<SettingMenuItemProps> = (p
   ) : null;
 };
 
-export const SettingMenu: React.FunctionComponent<SettingMenuStateProps> = ({ title, icon, children }) => children ? (
-  <React.Fragment>
-    <div className="SettingGroupTitle">
-      {settingMenuIcon(icon)}
-      {title}
-    </div>
-    <ul className="SettingMenu">
-      {children}
-    </ul>
-  </React.Fragment>
-) : null;
+export const SettingMenu: React.FunctionComponent<SettingMenuStateProps> = ({
+  title,
+  icon,
+  children,
+}) =>
+  children ? (
+    <>
+      <div className="SettingGroupTitle">
+        {settingMenuIcon(icon)}
+        {title}
+      </div>
+      <ul className="SettingMenu">{children}</ul>
+    </>
+  ) : null;

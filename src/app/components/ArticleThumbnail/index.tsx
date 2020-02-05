@@ -24,7 +24,7 @@ export const BlockIconComponent = (props: any) => (
   </svg>
 );
 
-export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = (props) => {
+export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = props => {
   const {
     linkUrl,
     imageUrl,
@@ -50,11 +50,8 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
       return (
         <>
           <div
-            className={classNames(
-              'ArticleThumbnail_BackgroundImage',
-              imageClassName,
-            )}
-            style={{ backgroundImage: `url(${imageUrl})`}}
+            className={classNames('ArticleThumbnail_BackgroundImage', imageClassName)}
+            style={{ backgroundImage: `url(${imageUrl})` }}
           />
           <span className="ArticleThumbnail_CoverShadow" />
         </>
@@ -64,10 +61,7 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
     return (
       <>
         <img
-          className={classNames(
-            'ArticleThumbnail_CoverImage',
-            imageClassName,
-          )}
+          className={classNames('ArticleThumbnail_CoverImage', imageClassName)}
           src={imageUrl}
           alt={articleTitle}
           onError={() => setIsWrongImage(true)}
@@ -101,16 +95,12 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
         thumbnailClassName,
       )}
     >
-      <Link
-        className="ArticleThumbnail_Link"
-        to={linkUrl}
-        onClick={onLinkClick}
-      >
+      <Link className="ArticleThumbnail_Link" to={linkUrl} onClick={onLinkClick}>
         <Lazyload
           offset={100}
-          once={true}
-          throttle={true}
-          resize={true}
+          once
+          throttle
+          resize
           overflow={false}
           placeholder={<div className="Skeleton ArticleCoverImage_Placeholder" />}
         >

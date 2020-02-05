@@ -38,44 +38,41 @@ export class SearchHistory extends React.PureComponent<SearchHistoryProps> {
     return (
       <div className="SearchHistoryWrapper">
         <ul className="SearchHistoryList">
-          {savingHistoryEnabled ? keywordList.map((keyword, idx) => (
-            <li
-              className={`SearchHistoryItem${highlightIndex === idx ? ' focused' : ''}`}
-              onMouseOver={() => updateHighlight(idx)}
-              key={`search_history_${idx}`}
-            >
-              <Link
-                className="SearchHistoryKeyword"
-                to={`/search?q=${keyword}&type=${appStatus}`}
-                onClick={() => resetSearchState()}
-              >
-                {keyword}
-              </Link>
-              <button
-                className="RemoveSearchHistoryButton"
-                type="button"
-                onClick={() => removeKeyword(keyword)}
-              >
-                <Icon
-                  name="close_2"
-                  className="RemoveSearchHistoryIcon"
-                />
-                <span className="a11y">{keyword} 검색어를 기록에서 지우기</span>
-              </button>
-            </li>
-          )) : null}
+          {savingHistoryEnabled
+            ? keywordList.map((keyword, idx) => (
+                <li
+                  className={`SearchHistoryItem${highlightIndex === idx ? ' focused' : ''}`}
+                  onMouseOver={() => updateHighlight(idx)}
+                  key={`search_history_${idx}`}
+                >
+                  <Link
+                    className="SearchHistoryKeyword"
+                    to={`/search?q=${keyword}&type=${appStatus}`}
+                    onClick={() => resetSearchState()}
+                  >
+                    {keyword}
+                  </Link>
+                  <button
+                    className="RemoveSearchHistoryButton"
+                    type="button"
+                    onClick={() => removeKeyword(keyword)}
+                  >
+                    <Icon name="close_2" className="RemoveSearchHistoryIcon" />
+                    <span className="a11y">{keyword} 검색어를 기록에서 지우기</span>
+                  </button>
+                </li>
+              ))
+            : null}
         </ul>
         <div className="SearchHistoryFooter">
           {savingHistoryEnabled ? (
-            <button
-              className="ClearHistoryButton"
-              type="button"
-              onClick={() => clearHistory()}
-            >
+            <button className="ClearHistoryButton" type="button" onClick={() => clearHistory()}>
               <span className="a11y">검색어 기록</span>
               전체 삭제
             </button>
-          ) : <span />}
+          ) : (
+            <span />
+          )}
           <button
             className="ToggleStoreHistoryButton"
             type="button"

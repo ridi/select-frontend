@@ -29,7 +29,7 @@ interface BookDetailMetaContentsStatePorps {
 
 type Props = BookDetailMetaContentsStatePorps & BookDetailMetaContentsPorps;
 
-const BookDetailMetaContents: React.FunctionComponent<Props> = (props) => {
+const BookDetailMetaContents: React.FunctionComponent<Props> = props => {
   const { title, bookId, isMobile = false, bookDetail, gnbColorLevel, hasAvailableTicket } = props;
 
   const [isAuthorsExpanded, setAuthorExpanded] = React.useState(false);
@@ -43,28 +43,26 @@ const BookDetailMetaContents: React.FunctionComponent<Props> = (props) => {
     previewAvailable,
     hasPreview,
     previewBId,
-  } = bookDetail ? bookDetail : {};
+  } = bookDetail || {};
 
-  const hasMoreAuthors = some(authors, (people: BookAuthor[]) => (people && people.length > 2));
+  const hasMoreAuthors = some(authors, (people: BookAuthor[]) => people && people.length > 2);
 
   return (
     <div className="PageBookDetail_Meta">
       <ul className="PageBookDetail_Categories">
-        {categories && categories.map((categoryGroup, key) => (
-          <li className="PageBookDetail_CategoryItem" key={key}>
-            {categoryGroup.map((category, idx) => (
-              <span key={`${category.name}${idx}`}>
-                {category.name}
-                {idx !== categoryGroup.length - 1 && (
-                  <Icon
-                    name="arrow_5_right"
-                    className="PageBookDetail_CategoryArrow"
-                  />
-                )}
-              </span>
-            ))}
-          </li>
-        ))}
+        {categories &&
+          categories.map((categoryGroup, key) => (
+            <li className="PageBookDetail_CategoryItem" key={key}>
+              {categoryGroup.map((category, idx) => (
+                <span key={`${category.name}${idx}`}>
+                  {category.name}
+                  {idx !== categoryGroup.length - 1 && (
+                    <Icon name="arrow_5_right" className="PageBookDetail_CategoryArrow" />
+                  )}
+                </span>
+              ))}
+            </li>
+          ))}
       </ul>
       <h1 className="PageBookDetail_BookTitle">{title ? title.main : ''}</h1>
       <p className="PageBookDetail_BookElements">
@@ -78,10 +76,7 @@ const BookDetailMetaContents: React.FunctionComponent<Props> = (props) => {
                 onClick={() => setAuthorExpanded(true)}
               >
                 {stringifyAuthors(authors, 2)}
-                <Icon
-                  name="arrow_1_down"
-                  className="PageBookDetail_ExpandAuthors_Button_Icon"
-                />
+                <Icon name="arrow_1_down" className="PageBookDetail_ExpandAuthors_Button_Icon" />
               </button>
             )}
           </span>
@@ -96,23 +91,21 @@ const BookDetailMetaContents: React.FunctionComponent<Props> = (props) => {
           <span
             className={classNames(
               'PageBookDetail_FileSize',
-              (file.format && file.format === 'bom') && 'PageBookDetail_FileSize-noFileType',
+              file.format && file.format === 'bom' && 'PageBookDetail_FileSize-noFileType',
             )}
           >
             {file.format && file.format !== 'bom' && ' · '}
             {formatFileSize(file.size)}
           </span>
         )}
-        {file && file.format && file.format !== 'bom' &&
-          <span
-            className={classNames(
-              'PageBookDetail_FileCount',
-            )}
-          >
+        {file && file.format && file.format !== 'bom' && (
+          <span className={classNames('PageBookDetail_FileCount')}>
             {file.format === 'pdf' && file.pageCount && ` · ${file.pageCount}쪽`}
-            {file.format === 'epub' && file.characterCount && ` · ${formatFileCount(file.characterCount)}`}
+            {file.format === 'epub' &&
+              file.characterCount &&
+              ` · ${formatFileCount(file.characterCount)}`}
           </span>
-        }
+        )}
       </p>
       <p className="PageBookDetail_RatingSummary">
         {reviewSummary && (
@@ -120,9 +113,7 @@ const BookDetailMetaContents: React.FunctionComponent<Props> = (props) => {
             <StarRating
               rating={reviewSummary.buyerRatingAverage}
               width={74}
-              darkBackground={
-                !isMobile && gnbColorLevel !== GNBColorLevel.BRIGHT
-              }
+              darkBackground={!isMobile && gnbColorLevel !== GNBColorLevel.BRIGHT}
             />
             <span className="PageBookDetail_RatingSummaryAverage">
               {`${reviewSummary.buyerRatingAverage}점`}
@@ -137,7 +128,7 @@ const BookDetailMetaContents: React.FunctionComponent<Props> = (props) => {
         {hasAvailableTicket && previewAvailable && hasPreview && (
           <Button
             color={isMobile ? 'blue' : undefined}
-            outline={true}
+            outline
             size="large"
             className="PageBookDetail_PreviewButton"
             component="a"
@@ -153,8 +144,11 @@ const BookDetailMetaContents: React.FunctionComponent<Props> = (props) => {
   );
 };
 
-const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailMetaContentsPorps): BookDetailMetaContentsStatePorps => {
-  const bookId = ownProps.bookId;
+const mapStateToProps = (
+  state: RidiSelectState,
+  ownProps: BookDetailMetaContentsPorps,
+): BookDetailMetaContentsStatePorps => {
+  const { bookId } = ownProps;
   const stateExists = !!state.booksById[bookId];
   const bookState = state.booksById[bookId];
   const book = stateExists ? bookState.book : undefined;
@@ -166,8 +160,11 @@ const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailMetaContent
     gnbColorLevel: state.commonUI.gnbColorLevel,
 
     // Data that can be pre-fetched in home
-    title: !!bookDetail ? bookDetail.title : !!book ? book.title : undefined,
+    title: bookDetail ? bookDetail.title : book ? book.title : undefined,
   };
 };
 
-export const ConnectedBookDetailMetaContents = connect(mapStateToProps, null)(BookDetailMetaContents);
+export const ConnectedBookDetailMetaContents = connect(
+  mapStateToProps,
+  null,
+)(BookDetailMetaContents);

@@ -7,16 +7,20 @@ import { findUpperPathDiff, historyStackSessionStorageHelper } from './historySt
 export function* watchLocationChange() {
   while (true) {
     yield take(LOCATION_CHANGE);
-    const state: RidiSelectState = yield select((s) => s);
+    const state: RidiSelectState = yield select(s => s);
     if (state.customHistory.historyStack.length === 0 && window.history.length > 0) {
-      yield put(Actions.syncHistoryStack({
-        location: state.router.location!,
-        stack: historyStackSessionStorageHelper.getStack(),
-      }));
+      yield put(
+        Actions.syncHistoryStack({
+          location: state.router.location,
+          stack: historyStackSessionStorageHelper.getStack(),
+        }),
+      );
     } else {
-      yield put(Actions.syncHistoryStack({
-        location: state.router.location!,
-      }));
+      yield put(
+        Actions.syncHistoryStack({
+          location: state.router.location,
+        }),
+      );
     }
   }
 }
@@ -24,7 +28,7 @@ export function* watchLocationChange() {
 export function* watchSyncHistoryStack() {
   while (true) {
     yield take(Actions.syncHistoryStack.getType());
-    const state: RidiSelectState = yield select((s) => s);
+    const state: RidiSelectState = yield select(s => s);
     yield call(historyStackSessionStorageHelper.saveStack, state.customHistory.historyStack);
   }
 }
@@ -32,15 +36,11 @@ export function* watchSyncHistoryStack() {
 export function* watchNavigateUp() {
   while (true) {
     yield take(Actions.navigateUp.getType());
-    const state: RidiSelectState = yield select((s) => s);
+    const state: RidiSelectState = yield select(s => s);
     yield put(go(findUpperPathDiff(state.customHistory.historyStack)));
   }
 }
 
 export function* customHistorySaga() {
-  yield all([
-    watchLocationChange(),
-    watchSyncHistoryStack(),
-    watchNavigateUp(),
-  ]);
+  yield all([watchLocationChange(), watchSyncHistoryStack(), watchNavigateUp()]);
 }

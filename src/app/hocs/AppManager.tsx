@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { RoutePaths } from 'app/constants';
 import { CommonRoutes } from 'app/routes';
-import { Actions as appActions , AppStatus } from 'app/services/app';
+import { Actions as appActions, AppStatus } from 'app/services/app';
 import { RidiSelectState } from 'app/store';
 import { withRouter } from 'react-router-dom';
 
@@ -18,8 +18,8 @@ interface ScrollManagerProps {
 }
 
 interface QueryString {
-  'q'?: string;
-  'type'?: AppStatus;
+  q?: string;
+  type?: AppStatus;
 }
 
 type Props = ReturnType<typeof mapDispatchToProps> & AppManagerProps & ScrollManagerProps;
@@ -38,7 +38,9 @@ export class AppManager extends React.Component<Props> {
 
   private updateAppStatus = () => {
     const { location, appStatus, dispatchUpdateAppStatus } = this.props;
-    const queryString: QueryString = qs.parse(this.props.location.search, { ignoreQueryPrefix: true });
+    const queryString: QueryString = qs.parse(this.props.location.search, {
+      ignoreQueryPrefix: true,
+    });
     const isArticlePath = location.pathname.indexOf('/article');
     const isCommonPath = CommonRoutes.includes(location.pathname as RoutePaths);
 
@@ -50,10 +52,10 @@ export class AppManager extends React.Component<Props> {
       dispatchUpdateAppStatus(AppStatus.Common);
     } else if (appStatus !== AppStatus.Articles && isArticlePath >= 0) {
       dispatchUpdateAppStatus(AppStatus.Articles);
-    } else if (appStatus !== AppStatus.Books && !isCommonPath &&  isArticlePath < 0) {
+    } else if (appStatus !== AppStatus.Books && !isCommonPath && isArticlePath < 0) {
       dispatchUpdateAppStatus(AppStatus.Books);
     }
-  }
+  };
 
   public UNSAFE_componentWillMount() {
     this.scrollToTopSetter();
@@ -82,6 +84,7 @@ export class AppManager extends React.Component<Props> {
       setFixedScrollToTop(false);
     }, 300);
   }
+
   public componentWillUnmount() {
     window.setTimeout(() => setFixedScrollToTop(false), 300);
   }
@@ -96,7 +99,11 @@ const mapStateToProps = (rootState: RidiSelectState): AppManagerProps => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  dispatchUpdateAppStatus: (appStatus: AppStatus) => dispatch(appActions.updateAppStatus({ appStatus })),
+  dispatchUpdateAppStatus: (appStatus: AppStatus) =>
+    dispatch(appActions.updateAppStatus({ appStatus })),
 });
 
-export const ConnectedAppManager = connect(mapStateToProps, mapDispatchToProps)(withRouter(AppManager));
+export const ConnectedAppManager = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withRouter(AppManager));

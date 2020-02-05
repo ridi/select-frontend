@@ -1,6 +1,6 @@
 // easing functions
 // https://gist.github.com/gre/1650294
-const easings: { [key: string] : (t:number) => number } = {
+const easings: { [key: string]: (t: number) => number } = {
   linear(t: number) {
     return t;
   },
@@ -58,13 +58,10 @@ const horizontalAnimateScroll = (
     return;
   }
   const startScrollPosition = element.current.scrollLeft;
-  const startTime =
-    'now' in window.performance ? performance.now() : new Date().getTime();
+  const startTime = 'now' in window.performance ? performance.now() : new Date().getTime();
 
   const scrollToPosition =
-    element.current.scrollLeft + moveTo <= 0
-      ? 0
-      : Math.round(element.current.scrollLeft + moveTo);
+    element.current.scrollLeft + moveTo <= 0 ? 0 : Math.round(element.current.scrollLeft + moveTo);
 
   if ('requestAnimationFrame' in window) {
     const scroll = () => {
@@ -77,9 +74,7 @@ const horizontalAnimateScroll = (
 
       if (element.current.scroll) {
         element.current.scroll(
-          Math.ceil(
-            timeFunction * (scrollToPosition - startScrollPosition) + startScrollPosition,
-          ),
+          Math.ceil(timeFunction * (scrollToPosition - startScrollPosition) + startScrollPosition),
           0,
         );
       } else {
@@ -90,10 +85,8 @@ const horizontalAnimateScroll = (
 
       const isRightScrollMax =
         moveTo > 0 &&
-        element.current.scrollWidth ===
-          element.current.scrollLeft + element.current.clientWidth;
-      const finished =
-        element.current.scrollLeft === scrollToPosition || isRightScrollMax;
+        element.current.scrollWidth === element.current.scrollLeft + element.current.clientWidth;
+      const finished = element.current.scrollLeft === scrollToPosition || isRightScrollMax;
 
       if (finished) {
         return;

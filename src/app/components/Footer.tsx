@@ -6,7 +6,11 @@ import { Link, Route } from 'react-router-dom';
 import { RoutePaths } from 'app/constants';
 import { FooterTheme } from 'app/services/commonUI';
 import { RidiSelectState } from 'app/store';
-import { ANDROID_APPSTORE_URL, getPlatformDetail, IOS_APPSTORE_URL } from 'app/utils/downloadUserBook';
+import {
+  ANDROID_APPSTORE_URL,
+  getPlatformDetail,
+  IOS_APPSTORE_URL,
+} from 'app/utils/downloadUserBook';
 
 const URL_APP_DOWNLOAD = 'https://ridibooks.com/support/app/download';
 
@@ -23,15 +27,10 @@ interface Props {
   footerTheme: FooterTheme;
 }
 
-export const Footer: React.SFC<Props> = (props) => {
+export const Footer: React.SFC<Props> = props => {
   const { footerTheme } = props;
   return (
-    <footer
-      className={classNames(
-        'Footer',
-        { 'Footer-dark': footerTheme === FooterTheme.dark },
-      )}
-    >
+    <footer className={classNames('Footer', { 'Footer-dark': footerTheme === FooterTheme.dark })}>
       <ul className="Footer_Headline_List">
         <li className="Footer_Headline_Item">
           <a
@@ -44,10 +43,14 @@ export const Footer: React.SFC<Props> = (props) => {
           </a>
         </li>
         <li className="Footer_Headline_Item">
-          <Link className="Footer_Headline_Link" to={RoutePaths.GUIDE}>이용 방법</Link>
+          <Link className="Footer_Headline_Link" to={RoutePaths.GUIDE}>
+            이용 방법
+          </Link>
         </li>
         <li className="Footer_Headline_Item">
-          <Link className="Footer_Headline_Link" to={RoutePaths.VOUCHER}>이용권 등록</Link>
+          <Link className="Footer_Headline_Link" to={RoutePaths.VOUCHER}>
+            이용권 등록
+          </Link>
         </li>
         <li className="Footer_Headline_Item">
           <a
@@ -61,7 +64,9 @@ export const Footer: React.SFC<Props> = (props) => {
         </li>
       </ul>
       <ul className="Footer_BizInfo_List">
-        <li className="Footer_BizInfo_Item">서울시 강남구 역삼동 702-28 어반벤치빌딩 10층(테헤란로 325)</li>
+        <li className="Footer_BizInfo_Item">
+          서울시 강남구 역삼동 702-28 어반벤치빌딩 10층(테헤란로 325)
+        </li>
         <li className="Footer_BizInfo_Item">
           <ul className="CompanyInfo_List">
             <li className="CompanyInfo_Item">리디 (주)</li>
@@ -73,10 +78,7 @@ export const Footer: React.SFC<Props> = (props) => {
       </ul>
       <ul className="Footer_Terms_List">
         <li className="Footer_Terms_Item">
-          <Link
-            className="Footer_Term_Link"
-            to={RoutePaths.CLOSING_RESERVED_BOOKS}
-          >
+          <Link className="Footer_Term_Link" to={RoutePaths.CLOSING_RESERVED_BOOKS}>
             종료 예정 도서
           </Link>
         </li>

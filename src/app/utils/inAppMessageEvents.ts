@@ -13,13 +13,18 @@ export const setInitializeInAppEvent = () => {
       store.dispatch(EnvironmentActions.setAppEnvironment({ platform, version }));
 
       // iOS inApp 에서 외부링크 블랙리스트처리 할 목록 전달
-      window.postRobot.send(window, 'inApp', { name: 'setBlacklistOfOutlink', args: [[
-        '//ridibooks.com',
-        '//library.ridibooks.com',
-        '//outstanding.kr/premium-membership',
-        '//outstanding.kr/register',
-        '//outstanding.kr/login',
-      ]] });
+      window.postRobot.send(window, 'inApp', {
+        name: 'setBlacklistOfOutlink',
+        args: [
+          [
+            '//ridibooks.com',
+            '//library.ridibooks.com',
+            '//outstanding.kr/premium-membership',
+            '//outstanding.kr/register',
+            '//outstanding.kr/login',
+          ],
+        ],
+      });
     }
   };
 
@@ -28,11 +33,9 @@ export const setInitializeInAppEvent = () => {
 
 export function sendPostRobotInappLogin() {
   if (window.postRobot) {
-    window.postRobot
-      .send(window, 'inApp', { name: 'onLoginRequired' })
-      .catch((err) => {
-        toast.failureMessage('앱에서 로그인 후 이용해주세요.');
-      });
+    window.postRobot.send(window, 'inApp', { name: 'onLoginRequired' }).catch(err => {
+      toast.failureMessage('앱에서 로그인 후 이용해주세요.');
+    });
     return;
   }
   toast.failureMessage('앱에서 로그인 후 이용해주세요.');
@@ -40,8 +43,7 @@ export function sendPostRobotInappLogin() {
 
 export function sendPostRobotInitialRendered() {
   if (window.postRobot) {
-    window.postRobot
-      .send(window, 'inApp', { name: 'initialRendered' });
+    window.postRobot.send(window, 'inApp', { name: 'initialRendered' });
     return;
   }
 
@@ -56,7 +58,7 @@ export function sendPostRobotMySelectBookDeleted(bookIds: number[]) {
   if (window.postRobot) {
     window.postRobot
       .send(window, 'inApp', { name: 'mySelectBookDeleted', args: [deleteBookIds] })
-      .catch((err) => {
+      .catch(err => {
         toast.failureMessage('문제가 발생했습니다. 다시 시도해주세요.');
       });
     return;
@@ -76,7 +78,7 @@ export function sendPostRobotMySelectBookInserted(bookId: number) {
   if (window.postRobot) {
     window.postRobot
       .send(window, 'inApp', { name: 'mySelectBookInserted', args: [insertBookId] })
-      .catch((err) => {
+      .catch(err => {
         toast.failureMessage('문제가 발생했습니다. 다시 시도해주세요.');
       });
     return;
@@ -96,7 +98,7 @@ export function sendPostRobotOpenBrowser(url: string) {
   if (window.postRobot) {
     window.postRobot
       .send(window, 'inApp', { name: 'openBrowser', args: [urlForInApp] })
-      .catch((err) => {
+      .catch(err => {
         window.location.href = url;
       });
     return;

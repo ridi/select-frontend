@@ -22,10 +22,7 @@ export const sortingCriteriaListMap = {
     ReviewSortingCriteria.highRating,
     ReviewSortingCriteria.lowRating,
   ],
-  [UserFilterType.total]: [
-    ReviewSortingCriteria.latest,
-    ReviewSortingCriteria.like,
-  ],
+  [UserFilterType.total]: [ReviewSortingCriteria.latest, ReviewSortingCriteria.like],
 };
 
 export const reviewSortingCriteriaMap = {

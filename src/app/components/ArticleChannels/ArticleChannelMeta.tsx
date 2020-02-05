@@ -12,19 +12,21 @@ export interface SectionProps {
   idx?: number;
 }
 
-export const ArticleChannelMeta: React.FunctionComponent<ArticleChannel & SectionProps> = (props) => {
-  const { id, name, thumbnailUrl, displayName, description, section, idx= 0 } = props;
+export const ArticleChannelMeta: React.FunctionComponent<ArticleChannel & SectionProps> = props => {
+  const { id, name, thumbnailUrl, displayName, description, section, idx = 0 } = props;
   const dispatch = useDispatch();
 
   const trackingClick = (index: number, trackingId: string) => {
-    if (!section) { return; }
+    if (!section) {
+      return;
+    }
 
     const trackingParams: DefaultTrackingParams = {
       section,
       index,
       id: trackingId,
     };
-    dispatch(TrackingActions.trackClick({trackingParams}));
+    dispatch(TrackingActions.trackClick({ trackingParams }));
   };
 
   return (
@@ -44,10 +46,7 @@ export const ArticleChannelMeta: React.FunctionComponent<ArticleChannel & Sectio
         <span className="ArticleChannelMeta_Desc">{description}</span>
       </Link>
       <div className="ArticleChannelMeta_FollowButton">
-        <ArticleChannelFollowButton
-          channelId={id}
-          channelName={name}
-        />
+        <ArticleChannelFollowButton channelId={id} channelName={name} />
       </div>
     </div>
   );

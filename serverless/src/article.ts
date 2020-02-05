@@ -10,7 +10,7 @@ const getArticleApiUrl = (channelName: string, contentIndex?: string) => {
     return `https://select-api.ridibooks.com/article/articles/@${channelName}/${contentIndex}`;
   }
   return `https://select-api.ridibooks.com/article/channels/${channelName}`;
-}
+};
 
 router.get('/@:channelName/:contentIndex', async (req, res) => {
   const { channelName, contentIndex } = req.params;
@@ -52,6 +52,6 @@ router.get('/channel/@:channelName', async (req, res) => {
     res.set('Content-Type', 'text/html');
     res.send(await override());
   }
-})
+});
 
 export default router;

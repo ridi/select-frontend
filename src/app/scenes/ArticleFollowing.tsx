@@ -31,15 +31,22 @@ export const ArticleFollowing: React.FunctionComponent = () => {
     hasAvailableTicket,
   } = useSelector((state: RidiSelectState) => {
     const pageFromQuery = getPageQuery(state);
-    const followingArticleListByPage = state.articleFollowing.followingArticleList && state.articleFollowing.followingArticleList.itemListByPage[pageFromQuery]
-      ? state.articleFollowing.followingArticleList.itemListByPage[pageFromQuery]
-      : null;
-    const followingArticleListFetchStatus = followingArticleListByPage ? followingArticleListByPage.fetchStatus : FetchStatusFlag.IDLE;
+    const followingArticleListByPage =
+      state.articleFollowing.followingArticleList &&
+      state.articleFollowing.followingArticleList.itemListByPage[pageFromQuery]
+        ? state.articleFollowing.followingArticleList.itemListByPage[pageFromQuery]
+        : null;
+    const followingArticleListFetchStatus = followingArticleListByPage
+      ? followingArticleListByPage.fetchStatus
+      : FetchStatusFlag.IDLE;
 
     return {
       page: pageFromQuery,
-      itemCount: state.articleFollowing.followingArticleList && state.articleFollowing.followingArticleList.itemCount ?
-        state.articleFollowing.followingArticleList.itemCount : 1,
+      itemCount:
+        state.articleFollowing.followingArticleList &&
+        state.articleFollowing.followingArticleList.itemCount
+          ? state.articleFollowing.followingArticleList.itemCount
+          : 1,
       channelFetchStatus: state.articleFollowing.fetchStatus,
       articleFetchStatus: followingArticleListFetchStatus,
       channelItems: getChannelItems(state),
@@ -52,7 +59,10 @@ export const ArticleFollowing: React.FunctionComponent = () => {
     if (channelFetchStatus === FetchStatusFlag.IDLE) {
       dispatch(Actions.loadFollowingChannelListRequest());
     }
-    if (articleFetchStatus === FetchStatusFlag.IDLE && checkCorrectPath(RoutePaths.ARTICLE_FOLLOWING)) {
+    if (
+      articleFetchStatus === FetchStatusFlag.IDLE &&
+      checkCorrectPath(RoutePaths.ARTICLE_FOLLOWING)
+    ) {
       dispatch(Actions.loadFollowingArticleListRequest({ page }));
     }
   }, [page]);
@@ -73,36 +83,35 @@ export const ArticleFollowing: React.FunctionComponent = () => {
       )}
     >
       <HelmetWithTitle titleName={PageTitleText.ARTICLE_FOLLOWING} />
-      <div className="a11y"><h1>리디셀렉트 아티클 팔로잉</h1></div>
+      <div className="a11y">
+        <h1>리디셀렉트 아티클 팔로잉</h1>
+      </div>
       {channelItems ? (
         channelItems.length > 0 ? (
           <>
-            <SlideChannelList
-              channels={channelItems}
-            />
+            <SlideChannelList channels={channelItems} />
             <div className="FollowingArticleList">
-              {articleItems && articleItems.length > 0 ?
+              {articleItems && articleItems.length > 0 ? (
                 <GridArticleList
                   serviceTitleForTracking="select-article"
                   pageTitleForTracking="following"
                   uiPartTitleForTracking="article-list"
                   miscTracking={JSON.stringify({ sect_page: page })}
                   articles={articleItems}
-                  renderChannelThumbnail={true}
-                  renderChannelMeta={true}
+                  renderChannelThumbnail
+                  renderChannelMeta
                   renderAuthor={false}
-                  renderPublishDate={true}
-                  renderFavoriteButton={true}
-                  isFullWidthAvailable={true}
+                  renderPublishDate
+                  renderFavoriteButton
+                  isFullWidthAvailable
                   gridListSizeClassNames="GridArticleList-large"
-                /> :
-                <GridArticleListPlaceholder
-                  gridSize={'large'}
                 />
-              }
+              ) : (
+                <GridArticleListPlaceholder gridSize="large" />
+              )}
             </div>
             <MediaQuery maxWidth={MAX_WIDTH}>
-              {(isMobile) => (
+              {isMobile => (
                 <Pagination
                   currentPage={page}
                   totalPages={Math.ceil(itemCount / itemCountPerPage)}
@@ -124,7 +133,7 @@ export const ArticleFollowing: React.FunctionComponent = () => {
             description="팔로잉 중인 채널이 없습니다."
             renderButton={() => (
               <Link to={RoutePaths.ARTICLE_CHANNELS} className="ArticleEmpty_Button">
-              전체 채널 보기
+                전체 채널 보기
               </Link>
             )}
           />
@@ -133,13 +142,10 @@ export const ArticleFollowing: React.FunctionComponent = () => {
         <>
           <SlideChannelListPlaceholder />
           <div className="FollowingArticleList">
-            <GridArticleListPlaceholder
-              gridSize={'large'}
-            />
+            <GridArticleListPlaceholder gridSize="large" />
           </div>
         </>
-      )
-      }
+      )}
     </main>
   );
 };

@@ -2,7 +2,11 @@ import { DeviceType, Tracker } from '@ridi/event-tracker';
 import env from 'app/config/env';
 import { MAX_WIDTH } from 'app/constants';
 import { Actions } from 'app/services/tracking';
-import { hasCompletedPayletterSubscription, hasCompletedRidiPaySubscription, RidiSelectState } from 'app/store';
+import {
+  hasCompletedPayletterSubscription,
+  hasCompletedRidiPaySubscription,
+  RidiSelectState,
+} from 'app/store';
 import { clearScrollEndHandlers } from 'app/utils/onWindowScrollEnd';
 import { LOCATION_CHANGE, replace } from 'connected-react-router';
 import { all, put, select, take, takeLatest } from 'redux-saga/effects';
@@ -33,8 +37,8 @@ export function* watchLocationChange() {
   let { referrer } = document;
   while (true) {
     yield take(LOCATION_CHANGE);
-    const state: RidiSelectState = yield select((s) => s);
-    const href = window.location.href;
+    const state: RidiSelectState = yield select(s => s);
+    const { href } = window.location;
 
     if (!tracker) {
       initializeTracker(state);
@@ -56,20 +60,27 @@ export function* watchLocationChange() {
         method: isCompletedThroughPayletter ? 'payletter' : 'ridipay',
       });
       // Remove new subscription search string for tracking and move to entry page if there is one
-      yield put(replace({
-        ...state.router.location,
-        search: state.router.location!.search.replace(/[&?](new_subscription|new_payletter_subscription)=[^&=]+/, ''),
-      }));
+      yield put(
+        replace({
+          ...state.router.location,
+          search: state.router.location.search.replace(
+            /[&?](new_subscription|new_payletter_subscription)=[^&=]+/,
+            '',
+          ),
+        }),
+      );
     }
   }
 }
 
 export function* watchTrackClick() {
   while (true) {
-    const { payload }: ReturnType<typeof Actions.trackClick> = yield take(Actions.trackClick.getType());
+    const { payload }: ReturnType<typeof Actions.trackClick> = yield take(
+      Actions.trackClick.getType(),
+    );
 
     if (!tracker) {
-      initializeTracker(yield select((s) => s));
+      initializeTracker(yield select(s => s));
     }
 
     tracker.sendEvent('Click', payload.trackingParams);
@@ -78,10 +89,12 @@ export function* watchTrackClick() {
 
 export function* watchTrackImpressions() {
   while (true) {
-    const { payload }: ReturnType<typeof Actions.trackImpression> = yield take(Actions.trackImpression.getType());
+    const { payload }: ReturnType<typeof Actions.trackImpression> = yield take(
+      Actions.trackImpression.getType(),
+    );
 
     if (!tracker) {
-      initializeTracker(yield select((s) => s));
+      initializeTracker(yield select(s => s));
     }
 
     tracker.sendEvent('Impression', payload.trackingParams);
@@ -90,10 +103,14 @@ export function* watchTrackImpressions() {
 
 export function* watchTrackMySelectAdded() {
   while (true) {
-    const { payload: { trackingParams } }: ReturnType<typeof Actions.trackMySelectAdded> = yield take(Actions.trackMySelectAdded.getType());
+    const {
+      payload: { trackingParams },
+    }: ReturnType<typeof Actions.trackMySelectAdded> = yield take(
+      Actions.trackMySelectAdded.getType(),
+    );
 
     if (!tracker) {
-      initializeTracker(yield select((s) => s));
+      initializeTracker(yield select(s => s));
     }
 
     tracker.sendEvent(trackingParams.eventName, { b_id: trackingParams.b_id });
@@ -102,7 +119,7 @@ export function* watchTrackMySelectAdded() {
 
 export function* trackingArgsUpdate({ payload }: ReturnType<typeof Actions.trackingArgsUpdate>) {
   if (!tracker) {
-    initializeTracker(yield select((s) => s));
+    initializeTracker(yield select(s => s));
   }
 
   tracker.set({
@@ -110,9 +127,11 @@ export function* trackingArgsUpdate({ payload }: ReturnType<typeof Actions.track
   });
 }
 
-export function* trackingArticleActions({ payload }: ReturnType<typeof Actions.trackingArticleActions>) {
+export function* trackingArticleActions({
+  payload,
+}: ReturnType<typeof Actions.trackingArticleActions>) {
   if (!tracker) {
-    initializeTracker(yield select((s) => s));
+    initializeTracker(yield select(s => s));
   }
   const { trackingParams } = payload;
   tracker.sendEvent(trackingParams.eventName, { id: trackingParams.id });

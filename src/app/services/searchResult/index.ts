@@ -10,21 +10,21 @@ import { getArticleKeyFromData } from 'app/utils/utils';
 
 export const Actions = {
   queryKeywordRequest: createAction<{
-    keyword: string,
-    page: number,
-    type: string,
+    keyword: string;
+    page: number;
+    type: string;
   }>('queryKeywordRequest'),
   queryKeywordSuccess: createAction<{
-    keyword: string,
-    page: number,
-    type: string,
-    response: SearchResultResponse,
+    keyword: string;
+    page: number;
+    type: string;
+    response: SearchResultResponse;
   }>('queryKeywordSuccess'),
   queryKeywordFailure: createAction<{
-    keyword: string,
-    page: number,
-    type: string,
-    error: AxiosError,
+    keyword: string;
+    page: number;
+    type: string;
+    error: AxiosError;
   }>('queryKeywordFailure'),
 };
 
@@ -37,7 +37,7 @@ export interface SearchResultHighlight {
   publisher?: string;
   channelDisplayName?: string;
   authorNames?: string;
-  articleChannel?: { displayName: string; };
+  articleChannel?: { displayName: string };
 }
 
 export interface SearchResultItem {
@@ -62,8 +62,8 @@ export interface SearchResultArticle extends Article {
   highlight: SearchResultHighlight;
 }
 
-export type KeywordSearchResult = Paginated<SearchResultItem>
-export type ArticleKeywordSearchResult = Paginated<ArticleSearchResultItem>
+export type KeywordSearchResult = Paginated<SearchResultItem>;
+export type ArticleKeywordSearchResult = Paginated<ArticleSearchResultItem>;
 
 export interface SearchResultState {
   books: {
@@ -116,14 +116,17 @@ searchResultReducer.on(Actions.queryKeywordSuccess, (state, action) => {
           ...state[searchType][keyword].itemListByPage,
           [page]: {
             fetchStatus: FetchStatusFlag.IDLE,
-            itemList: searchType === 'books' ? response.books!.map((book: SearchResultBook) => ({
-              bookId: book.id,
-              highlight: book.highlight,
-              publisher: book.publisher,
-            })) : response.articles!.map((article: SearchResultArticle) => ({
-              contentKey: getArticleKeyFromData(article),
-              highlight: article.highlight,
-            })),
+            itemList:
+              searchType === 'books'
+                ? response.books!.map((book: SearchResultBook) => ({
+                    bookId: book.id,
+                    highlight: book.highlight,
+                    publisher: book.publisher,
+                  }))
+                : response.articles!.map((article: SearchResultArticle) => ({
+                    contentKey: getArticleKeyFromData(article),
+                    highlight: article.highlight,
+                  })),
             isFetched: true,
           },
         },

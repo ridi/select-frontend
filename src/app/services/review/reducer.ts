@@ -42,7 +42,7 @@ export const reviewsReducer = (
     case actions.GET_REVIEWS_REQUEST:
       return {
         ...state,
-        [action.payload!.bookId]: !state[action.payload.bookId]
+        [action.payload.bookId]: !state[action.payload.bookId]
           ? initializeReviewsSet()
           : requestReviewsSet(state[action.payload.bookId], action.payload.params),
       };
@@ -57,11 +57,7 @@ export const reviewsReducer = (
         ),
       };
     case actions.GET_REVIEWS_FAILURE:
-      return setReviewFetchError(
-        state,
-        action.payload.bookId,
-        action.payload.params,
-      );
+      return setReviewFetchError(state, action.payload.bookId, action.payload.params);
 
     case actions.RESET_REVIEW_PAGES:
       return {
@@ -73,17 +69,9 @@ export const reviewsReducer = (
       };
 
     case actions.CHANGE_USER_FILTER_TAB:
-      return changeUserFilterTab(
-        state,
-        action.payload.bookId,
-        action.payload.userFilterType,
-      );
+      return changeUserFilterTab(state, action.payload.bookId, action.payload.userFilterType);
     case actions.CHANGE_SORT_BY:
-      return changeSortByInState(
-        state,
-        action.payload.bookId,
-        action.payload.sortBy,
-      );
+      return changeSortByInState(state, action.payload.bookId, action.payload.sortBy);
 
     case actions.POST_REVIEW_REQUEST:
       return setMyReviewFetchStatus(
@@ -130,17 +118,9 @@ export const reviewsReducer = (
       );
 
     case actions.START_EDITING_REVIEW:
-      return toggleMyReviewEditingStatus(
-        state,
-        action.payload.bookId,
-        true,
-      );
+      return toggleMyReviewEditingStatus(state, action.payload.bookId, true);
     case actions.END_EDITING_REVIEW:
-      return toggleMyReviewEditingStatus(
-        state,
-        action.payload.bookId,
-        false,
-      );
+      return toggleMyReviewEditingStatus(state, action.payload.bookId, false);
 
     /** Rating */
     case actions.POST_RATING_REQUEST:
@@ -159,11 +139,7 @@ export const reviewsReducer = (
         action.payload.reviewSummary,
       );
     case actions.DELETE_RATING_SUCCESS:
-      return deleteMyRating(
-        state,
-        action.payload.bookId,
-        action.payload.reviewSummary,
-      );
+      return deleteMyRating(state, action.payload.bookId, action.payload.reviewSummary);
     case actions.POST_RATING_FAILURE:
     case actions.DELETE_RATING_FAILURE:
       return setMyReviewFetchStatus(
@@ -175,11 +151,7 @@ export const reviewsReducer = (
 
     /** Report */
     case actions.POST_REVIEW_REPORT_SUCCESS:
-      return reportReview(
-        state,
-        action.payload.bookId,
-        action.payload.reviewId,
-      );
+      return reportReview(state, action.payload.bookId, action.payload.reviewId);
 
     /** Like */
     case actions.POST_REVIEW_LIKE_REQUEST:
@@ -192,19 +164,9 @@ export const reviewsReducer = (
         FetchStatusFlag.FETCHING,
       );
     case actions.POST_REVIEW_LIKE_SUCCESS:
-      return toggleLikeReview(
-        state,
-        action.payload.bookId,
-        action.payload.reviewId,
-        true,
-      );
+      return toggleLikeReview(state, action.payload.bookId, action.payload.reviewId, true);
     case actions.DELETE_REVIEW_LIKE_SUCCESS:
-      return toggleLikeReview(
-        state,
-        action.payload.bookId,
-        action.payload.reviewId,
-        false,
-      );
+      return toggleLikeReview(state, action.payload.bookId, action.payload.reviewId, false);
     case actions.POST_REVIEW_LIKE_FAILURE:
     case actions.DELETE_REVIEW_LIKE_FAILURE:
       return setReviewFetchStatus(

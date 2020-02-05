@@ -14,7 +14,7 @@ interface CashReceiptIssueModalProps {
   id: number;
   closeModal: () => void;
 }
-export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModalProps> = (props) => {
+export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModalProps> = props => {
   const { id, closeModal } = props;
 
   enum CashReceiptNumberType {
@@ -28,14 +28,18 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
     PhonePlaceholder = '휴대폰 번호 11자리 입력',
     CashReceiptCardNumber = '현금영수증 카드번호 18자리 입력',
     BusinessNumber = '사업자 번호 입력',
-  };
+  }
 
-  const isIssueFetching = useSelector((state: RidiSelectState) => state.user.purchaseHistory.isCashReceiptIssueFetching);
+  const isIssueFetching = useSelector(
+    (state: RidiSelectState) => state.user.purchaseHistory.isCashReceiptIssueFetching,
+  );
 
   const [issueType, setIssueType] = React.useState(CashReceiptIssueType.INCOME_DEDUCTION);
   const [numberType, setNumberType] = React.useState(CashReceiptNumberType.RegistrationNumber);
   const [issueNumber, setIssueNumber] = React.useState('');
-  const [inputPlaceholder, setInputPlaceholder] = React.useState(InputPlaceholders.RegistrationPlaceholder);
+  const [inputPlaceholder, setInputPlaceholder] = React.useState(
+    InputPlaceholders.RegistrationPlaceholder,
+  );
   const [inputMinLength, setInputMinLength] = React.useState(10);
 
   const dispatch = useDispatch();
@@ -46,7 +50,7 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
     }
     setIssueNumber('');
     setIssueType(e.currentTarget.value);
-  }
+  };
 
   const handleNumberTypeChange = (e: any) => {
     if (!e.currentTarget.checked) {
@@ -54,7 +58,7 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
     }
     setIssueNumber('');
     setNumberType(e.currentTarget.value);
-  }
+  };
 
   const submitCashReceiptIssueRequest = () => {
     if (isIssueFetching) {
@@ -65,13 +69,15 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
       return;
     }
 
-    dispatch(Actions.cashReceiptIssueRequest({
-      ticketId: id,
-      method: 'POST',
-      issuePurpose: issueType,
-      issueNumber: issueNumber,
-    }));
-  }
+    dispatch(
+      Actions.cashReceiptIssueRequest({
+        ticketId: id,
+        method: 'POST',
+        issuePurpose: issueType,
+        issueNumber,
+      }),
+    );
+  };
 
   React.useEffect(() => {
     if (issueType === CashReceiptIssueType.EXPENSE_EVIDENCE) {
@@ -95,13 +101,10 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
         break;
     }
     setInputPlaceholder(placholder);
-  }, [issueType, numberType])
+  }, [issueType, numberType]);
 
   return (
-    <Modal
-      title="현금영수증 발급 신청"
-      onClose={closeModal}
-    >
+    <Modal title="현금영수증 발급 신청" onClose={closeModal}>
       <div css={styles.cashReceiptIssueModalWrapper}>
         <p css={styles.cashReceiptIssueModalSubTitle}>발행 용도</p>
         <ul css={styles.cashReceiptIssueModalIssueTypeList}>
@@ -166,7 +169,7 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
             type="text"
             css={styles.cashReceiptIssueModalIssueNumberInput}
             placeholder={inputPlaceholder}
-            onChange={(e) => setIssueNumber(e.currentTarget.value.replace(/[^0-9]/g, ''))}
+            onChange={e => setIssueNumber(e.currentTarget.value.replace(/[^0-9]/g, ''))}
             value={issueNumber}
             maxLength={inputMinLength}
           />
@@ -186,4 +189,4 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
       </div>
     </Modal>
   );
-}
+};

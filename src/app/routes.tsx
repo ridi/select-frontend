@@ -37,11 +37,7 @@ import {
 
 import { AlertForNonSubscriber } from 'app/components/AlertForNonSubscriber';
 import { FetchStatusFlag, RoutePaths } from 'app/constants';
-import {
-  ConnectedAppManager,
-  ConnectedPrivateRoute,
-  RouteBlockLevel,
-} from 'app/hocs';
+import { ConnectedAppManager, ConnectedPrivateRoute, RouteBlockLevel } from 'app/hocs';
 import { ArticleContent } from 'app/scenes/ArticleContent';
 import { AppStatus } from 'app/services/app';
 import { selectIsInApp } from 'app/services/environment/selectors';
@@ -58,10 +54,7 @@ export interface Props {
   ticketFetchStatus: FetchStatusFlag;
 }
 
-export const HomeRoutes = [
-  RoutePaths.HOME,
-  RoutePaths.ARTICLE_HOME,
-];
+export const HomeRoutes = [RoutePaths.HOME, RoutePaths.ARTICLE_HOME];
 
 export const inAppGnbRoutes = [
   RoutePaths.HOME,
@@ -98,73 +91,41 @@ export const CommonRoutes = [
   RoutePaths.MANAGE_SUBSCRIPTION,
 ];
 
-export const PrimaryRoutes = [
-  RoutePaths.CHARTS,
-  pathToRegexp.parse(RoutePaths.COLLECTION)[0],
-];
+export const PrimaryRoutes = [RoutePaths.CHARTS, pathToRegexp.parse(RoutePaths.COLLECTION)[0]];
 
-export const Routes: React.SFC<Props> = (props) => {
+export const Routes: React.SFC<Props> = props => {
   const { errorResponseState } = props;
   return !errorResponseState ? (
     <ConnectedRouter history={history}>
       <ConnectedAppManager>
         <Route
-          render={({ location }) => (
-            (!props.isRidiApp || (inAppGnbRoutes.includes(location.pathname as RoutePaths))) && <ConnectedGNB />
-          )}
+          render={({ location }) =>
+            (!props.isRidiApp || inAppGnbRoutes.includes(location.pathname as RoutePaths)) && (
+              <ConnectedGNB />
+            )
+          }
         />
         <Route
-          render={({ location }) => (
-            (LNBRoutes.includes(location.pathname as RoutePaths)) && <ConnectedLNB />
-          )}
+          render={({ location }) =>
+            LNBRoutes.includes(location.pathname as RoutePaths) && <ConnectedLNB />
+          }
         />
         <Switch>
-          <Route
-            path={RoutePaths.ROOT}
-            exact={true}
-          >
-            {
-              props.appStatus !== AppStatus.Articles
-                ? <Redirect to={RoutePaths.HOME} />
-                : <Redirect to={RoutePaths.ARTICLE_HOME} />
-            }
+          <Route path={RoutePaths.ROOT} exact>
+            {props.appStatus !== AppStatus.Articles ? (
+              <Redirect to={RoutePaths.HOME} />
+            ) : (
+              <Redirect to={RoutePaths.ARTICLE_HOME} />
+            )}
           </Route>
-          <Redirect exact={true} from={RoutePaths.ARTICLE_ROOTE} to={RoutePaths.ARTICLE_HOME} />
-          <Route
-            path={RoutePaths.HOME}
-            component={ConnectedHome}
-            {...props}
-          />
-          <Route
-            path={RoutePaths.NEW_RELEASE}
-            component={ConnectedNewReleases}
-            {...props}
-          />
-          <Route
-            path={RoutePaths.CHARTS}
-            component={ConnectedCharts}
-            {...props}
-          />
-          <Route
-            path={RoutePaths.COLLECTION}
-            component={ConnectedCollection}
-            {...props}
-          />
-          <Route
-            path={RoutePaths.CATEGORY}
-            component={ConnectedCategory}
-            {...props}
-          />
-          <Route
-            path={RoutePaths.MY_SELECT}
-            component={ConnectedMySelect}
-            {...props}
-          />
-          <Route
-            path={RoutePaths.BOOK_DETAIL}
-            component={ConnectedBookDetail}
-            {...props}
-          />
+          <Redirect exact from={RoutePaths.ARTICLE_ROOTE} to={RoutePaths.ARTICLE_HOME} />
+          <Route path={RoutePaths.HOME} component={ConnectedHome} {...props} />
+          <Route path={RoutePaths.NEW_RELEASE} component={ConnectedNewReleases} {...props} />
+          <Route path={RoutePaths.CHARTS} component={ConnectedCharts} {...props} />
+          <Route path={RoutePaths.COLLECTION} component={ConnectedCollection} {...props} />
+          <Route path={RoutePaths.CATEGORY} component={ConnectedCategory} {...props} />
+          <Route path={RoutePaths.MY_SELECT} component={ConnectedMySelect} {...props} />
+          <Route path={RoutePaths.BOOK_DETAIL} component={ConnectedBookDetail} {...props} />
           <ConnectedPrivateRoute
             path={RoutePaths.SETTING}
             component={ConnectedSetting}
@@ -183,16 +144,8 @@ export const Routes: React.SFC<Props> = (props) => {
             routeBlockLevel={RouteBlockLevel.LOGGED_IN}
             {...props}
           />
-          <Route
-            path={RoutePaths.SEARCH_RESULT}
-            component={ConnectedSearchResult}
-            {...props}
-          />
-          <Route
-            path={RoutePaths.NOT_AVAILABLE_BOOK}
-            component={NotAvailableBook}
-            {...props}
-          />
+          <Route path={RoutePaths.SEARCH_RESULT} component={ConnectedSearchResult} {...props} />
+          <Route path={RoutePaths.NOT_AVAILABLE_BOOK} component={NotAvailableBook} {...props} />
           <Route
             path={RoutePaths.CLOSING_RESERVED_BOOKS}
             component={ConnectedClosingReservedBooks}
@@ -200,26 +153,14 @@ export const Routes: React.SFC<Props> = (props) => {
           />
 
           {/* 셀렉트 2.0 - Article */}
-          <Route
-            path={RoutePaths.ARTICLE_HOME}
-            component={ArticleHome}
-            {...props}
-          />
-          <Route
-            path={RoutePaths.ARTICLE_CHANNELS}
-            component={ArticleChannelList}
-            {...props}
-          />
+          <Route path={RoutePaths.ARTICLE_HOME} component={ArticleHome} {...props} />
+          <Route path={RoutePaths.ARTICLE_CHANNELS} component={ArticleChannelList} {...props} />
           <Route
             path={RoutePaths.ARTICLE_CHANNEL_DETAIL}
             component={ArticleChannelDetail}
             {...props}
           />
-          <Route
-            path={RoutePaths.ARTICLE_CONTENT}
-            component={ArticleContent}
-            {...props}
-          />
+          <Route path={RoutePaths.ARTICLE_CONTENT} component={ArticleContent} {...props} />
           <ConnectedPrivateRoute
             path={RoutePaths.ARTICLE_FOLLOWING}
             component={ArticleFollowing}
@@ -233,36 +174,27 @@ export const Routes: React.SFC<Props> = (props) => {
             {...props}
           />
 
-          <Route
-            path={RoutePaths.INTRO}
-            exact={true}
-            component={Intro}
-            {...props}
-          />
-          <Route
-            path={RoutePaths.VOUCHER}
-            exact={true}
-            component={Voucher}
-            {...props}
-          />
+          <Route path={RoutePaths.INTRO} exact component={Intro} {...props} />
+          <Route path={RoutePaths.VOUCHER} exact component={Voucher} {...props} />
           <ConnectedPrivateRoute
             path={RoutePaths.MANAGE_SUBSCRIPTION}
             component={ConnectedManageSubscription}
             routeBlockLevel={RouteBlockLevel.HAS_AVAILABLE_TICKET}
             {...props}
           />
-          <Route
-            component={WrongLocation}
-            {...props}
-          />
+          <Route component={WrongLocation} {...props} />
         </Switch>
         <Route
-          render={({ location }) => (HomeRoutes.includes(location.pathname as RoutePaths) && <AlertForNonSubscriber />)}
+          render={({ location }) =>
+            HomeRoutes.includes(location.pathname as RoutePaths) && <AlertForNonSubscriber />
+          }
         />
         {!props.isRidiApp && <ConnectedFooter />}
       </ConnectedAppManager>
     </ConnectedRouter>
-  ) : <ConnectedErrorPage />;
+  ) : (
+    <ConnectedErrorPage />
+  );
 };
 
 const mapStateToProps = (rootState: RidiSelectState): Props => ({

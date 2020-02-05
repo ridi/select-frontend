@@ -5,7 +5,11 @@ import { HelmetWithTitle } from 'app/components';
 import { ErrorContext } from 'app/components/ErrorContext';
 import { MaintenanceContext } from 'app/components/MaintenanceContext';
 import { ErrorStatus, FetchStatusFlag, PageTitleText } from 'app/constants';
-import { Actions as ServiceStatusActions, ErrorResponseData, ErrorResponseStatus } from 'app/services/serviceStatus';
+import {
+  Actions as ServiceStatusActions,
+  ErrorResponseData,
+  ErrorResponseStatus,
+} from 'app/services/serviceStatus';
 import { RidiSelectState } from 'app/store';
 import { sendPostRobotInitialRendered } from 'app/utils/inAppMessageEvents';
 
@@ -31,12 +35,7 @@ export class ErrorPage extends React.Component<Props> {
   }
 
   private renderErrorContent() {
-    const {
-      fetchStatus,
-      responseState,
-      responseData,
-      resetErrorState,
-    } = this.props;
+    const { fetchStatus, responseState, responseData, resetErrorState } = this.props;
 
     if (fetchStatus === FetchStatusFlag.FETCHING) {
       return null;
@@ -47,6 +46,7 @@ export class ErrorPage extends React.Component<Props> {
       <ErrorContext responseState={responseState} resetErrorState={resetErrorState} />
     );
   }
+
   public componentDidMount() {
     sendPostRobotInitialRendered();
     this.getMaintenanceData();

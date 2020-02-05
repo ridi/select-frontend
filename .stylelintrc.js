@@ -2,9 +2,7 @@
 
 module.exports = {
   extends: 'stylelint-config-standard',
-  plugins: [
-    "stylelint-order",
-  ],
+  plugins: ['stylelint-order'],
   rules: {
     // autoprefixer
     'at-rule-no-vendor-prefix': true,
@@ -20,10 +18,13 @@ module.exports = {
     'number-leading-zero': 'never',
     'max-nesting-depth': 5,
     'max-empty-lines': 2,
-    'comment-empty-line-before': ['always', {
-      'except': ["first-nested"],
-      'ignore': ["after-comment", "stylelint-commands"],
-    }],
+    'comment-empty-line-before': [
+      'always',
+      {
+        except: ['first-nested'],
+        ignore: ['after-comment', 'stylelint-commands'],
+      },
+    ],
     'rule-empty-line-before': null,
     'at-rule-empty-line-before': null,
 

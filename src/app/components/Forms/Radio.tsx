@@ -12,14 +12,11 @@ export interface RadioProps {
   onChange: (event: React.ChangeEvent<any>) => void;
 }
 
-export const Radio: React.SFC<RadioProps> = (props) => {
+export const Radio: React.SFC<RadioProps> = props => {
   const { id, inputName, value, displayName, isChecked, isDisabled, onChange } = props;
 
   return (
-    <label
-      htmlFor={id}
-      css={styles.radioWrapper}
-    >
+    <label htmlFor={id} css={styles.radioWrapper}>
       <input
         id={id}
         type="radio"
@@ -31,19 +28,21 @@ export const Radio: React.SFC<RadioProps> = (props) => {
         disabled={isDisabled}
       />
       <span
-        css={isDisabled ?
-          styles.radioDisabledLabel :
-          isChecked ?
-            styles.radioCheckedLabel :
-            styles.radioLabel
+        css={
+          isDisabled
+            ? styles.radioDisabledLabel
+            : isChecked
+            ? styles.radioCheckedLabel
+            : styles.radioLabel
         }
       >
         <span
-          css={isDisabled ?
-            styles.radioDisabledIcon :
-            isChecked ?
-              styles.radioCheckedIcon :
-              styles.radioIcon
+          css={
+            isDisabled
+              ? styles.radioDisabledIcon
+              : isChecked
+              ? styles.radioCheckedIcon
+              : styles.radioIcon
           }
         />
         {displayName}

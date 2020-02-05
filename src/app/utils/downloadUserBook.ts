@@ -15,11 +15,12 @@ import toast from 'app/utils/toast';
 // 추후 페이퍼 대비 필요
 
 const DOWNLOAD_URL = env.production
-  ? '//ridibooks.com/api/user_books/trigger_download' :
-  `//${getBaseUrl(location.host)}/api/user_books/trigger_download`;
+  ? '//ridibooks.com/api/user_books/trigger_download'
+  : `//${getBaseUrl(location.host)}/api/user_books/trigger_download`;
 
 export const IOS_APPSTORE_URL = 'http://itunes.apple.com/kr/app/id338813698?mt=8';
-export const ANDROID_APPSTORE_URL = 'https://play.google.com/store/apps/details?id=com.initialcoms.ridi';
+export const ANDROID_APPSTORE_URL =
+  'https://play.google.com/store/apps/details?id=com.initialcoms.ridi';
 export const PC_DOWNLOAD_IFRAME_ID = 'bookDownloadIframe';
 
 interface PlatformDetail {
@@ -32,18 +33,18 @@ interface PlatformDetail {
 
 export function getPlatformDetail(): PlatformDetail {
   return {
-    isIos: (/iphone|ipad|ipod/gi).test(navigator.appVersion),
-    isAndroid: (/android/gi).test(navigator.appVersion),
-    isIE: (/MSIE|Trident\//g).test(navigator.appVersion),
-    isFirefox: navigator.userAgent.toLowerCase().indexOf('firefox') > -1,
-    isRidiApp: (/RIDIBOOKS\/[0-9]+\.[0-9]*/).test(navigator.userAgent),
+    isIos: /iphone|ipad|ipod/gi.test(navigator.appVersion),
+    isAndroid: /android/gi.test(navigator.appVersion),
+    isIE: /MSIE|Trident\//g.test(navigator.appVersion),
+    isFirefox: navigator.userAgent.toLowerCase().includes('firefox'),
+    isRidiApp: /RIDIBOOKS\/[0-9]+\.[0-9]*/.test(navigator.userAgent),
   };
 }
 
 export function getAppUri(bookIds: number[], appUriFromResponse: string, isRead: boolean) {
-  const bookIdData = isRead ?
-    `&b_id=${bookIds[0]}` :
-    `&payload=${encodeURIComponent(JSON.stringify({ b_ids: bookIds }))}`;
+  const bookIdData = isRead
+    ? `&b_id=${bookIds[0]}`
+    : `&payload=${encodeURIComponent(JSON.stringify({ b_ids: bookIds }))}`;
   return `${appUriFromResponse}${bookIdData}`;
 }
 
@@ -51,7 +52,10 @@ export function getAppUri(bookIds: number[], appUriFromResponse: string, isRead:
 function convertUriToAndroidIntentUri(appUri: string, packageName: string) {
   const scheme = /(.+):\/\//.exec(appUri)![1];
   /* tslint:disable-next-line:max-line-length */
-  return `${appUri.replace(`${scheme}://`, 'intent://')}#Intent;scheme=${scheme};action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=${packageName};end`;
+  return `${appUri.replace(
+    `${scheme}://`,
+    'intent://',
+  )}#Intent;scheme=${scheme};action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=${packageName};end`;
 }
 
 export function setAttributeForDesktopDownloadIframe(attrName: string, attrValue: string) {
@@ -71,24 +75,23 @@ export function requestDownloadUserBook(bookIds: number[], preprocess: boolean, 
       is_read: isRead,
     },
     withCredentials: true,
-  }).then((response) => {
-    if (response.data.result) {
-      return Promise.resolve(getAppUri(response.data.b_ids, response.data.url, isRead));
-    } else {
+  })
+    .then(response => {
+      if (response.data.result) {
+        return Promise.resolve(getAppUri(response.data.b_ids, response.data.url, isRead));
+      }
       return Promise.reject(response.data.message);
-    }
-  }).catch(() => {
-    toast.failureMessage();
-  });
+    })
+    .catch(() => {
+      toast.failureMessage();
+    });
 }
 
 // Trigger App
 // In app Download
 export function downloadUserBookInApp(appUri: string) {
   // 6.x 버전까지는 goDownload 지원 필요
-  const uri = (Number(window.navigator.appVersion) <= 6.30)
-    ? 'app:/goDownload/'
-    : appUri;
+  const uri = Number(window.navigator.appVersion) <= 6.3 ? 'app:/goDownload/' : appUri;
   window.location.assign(uri);
 }
 
@@ -106,17 +109,14 @@ export function moveToAppStore(platformDetail: PlatformDetail) {
   } else {
     // cancel launchAppFromDesktopBrowser
     setAttributeForDesktopDownloadIframe('src', '');
-    toast.info(
-      '리디북스 뷰어 내 구매 목록에서 다운로드해주세요.',
-      {
-        link: {
-          url: `//${getBaseUrl(window.location.host)}/support/app/download`,
-          label: '뷰어 다운로드',
-          showArrowIcon: true,
-        },
-        durationMs: 8000,
+    toast.info('리디북스 뷰어 내 구매 목록에서 다운로드해주세요.', {
+      link: {
+        url: `//${getBaseUrl(window.location.host)}/support/app/download`,
+        label: '뷰어 다운로드',
+        showArrowIcon: true,
       },
-    );
+      durationMs: 8000,
+    });
   }
 }
 
@@ -143,7 +143,9 @@ export function launchAppOrMoveToAppStore(appUri: string, hooks?: DownloaBooksHo
     }, 300);
     // launchAppFromIos(appUri);
   } else if (platformDetail.isAndroid) {
-    const androidUri = platformDetail.isFirefox ? appUri : convertUriToAndroidIntentUri(appUri, 'com.initialcoms.ridi');
+    const androidUri = platformDetail.isFirefox
+      ? appUri
+      : convertUriToAndroidIntentUri(appUri, 'com.initialcoms.ridi');
     setTimeout(() => {
       if (hooks && hooks.beforeLaunchApp) {
         hooks.beforeLaunchApp(platformDetail);
@@ -176,7 +178,7 @@ export const downloadBooks = (bookIds: BookId[], hooks?: DownloaBooksHooks) => {
   if (hooks && hooks.beforeRequestDownloadUrl) {
     hooks.beforeRequestDownloadUrl();
   }
-  requestDownloadUserBook(bookIds, true, false).then((url) => {
+  requestDownloadUserBook(bookIds, true, false).then(url => {
     if (url) {
       launchAppOrMoveToAppStore(url, hooks);
     }
@@ -185,7 +187,7 @@ export const downloadBooks = (bookIds: BookId[], hooks?: DownloaBooksHooks) => {
 
 export const downloadBooksInRidiselect = (bookIds: BookId[]) => {
   downloadBooks(bookIds, {
-    beforeMoveToAppStore: (platformDetail) => {
+    beforeMoveToAppStore: platformDetail => {
       if (platformDetail.isIos) {
         stateHydrator.save(store.getState());
       }
@@ -194,7 +196,7 @@ export const downloadBooksInRidiselect = (bookIds: BookId[]) => {
 };
 
 export const readBooksInRidiselect = (bookId: BookId) => {
-  requestDownloadUserBook([bookId], true, true).then((url) => {
+  requestDownloadUserBook([bookId], true, true).then(url => {
     if (url) {
       launchAppOrMoveToAppStore(url);
     }

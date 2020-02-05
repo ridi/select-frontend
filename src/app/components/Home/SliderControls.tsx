@@ -6,7 +6,7 @@ interface SliderControlsProps {
   onNextClick: () => void;
 }
 
-export const SliderControls: React.SFC<SliderControlsProps> = (props) => (
+export const SliderControls: React.SFC<SliderControlsProps> = props => (
   <div className="Slider_Controls">
     <button
       className="Slider_ControlButton Slider_ControlButton_Left"

@@ -1,7 +1,10 @@
 import { Book } from 'app/services/book';
 import { DefaultCollectionState } from 'app/services/collection';
 
-export const groupCollections = (groupedCollections: DefaultCollectionState[][], collection: DefaultCollectionState) => {
+export const groupCollections = (
+  groupedCollections: DefaultCollectionState[][],
+  collection: DefaultCollectionState,
+) => {
   const latestGroup = groupedCollections[groupedCollections.length - 1];
   // If current collection has a same type as the latest group,
   // push the current collection into the group. If it doesn't, create
@@ -18,7 +21,11 @@ export const groupCollections = (groupedCollections: DefaultCollectionState[][],
   return groupedCollections;
 };
 
-export const groupChartBooks = (groupingUnitCount: number) => (groupedBooks: Book[][], book: Book, idx: number) => {
+export const groupChartBooks = (groupingUnitCount: number) => (
+  groupedBooks: Book[][],
+  book: Book,
+  idx: number,
+) => {
   if (idx % groupingUnitCount === 0) {
     groupedBooks.push([book]);
   } else {

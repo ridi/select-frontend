@@ -38,21 +38,43 @@
 }
 .LnbMenu {
   display: table-cell;
-  &.LnbMenu_Home { width: 15%; }
-  &.LnbMenu_RecentUpdates { width: 32%; }
-  &.LnbMenu_Categories { width: 25%; }
-  &.LnbMenu_MySelect { width: 28%; }
+  &.LnbMenu_Home {
+    width: 15%;
+  }
+  &.LnbMenu_RecentUpdates {
+    width: 32%;
+  }
+  &.LnbMenu_Categories {
+    width: 25%;
+  }
+  &.LnbMenu_MySelect {
+    width: 28%;
+  }
 
-  &.LnbMenu_ArticleHome { width: 16% }
-  &.LnbMenu_ArticleFollowing { width: 23% }
-  &.LnbMenu_ArticleChannel { width: 27% }
-  &.LnbMenu_ArticleFavorite { width: 34% }
+  &.LnbMenu_ArticleHome {
+    width: 16%;
+  }
+  &.LnbMenu_ArticleFollowing {
+    width: 23%;
+  }
+  &.LnbMenu_ArticleChannel {
+    width: 27%;
+  }
+  &.LnbMenu_ArticleFavorite {
+    width: 34%;
+  }
 
   @media (--mobile-screen) {
     @nest .LnbMenu_Wrapper-count3 & {
-      &.LnbMenu_Home { width: 23%; }
-      &.LnbMenu_RecentUpdates { width: 40%; }
-      &.LnbMenu_Categories { width: 37%; }
+      &.LnbMenu_Home {
+        width: 23%;
+      }
+      &.LnbMenu_RecentUpdates {
+        width: 40%;
+      }
+      &.LnbMenu_Categories {
+        width: 37%;
+      }
     }
   }
 }

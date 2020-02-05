@@ -9,7 +9,7 @@ export interface ReviewTextareaProps {
   isDisabled: boolean;
 }
 
-export const ReviewTextarea: React.SFC<ReviewTextareaProps> = (props) => {
+export const ReviewTextarea: React.SFC<ReviewTextareaProps> = props => {
   const { content, onChange, autoFocus, onClick, isDisabled } = props;
 
   return (

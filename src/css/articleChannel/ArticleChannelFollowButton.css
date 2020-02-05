@@ -12,12 +12,12 @@
 
   @media (hover: hover) {
     &:hover {
-      transition: background .2s, color .2s;
+      transition: background 0.2s, color 0.2s;
     }
   }
   @media (hover: none) {
     &:active {
-      transition: background .2s, color .2s;
+      transition: background 0.2s, color 0.2s;
     }
   }
 }
@@ -28,14 +28,14 @@
     &:hover {
       background: #fff;
       border-color: var(--dodgerblue_60);
-      transition: background .2s, color .2s;
+      transition: background 0.2s, color 0.2s;
     }
   }
   @media (hover: none) {
     &:active {
       background: #fff;
       border-color: var(--dodgerblue_60);
-      transition: background .2s, color .2s;
+      transition: background 0.2s, color 0.2s;
     }
   }
 }

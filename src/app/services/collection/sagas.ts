@@ -5,11 +5,15 @@ import { FetchErrorFlag } from 'app/constants';
 import { Actions as BookActions } from 'app/services/book';
 import { Actions } from 'app/services/collection';
 import { CollectionResponse, requestCollection } from 'app/services/collection/requests';
-import { fixWrongPaginationScope, isValidPaginationParameter, updateQueryStringParam } from 'app/utils/request';
+import {
+  fixWrongPaginationScope,
+  isValidPaginationParameter,
+  updateQueryStringParam,
+} from 'app/utils/request';
 import toast from 'app/utils/toast';
 
 export function* loadCollection({ payload }: ReturnType<typeof Actions.loadCollectionRequest>) {
-  const { page, collectionId } = payload!;
+  const { page, collectionId } = payload;
   try {
     if (!isValidPaginationParameter(page)) {
       throw FetchErrorFlag.UNEXPECTED_PAGE_PARAMS;
@@ -36,8 +40,13 @@ export function* watchLoadCollection() {
 
 export function* watchCollectionFailure() {
   while (true) {
-    const { payload: { collectionId, page, error } }: ReturnType<typeof Actions.loadCollectionFailure> = yield take(Actions.loadCollectionFailure.getType());
-    if (collectionId === 'spotlight') { // spotlight의 경우 홈 화면에서만 섹션이 노출되고 아직 전체보기 페이지가 없어서 페이지네이션의 개념이 없음
+    const {
+      payload: { collectionId, page, error },
+    }: ReturnType<typeof Actions.loadCollectionFailure> = yield take(
+      Actions.loadCollectionFailure.getType(),
+    );
+    if (collectionId === 'spotlight') {
+      // spotlight의 경우 홈 화면에서만 섹션이 노출되고 아직 전체보기 페이지가 없어서 페이지네이션의 개념이 없음
       return;
     }
     if (page === 1) {
@@ -49,8 +58,5 @@ export function* watchCollectionFailure() {
 }
 
 export function* collectionsRootSaga() {
-  yield all([
-    watchLoadCollection(),
-    watchCollectionFailure(),
-  ]);
+  yield all([watchLoadCollection(), watchCollectionFailure()]);
 }

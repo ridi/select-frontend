@@ -1,6 +1,5 @@
-const getEnv = (key: string, env?: string) => process.env.NODE_ENV !== 'production'
-  ? localStorage.getItem(key) || env
-  : env;
+const getEnv = (key: string, env?: string) =>
+  process.env.NODE_ENV !== 'production' ? localStorage.getItem(key) || env : env;
 
 export default {
   SORRY_URL: 'https://sorry.ridibooks.com',

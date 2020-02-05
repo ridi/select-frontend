@@ -45,32 +45,34 @@ export class HomeChartBooksSection extends React.Component<Props> {
                       section={section}
                       index={index}
                       id={book.id}
-                      misc={order ? JSON.stringify({sect_order: order}) : undefined}
+                      misc={order ? JSON.stringify({ sect_order: order }) : undefined}
                     >
-                      <span className="HomeSection_ChartBookRanking">
-                        {index + 1}
-                      </span>
+                      <span className="HomeSection_ChartBookRanking">{index + 1}</span>
                       <DTOBookThumbnail
                         book={book}
                         width={50}
                         linkUrl={`/book/${book.id}`}
                         linkType="Link"
-                        onLinkClick={() => trackClick({
-                          section,
-                          index,
-                          id: book.id,
-                        })}
+                        onLinkClick={() =>
+                          trackClick({
+                            section,
+                            index,
+                            id: book.id,
+                          })
+                        }
                         imageClassName="HomeSection_ChartBookThumbnail"
                         linkWrapperClassName="HomeSection_BookLink"
                       />
                       <Link
                         to={`/book/${book.id}`}
                         className="HomeSection_BookLink"
-                        onClick={() => trackClick({
-                          section,
-                          index,
-                          id: book.id,
-                        })}
+                        onClick={() =>
+                          trackClick({
+                            section,
+                            index,
+                            id: book.id,
+                          })
+                        }
                       >
                         <div className="HomeSection_ChartBookMeta">
                           <span className="HomeSection_ChartBookTitle">{book.title.main}</span>
@@ -84,8 +86,8 @@ export class HomeChartBooksSection extends React.Component<Props> {
                       </Link>
                     </ConnectedTrackImpression>
                   </li>
-                ); },
-              )}
+                );
+              })}
             </ol>
           ))}
       </div>
@@ -97,9 +99,9 @@ export class HomeChartBooksSection extends React.Component<Props> {
 
     return (
       <div className="HomeSection HomeSection-horizontal-pad">
-        <SectionHeader title={title} link={'/charts'} />
+        <SectionHeader title={title} link="/charts" />
         <MediaQuery maxWidth={MAX_WIDTH}>
-          {(isMobile) => isMobile ? this.renderCharts(24) : this.renderCharts(12)}
+          {isMobile => (isMobile ? this.renderCharts(24) : this.renderCharts(12))}
         </MediaQuery>
       </div>
     );
@@ -107,7 +109,11 @@ export class HomeChartBooksSection extends React.Component<Props> {
 }
 
 const mapDispatchToProps = (dispatch: any) => ({
-  trackClick: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackClick({ trackingParams })),
+  trackClick: (trackingParams: DefaultTrackingParams) =>
+    dispatch(Actions.trackClick({ trackingParams })),
 });
 
-export const ConnectedHomeChartBooksSection = connect(null, mapDispatchToProps)(HomeChartBooksSection);
+export const ConnectedHomeChartBooksSection = connect(
+  null,
+  mapDispatchToProps,
+)(HomeChartBooksSection);

@@ -1,11 +1,25 @@
 import { mapValues } from 'lodash-es';
-import { RecommendedBook, requestBookToBookRecommendation } from './requests';
 
 import history from 'app/config/history';
 import { FetchErrorFlag, RoutePaths } from 'app/constants';
-import { Actions , BookOwnershipStatus, BookState, LegacyStaticBookState, LocalStorageStaticBookState, StaticBookState } from 'app/services/book';
+import {
+  Actions,
+  BookOwnershipStatus,
+  BookState,
+  LegacyStaticBookState,
+  LocalStorageStaticBookState,
+  StaticBookState,
+} from 'app/services/book';
 
-import { BookDetailResponse, BookDetailResponseV1, BookDetailResponseV2, requestBookDetail, requestBookOwnership } from 'app/services/book/requests';
+import {
+  BookDetailResponse,
+  BookDetailResponseV1,
+  BookDetailResponseV2,
+  requestBookDetail,
+  requestBookOwnership,
+  RecommendedBook,
+  requestBookToBookRecommendation,
+} from 'app/services/book/requests';
 import { RidiSelectState } from 'app/store';
 import toast from 'app/utils/toast';
 import { bookDetailToPath } from 'app/utils/toPath';
@@ -27,9 +41,8 @@ const booksLocalStorageManager = {
     });
   },
   save: (state: BookState) => {
-    const staticBookState: LocalStorageStaticBookState = Object
-      .keys(state)
-      .reduce((prev, bookId): LocalStorageStaticBookState => {
+    const staticBookState: LocalStorageStaticBookState = Object.keys(state).reduce(
+      (prev, bookId): LocalStorageStaticBookState => {
         const id = Number(bookId);
         prev[id] = {
           dominantColor: state[id].dominantColor,
@@ -37,19 +50,23 @@ const booksLocalStorageManager = {
           bookDetail: state[id].bookDetail,
         };
         return prev;
-      }, {} as LocalStorageStaticBookState);
+      },
+      {} as LocalStorageStaticBookState,
+    );
     try {
       localStorage.setItem(KEY_LOCAL_STORAGE, JSON.stringify(staticBookState));
-    }  catch (e) {
+    } catch (e) {
       localStorage.removeItem(KEY_LOCAL_STORAGE);
     }
   },
 };
 
 function* initialSaga() {
-  yield put(Actions.initializeBooks({
-    staticBookState: booksLocalStorageManager.load(),
-  }));
+  yield put(
+    Actions.initializeBooks({
+      staticBookState: booksLocalStorageManager.load(),
+    }),
+  );
 }
 
 function* watchActionsToCache() {
@@ -79,14 +96,18 @@ export function* loadBookDetail({ payload }: ReturnType<typeof Actions.loadBookD
       return;
     }
     if (response.seriesBooks && response.seriesBooks.length > 0) {
-      yield put(Actions.updateBooks({
-        books: response.seriesBooks,
-      }));
+      yield put(
+        Actions.updateBooks({
+          books: response.seriesBooks,
+        }),
+      );
     }
-    yield put(Actions.loadBookDetailSuccess({
-      bookId,
-      bookDetail: response,
-    }));
+    yield put(
+      Actions.loadBookDetailSuccess({
+        bookId,
+        bookDetail: response,
+      }),
+    );
   } catch (e) {
     if (e.response.status === 403 && e.response.data.code === 'BOOK_NOT_AVAILABLE') {
       history.replace(RoutePaths.NOT_AVAILABLE_BOOK);
@@ -96,9 +117,11 @@ export function* loadBookDetail({ payload }: ReturnType<typeof Actions.loadBookD
     } else {
       toast.failureMessage();
     }
-    yield put(Actions.loadBookDetailFailure({
-      bookId,
-    }));
+    yield put(
+      Actions.loadBookDetailFailure({
+        bookId,
+      }),
+    );
   }
 }
 
@@ -106,7 +129,9 @@ export function* watchLoadBookDetail() {
   yield takeEvery(Actions.loadBookDetailRequest.getType(), loadBookDetail);
 }
 
-export function* loadBookToBookRecommendation({ payload }: ReturnType<typeof Actions.loadBookToBookRecommendationRequest>) {
+export function* loadBookToBookRecommendation({
+  payload,
+}: ReturnType<typeof Actions.loadBookToBookRecommendationRequest>) {
   const { bookId } = payload;
   try {
     if (isNaN(bookId)) {
@@ -114,35 +139,50 @@ export function* loadBookToBookRecommendation({ payload }: ReturnType<typeof Act
     }
     const response: RecommendedBook[] = yield call(requestBookToBookRecommendation, bookId);
     if (response && response.length >= 0) {
-      yield put(Actions.loadBookToBookRecommendationSuccess({
-        bookId,
-        recommendedBooks: response.map((bookData: RecommendedBook) => bookData.bookSummary),
-      }));
+      yield put(
+        Actions.loadBookToBookRecommendationSuccess({
+          bookId,
+          recommendedBooks: response.map((bookData: RecommendedBook) => bookData.bookSummary),
+        }),
+      );
     }
   } catch (e) {
-    yield put(Actions.loadBookToBookRecommendationFailure({
-      bookId,
-    }));
+    yield put(
+      Actions.loadBookToBookRecommendationFailure({
+        bookId,
+      }),
+    );
   }
 }
 
 export function* watchLoadBookToBookRecommendation() {
-  yield takeLatest(Actions.loadBookToBookRecommendationRequest.getType(), loadBookToBookRecommendation);
+  yield takeLatest(
+    Actions.loadBookToBookRecommendationRequest.getType(),
+    loadBookToBookRecommendation,
+  );
 }
 
 export function* watchLoadBookOwnership() {
   while (true) {
-    const { payload: { bookId } }: ReturnType<typeof Actions.loadBookOwnershipRequest> = yield take(Actions.loadBookOwnershipRequest.getType());
+    const {
+      payload: { bookId },
+    }: ReturnType<typeof Actions.loadBookOwnershipRequest> = yield take(
+      Actions.loadBookOwnershipRequest.getType(),
+    );
     try {
-      const response: BookOwnershipStatus  = yield call(requestBookOwnership, bookId);
-      yield put(Actions.loadBookOwnershipSuccess({
-        bookId,
-        ownershipStatus: response,
-      }));
+      const response: BookOwnershipStatus = yield call(requestBookOwnership, bookId);
+      yield put(
+        Actions.loadBookOwnershipSuccess({
+          bookId,
+          ownershipStatus: response,
+        }),
+      );
     } catch (e) {
-      yield put(Actions.loadBookOwnershipFailure({
-        bookId,
-      }));
+      yield put(
+        Actions.loadBookOwnershipFailure({
+          bookId,
+        }),
+      );
     }
   }
 }

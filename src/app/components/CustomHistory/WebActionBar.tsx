@@ -1,6 +1,9 @@
 import { ConnectedUpButton } from 'app/components/CustomHistory/UpButtons';
 import { GNBColorLevel } from 'app/services/commonUI';
-import { getSolidBackgroundColorRGBString, selectGnbColorLevel } from 'app/services/commonUI/selectors';
+import {
+  getSolidBackgroundColorRGBString,
+  selectGnbColorLevel,
+} from 'app/services/commonUI/selectors';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import classNames from 'classnames';
@@ -36,9 +39,7 @@ export class WebActionBar extends React.Component<WebActionBarStateProps> {
         style={isIosApp ? {} : { backgroundColor }}
       >
         <ConnectedUpButton />
-        <h1 className="WebActionBar_Text">
-          {children}
-        </h1>
+        <h1 className="WebActionBar_Text">{children}</h1>
       </div>
     );
   }

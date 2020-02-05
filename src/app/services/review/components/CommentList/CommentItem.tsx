@@ -11,7 +11,7 @@ export interface CommentItemProps {
   onDelete: (commentId: number) => void;
 }
 
-export const CommentItem: React.SFC<CommentItemProps> = (props) => {
+export const CommentItem: React.SFC<CommentItemProps> = props => {
   const { onDelete } = props;
   const { id, content, maskedUId, commentDate, isMyComment, fetchStatus } = props.comment;
 

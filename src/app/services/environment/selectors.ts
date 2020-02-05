@@ -3,9 +3,11 @@ import { RidiSelectState } from 'app/store';
 import { createSelector } from 'reselect';
 
 export const selectIsIos = (state: RidiSelectState): boolean => state.environment.platform.isIos;
-export const selectIsAndroid = (state: RidiSelectState): boolean => state.environment.platform.isAndroid;
-export const selectIsInApp = (state: RidiSelectState): boolean => state.environment.platform.isRidibooks;
-export const selectPathname = (state: RidiSelectState): string => state.router.location!.pathname;
+export const selectIsAndroid = (state: RidiSelectState): boolean =>
+  state.environment.platform.isAndroid;
+export const selectIsInApp = (state: RidiSelectState): boolean =>
+  state.environment.platform.isRidibooks;
+export const selectPathname = (state: RidiSelectState): string => state.router.location.pathname;
 
 export const getIsIosInApp = createSelector(
   [selectIsIos, selectIsInApp],
@@ -19,5 +21,5 @@ export const getIsAndroidInApp = createSelector(
 
 export const getIsSimpleGNB = createSelector(
   [selectPathname],
-  (pathname: string): boolean => (pathname === RoutePaths.INTRO) || (pathname === RoutePaths.VOUCHER),
+  (pathname: string): boolean => pathname === RoutePaths.INTRO || pathname === RoutePaths.VOUCHER,
 );

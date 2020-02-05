@@ -12,27 +12,33 @@ import { Link } from 'react-router-dom';
 import { ArticleChannelFollowButton } from './ArticleChannelFollowButton';
 import { ArticleChannelThumbnail } from './ArticleChannelThumbnail';
 
-export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId?: number, channelName?: string, contentKey: string }> = (props) => {
-  const { channelState, articleState, authorName, isChannelFollowing } = useSelector((state: RidiSelectState) => {
-    if (!props.channelName) {
-      return {};
-    }
-    const articleById = state.articlesById[props.contentKey];
-    const channelById = state.articleChannelById[props.channelName];
-    return {
-      articleState: articleById,
-      channelState: channelById,
-      authorName: articleById.article!.authors
-        ? articleById.article!.authors!.map((author) => author.name).join(', ')
-        : undefined,
-      isChannelFollowing:
-        channelById &&
-        channelById.isMetaFetched &&
-        typeof channelById.channelMeta!.isFollowing === 'boolean'
-          ? channelById.channelMeta!.isFollowing
+export const ArticleChannelInfoHeader: React.FunctionComponent<{
+  channelId?: number;
+  channelName?: string;
+  contentKey: string;
+}> = props => {
+  const { channelState, articleState, authorName, isChannelFollowing } = useSelector(
+    (state: RidiSelectState) => {
+      if (!props.channelName) {
+        return {};
+      }
+      const articleById = state.articlesById[props.contentKey];
+      const channelById = state.articleChannelById[props.channelName];
+      return {
+        articleState: articleById,
+        channelState: channelById,
+        authorName: articleById.article!.authors
+          ? articleById.article!.authors.map(author => author.name).join(', ')
           : undefined,
-    };
-  });
+        isChannelFollowing:
+          channelById &&
+          channelById.isMetaFetched &&
+          typeof channelById.channelMeta!.isFollowing === 'boolean'
+            ? channelById.channelMeta!.isFollowing
+            : undefined,
+      };
+    },
+  );
 
   const dispatch = useDispatch();
   const section = getSectionStringForTracking('select-article', 'content', 'channel');
@@ -45,14 +51,16 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId?: num
   }, []);
 
   const trackingClick = (index: number, id: string) => {
-    if (!section) { return; }
+    if (!section) {
+      return;
+    }
 
     const trackingParams: DefaultTrackingParams = {
       section,
       index,
       id,
     };
-    dispatch(TrackingActions.trackClick({trackingParams}));
+    dispatch(TrackingActions.trackClick({ trackingParams }));
   };
 
   if (
@@ -71,14 +79,14 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId?: num
       <ArticleChannelThumbnail
         imageUrl={channelState.channelMeta.thumbnailUrl}
         thumbnailClassName="ChannelInfoHeader_ChannelThumbnailLink"
-        linkUrl={articleChannelToPath({channelName: channelState.channelMeta.name})}
+        linkUrl={articleChannelToPath({ channelName: channelState.channelMeta.name })}
         channelName={channelState.channelMeta.name}
         onLinkClick={() => trackingClick(0, `ch:${channelState.channelMeta!.id}`)}
       />
       <div className="ChannelInfoHeader_Meta">
         <Link
           className="ChannelInfoHeader_ChannelLink"
-          to={articleChannelToPath({channelName: channelState.channelMeta.name})}
+          to={articleChannelToPath({ channelName: channelState.channelMeta.name })}
           onClick={() => trackingClick(0, `ch:${channelState.channelMeta!.id}`)}
         >
           <span className="ChannelInfoHeader_Title">{channelState.channelMeta.displayName}</span>
@@ -97,10 +105,7 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId?: num
           </span>
         </p>
       </div>
-      <ArticleChannelFollowButton
-        channelId={props.channelId}
-        channelName={props.channelName}
-      />
+      <ArticleChannelFollowButton channelId={props.channelId} channelName={props.channelName} />
     </div>
   );
 };

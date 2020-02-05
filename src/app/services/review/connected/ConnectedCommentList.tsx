@@ -1,10 +1,7 @@
 import { connect, Dispatch } from 'react-redux';
 
 import { deleteCommentRequest, showMoreComments } from 'app/services/review/actions';
-import {
-  CommentList,
-  CommentListProps,
-} from 'app/services/review/components/CommentList';
+import { CommentList, CommentListProps } from 'app/services/review/components/CommentList';
 import {
   getCommentCurrentPage,
   getCommentList,
@@ -14,8 +11,8 @@ import { RidiSelectState } from 'app/store';
 import { Omit } from 'app/types';
 
 export type CommentListStateProps = Pick<
-CommentListProps,
-'commentList' | 'nextPageCount' | 'currentPage'
+  CommentListProps,
+  'commentList' | 'nextPageCount' | 'currentPage'
 >;
 
 function mapStateToProps(
@@ -29,14 +26,9 @@ function mapStateToProps(
   };
 }
 
-export type CommentListDispatchProps = Pick<
-CommentListProps,
-'deleteComment' | 'showPageComments'
->;
+export type CommentListDispatchProps = Pick<CommentListProps, 'deleteComment' | 'showPageComments'>;
 
-function mapDispatchToProps(
-  dispatch: Dispatch<RidiSelectState>,
-): CommentListDispatchProps {
+function mapDispatchToProps(dispatch: Dispatch<RidiSelectState>): CommentListDispatchProps {
   return {
     deleteComment: (bookId: number, reviewId: number, commentId: number) =>
       dispatch(deleteCommentRequest(bookId, reviewId, commentId)),
@@ -45,5 +37,4 @@ function mapDispatchToProps(
   };
 }
 
-export const ConnectedCommentList =
-  connect(mapStateToProps, mapDispatchToProps)(CommentList);
+export const ConnectedCommentList = connect(mapStateToProps, mapDispatchToProps)(CommentList);

@@ -3,7 +3,6 @@ import { AuthorKeys, Book } from 'app/services/book';
 import { DefaultCollectionState } from 'app/services/collection';
 import { groupCollections, groupChartBooks } from 'app/services/home/uitls';
 
-
 function* thumbnailMaker() {
   while (true) {
     yield 'https://misc.ridibooks.com/cover/1508005038/xxlarge';
@@ -49,8 +48,10 @@ const getDummyBook = (id: number): Book => ({
 describe('Home', () => {
   describe('groupCollections', () => {
     const getDummyCollection = (type: CollectionType) => ({
-      id: 1, type, itemListByPage: [],
-    })
+      id: 1,
+      type,
+      itemListByPage: [],
+    });
     it('should create a new group if the latest group type is not same with current collection', () => {
       const groups: DefaultCollectionState[][] = [[getDummyCollection(CollectionType.CHART)]];
       const currentCollection = getDummyCollection(CollectionType.SELECTION);
@@ -69,17 +70,17 @@ describe('Home', () => {
       expect(newGroups[0].length).toBe(2);
       expect(newGroups[0][1].type).toBe(CollectionType.CHART);
     });
-  })
+  });
   describe('groupChartBooks', () => {
     const getDummyBooks = (length: number) => Array.from({ length }).map(() => getDummyBook(1));
     it('should create a new group with current book when given index is multiples of 4', () => {
-      let dummyBooks =  getDummyBooks(12);
+      let dummyBooks = getDummyBooks(12);
       let groups = dummyBooks.reduce(groupChartBooks(4), []);
       expect(groups.length).toEqual(3);
 
       dummyBooks = getDummyBooks(24);
       groups = dummyBooks.reduce(groupChartBooks(4), []);
       expect(groups.length).toEqual(6);
-    })
-  })
+    });
+  });
 });

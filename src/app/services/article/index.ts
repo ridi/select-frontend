@@ -12,12 +12,12 @@ export const Actions = {
   loadArticleRequest: createAction<{
     channelName: string;
     contentIndex: number;
-    requestQueries?: ArticleRequestQueries,
+    requestQueries?: ArticleRequestQueries;
   }>('loadArticleDetailRequest'),
   loadArticleSuccess: createAction<{
     channelName: string;
     contentIndex: number;
-    articleResponse: Article,
+    articleResponse: Article;
   }>('loadArticleDetailSuccess'),
   loadArticleFailure: createAction<{
     channelName: string;
@@ -26,19 +26,19 @@ export const Actions = {
   updateArticleContent: createAction<{
     channelName: string;
     contentIndex: number;
-    content?: ArticleContent,
+    content?: ArticleContent;
   }>('updateArticleContent'),
   updateArticles: createAction<{
-    articles: ArticleResponse[],
+    articles: ArticleResponse[];
   }>('updateArticles'),
   updateFavoriteArticleStatus: createAction<{
     channelName: string;
     contentIndex: number;
-    isFavorite: boolean,
+    isFavorite: boolean;
   }>('updateFavoriteArticleStatus'),
   favoriteArticleActionRequest: createAction<{
-    articleId: number,
-    method: Method,
+    articleId: number;
+    method: Method;
   }>('favoriteArticleActionRequest'),
 };
 
@@ -78,7 +78,10 @@ export interface ArticlesState {
 
 export const INITIAL_ARTICLE_STATE: ArticlesState = {};
 
-export const articleReducer = createReducer<typeof INITIAL_ARTICLE_STATE>({}, INITIAL_ARTICLE_STATE);
+export const articleReducer = createReducer<typeof INITIAL_ARTICLE_STATE>(
+  {},
+  INITIAL_ARTICLE_STATE,
+);
 
 articleReducer.on(Actions.loadArticleRequest, (state, action) => {
   const { channelName, contentIndex } = action;
@@ -101,7 +104,9 @@ articleReducer.on(Actions.loadArticleSuccess, (state, action) => {
     ...state,
     [contentKey]: {
       ...state[contentKey],
-      article: !!state[contentKey] ? { ...state[contentKey].article, ...articleResponse } : articleResponse,
+      article: state[contentKey]
+        ? { ...state[contentKey].article, ...articleResponse }
+        : articleResponse,
       contentFetchStatus: FetchStatusFlag.IDLE,
     },
   };
@@ -141,7 +146,7 @@ articleReducer.on(Actions.updateArticles, (state, action) => {
     const { channel, content, ...restData } = article;
     prev[contentKey] = {
       ...state[contentKey],
-      article: !!state[contentKey] ? { ...state[contentKey].article, ...restData } : restData,
+      article: state[contentKey] ? { ...state[contentKey].article, ...restData } : restData,
     };
     return prev;
   }, state);

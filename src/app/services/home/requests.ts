@@ -17,15 +17,21 @@ export const requestHome = (): Promise<HomeResponse> => {
   const queryString = qs.parse(window.location.search, { ignoreQueryPrefix: true });
   return request({
     url: '/api/pages/home',
-    params: queryString.test_group && queryString.test_group.length > 0 ? { test_group: queryString.test_group } : {},
+    params:
+      queryString.test_group && queryString.test_group.length > 0
+        ? { test_group: queryString.test_group }
+        : {},
     method: 'GET',
-  }).then((response) => camelize<AxiosResponse<HomeResponse>>(response, { recursive: true }).data);
+  }).then(
+    response => camelize<AxiosResponse<HomeResponse>>(response, { recursive: true }).data,
+  );
 };
 
-export const requestBanner = (spot: string): Promise<BigBanner[]> => (
+export const requestBanner = (spot: string): Promise<BigBanner[]> =>
   request({
     url: `/api/banners/?spot=${spot}`,
     method: 'GET',
     withCredentials: false,
-  }).then((response) => camelize<AxiosResponse<BigBanner[]>>(response, { recursive: true }).data)
-);
+  }).then(
+    response => camelize<AxiosResponse<BigBanner[]>>(response, { recursive: true }).data,
+  );

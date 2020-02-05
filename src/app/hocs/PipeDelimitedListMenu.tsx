@@ -11,15 +11,18 @@ export interface PipeDelimitedListMenuProps {
   children: (item: PipeDelimitedListItem) => JSX.Element;
 }
 
-export const PipeDelimitedListMenu: React.SFC<PipeDelimitedListMenuProps> = (props) => {
+export const PipeDelimitedListMenu: React.SFC<PipeDelimitedListMenuProps> = props => {
   const { list, activeItemType } = props;
 
   return (
     <ul className="PipeDelimitedList">
-      {list.map((item) => (
+      {list.map(item => (
         <li
           key={item.type}
-          className={classNames(['PipeDelimitedList_Item', { active: item.type === activeItemType }])}
+          className={classNames([
+            'PipeDelimitedList_Item',
+            { active: item.type === activeItemType },
+          ])}
         >
           {props.children(item)}
         </li>

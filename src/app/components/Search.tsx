@@ -41,7 +41,7 @@ export interface InstantSearchHighlight {
 export interface InstantSearchArticleHighlight {
   title?: string;
   authorNames?: string;
-  articleChannel?: { displayName: string; };
+  articleChannel?: { displayName: string };
 }
 
 export interface AuthorInfo {
@@ -60,7 +60,7 @@ export interface InstantSearchResultBook {
 
 export interface InstantSearchResultArticle {
   id: number;
-  articleChannel: { displayName: string; id: number; name: string; };
+  articleChannel: { displayName: string; id: number; name: string };
   authorsInfo: AuthorInfo[];
   contentId: number;
   title: string;
@@ -90,7 +90,7 @@ interface HistoryState {
 }
 
 interface QueryString {
-  'q'?: string;
+  q?: string;
 }
 
 interface SearchState {
@@ -105,13 +105,13 @@ interface SearchState {
   instantSearchResultsByKeyword: {
     Books: {
       [instantSearchKeyword: string]: InstantSearchResultBook[];
-    },
+    };
     Articles: {
       [instantSearchKeyword: string]: InstantSearchResultArticle[];
-    },
+    };
     Common: {
       [instantSearchKeyword: string]: InstantSearchResultBook[];
-    },
+    };
   };
 }
 
@@ -123,18 +123,24 @@ enum KeyboardCode {
 
 export const SearchIcon = (props: { className: string }) => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" className={props.className}>
-  // tslint:disable-next-line:max-line-length
-    <path fillRule="evenodd" clipRule="evenodd" d="M6.68954 11.3208C4.12693 11.3208 2.05832 9.25214 2.05832 6.68954C2.05832 4.12693 4.12693 2.05832 6.68954 2.05832C9.25214 2.05832 11.3208 4.12693 11.3208 6.68954C11.3208 9.25214 9.25214 11.3208 6.68954 11.3208ZM12.8645 11.3208H12.0515L11.7633 11.0429C12.7719 9.86964 13.3791 8.34648 13.3791 6.68954C13.3791 2.99485 10.3842 0 6.68954 0C2.99485 0 0 2.99485 0 6.68954C0 10.3842 2.99485 13.3791 6.68954 13.3791C8.34648 13.3791 9.86964 12.7719 11.0429 11.7633L11.3208 12.0515V12.8645L16.4666 18L18 16.4666L12.8645 11.3208Z" />
+    // tslint:disable-next-line:max-line-length
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M6.68954 11.3208C4.12693 11.3208 2.05832 9.25214 2.05832 6.68954C2.05832 4.12693 4.12693 2.05832 6.68954 2.05832C9.25214 2.05832 11.3208 4.12693 11.3208 6.68954C11.3208 9.25214 9.25214 11.3208 6.68954 11.3208ZM12.8645 11.3208H12.0515L11.7633 11.0429C12.7719 9.86964 13.3791 8.34648 13.3791 6.68954C13.3791 2.99485 10.3842 0 6.68954 0C2.99485 0 0 2.99485 0 6.68954C0 10.3842 2.99485 13.3791 6.68954 13.3791C8.34648 13.3791 9.86964 12.7719 11.0429 11.7633L11.3208 12.0515V12.8645L16.4666 18L18 16.4666L12.8645 11.3208Z"
+    />
   </svg>
 );
 
 export class Search extends React.Component<SearchProps, SearchState> {
-
   public static getDerivedStateFromProps(nextProps: SearchProps, prevState: SearchState) {
     if (nextProps.searchQuery !== prevState.searchQuery) {
       const queryString: QueryString = qs.parse(nextProps.searchQuery, { ignoreQueryPrefix: true });
-      const keywordText: string = (queryString && queryString.q && isString(queryString.q)) ? queryString.q : '';
-      if (keywordText.length <= 0) { return null; }
+      const keywordText: string =
+        queryString && queryString.q && isString(queryString.q) ? queryString.q : '';
+      if (keywordText.length <= 0) {
+        return null;
+      }
       return {
         searchQuery: nextProps.searchQuery,
         keyword: keywordText,
@@ -143,20 +149,31 @@ export class Search extends React.Component<SearchProps, SearchState> {
 
     return null;
   }
+
   // set member variables type
   private onSearchChange$ = new Subject();
+
   private onSearchKeydown$ = new Subject();
+
   private searchComponentWrapper: HTMLElement | null;
+
   private searchInput: HTMLInputElement | null;
+
   private keydownSubscription: Subscription;
+
   private inputSubscription: Subscription;
 
   public state: SearchState = this.getInitialState();
+
   private closeFunctionOnWindow = (event: MouseEvent): void => this.handleOutsideClick(event);
 
   // set initial private state
   private getInitialState(): SearchState {
-    const { enabled = true, bookKeywordList = [], articleKeywordList = [] } = localStorageManager.load().history;
+    const {
+      enabled = true,
+      bookKeywordList = [],
+      articleKeywordList = [],
+    } = localStorageManager.load().history;
 
     return {
       searchQuery: '',
@@ -172,30 +189,36 @@ export class Search extends React.Component<SearchProps, SearchState> {
   }
 
   private setStateClean(keyword = ''): void {
-    this.setState({
-      isActive: false,
-      keyword,
-      highlightIndex: -1,
-      currentHelperType: SearchHelperFlag.NONE,
-      isClearButtonVisible: false,
-    }, () => {
-      if (this.searchInput) {
-        this.searchInput.blur();
-      }
-    });
+    this.setState(
+      {
+        isActive: false,
+        keyword,
+        highlightIndex: -1,
+        currentHelperType: SearchHelperFlag.NONE,
+        isClearButtonVisible: false,
+      },
+      () => {
+        if (this.searchInput) {
+          this.searchInput.blur();
+        }
+      },
+    );
   }
 
   // private methods
   private setHistoryStateAndLocalStorage(historyObj: HistoryState): void {
-    this.setState({
-      history: historyObj,
-    }, () => {
-      localStorageManager.save({
-        history: {
-          ...this.state.history,
-        },
-      });
-    });
+    this.setState(
+      {
+        history: historyObj,
+      },
+      () => {
+        localStorageManager.save({
+          history: {
+            ...this.state.history,
+          },
+        });
+      },
+    );
   }
 
   private toggleSavingHistory(): void {
@@ -212,21 +235,22 @@ export class Search extends React.Component<SearchProps, SearchState> {
       return;
     }
     const { appStatus } = this.props;
-    const filteredKeywordList: string[] = appStatus === AppStatus.Books ?
-      this.state.history.bookKeywordList :
-      this.state.history.articleKeywordList
-        .filter((listItem: string) => listItem !== keyword)
-        .filter((listItem: string) => listItem.length > 0);
+    const filteredKeywordList: string[] =
+      appStatus === AppStatus.Books
+        ? this.state.history.bookKeywordList
+        : this.state.history.articleKeywordList
+            .filter((listItem: string) => listItem !== keyword)
+            .filter((listItem: string) => listItem.length > 0);
     const updatedHistoryState: HistoryState = {
       enabled: this.state.history.enabled,
-      bookKeywordList: appStatus === AppStatus.Books ? [
-        keyword,
-        ...take(filteredKeywordList, 4),
-      ] : this.state.history.bookKeywordList,
-      articleKeywordList: appStatus === AppStatus.Articles ? [
-        keyword,
-        ...take(filteredKeywordList, 4),
-      ] : this.state.history.articleKeywordList,
+      bookKeywordList:
+        appStatus === AppStatus.Books
+          ? [keyword, ...take(filteredKeywordList, 4)]
+          : this.state.history.bookKeywordList,
+      articleKeywordList:
+        appStatus === AppStatus.Articles
+          ? [keyword, ...take(filteredKeywordList, 4)]
+          : this.state.history.articleKeywordList,
     };
     this.setHistoryStateAndLocalStorage(updatedHistoryState);
   }
@@ -242,16 +266,19 @@ export class Search extends React.Component<SearchProps, SearchState> {
 
   private removeHistoryKeyword(keyword: string): void {
     const { appStatus } = this.props;
-    const filteredKeywordList: string[] = appStatus === AppStatus.Books ?
-      this.state.history.bookKeywordList : this.state.history.articleKeywordList
-        .filter((listItem: string) => listItem !== keyword);
+    const filteredKeywordList: string[] =
+      appStatus === AppStatus.Books
+        ? this.state.history.bookKeywordList
+        : this.state.history.articleKeywordList.filter((listItem: string) => listItem !== keyword);
 
     const updatedHistoryState = {
       enabled: this.state.history.enabled,
-      bookKeywordList: appStatus === AppStatus.Books ?
-        filteredKeywordList : this.state.history.bookKeywordList,
-      articleKeywordList: appStatus === AppStatus.Articles ?
-        filteredKeywordList : this.state.history.articleKeywordList,
+      bookKeywordList:
+        appStatus === AppStatus.Books ? filteredKeywordList : this.state.history.bookKeywordList,
+      articleKeywordList:
+        appStatus === AppStatus.Articles
+          ? filteredKeywordList
+          : this.state.history.articleKeywordList,
     };
     this.setHistoryStateAndLocalStorage(updatedHistoryState);
   }
@@ -274,42 +301,62 @@ export class Search extends React.Component<SearchProps, SearchState> {
       keyword: value,
     };
 
-    if (instantSearchResultsByKeyword[appStatus][value] &&
-      (instantSearchResultsByKeyword[appStatus][value].length > 0)
+    if (
+      instantSearchResultsByKeyword[appStatus][value] &&
+      instantSearchResultsByKeyword[appStatus][value].length > 0
     ) {
-      this.setState({
-        isActive: true,
-        fetchStatus: FetchStatusFlag.IDLE,
-        currentHelperType: SearchHelperFlag.INSTANT,
-      }, () => this.manageScrollDisable(false));
+      this.setState(
+        {
+          isActive: true,
+          fetchStatus: FetchStatusFlag.IDLE,
+          currentHelperType: SearchHelperFlag.INSTANT,
+        },
+        () => this.manageScrollDisable(false),
+      );
       return;
     }
-    this.setState({
-      isActive: true,
-      fetchStatus: FetchStatusFlag.FETCHING,
-      currentHelperType: SearchHelperFlag.INSTANT,
-    }, () => {
-      request({
-        baseURL: env.SEARCH_API,
-        method: 'get',
-        url: '/search',
-        withCredentials: false,
-        params: requestParams,
-      }).then((axResponse: AxiosResponse) => this.setState({
-        fetchStatus: FetchStatusFlag.IDLE,
-        instantSearchResultsByKeyword: {
-          ...instantSearchResultsByKeyword,
-          [appStatus]: {
-            ...instantSearchResultsByKeyword[appStatus],
-            [value]: camelize(axResponse.data[appStatus.toLowerCase()], { recursive: true }),
-          },
-        },
-      }, () => this.manageScrollDisable(false)))
-        .catch((axError: AxiosError) => this.setState({
-          fetchStatus: FetchStatusFlag.FETCH_ERROR,
-          currentHelperType: SearchHelperFlag.NONE,
-        }, () => this.manageScrollDisable(false)));
-    });
+    this.setState(
+      {
+        isActive: true,
+        fetchStatus: FetchStatusFlag.FETCHING,
+        currentHelperType: SearchHelperFlag.INSTANT,
+      },
+      () => {
+        request({
+          baseURL: env.SEARCH_API,
+          method: 'get',
+          url: '/search',
+          withCredentials: false,
+          params: requestParams,
+        })
+          .then((axResponse: AxiosResponse) =>
+            this.setState(
+              {
+                fetchStatus: FetchStatusFlag.IDLE,
+                instantSearchResultsByKeyword: {
+                  ...instantSearchResultsByKeyword,
+                  [appStatus]: {
+                    ...instantSearchResultsByKeyword[appStatus],
+                    [value]: camelize(axResponse.data[appStatus.toLowerCase()], {
+                      recursive: true,
+                    }),
+                  },
+                },
+              },
+              () => this.manageScrollDisable(false),
+            ),
+          )
+          .catch((axError: AxiosError) =>
+            this.setState(
+              {
+                fetchStatus: FetchStatusFlag.FETCH_ERROR,
+                currentHelperType: SearchHelperFlag.NONE,
+              },
+              () => this.manageScrollDisable(false),
+            ),
+          );
+      },
+    );
   }
 
   private toggleActivation(isTargetActive: boolean): void {
@@ -317,13 +364,13 @@ export class Search extends React.Component<SearchProps, SearchState> {
     if (isActive === isTargetActive) {
       return;
     }
-    window.removeEventListener('click', this.closeFunctionOnWindow!, true);
+    window.removeEventListener('click', this.closeFunctionOnWindow, true);
     this.manageScrollDisable(isTargetActive);
     if (!isTargetActive) {
       this.setStateClean();
       return;
     }
-    window.addEventListener('click', this.closeFunctionOnWindow!, true);
+    window.addEventListener('click', this.closeFunctionOnWindow, true);
     const { keyword } = this.state;
     const targetState = {
       isActive: isTargetActive,
@@ -347,11 +394,14 @@ export class Search extends React.Component<SearchProps, SearchState> {
   }
 
   private clearSearchInput(): void {
-    this.setState({
-      keyword: '',
-      isClearButtonVisible: false,
-      currentHelperType: SearchHelperFlag.HISTORY,
-    }, () => this.searchInput && this.searchInput.focus());
+    this.setState(
+      {
+        keyword: '',
+        isClearButtonVisible: false,
+        currentHelperType: SearchHelperFlag.HISTORY,
+      },
+      () => this.searchInput && this.searchInput.focus(),
+    );
   }
 
   private updateHighlightIndex(idx: number): void {
@@ -395,7 +445,12 @@ export class Search extends React.Component<SearchProps, SearchState> {
     this.setStateClean();
     this.pushHistoryKeyword(targetKeyword);
 
-    history.push(`${articleContentToPath({channelName: article.articleChannel.name, contentIndex: article.contentId})}?q=${encodeURIComponent(targetKeyword)}&s=instant`);
+    history.push(
+      `${articleContentToPath({
+        channelName: article.articleChannel.name,
+        contentIndex: article.contentId,
+      })}?q=${encodeURIComponent(targetKeyword)}&s=instant`,
+    );
   }
 
   private fullSearchWithKeyword(keyword: string): void {
@@ -460,71 +515,83 @@ export class Search extends React.Component<SearchProps, SearchState> {
     // functional key event observable
     this.keydownSubscription = this.onSearchKeydown$
       .pipe(
-        filter((e: any) => (e.keyCode === 13 || e.keyCode === 38 || e.keyCode === 40)),
+        filter((e: any) => e.keyCode === 13 || e.keyCode === 38 || e.keyCode === 40),
         map((e: any) => {
           e.preventDefault();
           const { appStatus } = this.props;
           return {
             keyType: e.keyCode,
             value: e.target.value,
-            currentHelperList: (this.state.currentHelperType === SearchHelperFlag.HISTORY) ?
-              (appStatus === AppStatus.Books ? this.state.history.bookKeywordList : this.state.history.articleKeywordList) :
-              this.state.instantSearchResultsByKeyword[appStatus][this.state.keyword],
+            currentHelperList:
+              this.state.currentHelperType === SearchHelperFlag.HISTORY
+                ? appStatus === AppStatus.Books
+                  ? this.state.history.bookKeywordList
+                  : this.state.history.articleKeywordList
+                : this.state.instantSearchResultsByKeyword[appStatus][this.state.keyword],
           };
         }),
         throttleTime(100),
       )
-      .subscribe((obj: {
-        keyType: KeyboardCode;
-        value: string;
-        currentHelperList: string[] | InstantSearchResultBook[] | InstantSearchResultArticle[];
-      }): void => {
-        const {
-          keyword,
-          currentHelperType,
-          instantSearchResultsByKeyword,
-          fetchStatus,
-          highlightIndex,
-        } = this.state;
-        if (obj.keyType === KeyboardCode.Enter) {
-          this.doSearchAction(obj.value);
-          return;
-        }
-        if (currentHelperType === SearchHelperFlag.HISTORY && !this.state.history.enabled) {
-          this.setState({ highlightIndex: -1 });
-          return;
-        }
-        if (currentHelperType !== SearchHelperFlag.NONE) {
-          this.setState({
-            highlightIndex:
-              fetchStatus === FetchStatusFlag.FETCHING ?
-                -1 :
-                this.getMovedHighlightIndex(obj.keyType, highlightIndex, obj.currentHelperList),
-          });
-        } else if (keyword.length > 0 && instantSearchResultsByKeyword[this.props.appStatus][keyword].length > 0) {
-          this.setState({
-            highlightIndex:
-              fetchStatus === FetchStatusFlag.FETCHING ? -1 : 0,
-            currentHelperType: fetchStatus === FetchStatusFlag.FETCHING ?
-              SearchHelperFlag.NONE : SearchHelperFlag.INSTANT,
-          });
-        } else if (keyword.length === 0) {
-          this.setState({
-            highlightIndex: 0,
-            currentHelperType: SearchHelperFlag.HISTORY,
-          });
-        }
-      });
+      .subscribe(
+        (obj: {
+          keyType: KeyboardCode;
+          value: string;
+          currentHelperList: string[] | InstantSearchResultBook[] | InstantSearchResultArticle[];
+        }): void => {
+          const {
+            keyword,
+            currentHelperType,
+            instantSearchResultsByKeyword,
+            fetchStatus,
+            highlightIndex,
+          } = this.state;
+          if (obj.keyType === KeyboardCode.Enter) {
+            this.doSearchAction(obj.value);
+            return;
+          }
+          if (currentHelperType === SearchHelperFlag.HISTORY && !this.state.history.enabled) {
+            this.setState({ highlightIndex: -1 });
+            return;
+          }
+          if (currentHelperType !== SearchHelperFlag.NONE) {
+            this.setState({
+              highlightIndex:
+                fetchStatus === FetchStatusFlag.FETCHING
+                  ? -1
+                  : this.getMovedHighlightIndex(obj.keyType, highlightIndex, obj.currentHelperList),
+            });
+          } else if (
+            keyword.length > 0 &&
+            instantSearchResultsByKeyword[this.props.appStatus][keyword].length > 0
+          ) {
+            this.setState({
+              highlightIndex: fetchStatus === FetchStatusFlag.FETCHING ? -1 : 0,
+              currentHelperType:
+                fetchStatus === FetchStatusFlag.FETCHING
+                  ? SearchHelperFlag.NONE
+                  : SearchHelperFlag.INSTANT,
+            });
+          } else if (keyword.length === 0) {
+            this.setState({
+              highlightIndex: 0,
+              currentHelperType: SearchHelperFlag.HISTORY,
+            });
+          }
+        },
+      );
 
     // input value change event observable
     this.inputSubscription = this.onSearchChange$
       .pipe(
-        tap((value: string): void => this.setState({
-          keyword: value,
-          highlightIndex: -1,
-          isClearButtonVisible: true,
-          currentHelperType: value.length > 0 ? this.state.currentHelperType : SearchHelperFlag.HISTORY,
-        })),
+        tap((value: string): void =>
+          this.setState({
+            keyword: value,
+            highlightIndex: -1,
+            isClearButtonVisible: true,
+            currentHelperType:
+              value.length > 0 ? this.state.currentHelperType : SearchHelperFlag.HISTORY,
+          }),
+        ),
         distinctUntilChanged(),
         debounceTime(150),
       )
@@ -554,15 +621,12 @@ export class Search extends React.Component<SearchProps, SearchState> {
   }
 
   private handleOutsideClick(e: any): void {
-    if (
-      this.searchComponentWrapper &&
-      this.searchComponentWrapper.contains(e.target)
-    ) {
+    if (this.searchComponentWrapper && this.searchComponentWrapper.contains(e.target)) {
       return;
     }
 
-    const targetKeyword = (this.props.gnbSearchActiveType === GNBSearchActiveType.block) ?
-      this.state.keyword : '';
+    const targetKeyword =
+      this.props.gnbSearchActiveType === GNBSearchActiveType.block ? this.state.keyword : '';
     this.toggleActivation(false);
     this.setStateClean(targetKeyword);
   }
@@ -571,30 +635,35 @@ export class Search extends React.Component<SearchProps, SearchState> {
     const { isActive } = this.state;
     const { isIosInApp, gnbSearchActiveType } = this.props;
     if (isActive || gnbSearchActiveType === GNBSearchActiveType.block) {
-      return (
-        <Icon
-          name="arrow_13_left"
-          className="GNBSearchButtonIcon"
-        />
-      );
+      return <Icon name="arrow_13_left" className="GNBSearchButtonIcon" />;
     }
     if (isIosInApp) {
       return (
-        <svg className="GNBSearchButtonIcon_IosInApp" width="24px" height="24px" viewBox="0 0 24 24">
+        <svg
+          className="GNBSearchButtonIcon_IosInApp"
+          width="24px"
+          height="24px"
+          viewBox="0 0 24 24"
+        >
           <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
             <g transform="translate(2.500000, 2.500000)" fill="#2E3847">
               {/* tslint:disable-next-line:max-line-length */}
-              <path d="M8,1.5 C4.41014913,1.5 1.5,4.41014913 1.5,8 C1.5,11.5898509 4.41014913,14.5 8,14.5 C11.5898509,14.5 14.5,11.5898509 14.5,8 C14.5,4.41014913 11.5898509,1.5 8,1.5 Z M8,0 C12.418278,-7.77156117e-16 16,3.581722 16,8 C16,12.418278 12.418278,16 8,16 C3.581722,16 4.4408921e-16,12.418278 0,8 C-5.55111512e-16,3.581722 3.581722,8.8817842e-16 8,0 Z" id="Rectangle" fillRule="nonzero" />
+              <path
+                d="M8,1.5 C4.41014913,1.5 1.5,4.41014913 1.5,8 C1.5,11.5898509 4.41014913,14.5 8,14.5 C11.5898509,14.5 14.5,11.5898509 14.5,8 C14.5,4.41014913 11.5898509,1.5 8,1.5 Z M8,0 C12.418278,-7.77156117e-16 16,3.581722 16,8 C16,12.418278 12.418278,16 8,16 C3.581722,16 4.4408921e-16,12.418278 0,8 C-5.55111512e-16,3.581722 3.581722,8.8817842e-16 8,0 Z"
+                id="Rectangle"
+                fillRule="nonzero"
+              />
               {/* tslint:disable-next-line:max-line-length */}
-              <polygon transform="translate(15.778175, 15.674621) rotate(-45.000000) translate(-15.778175, -15.674621)" points="15.0281746 11.4246212 16.5281746 11.4246212 16.5281746 19.9246212 15.0281746 19.9246212" />
+              <polygon
+                transform="translate(15.778175, 15.674621) rotate(-45.000000) translate(-15.778175, -15.674621)"
+                points="15.0281746 11.4246212 16.5281746 11.4246212 16.5281746 19.9246212 15.0281746 19.9246212"
+              />
             </g>
           </g>
         </svg>
       );
     }
-    return (
-      <SearchIcon className="GNBSearchButtonIcon" />
-    );
+    return <SearchIcon className="GNBSearchButtonIcon" />;
   }
 
   // component life cycle handler
@@ -631,22 +700,29 @@ export class Search extends React.Component<SearchProps, SearchState> {
       onKeyDown: (e: any) => this.onSearchKeydown(e),
     };
 
-    Object.assign(inputEvents, isMobile ? {
-      onTouchStart: () => this.toggleActivation(true),
-    } : {
-      onClick: () => this.toggleActivation(true),
-    });
+    Object.assign(
+      inputEvents,
+      isMobile
+        ? {
+            onTouchStart: () => this.toggleActivation(true),
+          }
+        : {
+            onClick: () => this.toggleActivation(true),
+          },
+    );
 
     return (
       <div
         className={classNames({
-          'GNBSearchWrapper': true,
-          'active': isActive,
+          GNBSearchWrapper: true,
+          active: isActive,
           'GNBSearchWrapper-colored': gnbColorLevel !== GNBColorLevel.DEFAULT,
           'GNBSearchWrapper-typeBlock': gnbSearchActiveType === GNBSearchActiveType.block,
         })}
         style={{ background: solidBackgroundColorRGBString }}
-        ref={(ref) => { this.searchComponentWrapper = ref; }}
+        ref={ref => {
+          this.searchComponentWrapper = ref;
+        }}
       >
         <button
           type="button"
@@ -664,10 +740,9 @@ export class Search extends React.Component<SearchProps, SearchState> {
           <h2 className="a11y">검색</h2>
         </button>
         <div
-          className={classNames(
-            'GNBSearchInputWrapper',
-            { 'GNBSearchInputWrapper-empty': isClearButtonVisible },
-          )}
+          className={classNames('GNBSearchInputWrapper', {
+            'GNBSearchInputWrapper-empty': isClearButtonVisible,
+          })}
         >
           <SearchIcon className="GNBSearchIcon" />
           <input
@@ -679,7 +754,9 @@ export class Search extends React.Component<SearchProps, SearchState> {
             autoCapitalize="off"
             placeholder={appStatus === AppStatus.Books ? '도서 검색' : '아티클 검색'}
             value={keyword}
-            ref={(ref) => { this.searchInput = ref; }}
+            ref={ref => {
+              this.searchInput = ref;
+            }}
             {...inputEvents}
             maxLength={150}
           />
@@ -689,10 +766,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
               type="button"
               onClick={() => this.clearSearchInput()}
             >
-              <Icon
-                name="close_2"
-                className="GNBSearchResetButtonIcon"
-              />
+              <Icon name="close_2" className="GNBSearchResetButtonIcon" />
               <span className="a11y">검색어 비우기</span>
             </button>
           ) : null}
@@ -730,13 +804,15 @@ export class Search extends React.Component<SearchProps, SearchState> {
           }}
           appStatus={appStatus}
         />
-        {isMobile ? (<span
-          className="dim"
-          onClick={() => {
-            this.manageScrollDisable(false);
-            this.setState({ isActive: false, isClearButtonVisible: false });
-          }}
-        />) : null}
+        {isMobile ? (
+          <span
+            className="dim"
+            onClick={() => {
+              this.manageScrollDisable(false);
+              this.setState({ isActive: false, isClearButtonVisible: false });
+            }}
+          />
+        ) : null}
       </div>
     );
   }
@@ -746,7 +822,7 @@ const mapStateToProps = (state: RidiSelectState): SearchStoreProps => ({
   gnbColorLevel: state.commonUI.gnbColorLevel,
   solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(state),
   gnbSearchActiveType: state.commonUI.gnbSearchActiveType,
-  searchQuery: state.router.location!.search,
+  searchQuery: state.router.location.search,
   isIosInApp: getIsIosInApp(state),
   isInApp: selectIsInApp(state),
   appStatus: state.app.appStatus,

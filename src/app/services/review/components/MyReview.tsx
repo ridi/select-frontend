@@ -72,7 +72,15 @@ export class MyReview extends React.Component<MyReviewProps, MyReviewState> {
 
   public render() {
     const { isCommentSectionOpen } = this.state;
-    const { bookId, deleteReview, fetchStatus, myReviewFetchStatus, isBeingEdited, checkAuth, isDisabled } = this.props;
+    const {
+      bookId,
+      deleteReview,
+      fetchStatus,
+      myReviewFetchStatus,
+      isBeingEdited,
+      checkAuth,
+      isDisabled,
+    } = this.props;
     if (!this.props.review || (!isBeingEdited && !this.props.review.content)) {
       return (
         <ReviewForm
@@ -85,7 +93,14 @@ export class MyReview extends React.Component<MyReviewProps, MyReviewState> {
       );
     }
 
-    const { reviewDate, content, hasSpoiler, commentIdsByPage, isLikedByMe, likeCount } = this.props.review;
+    const {
+      reviewDate,
+      content,
+      hasSpoiler,
+      commentIdsByPage,
+      isLikedByMe,
+      likeCount,
+    } = this.props.review;
     const isSubmitting = myReviewFetchStatus.content === FetchStatusFlag.FETCHING;
     const isDeleting = myReviewFetchStatus.delete === FetchStatusFlag.FETCHING;
 
@@ -95,14 +110,10 @@ export class MyReview extends React.Component<MyReviewProps, MyReviewState> {
           <div className="MyReview">
             <div className="MyReview_DataWrapper">
               {/* Review Content  */}
-              <ReviewContent>
-                {content}
-              </ReviewContent>
+              <ReviewContent>{content}</ReviewContent>
               {/* timestamp, edit, delete buttons */}
               <div className="MyReview_Footer">
-                <div className="MyReview_ReviewDate">
-                  {buildOnlyDateFormat(reviewDate)}
-                </div>
+                <div className="MyReview_ReviewDate">{buildOnlyDateFormat(reviewDate)}</div>
                 <div className="MyReview_EditingButtons">
                   <button
                     className="MyReview_EditButton"
@@ -111,10 +122,7 @@ export class MyReview extends React.Component<MyReviewProps, MyReviewState> {
                     <Icon name="pencil_1" className="MyReview_EditButton_Icon" />
                   </button>
                   <button
-                    className={classNames([
-                      'MyReview_DeleteButton',
-                      { spinner: isDeleting },
-                    ])}
+                    className={classNames(['MyReview_DeleteButton', { spinner: isDeleting }])}
                     onClick={() => confirm('리뷰를 삭제하시겠습니까?') && deleteReview(bookId)}
                     disabled={isDeleting}
                   >
@@ -140,7 +148,7 @@ export class MyReview extends React.Component<MyReviewProps, MyReviewState> {
 
         {(isBeingEdited || isSubmitting) && (
           <ReviewForm
-            autoFocus={true}
+            autoFocus
             initialHasSpoiler={hasSpoiler}
             initialReviewContent={content}
             fetchStatus={myReviewFetchStatus.content}

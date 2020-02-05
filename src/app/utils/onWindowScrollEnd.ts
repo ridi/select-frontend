@@ -6,7 +6,7 @@ function onWindowScrollEnd(e: Event) {
     window.clearTimeout(scrollTimeout);
   }
   scrollTimeout = window.setTimeout(() => {
-    scrollEndHandlers.forEach((handler) => handler(e));
+    scrollEndHandlers.forEach(handler => handler(e));
   }, 300);
 }
 

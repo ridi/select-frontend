@@ -11,7 +11,10 @@ export interface WrappedStarRatingFormState {
   selectedRating: number;
 }
 
-export class WrappedStarRatingForm extends React.Component<WrappedStarRatingFormProps, WrappedStarRatingFormState> {
+export class WrappedStarRatingForm extends React.Component<
+  WrappedStarRatingFormProps,
+  WrappedStarRatingFormState
+> {
   constructor(props: WrappedStarRatingFormProps) {
     super(props);
     this.state = {

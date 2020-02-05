@@ -9,7 +9,7 @@ export const wrapper = css`
   width: 100%;
   padding: 0 10px calc(20px + constant(safe-area-inset-bottom)) 10px;
   padding: 0 10px calc(20px + env(safe-area-inset-bottom)) 10px;
-  background: rgba(19, 32, 47, .9);
+  background: rgba(19, 32, 47, 0.9);
   box-sizing: border-box;
   text-align: center;
   box-shadow: 0 -10px 20px 0 rgba(0, 0, 0, 0.1);

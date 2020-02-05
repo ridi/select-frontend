@@ -108,7 +108,7 @@
 
   @media (--pc-screen) {
     width: var(--book-width-pc);
-    &:nth-child(n+7) {
+    &:nth-child(n + 7) {
       display: none;
     }
   }
@@ -229,7 +229,7 @@
       &:nth-child(3n + 1) {
         margin-left: 0;
       }
-      &:nth-child(n+4) {
+      &:nth-child(n + 4) {
         margin-top: 30px;
       }
     }
@@ -239,7 +239,7 @@
       &:nth-child(3n + 1) {
         margin-left: 0;
       }
-      &:nth-child(n+4) {
+      &:nth-child(n + 4) {
         margin-top: 30px;
       }
     }
@@ -249,7 +249,7 @@
       &:nth-child(3n + 1) {
         margin-left: 0;
       }
-      &:nth-child(n+4) {
+      &:nth-child(n + 4) {
         margin-top: 30px;
       }
     }
@@ -259,7 +259,7 @@
       &:nth-child(4n + 1) {
         margin-left: 0;
       }
-      &:nth-child(n+5) {
+      &:nth-child(n + 5) {
         margin-top: 30px;
       }
     }
@@ -269,7 +269,7 @@
       &:nth-child(4n + 1) {
         margin-left: 0;
       }
-      &:nth-child(n+5) {
+      &:nth-child(n + 5) {
         margin-top: 30px;
       }
     }
@@ -279,7 +279,7 @@
       &:nth-child(6n + 1) {
         margin-left: 0;
       }
-      &:nth-child(n+7) {
+      &:nth-child(n + 7) {
         margin-top: 60px;
       }
     }
@@ -289,7 +289,7 @@
       &:nth-child(6n + 1) {
         margin-left: 0;
       }
-      &:nth-child(n+7) {
+      &:nth-child(n + 7) {
         margin-top: 60px;
       }
     }
@@ -349,5 +349,3 @@
     }
   }
 }
-
-

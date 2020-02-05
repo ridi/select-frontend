@@ -31,67 +31,32 @@ function mapStateToProps(
   };
 }
 
-export const ReviewsHeader: React.SFC<ReviewsHeaderProps> = (props) => {
-  const {
-    bookId,
-    myReviewId,
-    reviewSummary,
-    checkAuth,
-  } = props;
+export const ReviewsHeader: React.SFC<ReviewsHeaderProps> = props => {
+  const { bookId, myReviewId, reviewSummary, checkAuth } = props;
 
   return (
     <>
       <MediaQuery maxWidth={MAX_WIDTH}>
-        <BuyerRatingSummaryBlock
-          summary={reviewSummary}
-        />
+        <BuyerRatingSummaryBlock summary={reviewSummary} />
         <div className="ReviewsHeader_Dark">
-          <ConnectedStarRatingForm
-            bookId={bookId}
-            checkAuth={checkAuth}
-          />
-          <ConnectedMyReview
-            bookId={bookId}
-            checkAuth={checkAuth}
-          >
+          <ConnectedStarRatingForm bookId={bookId} checkAuth={checkAuth} />
+          <ConnectedMyReview bookId={bookId} checkAuth={checkAuth}>
             <div className="Comments">
-              <ConnectedCommentList
-                bookId={bookId}
-                reviewId={myReviewId}
-              />
-              <ConnectedCommentForm
-                bookId={bookId}
-                reviewId={myReviewId}
-                checkAuth={checkAuth}
-              />
+              <ConnectedCommentList bookId={bookId} reviewId={myReviewId} />
+              <ConnectedCommentForm bookId={bookId} reviewId={myReviewId} checkAuth={checkAuth} />
             </div>
           </ConnectedMyReview>
         </div>
       </MediaQuery>
       <MediaQuery minWidth={MIN_WIDTH}>
         <div className="ReviewsHeader">
-          <BuyerRatingSummaryBlock
-            summary={reviewSummary}
-          />
+          <BuyerRatingSummaryBlock summary={reviewSummary} />
           <div className="ReviewsHeader_Right">
-            <ConnectedStarRatingForm
-              bookId={bookId}
-              checkAuth={checkAuth}
-            />
-            <ConnectedMyReview
-              bookId={bookId}
-              checkAuth={checkAuth}
-            >
+            <ConnectedStarRatingForm bookId={bookId} checkAuth={checkAuth} />
+            <ConnectedMyReview bookId={bookId} checkAuth={checkAuth}>
               <div className="Comments">
-                <ConnectedCommentList
-                  bookId={bookId}
-                  reviewId={myReviewId}
-                />
-                <ConnectedCommentForm
-                  bookId={bookId}
-                  reviewId={myReviewId}
-                  checkAuth={checkAuth}
-                />
+                <ConnectedCommentList bookId={bookId} reviewId={myReviewId} />
+                <ConnectedCommentForm bookId={bookId} reviewId={myReviewId} checkAuth={checkAuth} />
               </div>
             </ConnectedMyReview>
           </div>
@@ -101,5 +66,4 @@ export const ReviewsHeader: React.SFC<ReviewsHeaderProps> = (props) => {
   );
 };
 
-export const ConnectedReviewsHeader =
-  connect(mapStateToProps)(ReviewsHeader);
+export const ConnectedReviewsHeader = connect(mapStateToProps)(ReviewsHeader);

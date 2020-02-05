@@ -1,7 +1,10 @@
 import { ErrorStatus } from 'app/constants/index';
 import { Actions as ArticleActions } from 'app/services/article';
 import { Actions as ArticleChannelActions } from 'app/services/articleChannel';
-import { ArticleChannelFollowingResponse, requestArticleChannelFollowing } from 'app/services/articleChannel/requests';
+import {
+  ArticleChannelFollowingResponse,
+  requestArticleChannelFollowing,
+} from 'app/services/articleChannel/requests';
 import { Actions } from 'app/services/articleFollowing';
 import {
   FollowingArticleListResponse,
@@ -21,35 +24,37 @@ import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effe
 
 function* loadFollowingChannelList() {
   try {
-    const response: FollowingChannelListResponse = yield call(requestFollowingChannelList, { includes: [ArticleRequestIncludableData.CHANNEL] });
-    yield put(ArticleChannelActions.updateChannelDetail({ channels: response.results.map((res) => res.channel) }));
-    yield put(Actions.loadFollowingChannelListSuccess({response}));
+    const response: FollowingChannelListResponse = yield call(requestFollowingChannelList, {
+      includes: [ArticleRequestIncludableData.CHANNEL],
+    });
+    yield put(
+      ArticleChannelActions.updateChannelDetail({
+        channels: response.results.map(res => res.channel),
+      }),
+    );
+    yield put(Actions.loadFollowingChannelListSuccess({ response }));
   } catch (e) {
     yield put(Actions.loadFollowingChannelListFailure());
-    if (e
-      && e.response
-      && e.response.data
-      && e.response.data.status === ErrorStatus.MAINTENANCE
-    ) {
+    if (e && e.response && e.response.data && e.response.data.status === ErrorStatus.MAINTENANCE) {
       return;
     }
     showMessageForRequestError();
   }
 }
 
-function* loadFollowingArticleList({ payload }: ReturnType<typeof Actions.loadFollowingArticleListRequest>) {
+function* loadFollowingArticleList({
+  payload,
+}: ReturnType<typeof Actions.loadFollowingArticleListRequest>) {
   const { page } = payload;
   try {
-    const response: FollowingArticleListResponse = yield call(requestFollowingArticleList, page, { includes: [ArticleRequestIncludableData.IS_FAVORITE]});
-    yield put(ArticleActions.updateArticles({ articles: response.results.map((res) => res)}));
-    yield put(Actions.loadFollowingArticleListSuccess({page, response}));
+    const response: FollowingArticleListResponse = yield call(requestFollowingArticleList, page, {
+      includes: [ArticleRequestIncludableData.IS_FAVORITE],
+    });
+    yield put(ArticleActions.updateArticles({ articles: response.results.map(res => res) }));
+    yield put(Actions.loadFollowingArticleListSuccess({ page, response }));
   } catch (e) {
-    yield put(Actions.loadFollowingArticleListFailure({page}));
-    if (e
-      && e.response
-      && e.response.data
-      && e.response.data.status === ErrorStatus.MAINTENANCE
-    ) {
+    yield put(Actions.loadFollowingArticleListFailure({ page }));
+    if (e && e.response && e.response.data && e.response.data.status === ErrorStatus.MAINTENANCE) {
       return;
     }
     showMessageForRequestError();
@@ -67,7 +72,9 @@ function* loadUnseenFollowingFeedsRequest() {
 
 function* setUnseenFollowingFeedsToSeen() {
   try {
-    const response: SetAllFollowingFeedsToSeenResponse = yield call(requestUnseenFollowingFeedsToSeen);
+    const response: SetAllFollowingFeedsToSeenResponse = yield call(
+      requestUnseenFollowingFeedsToSeen,
+    );
     yield put(Actions.setUnseenFollowingFeedsToSeenSuccess(response));
   } catch (e) {
     yield put(Actions.setUnseenFollowingFeedsToSeenFailure());
@@ -77,26 +84,38 @@ function* setUnseenFollowingFeedsToSeen() {
 function* unFollowChannel({ payload }: ReturnType<typeof Actions.loadUnFollowChannelRequest>) {
   const { channelId, channelName, method } = payload;
   try {
-    const hasAvailableTicket = yield select((state: RidiSelectState) => state.user.hasAvailableTicket);
+    const hasAvailableTicket = yield select(
+      (state: RidiSelectState) => state.user.hasAvailableTicket,
+    );
     if (!hasAvailableTicket) {
-      toast.failureMessage(`구독 후 ${
-        method === 'POST'
-          ? '팔로우'
-          : '팔로잉 해제'
-      }할 수 있습니다.`);
+      toast.failureMessage(
+        `구독 후 ${method === 'POST' ? '팔로우' : '팔로잉 해제'}할 수 있습니다.`,
+      );
       yield put(ArticleChannelActions.articleChannelFollowingActionFailure({ channelName }));
       return;
     }
-    const response: ArticleChannelFollowingResponse = yield call(requestArticleChannelFollowing, channelId, method);
-    yield put(ArticleChannelActions.articleChannelFollowingActionSuccess({ channelName, response }));
+    const response: ArticleChannelFollowingResponse = yield call(
+      requestArticleChannelFollowing,
+      channelId,
+      method,
+    );
+    yield put(
+      ArticleChannelActions.articleChannelFollowingActionSuccess({ channelName, response }),
+    );
   } catch (e) {
     yield put(ArticleChannelActions.articleChannelFollowingActionFailure({ channelName }));
     return;
   }
   try {
-    const channelResponse: FollowingChannelListResponse = yield call(requestFollowingChannelList, { includes: [ArticleRequestIncludableData.CHANNEL] });
-    yield put(ArticleChannelActions.updateChannelDetail({ channels: channelResponse.results.map((res) => res.channel) }));
-    yield put(Actions.loadFollowingChannelListSuccess({response: channelResponse}));
+    const channelResponse: FollowingChannelListResponse = yield call(requestFollowingChannelList, {
+      includes: [ArticleRequestIncludableData.CHANNEL],
+    });
+    yield put(
+      ArticleChannelActions.updateChannelDetail({
+        channels: channelResponse.results.map(res => res.channel),
+      }),
+    );
+    yield put(Actions.loadFollowingChannelListSuccess({ response: channelResponse }));
   } catch (e) {
     yield put(Actions.loadFollowingChannelListFailure());
   }
@@ -111,11 +130,17 @@ export function* watchFollowingArticleListRequest() {
 }
 
 export function* watchLoadUnseenFollowingFeedsRequest() {
-  yield takeLatest(Actions.loadUnseenFollowingFeedsRequest.getType(), loadUnseenFollowingFeedsRequest);
+  yield takeLatest(
+    Actions.loadUnseenFollowingFeedsRequest.getType(),
+    loadUnseenFollowingFeedsRequest,
+  );
 }
 
 export function* watchSetUnseenFollowingFeedsToSeen() {
-  yield takeLatest(Actions.setUnseenFollowingFeedsToSeenRequest.getType(), setUnseenFollowingFeedsToSeen);
+  yield takeLatest(
+    Actions.setUnseenFollowingFeedsToSeenRequest.getType(),
+    setUnseenFollowingFeedsToSeen,
+  );
 }
 
 export function* watchUnFollowChannelRequest() {

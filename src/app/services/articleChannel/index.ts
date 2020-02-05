@@ -1,6 +1,10 @@
 import { FetchStatusFlag } from 'app/constants';
 import { ArticleResponse } from 'app/services/article/requests';
-import { ArticleChannelArticlesResponse, ArticleChannelFollowingResponse, ArticleChannelListResponse } from 'app/services/articleChannel/requests';
+import {
+  ArticleChannelArticlesResponse,
+  ArticleChannelFollowingResponse,
+  ArticleChannelListResponse,
+} from 'app/services/articleChannel/requests';
 import { ArticleKey, DateDTO, Paginated } from 'app/types';
 import { getArticleKeyFromData } from 'app/utils/utils';
 import { Method } from 'axios';
@@ -9,42 +13,52 @@ import { createAction, createReducer } from 'redux-act';
 export const Actions = {
   loadArticleChannelListRequest: createAction('loadArticleChannelListRequest'),
   loadArticleChannelListSuccess: createAction<{
-    response: ArticleChannelListResponse,
+    response: ArticleChannelListResponse;
   }>('loadArticleChannelListSuccess'),
   loadArticleChannelListFailure: createAction('loadArticleChannelListFailure'),
 
   loadArticleChannelDetailRequest: createAction<{
-    channelName: string,
+    channelName: string;
   }>('loadArticleChannelDetailRequest'),
   loadArticleChannelDetailSuccess: createAction<{
-    channelName: string,
-    articleChannelDetail: ArticleChannel,
+    channelName: string;
+    articleChannelDetail: ArticleChannel;
   }>('loadArticleChannelDetailSuccess'),
   loadArticleChannelDetailFailure: createAction<{
-    channelName: string,
+    channelName: string;
   }>('loadArticleChannelDetailFailure'),
 
   updateChannelDetail: createAction<{
-    channels: ArticleChannel[],
+    channels: ArticleChannel[];
   }>('updateChannelDetail'),
 
   loadArticleChannelArticlesRequest: createAction<{
-    channelName: string,
-    page: number,
+    channelName: string;
+    page: number;
   }>('loadArticleChannelArticlesRequest'),
   loadArticleChannelArticlesSuccess: createAction<{
-    channelName: string,
-    page: number,
-    response: ArticleChannelArticlesResponse,
+    channelName: string;
+    page: number;
+    response: ArticleChannelArticlesResponse;
   }>('loadArticleChannelArticlesSuccess'),
   loadArticleChannelArticlesFailure: createAction<{
-    channelName: string,
-    page: number,
+    channelName: string;
+    page: number;
   }>('loadArticleChannelArticlesFailure'),
 
-  articleChannelFollowingActionRequest: createAction<{ channelId: number, channelName: string, method: Method }>('articleChannelFollowingActionRequest'),
-  articleChannelFollowingActionSuccess: createAction<{ channelName: string, method: Method, response: ArticleChannelFollowingResponse }>('articleChannelFollowingActionSuccess'),
-  articleChannelFollowingActionFailure: createAction<{ channelName: string }>('articleChannelFollowingActionFailure'),
+  articleChannelFollowingActionRequest: createAction<{
+    channelId: number;
+    channelName: string;
+    method: Method;
+  }>('articleChannelFollowingActionRequest'),
+  articleChannelFollowingActionSuccess: createAction<{
+    channelName: string;
+    method: Method;
+    response: ArticleChannelFollowingResponse;
+  }>('articleChannelFollowingActionSuccess'),
+  articleChannelFollowingActionFailure: createAction<{ channelName: string }>(
+    'articleChannelFollowingActionFailure',
+  ),
 };
 
 export interface ArticleChannel {
@@ -88,10 +102,13 @@ export const INITIAL_STATE: ArticleChannelListState = {
 export const CHANNEL_INITIAL_STATE: ArticleChannelState = {};
 
 export const articleChannelListReducer = createReducer<typeof INITIAL_STATE>({}, INITIAL_STATE);
-export const articleChannelReducer = createReducer<typeof CHANNEL_INITIAL_STATE>({}, CHANNEL_INITIAL_STATE);
+export const articleChannelReducer = createReducer<typeof CHANNEL_INITIAL_STATE>(
+  {},
+  CHANNEL_INITIAL_STATE,
+);
 
 /* ArticleChannelList */
-articleChannelListReducer.on(Actions.loadArticleChannelListRequest, (state) => ({
+articleChannelListReducer.on(Actions.loadArticleChannelListRequest, state => ({
   ...state,
   channelList: [],
   fetchStatus: FetchStatusFlag.FETCHING,
@@ -100,12 +117,12 @@ articleChannelListReducer.on(Actions.loadArticleChannelListRequest, (state) => (
 
 articleChannelListReducer.on(Actions.loadArticleChannelListSuccess, (state, { response }) => ({
   ...state,
-  channelList: response.results.map((channel) => String(channel.name)),
+  channelList: response.results.map(channel => String(channel.name)),
   fetchStatus: FetchStatusFlag.IDLE,
   isFetched: true,
 }));
 
-articleChannelListReducer.on(Actions.loadArticleChannelListFailure, (state) => ({
+articleChannelListReducer.on(Actions.loadArticleChannelListFailure, state => ({
   ...state,
   fetchStatus: FetchStatusFlag.FETCH_ERROR,
   isFetched: false,
@@ -157,7 +174,9 @@ articleChannelReducer.on(Actions.updateChannelDetail, (state, action) => {
   const newState: ArticleChannelState = channels.reduce((prev, channel) => {
     prev[channel.name] = {
       ...state[channel.name],
-      channelMeta: !!state[channel.name] ? { ...state[channel.name].channelMeta, ...channel } : channel,
+      channelMeta: state[channel.name]
+        ? { ...state[channel.name].channelMeta, ...channel }
+        : channel,
     };
     return prev;
   }, state);
@@ -193,7 +212,7 @@ articleChannelReducer.on(Actions.loadArticleChannelArticlesSuccess, (state, acti
         ...state[channelName].itemListByPage,
         [page]: {
           fetchStatus: FetchStatusFlag.IDLE,
-          itemList: response.results.map((article) => getArticleKeyFromData(article)),
+          itemList: response.results.map(article => getArticleKeyFromData(article)),
           isFetched: true,
         },
       },
@@ -237,9 +256,10 @@ articleChannelReducer.on(Actions.articleChannelFollowingActionSuccess, (state, a
   let followersCount;
 
   if (typeof state[channelName].channelMeta!.followersCount === 'number') {
-    followersCount = (method === 'POST')
-      ? state[channelName].channelMeta!.followersCount! + 1
-      : state[channelName].channelMeta!.followersCount! - 1;
+    followersCount =
+      method === 'POST'
+        ? state[channelName].channelMeta!.followersCount! + 1
+        : state[channelName].channelMeta!.followersCount! - 1;
   }
 
   return {

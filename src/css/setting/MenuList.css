@@ -9,7 +9,7 @@
   font-stretch: normal;
   line-height: normal;
   letter-spacing: -0.26px;
-  color: #808991;    
+  color: #808991;
 
   display: flex;
   align-items: center;
@@ -22,7 +22,7 @@
   max-width: var(--max-pc-content-width);
   margin: 0;
   padding: 10px 8px;
-  list-style: none;  
+  list-style: none;
   &:not(:last-child)::after {
     position: absolute;
     bottom: 0;
@@ -37,7 +37,7 @@
   display: block;
   position: relative;
   padding: 15px 0 15px 39px;
-  transition: color .2s;
+  transition: color 0.2s;
   &,
   &:visited,
   &:active,
@@ -128,7 +128,7 @@
     font-stretch: normal;
     line-height: normal;
     letter-spacing: -0.26px;
-    color: #808991;    
+    color: #808991;
 
     display: flex;
     align-items: center;
@@ -146,6 +146,6 @@
       height: 1px;
       background: #f2f2f2;
       content: '';
-    }    
+    }
   }
 }

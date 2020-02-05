@@ -26,7 +26,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  border-bottom: 1px solid rgba(255, 255, 255, .1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   background: transparent;
   &.GNBWrapper-transparent-relative {
     position: relative;
@@ -35,7 +35,7 @@
   }
 }
 .GNBWrapper-dark {
-  border-bottom: 1px solid rgba(255, 255, 255, .1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .GNBContentWrapper {
@@ -52,10 +52,10 @@
   }
 }
 
-.GNBLeft { /* GNB 왼쪽 영역 */
+.GNBLeft {
+  /* GNB 왼쪽 영역 */
   display: table-cell;
 }
-
 
 /* GNB Logo Section */
 .GNBLogoWrapper {
@@ -63,7 +63,7 @@
   display: inline-block;
   height: var(--gnb_mobile_height);
   padding: 16px 6px 0 20px;
-  transition: opacity .2s;
+  transition: opacity 0.2s;
   vertical-align: top;
   & .GNBLogo {
     width: 83.5px;
@@ -80,12 +80,12 @@
 
   @media (hover: hover) {
     &:hover {
-      opacity: .8;
+      opacity: 0.8;
     }
   }
   @media (hover: none) {
     &:active {
-      opacity: .8;
+      opacity: 0.8;
     }
   }
   @nest .androidApp & {
@@ -120,7 +120,7 @@
     content: '';
     @nest .GNBWrapper-dark & {
       background: #fff;
-      opacity: .3;
+      opacity: 0.3;
     }
     @nest .androidApp & {
       top: calc((var(--gnb_android_app_height) - 10px) / 2);
@@ -136,18 +136,18 @@
   display: inline-block;
   height: var(--gnb_mobile_height);
   padding-left: 6px;
-  transition: opacity .2s;
+  transition: opacity 0.2s;
   &.Ridibooks_Link {
     padding-top: 17px;
   }
   @media (hover: hover) {
     &:hover {
-      opacity: .8;
+      opacity: 0.8;
     }
   }
   @media (hover: none) {
     &:active {
-      opacity: .8;
+      opacity: 0.8;
     }
   }
   @nest .androidApp & {
@@ -165,13 +165,14 @@
     vertical-align: top;
     fill: var(--slategray_30);
     @nest .GNBWrapper-dark & {
-      opacity: .5;
+      opacity: 0.5;
       fill: #fff;
     }
   }
 }
 
-.GNBRight { /* GNB 오른쪽 영역 */
+.GNBRight {
+  /* GNB 오른쪽 영역 */
   display: table-cell;
   padding-right: 20px;
   text-align: right;
@@ -195,7 +196,7 @@
   display: inline-block;
   height: var(--gnb_mobile_height);
   padding: calc((var(--gnb_mobile_height) - 18px) / 2) 10px 0;
-  transition: opacity .2s;
+  transition: opacity 0.2s;
   vertical-align: top;
   & .SettingIcon {
     width: 18px;
@@ -213,12 +214,12 @@
   }
   @media (hover: hover) {
     &:hover {
-      opacity: .8;
+      opacity: 0.8;
     }
   }
   @media (hover: none) {
     &:active {
-      opacity: .8;
+      opacity: 0.8;
     }
   }
   @nest .androidApp & {
@@ -229,13 +230,13 @@
     height: var(--gnb_ios_app_height);
     padding: calc((var(--gnb_ios_app_height) - 24px) / 2) 10px 0;
     @media (hover: hover) {
-    &:hover {
-        opacity: .2;
+      &:hover {
+        opacity: 0.2;
       }
     }
     @media (hover: none) {
       &:active {
-        opacity: .2;
+        opacity: 0.2;
       }
     }
   }
@@ -252,7 +253,7 @@
   color: var(--slategray_50);
   font-size: 13px;
   font-weight: 700;
-  letter-spacing: -.5px;
+  letter-spacing: -0.5px;
   line-height: 28px;
   text-decoration: none;
   cursor: pointer;
@@ -269,11 +270,11 @@
 
   @nest .GNBWrapper-dark & {
     color: #fff;
-    border: solid 1px rgba(255, 255, 255, .5);
+    border: solid 1px rgba(255, 255, 255, 0.5);
   }
   @nest .GNBWrapper-transparent & {
     color: #fff;
-    border: solid 1px rgba(255, 255, 255, .5);
+    border: solid 1px rgba(255, 255, 255, 0.5);
   }
 
   @nest .androidApp & {
@@ -312,8 +313,8 @@
     font-size: 16px;
     font-weight: 500;
     color: var(--slategray_40);
-    letter-spacing: -.3px;
-    transition: opacity .2s;
+    letter-spacing: -0.3px;
+    transition: opacity 0.2s;
   }
 
   @nest .androidApp & {
@@ -325,12 +326,12 @@
 
   @media (hover: hover) {
     &:hover .reset-heading {
-      opacity: .8;
+      opacity: 0.8;
     }
   }
   @media (hover: none) {
     &:active .reset-heading {
-      opacity: .8;
+      opacity: 0.8;
     }
   }
 

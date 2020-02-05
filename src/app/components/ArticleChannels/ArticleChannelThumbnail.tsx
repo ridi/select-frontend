@@ -16,7 +16,7 @@ interface ArticleChannelThumbnailProps {
   onLinkClick?: (event: React.SyntheticEvent<any>) => void;
 }
 
-export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThumbnailProps> = (props) => {
+export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThumbnailProps> = props => {
   const {
     thumbnailClassName,
     imageClassName,
@@ -35,11 +35,8 @@ export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThum
       return (
         <>
           <div
-            className={classNames(
-              'ArticleChannelThumbnail_BackgroundImage',
-              imageClassName,
-            )}
-            style={{ backgroundImage: `url(${imageUrl})`}}
+            className={classNames('ArticleChannelThumbnail_BackgroundImage', imageClassName)}
+            style={{ backgroundImage: `url(${imageUrl})` }}
           />
           <span className="ArticleChannelThumbnail_CoverShadow" />
         </>
@@ -49,10 +46,7 @@ export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThum
     return (
       <>
         <img
-          className={classNames(
-            'ArticleChannelThumbnail_CoverImage',
-            imageClassName,
-          )}
+          className={classNames('ArticleChannelThumbnail_CoverImage', imageClassName)}
           src={imageUrl}
           alt={channelName}
           onError={() => setIsWrongImage(true)}
@@ -70,36 +64,26 @@ export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThum
 
   if (!isEnabled) {
     return (
-      <div
-        className={classNames(
-          'ArticleChannelThumbnail_Wrapper',
-          thumbnailClassName,
-        )}
-      >
+      <div className={classNames('ArticleChannelThumbnail_Wrapper', thumbnailClassName)}>
         <div className="ArticleChannelThumbnail_Block">
-          <BlockIconComponent width={24} height={24} className="ArticleChannelThumbnail_BlockImage" />
+          <BlockIconComponent
+            width={24}
+            height={24}
+            className="ArticleChannelThumbnail_BlockImage"
+          />
         </div>
       </div>
     );
   }
 
   return (
-    <div
-      className={classNames(
-        'ArticleChannelThumbnail_Wrapper',
-        thumbnailClassName,
-      )}
-    >
-      <Link
-        className="ArticleChannelThumbnail_Link"
-        to={linkUrl}
-        onClick={onLinkClick}
-      >
+    <div className={classNames('ArticleChannelThumbnail_Wrapper', thumbnailClassName)}>
+      <Link className="ArticleChannelThumbnail_Link" to={linkUrl} onClick={onLinkClick}>
         <Lazyload
           offset={100}
-          once={true}
-          throttle={true}
-          resize={true}
+          once
+          throttle
+          resize
           overflow={false}
           placeholder={<div className="Skeleton" />}
         >

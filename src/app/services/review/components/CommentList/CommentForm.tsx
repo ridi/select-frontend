@@ -12,7 +12,7 @@ export interface CommentFormProps {
   checkAuth: () => boolean;
 }
 
-export const CommentForm: React.SFC<CommentFormProps>  = (props) => {
+export const CommentForm: React.SFC<CommentFormProps> = props => {
   const { bookId, reviewId, isSubmitting, content, onChange, onSubmit, checkAuth } = props;
 
   return (
@@ -23,11 +23,12 @@ export const CommentForm: React.SFC<CommentFormProps>  = (props) => {
           name="commentContent"
           title="댓글 입력"
           placeholder="이 곳에 댓글을 남겨주세요."
-          onChange={(event: React.ChangeEvent<any>) => onChange(bookId, reviewId, event.target.value)}
+          onChange={(event: React.ChangeEvent<any>) =>
+            onChange(bookId, reviewId, event.target.value)
+          }
           onClick={(event: React.ChangeEvent<any>) => {
             if (!checkAuth()) {
               event.preventDefault();
-              return;
             }
           }}
           minRows={1}

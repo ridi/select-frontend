@@ -64,13 +64,19 @@ export class ReviewForm extends React.Component<ReviewFormProps, ReviewFormState
   public checkAuth(event: React.ChangeEvent<any>) {
     if (!this.props.checkAuth()) {
       event.preventDefault();
-      return;
     }
   }
 
   public render() {
     const { isNoticeOpen, reviewContent, hasSpoiler } = this.state;
-    const { fetchStatus, autoFocus, initialReviewContent, onSubmit, onCancel = () => null, isDisabled } = this.props;
+    const {
+      fetchStatus,
+      autoFocus,
+      initialReviewContent,
+      onSubmit,
+      onCancel = () => null,
+      isDisabled,
+    } = this.props;
 
     return (
       <div className="ReviewForm">
@@ -83,31 +89,22 @@ export class ReviewForm extends React.Component<ReviewFormProps, ReviewFormState
         />
         <MediaQuery maxWidth={MAX_WIDTH}>
           <div className="ReviewForm_SubInputs">
-            <SpoilerCheckbox
-              isChecked={hasSpoiler}
-              onChange={this.onChangeSpoilerCheckbox}
-            />
+            <SpoilerCheckbox isChecked={hasSpoiler} onChange={this.onChangeSpoilerCheckbox} />
             {!initialReviewContent && (
-              <ToggleNoticeButton
-                isPressed={isNoticeOpen}
-                onClick={this.toggleNotice}
-              />
+              <ToggleNoticeButton isPressed={isNoticeOpen} onClick={this.toggleNotice} />
             )}
           </div>
           <ul className="ReviewForm_MainButtonList">
             {initialReviewContent && (
               <li className="ReviewForm_CancelButtonItem">
-                <CancelButton
-                  isFullButton={true}
-                  onClick={onCancel}
-                />
+                <CancelButton isFullButton onClick={onCancel} />
               </li>
             )}
             <li className="ReviewForm_SubmitButtonItem">
               <SubmitButton
                 isFetching={fetchStatus === FetchStatusFlag.FETCHING}
                 isDisabled={reviewContent.length < 10}
-                isFullButton={true}
+                isFullButton
                 onClick={() => onSubmit(reviewContent, hasSpoiler)}
               >
                 {initialReviewContent ? '수정 완료' : '리뷰 남기기'}
@@ -123,21 +120,11 @@ export class ReviewForm extends React.Component<ReviewFormProps, ReviewFormState
             ])}
           >
             {!initialReviewContent && (
-              <ToggleNoticeButton
-                isPressed={isNoticeOpen}
-                onClick={this.toggleNotice}
-              />
+              <ToggleNoticeButton isPressed={isNoticeOpen} onClick={this.toggleNotice} />
             )}
             <div>
-              <SpoilerCheckbox
-                isChecked={hasSpoiler}
-                onChange={this.onChangeSpoilerCheckbox}
-              />
-              {initialReviewContent && (
-                <CancelButton
-                  onClick={onCancel}
-                />
-              )}
+              <SpoilerCheckbox isChecked={hasSpoiler} onChange={this.onChangeSpoilerCheckbox} />
+              {initialReviewContent && <CancelButton onClick={onCancel} />}
               <SubmitButton
                 isFetching={fetchStatus === FetchStatusFlag.FETCHING}
                 isDisabled={reviewContent.length < 10}

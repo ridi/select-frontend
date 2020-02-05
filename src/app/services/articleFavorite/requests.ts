@@ -14,5 +14,8 @@ export const requestFavoriteArticleList = (page: number): Promise<FavoriteArticl
   return request({
     url: requestUrl,
     method: 'GET',
-  }).then((response) => camelize<AxiosResponse<FavoriteArticleListResponse>>(response, { recursive : true }).data);
+  }).then(
+    response =>
+      camelize<AxiosResponse<FavoriteArticleListResponse>>(response, { recursive: true }).data,
+  );
 };

@@ -19,12 +19,14 @@ interface HomeCollectionListState {
   renderedLastGroupIdx: number;
 }
 
-export class HomeSectionList extends React.Component<HomeCollectionListStateProps, HomeCollectionListState> {
+export class HomeSectionList extends React.Component<
+  HomeCollectionListStateProps,
+  HomeCollectionListState
+> {
   private panels: HTMLElement[] = [];
-  private scrollEvent: EventListener = throttle(
-    () => this.checkSectionsOnViewport(),
-    500,
-  );
+
+  private scrollEvent: EventListener = throttle(() => this.checkSectionsOnViewport(), 500);
+
   public state: HomeCollectionListState = {
     renderedLastGroupIdx: 0,
   };
@@ -57,9 +59,11 @@ export class HomeSectionList extends React.Component<HomeCollectionListStateProp
     const { fetchedAt } = this.props;
     const { renderedLastGroupIdx } = this.state;
 
-    if (!fetchedAt) { return; }
+    if (!fetchedAt) {
+      return;
+    }
 
-    if (this.panels.length > 0 && (renderedLastGroupIdx + 1) >= this.panels.length) {
+    if (this.panels.length > 0 && renderedLastGroupIdx + 1 >= this.panels.length) {
       window.removeEventListener('scroll', this.scrollEvent);
     }
   }
@@ -77,9 +81,7 @@ export class HomeSectionList extends React.Component<HomeCollectionListStateProp
       return (
         <div className="PageHome_Content Skeleton_Wrapper">
           <div className="PageHome_Panel">
-            <HomeSectionPlaceholder
-              type={CollectionType.SPOTLIGHT}
-            />
+            <HomeSectionPlaceholder type={CollectionType.SPOTLIGHT} />
           </div>
           <div className="PageHome_Panel">
             <HomeSectionPlaceholder />
@@ -91,20 +93,16 @@ export class HomeSectionList extends React.Component<HomeCollectionListStateProp
     return (
       <div className="PageHome_Content">
         <div className="PageHome_Panel">
-          <ConnectedHomeSection
-            key={spotlight.id}
-            collection={spotlight}
-            onScreen={true}
-          />
+          <ConnectedHomeSection key={spotlight.id} collection={spotlight} onScreen />
         </div>
         {collectionIdList
-          .map((collectionId) => collections[collectionId])
+          .map(collectionId => collections[collectionId])
           .reduce(groupCollections, [])
           .map((collectionGroup, idx) => (
             <div
               className="PageHome_Panel"
               key={`home_collection_group_${idx}`}
-              ref={(ref) => {
+              ref={ref => {
                 if (this.panels[idx] !== ref) {
                   this.panels[idx] = ref!;
                   this.checkSectionsOnViewport();
@@ -116,7 +114,7 @@ export class HomeSectionList extends React.Component<HomeCollectionListStateProp
                   key={`home_collection_${collection.id}`}
                   collection={collection}
                   onScreen={renderedLastGroupIdx >= idx}
-                  order={idx === 0 ? collectionIdx : (idx + collectionIdx + 1)}
+                  order={idx === 0 ? collectionIdx : idx + collectionIdx + 1}
                 />
               ))}
             </div>

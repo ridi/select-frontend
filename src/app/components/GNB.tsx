@@ -8,10 +8,7 @@ import { AppStatus } from 'app/services/app';
 import { GNBColorLevel } from 'app/services/commonUI';
 
 import { MAX_WIDTH, RoutePaths } from 'app/constants';
-import {
-  getBackgroundColorRGBString,
-  getGNBType,
-} from 'app/services/commonUI/selectors';
+import { getBackgroundColorRGBString, getGNBType } from 'app/services/commonUI/selectors';
 import {
   getIsAndroidInApp,
   getIsIosInApp,
@@ -68,14 +65,8 @@ export class GNB extends React.Component<Props> {
     return (
       <ul className="GNBServiceList">
         <li className="GNBService">
-          <a
-            className="GNBServiceLink Ridibooks_Link"
-            href={`${BASE_URL_STORE}`}
-          >
-            <Icon
-              name="logo_ridibooks_1"
-              className="GNBServiceLogo RidibooksLogo"
-            />
+          <a className="GNBServiceLink Ridibooks_Link" href={`${BASE_URL_STORE}`}>
+            <Icon name="logo_ridibooks_1" className="GNBServiceLogo RidibooksLogo" />
             <h2 className="a11y">리디북스</h2>
           </a>
         </li>
@@ -85,48 +76,41 @@ export class GNB extends React.Component<Props> {
 
   private renderGNBLogo() {
     const { appStatus } = this.props;
-    const GNBLogoLink = appStatus === AppStatus.Articles ? RoutePaths.ARTICLE_HOME : RoutePaths.HOME;
+    const GNBLogoLink =
+      appStatus === AppStatus.Articles ? RoutePaths.ARTICLE_HOME : RoutePaths.HOME;
 
     return (
-      <Link
-        className="GNBLogoWrapper"
-        to={GNBLogoLink}
-      >
-        <Icon
-          name="logo_ridiselect_1"
-          className="GNBLogo"
-        />
+      <Link className="GNBLogoWrapper" to={GNBLogoLink}>
+        <Icon name="logo_ridiselect_1" className="GNBLogo" />
         <h1 className="a11y">리디셀렉트</h1>
       </Link>
     );
   }
 
   private renderGNBTab() {
-    const {
-      isGnbTab,
-      backgroundColorRGBString,
-      appStatus,
-    } = this.props;
+    const { isGnbTab, backgroundColorRGBString, appStatus } = this.props;
 
-    return isGnbTab && (
-      <nav
-        className={'GnbTab_Wrapper'}
-        style={{ backgroundColor: backgroundColorRGBString }}
-      >
-        <h2 className="a11y">GNB 탭 메뉴</h2>
-        <ul className="GnbTab_List">
-          {GNBTabMenus.map((menu) => (
-            <li className={`GnbTab_Item GnbTab_${menu.classname}`} key={menu.pathname}>
-              <Link
-                className={classNames(['GnbTab_Link', menu.classname === appStatus && 'GnbTab_Link-active'])}
-                to={menu.pathname}
-              >
-                <h3 className="reset-heading">{menu.name}</h3>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
+    return (
+      isGnbTab && (
+        <nav className="GnbTab_Wrapper" style={{ backgroundColor: backgroundColorRGBString }}>
+          <h2 className="a11y">GNB 탭 메뉴</h2>
+          <ul className="GnbTab_List">
+            {GNBTabMenus.map(menu => (
+              <li className={`GnbTab_Item GnbTab_${menu.classname}`} key={menu.pathname}>
+                <Link
+                  className={classNames([
+                    'GnbTab_Link',
+                    menu.classname === appStatus && 'GnbTab_Link-active',
+                  ])}
+                  to={menu.pathname}
+                >
+                  <h3 className="reset-heading">{menu.name}</h3>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )
     );
   }
 
@@ -142,12 +126,7 @@ export class GNB extends React.Component<Props> {
         <h2 className="a11y">셀렉트 관리</h2>
         {isIosInApp ? (
           // TODO: iosInApp 용 아이콘. 이 외에 사용할 곳이 없어서 별도로 처리할지? 그냥 둘지?
-          <svg
-            className="SettingIcon_IosInApp"
-            width="24px"
-            height="24px"
-            viewBox="0 0 24 24"
-          >
+          <svg className="SettingIcon_IosInApp" width="24px" height="24px" viewBox="0 0 24 24">
             <g
               transform="translate(2.000000, 2.000000)"
               stroke="#2E3847"
@@ -167,12 +146,11 @@ export class GNB extends React.Component<Props> {
   }
 
   private renderLibraryButton() {
-    const {
-      LIBRARY_URL,
-      isInApp,
-    } = this.props;
+    const { LIBRARY_URL, isInApp } = this.props;
 
-    if (isInApp) { return null; }
+    if (isInApp) {
+      return null;
+    }
 
     return (
       <a
@@ -180,7 +158,7 @@ export class GNB extends React.Component<Props> {
         className={classNames('GNB_LinkButton', 'GNB_WebLibrary_Button')}
         key="gnb-web-library-link-button"
       >
-      내 서재
+        내 서재
       </a>
     );
   }
@@ -194,22 +172,14 @@ export class GNB extends React.Component<Props> {
     }
 
     return (
-      <button
-        type="button"
-        onClick={() => moveToLogin()}
-        className="GNB_LinkButton"
-      >
+      <button type="button" onClick={() => moveToLogin()} className="GNB_LinkButton">
         로그인
       </button>
     );
   }
 
   private renderLogoutButton() {
-    const {
-      isInApp,
-      BASE_URL_STORE,
-      BASE_URL_RIDISELECT,
-    } = this.props;
+    const { isInApp, BASE_URL_STORE, BASE_URL_RIDISELECT } = this.props;
 
     if (isInApp) {
       return null;
@@ -226,52 +196,35 @@ export class GNB extends React.Component<Props> {
   }
 
   private renderGNBAccountButtons() {
-    const {
-      isSimpleGNB,
-      isLoggedIn,
-      isFetching,
-    } = this.props;
+    const { isSimpleGNB, isLoggedIn, isFetching } = this.props;
 
     if (isFetching) {
       return null;
     }
     return (
       <div className="GNBRightButtonWrapper">
-        {!isLoggedIn ?
-          this.renderLoginButton() :
-          isSimpleGNB ?
-            this.renderLogoutButton() :
-            [
-              this.renderSettingButton(),
-              this.renderLibraryButton(),
-            ]
-        }
+        {!isLoggedIn
+          ? this.renderLoginButton()
+          : isSimpleGNB
+          ? this.renderLogoutButton()
+          : [this.renderSettingButton(), this.renderLibraryButton()]}
       </div>
     );
   }
 
   private renderGNBSearchButton(isMobile: boolean) {
-    const {
-      isSimpleGNB,
-      appStatus,
-    } = this.props;
+    const { isSimpleGNB, appStatus } = this.props;
     return isSimpleGNB || appStatus === AppStatus.Common ? null : (
       <ConnectedSearch isMobile={isMobile} />
     );
   }
 
   public render() {
-    const {
-      gnbType,
-      isInApp,
-      isGnbTab,
-      isSimpleGNB,
-      backgroundColorRGBString,
-    } = this.props;
+    const { gnbType, isInApp, isGnbTab, isSimpleGNB, backgroundColorRGBString } = this.props;
 
     return (
       <MediaQuery maxWidth={MAX_WIDTH}>
-        {(isMobile) => (
+        {isMobile => (
           <header
             className={classNames('GNBWrapper', `GNBWrapper-${gnbType}`)}
             style={{ backgroundColor: backgroundColorRGBString }}
@@ -296,11 +249,7 @@ export class GNB extends React.Component<Props> {
                 {this.renderGNBAccountButtons()}
               </div>
             </div>
-            {isInApp || isSimpleGNB ? null : (
-              <div className="GNBTab ">
-                {this.renderGNBTab()}
-              </div>
-            )}
+            {isInApp || isSimpleGNB ? null : <div className="GNBTab ">{this.renderGNBTab()}</div>}
           </header>
         )}
       </MediaQuery>

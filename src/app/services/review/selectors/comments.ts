@@ -4,26 +4,27 @@ import { createSelector } from 'reselect';
 import { RidiSelectState } from 'app/store';
 import { TextWithLF } from 'app/types';
 import { Comment, CommentId, Review } from '../reducer.state';
-import { Paginated } from './../types';
+import { Paginated } from '../types';
 import { getReview } from './common';
 
 export const selectReview = (state: RidiSelectState, props: any) =>
-  state.reviewsByBookId[props.bookId].reviewsById![props.reviewId] || {};
+  state.reviewsByBookId[props.bookId].reviewsById[props.reviewId] || {};
 
-export const getCommentIds = createSelector(
-  [selectReview],
-  (review: Review): CommentId[] => review.commentIdsByPage.itemCount ? flatMap(
-    range(1, review.commentIdsByPage.currentPage + 1).reverse(),
-    (page) => !!review.commentIdsByPage.itemListByPage[page] && review.commentIdsByPage.itemListByPage[page].itemList,
-  ) : [],
+export const getCommentIds = createSelector([selectReview], (review: Review): CommentId[] =>
+  review.commentIdsByPage.itemCount
+    ? flatMap(
+        range(1, review.commentIdsByPage.currentPage + 1).reverse(),
+        page =>
+          !!review.commentIdsByPage.itemListByPage[page] &&
+          review.commentIdsByPage.itemListByPage[page].itemList,
+      )
+    : [],
 );
 
 export const getCommentList = createSelector(
   [selectReview, getCommentIds],
-  (
-    review: Review,
-    commentIds: number[],
-  ): Comment[] => commentIds.map((id) => review.commentsById[id]),
+  (review: Review, commentIds: number[]): Comment[] =>
+    commentIds.map(id => review.commentsById[id]),
 );
 
 export const getPaginatedCommentIds = createSelector(
@@ -38,10 +39,7 @@ export const getCommentCurrentPage = createSelector(
 
 export const getCommentNextPageCount = createSelector(
   [getPaginatedCommentIds, getCommentCurrentPage],
-  (
-    paginatedCommentIds: Paginated<CommentId>,
-    currentPage: number,
-  ): number => {
+  (paginatedCommentIds: Paginated<CommentId>, currentPage: number): number => {
     const nextPage = currentPage + 1;
     return paginatedCommentIds.itemListByPage[nextPage]
       ? paginatedCommentIds.itemListByPage[nextPage].itemList.length

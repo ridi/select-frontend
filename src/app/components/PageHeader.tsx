@@ -27,14 +27,11 @@ export const PageHeader: React.SFC<PageHeaderProps> = ({
   pageTitle,
   children,
 }) => {
-  if ((!pageTitle && !children)) {
+  if (!pageTitle && !children) {
     return null;
   }
 
-  if (
-    isInApp &&
-    !inAppGnbRoutes.includes(location.pathname as RoutePaths)
-  ) {
+  if (isInApp && !inAppGnbRoutes.includes(location.pathname as RoutePaths)) {
     return (
       <>
         {pageTitle && <ConnectedWebActionBar>{pageTitle}</ConnectedWebActionBar>}

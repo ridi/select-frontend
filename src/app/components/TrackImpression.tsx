@@ -14,13 +14,15 @@ export type TrackImpressionOwnProps = Omit<DefaultTrackingParams, 'section'> & {
 export type TrackImpressionProps = TrackImpressionOwnProps & ReturnType<typeof mapDispatchToProps>;
 
 export class TrackImpression extends React.Component<TrackImpressionProps> {
-
   constructor(props: TrackImpressionProps) {
     super(props);
     this.ref = React.createRef();
   }
+
   private ref: React.RefObject<HTMLDivElement>;
+
   private scrollEndHandlerIndex?: number;
+
   private initialCheckTimeout?: number;
 
   public trackEmpression = () => {
@@ -31,9 +33,9 @@ export class TrackImpression extends React.Component<TrackImpressionProps> {
 
     if (isInViewport(this.ref.current!) && this.ref.current!.clientHeight) {
       if (misc) {
-        trackImpression({section, index, id, misc});
+        trackImpression({ section, index, id, misc });
       } else {
-        trackImpression({section, index, id});
+        trackImpression({ section, index, id });
       }
 
       if (this.scrollEndHandlerIndex) {
@@ -41,7 +43,7 @@ export class TrackImpression extends React.Component<TrackImpressionProps> {
         this.scrollEndHandlerIndex = undefined;
       }
     }
-  }
+  };
 
   public componentDidMount() {
     const { section } = this.props;
@@ -67,10 +69,7 @@ export class TrackImpression extends React.Component<TrackImpressionProps> {
 
   public render() {
     return (
-      <div
-        className="pass-through"
-        ref={this.ref}
-      >
+      <div className="pass-through" ref={this.ref}>
         {this.props.children}
       </div>
     );
@@ -78,7 +77,8 @@ export class TrackImpression extends React.Component<TrackImpressionProps> {
 }
 
 const mapDispatchToProps = (dispatch: any) => ({
-  trackImpression: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackImpression({ trackingParams })),
+  trackImpression: (trackingParams: DefaultTrackingParams) =>
+    dispatch(Actions.trackImpression({ trackingParams })),
 });
 
 export const ConnectedTrackImpression = connect(null, mapDispatchToProps)(TrackImpression);

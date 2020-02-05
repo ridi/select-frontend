@@ -19,11 +19,8 @@ import {
   postCommentFailure,
   postCommentSuccess,
   updateCommentInput,
-} from './../actions';
-import {
-  requestDeleteComment,
-  requestPostComment,
-} from './../requests';
+} from '../actions';
+import { requestDeleteComment, requestPostComment } from '../requests';
 
 export function postComment(
   dispatch: Dispatch<RidiSelectState>,
@@ -31,30 +28,28 @@ export function postComment(
   reviewId: number,
   content: TextWithLF,
 ) {
-  requestPostComment(
-    bookId,
-    reviewId,
-    content,
-  ).then((response) => {
-    if (response.status === 200) {
-      dispatch(postCommentSuccess(bookId, reviewId, response.data));
-    } else {
-      dispatch(postCommentFailure(bookId, reviewId));
-    }
-  }).catch(() => dispatch(postCommentFailure(bookId, reviewId)));
+  requestPostComment(bookId, reviewId, content)
+    .then(response => {
+      if (response.status === 200) {
+        dispatch(postCommentSuccess(bookId, reviewId, response.data));
+      } else {
+        dispatch(postCommentFailure(bookId, reviewId));
+      }
+    })
+    .catch(() => dispatch(postCommentFailure(bookId, reviewId)));
 }
 
 export function* watchPostCommentRequest(dispatch: Dispatch<RidiSelectState>) {
   while (true) {
     const { payload }: ActionPostCommentRequest = yield take(POST_COMMENT_REQUEST);
-    yield call(postComment, dispatch, payload!.bookId, payload!.reviewId, payload!.content);
+    yield call(postComment, dispatch, payload.bookId, payload.reviewId, payload.content);
   }
 }
 
 export function* watchPostCommentSuccess(dispatch: Dispatch<RidiSelectState>) {
   while (true) {
     const { payload }: ActionPostCommentSuccess = yield take(POST_COMMENT_SUCCESS);
-    yield put(updateCommentInput(payload!.bookId, payload!.reviewId, ''));
+    yield put(updateCommentInput(payload.bookId, payload.reviewId, ''));
   }
 }
 
@@ -64,19 +59,21 @@ export function deleteComment(
   reviewId: number,
   commentId: number,
 ) {
-  requestDeleteComment(bookId, reviewId, commentId).then((response) => {
-    if (response.status === 200) {
-      dispatch(deleteCommentSuccess(bookId, reviewId, commentId));
-    } else {
-      dispatch(deleteCommentFailure(bookId, reviewId, commentId));
-    }
-  }).catch(() => dispatch(deleteCommentFailure(bookId, reviewId, commentId)));
+  requestDeleteComment(bookId, reviewId, commentId)
+    .then(response => {
+      if (response.status === 200) {
+        dispatch(deleteCommentSuccess(bookId, reviewId, commentId));
+      } else {
+        dispatch(deleteCommentFailure(bookId, reviewId, commentId));
+      }
+    })
+    .catch(() => dispatch(deleteCommentFailure(bookId, reviewId, commentId)));
 }
 
 export function* watchDeleteCommentRequest(dispatch: Dispatch<RidiSelectState>) {
   while (true) {
     const { payload }: ActionDeleteCommentRequest = yield take(DELETE_COMMENT_REQUEST);
-    yield call(deleteComment, dispatch, payload!.bookId, payload!.reviewId, payload!.commentId);
+    yield call(deleteComment, dispatch, payload.bookId, payload.reviewId, payload.commentId);
   }
 }
 

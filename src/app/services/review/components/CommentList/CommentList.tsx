@@ -15,7 +15,7 @@ export interface CommentListProps {
   showPageComments: (bookId: number, reviewId: number, page: number) => void;
 }
 
-export const CommentList: React.SFC<CommentListProps> = (props) => {
+export const CommentList: React.SFC<CommentListProps> = props => {
   const {
     bookId,
     reviewId,
@@ -35,14 +35,11 @@ export const CommentList: React.SFC<CommentListProps> = (props) => {
           onClick={() => showPageComments(bookId, reviewId, currentPage + 1)}
         >
           댓글 {nextPageCount}개 더보기
-          <Icon
-            name="arrow_1_down"
-            className="CommentList_ShowMoreButton_Icon"
-          />
+          <Icon name="arrow_1_down" className="CommentList_ShowMoreButton_Icon" />
         </button>
       )}
       <ul className="CommentList">
-        {commentList.map((comment) => (
+        {commentList.map(comment => (
           <CommentItem
             key={comment.id}
             comment={comment}

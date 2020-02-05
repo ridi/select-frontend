@@ -4,12 +4,12 @@
 }
 .ArticleChannelList_Skeleton_Wrap {
   max-width: 800px;
-  margin: 0 auto;  
+  margin: 0 auto;
 }
 
 .ArticleChannelList_Skeleton {
   list-style: none;
-  padding: 0;  
+  padding: 0;
   margin: 0;
 }
 
@@ -29,7 +29,7 @@
   margin-right: 10px;
   width: 40px;
   height: 40px;
-  border: solid 1px rgba(0, 0, 0, .1);
+  border: solid 1px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   border-radius: 999px;
 }
@@ -46,12 +46,11 @@
   width: 120px;
   height: 17px;
   @media (--mobile-layout) {
-    width: 70px;    
+    width: 70px;
   }
   @media (--pc-screen) {
-    width: 180px;    
+    width: 180px;
   }
-
 }
 .Channel_Desc_Skeleton {
   display: block;
@@ -59,10 +58,10 @@
   height: 15px;
   width: 200px;
   @media (--mobile-layout) {
-    width: 100px;    
+    width: 100px;
   }
   @media (--pc-screen) {
-    width: 350px;    
+    width: 350px;
   }
 }
 

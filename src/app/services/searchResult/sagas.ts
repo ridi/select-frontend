@@ -2,9 +2,9 @@ import { all, call, put, take, takeEvery } from 'redux-saga/effects';
 
 import history from 'app/config/history';
 import { FetchErrorFlag } from 'app/constants';
-import { Actions as ArticleActions , Article } from 'app/services/article';
+import { Actions as ArticleActions, Article } from 'app/services/article';
 
-import { Actions as BookActions , Book } from 'app/services/book';
+import { Actions as BookActions, Book } from 'app/services/book';
 
 import { Actions, SearchResultArticle, SearchResultBook } from 'app/services/searchResult';
 
@@ -12,9 +12,17 @@ import { requestArticles } from 'app/services/article/requests';
 import { requestBooks } from 'app/services/book/requests';
 import { keyBy } from 'lodash-es';
 
-import { PublicSearchResultReponse, requestSearchResult, SearchResultResponse } from 'app/services/searchResult/requests';
+import {
+  PublicSearchResultReponse,
+  requestSearchResult,
+  SearchResultResponse,
+} from 'app/services/searchResult/requests';
 import { ArticleRequestIncludableData } from 'app/types';
-import { fixWrongPaginationScope, isValidPaginationParameter, updateQueryStringParam } from 'app/utils/request';
+import {
+  fixWrongPaginationScope,
+  isValidPaginationParameter,
+  updateQueryStringParam,
+} from 'app/utils/request';
 
 export function* queryKeyword({ payload }: ReturnType<typeof Actions.queryKeywordRequest>) {
   const { page, keyword, type } = payload;
@@ -29,10 +37,13 @@ export function* queryKeyword({ payload }: ReturnType<typeof Actions.queryKeywor
       size: 24,
     };
     if (type === 'book') {
-      const books: Book[] = yield call(requestBooks, response.books.map((book) => parseInt(String(book.bId), 10)));
+      const books: Book[] = yield call(
+        requestBooks,
+        response.books.map(book => parseInt(String(book.bId), 10)),
+      );
       const booksMap = keyBy(books, 'id');
       yield put(BookActions.updateBooks({ books }));
-      const searchResultBooks: SearchResultBook[] = response.books.map((book) => {
+      const searchResultBooks: SearchResultBook[] = response.books.map(book => {
         const searchResultBook: SearchResultBook = booksMap[book.bId] as SearchResultBook;
         searchResultBook.highlight = book.highlight;
         searchResultBook.publisher = { name: book.publisher };
@@ -40,19 +51,24 @@ export function* queryKeyword({ payload }: ReturnType<typeof Actions.queryKeywor
       });
       searchResultResponse.books = searchResultBooks;
     } else {
-      const articlesResponse = yield call(requestArticles, {includes : [ArticleRequestIncludableData.AUTHORS]} , response.articles.map((article) => (article.id)));
+      const articlesResponse = yield call(
+        requestArticles,
+        { includes: [ArticleRequestIncludableData.AUTHORS] },
+        response.articles.map(article => article.id),
+      );
       const articles: Article[] = articlesResponse.results;
       const articlesMap = keyBy(articles, 'id');
       yield put(ArticleActions.updateArticles({ articles }));
-      const searchResultArticles: SearchResultArticle[] = response.articles.map((article) => {
-        const searchResultArticle: SearchResultArticle = articlesMap[article.id] as SearchResultArticle;
+      const searchResultArticles: SearchResultArticle[] = response.articles.map(article => {
+        const searchResultArticle: SearchResultArticle = articlesMap[
+          article.id
+        ] as SearchResultArticle;
         searchResultArticle.highlight = article.highlight;
         return searchResultArticle;
       });
       searchResultResponse.articles = searchResultArticles;
     }
     yield put(Actions.queryKeywordSuccess({ keyword, page, type, response: searchResultResponse }));
-
   } catch (error) {
     if (error === FetchErrorFlag.UNEXPECTED_PAGE_PARAMS) {
       history.replace(`?${updateQueryStringParam('page', 1)}`);
@@ -64,7 +80,11 @@ export function* queryKeyword({ payload }: ReturnType<typeof Actions.queryKeywor
 
 export function* watchCategoryBooksFailure() {
   while (true) {
-    const { payload: { page, error } }: ReturnType<typeof Actions.queryKeywordFailure> = yield take(Actions.queryKeywordFailure.getType());
+    const {
+      payload: { page, error },
+    }: ReturnType<typeof Actions.queryKeywordFailure> = yield take(
+      Actions.queryKeywordFailure.getType(),
+    );
     if (page === 1) {
       return;
     }
@@ -77,8 +97,5 @@ export function* watchQueryKeyword() {
 }
 
 export function* searchResultRootSaga() {
-  yield all([
-    watchQueryKeyword(),
-    watchCategoryBooksFailure(),
-  ]);
+  yield all([watchQueryKeyword(), watchCategoryBooksFailure()]);
 }

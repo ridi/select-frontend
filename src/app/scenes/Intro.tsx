@@ -13,33 +13,31 @@ import { moveToLogin } from 'app/utils/utils';
 export const Intro: React.FunctionComponent = () => {
   const [isLoaded, setIsLoaded] = React.useState(false);
   const dispatch = useDispatch();
-  const {
-    isLoggedIn,
-    hasSubscribedBefore,
-    BASE_URL_STORE,
-    FREE_PROMOTION_MONTHS,
-  } = useSelector((state: RidiSelectState) => ({
-    isLoggedIn: state.user.isLoggedIn,
-    hasSubscribedBefore: state.user.hasSubscribedBefore,
-    BASE_URL_STORE: state.environment.STORE_URL,
-    FREE_PROMOTION_MONTHS: state.environment.FREE_PROMOTION_MONTHS,
-  }));
+  const { isLoggedIn, hasSubscribedBefore, BASE_URL_STORE, FREE_PROMOTION_MONTHS } = useSelector(
+    (state: RidiSelectState) => ({
+      isLoggedIn: state.user.isLoggedIn,
+      hasSubscribedBefore: state.user.hasSubscribedBefore,
+      BASE_URL_STORE: state.environment.STORE_URL,
+      FREE_PROMOTION_MONTHS: state.environment.FREE_PROMOTION_MONTHS,
+    }),
+  );
 
   React.useEffect(() => {
-    dispatch(CommonUIActions.updateGNBTransparent({ transparentType: GNBTransparentType.transparent }));
+    dispatch(
+      CommonUIActions.updateGNBTransparent({ transparentType: GNBTransparentType.transparent }),
+    );
     dispatch(CommonUIActions.updateFooterTheme({ theme: FooterTheme.dark }));
     return () => {
-      dispatch(CommonUIActions.updateGNBTransparent({ transparentType: GNBTransparentType.default }));
+      dispatch(
+        CommonUIActions.updateGNBTransparent({ transparentType: GNBTransparentType.default }),
+      );
       dispatch(CommonUIActions.updateFooterTheme({ theme: FooterTheme.default }));
     };
   }, []);
 
   return (
     <main className="SceneWrapper">
-      <HelmetWithTitle
-        titleName={PageTitleText.INTRO}
-        titleType={TitleType.PREFIXED}
-      />
+      <HelmetWithTitle titleName={PageTitleText.INTRO} titleType={TitleType.PREFIXED} />
       {isLoaded ? null : (
         <>
           <img
@@ -51,15 +49,11 @@ export const Intro: React.FunctionComponent = () => {
         </>
       )}
       <h1 className="a11y">리디셀렉트 인트로</h1>
-      <section
-        className={classNames([
-          'SectionMain',
-          isLoaded && 'active',
-        ])}
-      >
+      <section className={classNames(['SectionMain', isLoaded && 'active'])}>
         <div className="SectionMain_Content">
           <h2 className="SectionMain_MainCopy">
-            베스트셀러부터<br />
+            베스트셀러부터
+            <br />
             프리미엄 아티클까지
           </h2>
           <p className="SectionMain_Description">

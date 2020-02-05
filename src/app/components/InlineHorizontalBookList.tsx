@@ -23,7 +23,8 @@ interface Props {
   bookThumbnailSize?: ThumbnailSize;
 }
 
-export const InlineHorizontalBookList: React.FunctionComponent<Props & ReturnType<typeof mapDispatchToProps>> = (props) => {
+export const InlineHorizontalBookList: React.FunctionComponent<Props &
+  ReturnType<typeof mapDispatchToProps>> = props => {
   const {
     serviceTitleForTracking,
     pageTitleForTracking,
@@ -37,8 +38,14 @@ export const InlineHorizontalBookList: React.FunctionComponent<Props & ReturnTyp
     bookThumbnailSize = 120,
   } = props;
 
-  const section = !!serviceTitleForTracking && !!pageTitleForTracking ?
-    getSectionStringForTracking(serviceTitleForTracking, pageTitleForTracking, uiPartTitleForTracking) : undefined;
+  const section =
+    !!serviceTitleForTracking && !!pageTitleForTracking
+      ? getSectionStringForTracking(
+          serviceTitleForTracking,
+          pageTitleForTracking,
+          uiPartTitleForTracking,
+        )
+      : undefined;
   return (
     <ul
       className={classNames([
@@ -48,34 +55,35 @@ export const InlineHorizontalBookList: React.FunctionComponent<Props & ReturnTyp
     >
       {books.map((book, idx) => (
         <li className="InlineHorizontalBookList_Item" key={book.id}>
-          <ConnectedTrackImpression
-            section={section}
-            index={idx}
-            id={book.id}
-            misc={miscTracking}
-          >
+          <ConnectedTrackImpression section={section} index={idx} id={book.id} misc={miscTracking}>
             <>
               <DTOBookThumbnail
                 book={book}
                 width={bookThumbnailSize}
                 linkUrl={`/book/${book.id}`}
                 linkType="Link"
-                onLinkClick={() => section && trackClick({
-                  section,
-                  index: idx,
-                  id: book.id,
-                })}
+                onLinkClick={() =>
+                  section &&
+                  trackClick({
+                    section,
+                    index: idx,
+                    id: book.id,
+                  })
+                }
                 imageClassName="InlineHorizontalBookList_Thumbnail"
                 lazyload={lazyloadThumbnail}
               />
               <Link
                 to={`/book/${book.id}`}
                 className="InlineHorizontalBookList_Link"
-                onClick={() => section && trackClick({
-                  section,
-                  index: idx,
-                  id: book.id,
-                })}
+                onClick={() =>
+                  section &&
+                  trackClick({
+                    section,
+                    index: idx,
+                    id: book.id,
+                  })
+                }
               >
                 <span
                   className="InlineHorizontalBookList_Title"
@@ -105,7 +113,11 @@ export const InlineHorizontalBookList: React.FunctionComponent<Props & ReturnTyp
 };
 
 const mapDispatchToProps = (dispatch: any) => ({
-  trackClick: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackClick({ trackingParams })),
+  trackClick: (trackingParams: DefaultTrackingParams) =>
+    dispatch(Actions.trackClick({ trackingParams })),
 });
 
-export const ConnectedInlineHorizontalBookList = connect(null, mapDispatchToProps)(InlineHorizontalBookList);
+export const ConnectedInlineHorizontalBookList = connect(
+  null,
+  mapDispatchToProps,
+)(InlineHorizontalBookList);

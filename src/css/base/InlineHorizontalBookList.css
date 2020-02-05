@@ -30,7 +30,7 @@
       flex-wrap: wrap;
     }
     &:not(.InlineHorizontalBookList-disableInlineOnPC) {
-      & > .InlineHorizontalBookList_Item:nth-child(n+7) {
+      & > .InlineHorizontalBookList_Item:nth-child(n + 7) {
         display: none;
       }
     }
@@ -61,7 +61,7 @@
         &:nth-child(6n + 1) {
           margin-left: 0;
         }
-        &:nth-child(n+7) {
+        &:nth-child(n + 7) {
           margin-top: 30px;
         }
       }
@@ -104,9 +104,8 @@
   text-overflow: ellipsis;
   white-space: normal;
   word-break: break-all;
-  transition: color .2s;
+  transition: color 0.2s;
   word-wrap: break-word;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
-

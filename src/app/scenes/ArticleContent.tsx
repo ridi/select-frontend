@@ -16,7 +16,7 @@ type RouteProps = RouteComponentProps<{ channelName: string; contentIndex: strin
 
 type OwnProps = RouteProps & {};
 
-export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
+export const ArticleContent: React.FunctionComponent<OwnProps> = props => {
   const { channelName, contentIndex } = props.match.params;
   const contentKey = `@${channelName}/${Number(contentIndex)}`;
   const dispatch = useDispatch();
@@ -26,25 +26,24 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
   const ticketFetchStatus = useSelector((state: RidiSelectState) => state.user.ticketFetchStatus);
 
   React.useEffect(() => {
-    if (
-      articleState &&
-      articleState.contentFetchStatus === FetchStatusFlag.FETCHING
-    ) {
+    if (articleState && articleState.contentFetchStatus === FetchStatusFlag.FETCHING) {
       return;
     }
 
-    dispatch(Actions.loadArticleRequest({
-      channelName,
-      contentIndex: Number(contentIndex),
-      requestQueries: {
-        includes: [
-          ArticleRequestIncludableData.CONTENT,
-          ArticleRequestIncludableData.AUTHORS,
-          ArticleRequestIncludableData.IS_FAVORITE,
-          ArticleRequestIncludableData.FAVORITES_COUNT,
-        ],
-      },
-    }));
+    dispatch(
+      Actions.loadArticleRequest({
+        channelName,
+        contentIndex: Number(contentIndex),
+        requestQueries: {
+          includes: [
+            ArticleRequestIncludableData.CONTENT,
+            ArticleRequestIncludableData.AUTHORS,
+            ArticleRequestIncludableData.IS_FAVORITE,
+            ArticleRequestIncludableData.FAVORITES_COUNT,
+          ],
+        },
+      }),
+    );
   }, [hasAvailableTicket]);
 
   return (
@@ -52,26 +51,16 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
       <HelmetWithTitle
         titleName={articleState && articleState.article ? articleState.article.title : ''}
       />
-      <ArticleContentHeader
-        contentKey={contentKey}
-      />
+      <ArticleContentHeader contentKey={contentKey} />
       <div className="ArticleContent_ContentWrapper">
-        <ArticleContentComponent
-          contentKey={contentKey}
-        />
-        {!articleState || !articleState.content || ticketFetchStatus === FetchStatusFlag.FETCHING ?
-          null : (
-            hasAvailableTicket ? (
-              <ArticleContentBottomButtons
-                contentKey={contentKey}
-              />
-            ) : (
-              <ArticleContentGetTicketToRead
-                contentKey={contentKey}
-              />
-            )
-          )
-        }
+        <ArticleContentComponent contentKey={contentKey} />
+        {!articleState ||
+        !articleState.content ||
+        ticketFetchStatus === FetchStatusFlag.FETCHING ? null : hasAvailableTicket ? (
+          <ArticleContentBottomButtons contentKey={contentKey} />
+        ) : (
+          <ArticleContentGetTicketToRead contentKey={contentKey} />
+        )}
       </div>
     </main>
   );

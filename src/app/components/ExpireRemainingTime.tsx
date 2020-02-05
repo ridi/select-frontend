@@ -14,11 +14,14 @@ export const ExpireIconComponent = (props: any) => (
   </svg>
 );
 
-export const ExpireRemaningTime: React.SFC<ExpireRemaningTimeProps> = (props: ExpireRemaningTimeProps) => getNotAvailableConvertDateDiff(props.expireDate) <= 25 ? (
-  <div className="ExpireRemaningTime">
-    <ExpireIconComponent className="MySelectBookList_BlockIcon" />
-    <span className="MySelectBookList_expired">
-      {getNotAvailableConvertDate(props.expireDate)}
-    </span>
-  </div>
-) : null;
+export const ExpireRemaningTime: React.SFC<ExpireRemaningTimeProps> = (
+  props: ExpireRemaningTimeProps,
+) =>
+  getNotAvailableConvertDateDiff(props.expireDate) <= 25 ? (
+    <div className="ExpireRemaningTime">
+      <ExpireIconComponent className="MySelectBookList_BlockIcon" />
+      <span className="MySelectBookList_expired">
+        {getNotAvailableConvertDate(props.expireDate)}
+      </span>
+    </div>
+  ) : null;

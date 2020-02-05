@@ -1,6 +1,6 @@
 import history from 'app/config/history';
 import { FetchErrorFlag } from 'app/constants';
-import { Actions as BookActions , Book } from 'app/services/book';
+import { Actions as BookActions, Book } from 'app/services/book';
 
 import { requestBooks } from 'app/services/book/requests';
 import { Actions } from 'app/services/mySelect';
@@ -18,8 +18,15 @@ import { Actions as TrackingActions } from 'app/services/tracking';
 import { RidiSelectState } from 'app/store';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
 import { getNotAvailableConvertDate } from 'app/utils/expiredDate';
-import { sendPostRobotMySelectBookDeleted, sendPostRobotMySelectBookInserted } from 'app/utils/inAppMessageEvents';
-import { fixWrongPaginationScope, isValidPaginationParameter, updateQueryStringParam } from 'app/utils/request';
+import {
+  sendPostRobotMySelectBookDeleted,
+  sendPostRobotMySelectBookInserted,
+} from 'app/utils/inAppMessageEvents';
+import {
+  fixWrongPaginationScope,
+  isValidPaginationParameter,
+  updateQueryStringParam,
+} from 'app/utils/request';
 import toast from 'app/utils/toast';
 import { AxiosResponse } from 'axios';
 import { keyBy } from 'lodash-es';
@@ -34,7 +41,10 @@ export function* loadMySelectList({ payload }: ReturnType<typeof Actions.loadMyS
     }
     const response: MySelectListResponse = yield call(requestMySelectList, page);
     if (response.userRidiSelectBooks.length > 0) {
-      const books: Book[] = yield call(requestBooks, response.userRidiSelectBooks.map((book) => parseInt(book.bId, 10)));
+      const books: Book[] = yield call(
+        requestBooks,
+        response.userRidiSelectBooks.map(book => parseInt(book.bId, 10)),
+      );
       const booksMap = keyBy(books, 'id');
       response.userRidiSelectBooks.forEach((book, index) => {
         response.userRidiSelectBooks[index].book = booksMap[book.bId];
@@ -48,10 +58,12 @@ export function* loadMySelectList({ payload }: ReturnType<typeof Actions.loadMyS
       }
       history.replace(`?${updateQueryStringParam('page', 1)}`);
     }
-    yield put(Actions.loadMySelectSuccess({
-      response,
-      page,
-    }));
+    yield put(
+      Actions.loadMySelectSuccess({
+        response,
+        page,
+      }),
+    );
   } catch (error) {
     if (error === FetchErrorFlag.UNEXPECTED_PAGE_PARAMS) {
       history.replace(`?${updateQueryStringParam('page', 1)}`);
@@ -67,12 +79,14 @@ export function* watchLoadMySelectList() {
 
 export function* watchDeleteMySelect() {
   while (true) {
-    const { payload }: ReturnType<typeof Actions.deleteMySelectRequest> = yield take(Actions.deleteMySelectRequest.getType());
-    const { deleteBookIdPairs, page, isEveryBookChecked } = payload!;
+    const { payload }: ReturnType<typeof Actions.deleteMySelectRequest> = yield take(
+      Actions.deleteMySelectRequest.getType(),
+    );
+    const { deleteBookIdPairs, page, isEveryBookChecked } = payload;
     const deleteBookIds: number[] = [];
     const deleteMySelectBookIds: number[] = [];
 
-    deleteBookIdPairs.forEach((bookIdPair) => {
+    deleteBookIdPairs.forEach(bookIdPair => {
       deleteBookIds.push(bookIdPair.bookId);
       deleteMySelectBookIds.push(bookIdPair.mySelectBookId);
     });
@@ -104,9 +118,11 @@ export function* watchDeleteMySelect() {
 
 export function* watchAddMySelect() {
   while (true) {
-    const { payload }: ReturnType<typeof Actions.addMySelectRequest> = yield take(Actions.addMySelectRequest.getType());
-    const state: RidiSelectState = yield select((s) => s);
-    const { bookId } = payload!;
+    const { payload }: ReturnType<typeof Actions.addMySelectRequest> = yield take(
+      Actions.addMySelectRequest.getType(),
+    );
+    const state: RidiSelectState = yield select(s => s);
+    const { bookId } = payload;
     try {
       // bookId가 없을 경우, Catch문으로 바로 Throw.
       if (!bookId) {
@@ -116,13 +132,19 @@ export function* watchAddMySelect() {
       yield put(Actions.addMySelectSuccess({ userRidiSelectResponse: response }));
       yield put(BookActions.loadBookOwnershipRequest({ bookId }));
       if (!getIsIosInApp(state)) {
-        const toastButton = selectIsInApp(state) ? {
-          callback: () => { readBooksInRidiselect(bookId); },
-          label: '읽기',
-        } : {
-          callback: () => { downloadBooksInRidiselect([bookId]); },
-          label: '다운로드',
-        };
+        const toastButton = selectIsInApp(state)
+          ? {
+              callback: () => {
+                readBooksInRidiselect(bookId);
+              },
+              label: '읽기',
+            }
+          : {
+              callback: () => {
+                downloadBooksInRidiselect([bookId]);
+              },
+              label: '다운로드',
+            };
         toast.success('마이 셀렉트에 추가되었습니다.', {
           button: {
             showArrowIcon: true,
@@ -140,7 +162,11 @@ export function* watchAddMySelect() {
 
 export function* watchLoadMySelectFailure() {
   while (true) {
-    const { payload: { error, page } }: ReturnType<typeof Actions.loadMySelectFailure> = yield take(Actions.loadMySelectFailure.getType());
+    const {
+      payload: { error, page },
+    }: ReturnType<typeof Actions.loadMySelectFailure> = yield take(
+      Actions.loadMySelectFailure.getType(),
+    );
     if (page === 1) {
       toast.failureMessage('없는 페이지입니다. 다시 시도해주세요.');
       return;
@@ -151,7 +177,11 @@ export function* watchLoadMySelectFailure() {
 
 export function* watchAddMySelectSuccess() {
   while (true) {
-    const { payload: { userRidiSelectResponse } }: ReturnType<typeof Actions.addMySelectSuccess> = yield take(Actions.addMySelectSuccess.getType());
+    const {
+      payload: { userRidiSelectResponse },
+    }: ReturnType<typeof Actions.addMySelectSuccess> = yield take(
+      Actions.addMySelectSuccess.getType(),
+    );
     const trackingParams = {
       eventName: 'Add To My Select',
       b_id: Number(userRidiSelectResponse.bId),
@@ -161,5 +191,10 @@ export function* watchAddMySelectSuccess() {
 }
 
 export function* mySelectRootSaga() {
-  yield all([watchLoadMySelectList(), watchDeleteMySelect(), watchAddMySelect(), watchAddMySelectSuccess()]);
+  yield all([
+    watchLoadMySelectList(),
+    watchDeleteMySelect(),
+    watchAddMySelect(),
+    watchAddMySelectSuccess(),
+  ]);
 }

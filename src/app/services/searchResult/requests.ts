@@ -1,7 +1,11 @@
 import { camelize } from '@ridi/object-case-converter';
 import request from 'app/config/axios';
 import env from 'app/config/env';
-import { SearchResultArticle, SearchResultBook, SearchResultHighlight } from 'app/services/searchResult';
+import {
+  SearchResultArticle,
+  SearchResultBook,
+  SearchResultHighlight,
+} from 'app/services/searchResult';
 import { AxiosResponse } from 'axios';
 
 export interface SearchBookResponse {
@@ -46,7 +50,7 @@ export const requestSearchResult = (
       start,
     },
     withCredentials: false,
-  }).then((response) =>
+  }).then(response =>
     camelize<AxiosResponse<PublicSearchResultReponse>>(response.data, { recursive: true }),
   );
 };

@@ -16,32 +16,24 @@ export interface LazyloadWrapperProps {
 
 export class LazyloadWrapper extends React.Component<LazyloadWrapperProps> {
   public render() {
-    const {
-      width,
-      lazyload,
-      placeholder,
-      hasOverflowWrapper,
-      children,
-    } = this.props;
+    const { width, lazyload, placeholder, hasOverflowWrapper, children } = this.props;
 
     const sizeStyle = {
       width,
-      height: getBookThumbnailHeight(width as BookThumbnailSize),
+      height: getBookThumbnailHeight(width),
     };
 
     return lazyload ? (
       <Lazyload
         height={sizeStyle.height}
         offset={100}
-        once={true}
-        throttle={true}
-        resize={true}
+        once
+        throttle
+        resize
         overflow={hasOverflowWrapper}
         placeholder={placeholder || <DefaultLazyloadPlaceholder size={sizeStyle} />}
       >
-        <div className="RSGBookThumbnail_Wrapper-lazyloaded">
-          {children}
-        </div>
+        <div className="RSGBookThumbnail_Wrapper-lazyloaded">{children}</div>
       </Lazyload>
     ) : (
       <>{children}</>

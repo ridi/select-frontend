@@ -31,7 +31,6 @@
   }
 }
 
-
 .MySelectHistoryBookList {
   margin: 0;
   padding: 0;
@@ -50,7 +49,7 @@
   display: flex;
   flex-direction: row;
   padding: 10px;
-  transition: background .2s;
+  transition: background 0.2s;
 
   @media (hover: hover) {
     &:hover {
@@ -70,7 +69,6 @@
     align-items: center;
   }
 }
-
 
 .MySelectHistoryBookList_CheckBox {
   align-self: center;
@@ -118,11 +116,9 @@
   }
 }
 
-
 .MySelectHistoryBookList_BlockIcon {
   margin-right: 4px;
 }
-
 
 .MySelectHistoryBookList_expired {
   font-size: 12px;
@@ -135,5 +131,6 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  left: 0; top: 0;
+  left: 0;
+  top: 0;
 }

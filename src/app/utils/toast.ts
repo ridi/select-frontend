@@ -9,7 +9,8 @@ vex.registerPlugin(vexDialog);
 
 export const TOAST_CLASS_NAME = 'RSGToast';
 export const TOAST_DEFAULT_DURATION = 3000;
-export const TOAST_DEFAULT_ERROR_MESSAGE = '처리 도중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+export const TOAST_DEFAULT_ERROR_MESSAGE =
+  '처리 도중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
 export enum ToastStatusIcon {
   info = 'info',
   success = 'success',
@@ -43,28 +44,28 @@ class Toast {
   }
 
   private toastTimer: number | null;
+
   private documentRootElement: HTMLBodyElement | null;
 
   private getMessage(message: string, options: ToastOptions) {
-    const {
-      link,
-      button,
-    } = options;
+    const { link, button } = options;
 
     const arrowIcon = `<span class="${TOAST_CLASS_NAME}_ArrowIcon"></span>`;
 
     const messageDOMText = `<span class="${TOAST_CLASS_NAME}_Message">${message}</span>`;
 
-    const linkDOMText = link ?
-      `<a
+    const linkDOMText = link
+      ? `<a
         href="${link.url}"
         class="${TOAST_CLASS_NAME}_FunctionButton"
-      >${link.label}${!!link.showArrowIcon ? arrowIcon : ''}</a>` : '';
+      >${link.label}${link.showArrowIcon ? arrowIcon : ''}</a>`
+      : '';
 
-    const buttonDOMText = button ?
-      `<button
+    const buttonDOMText = button
+      ? `<button
         class="${TOAST_CLASS_NAME}_FunctionButton"
-      >${button.label}${!!button.showArrowIcon ? arrowIcon : ''}</button>` : '';
+      >${button.label}${button.showArrowIcon ? arrowIcon : ''}</button>`
+      : '';
 
     return messageDOMText + linkDOMText + buttonDOMText;
   }
@@ -149,33 +150,27 @@ class Toast {
   }
 
   public info(message: string, options: SimpleToastOptions = {}) {
-    this.show(
-      message,
-      {
-        ...options,
-        iconType: ToastStatusIcon.info,
-      },
-    );
+    this.show(message, {
+      ...options,
+      iconType: ToastStatusIcon.info,
+    });
   }
 
   public success(message: string, options: SimpleToastOptions = {}) {
-    this.show(
-      message,
-      {
-        ...options,
-        iconType: ToastStatusIcon.success,
-      },
-    );
+    this.show(message, {
+      ...options,
+      iconType: ToastStatusIcon.success,
+    });
   }
 
-  public failureMessage(message: string = TOAST_DEFAULT_ERROR_MESSAGE, options: SimpleToastOptions = {}) {
-    this.show(
-      message,
-      {
-        ...options,
-        iconType: ToastStatusIcon.fail,
-      },
-    );
+  public failureMessage(
+    message: string = TOAST_DEFAULT_ERROR_MESSAGE,
+    options: SimpleToastOptions = {},
+  ) {
+    this.show(message, {
+      ...options,
+      iconType: ToastStatusIcon.fail,
+    });
   }
 
   public close() {

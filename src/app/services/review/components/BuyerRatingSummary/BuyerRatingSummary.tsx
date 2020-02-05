@@ -15,7 +15,7 @@ export interface BuyerRatingSummaryState {
   isRatingGraphDropDownOpen: boolean;
 }
 
-export const BuyerRatingSummaryVertical: React.SFC<BuyerRatingSummaryProps> = (props) => {
+export const BuyerRatingSummaryVertical: React.SFC<BuyerRatingSummaryProps> = props => {
   const { buyerRatingAverage, buyerRatingCount, buyerRatingDistribution } = props.summary;
 
   return (
@@ -30,12 +30,17 @@ export const BuyerRatingSummaryVertical: React.SFC<BuyerRatingSummaryProps> = (p
         participantCount={buyerRatingCount}
         distribution={buyerRatingDistribution}
       />
-      <p className="ParticipantCount"><strong>{buyerRatingCount}</strong>명이 평가함</p>
+      <p className="ParticipantCount">
+        <strong>{buyerRatingCount}</strong>명이 평가함
+      </p>
     </div>
   );
 };
 
-export class BuyerRatingSummaryDefault extends React.Component<BuyerRatingSummaryProps, BuyerRatingSummaryState> {
+export class BuyerRatingSummaryDefault extends React.Component<
+  BuyerRatingSummaryProps,
+  BuyerRatingSummaryState
+> {
   public constructor(props: BuyerRatingSummaryProps) {
     super(props);
     this.state = {
@@ -59,17 +64,28 @@ export class BuyerRatingSummaryDefault extends React.Component<BuyerRatingSummar
         <div className="BuyerRatingSummary_Left">
           <div className="BuyerRatingSummary_Left_Block">
             <p className="AverageRating_Title">구매자 별점</p>
-            <StarRating rating={buyerRatingAverage} width={61} className="AverageRating_StarRating" />
+            <StarRating
+              rating={buyerRatingAverage}
+              width={61}
+              className="AverageRating_StarRating"
+            />
           </div>
           <div className="BuyerRatingSummary_Left_Block">
             <p className="AverageRating_Score">
-              {buyerRatingAverage.toFixed(1)}<span className="a11y">점</span>
+              {buyerRatingAverage.toFixed(1)}
+              <span className="a11y">점</span>
             </p>
           </div>
         </div>
         <div className="BuyerRatingSummary_Right">
-          <p className="ParticipantCount"><strong>{buyerRatingCount}</strong>명이 평가함</p>
-          <button type="button" className="RatingbarGraph_ToggleButton" onClick={this.toggleRatingGraphDropDown} >
+          <p className="ParticipantCount">
+            <strong>{buyerRatingCount}</strong>명이 평가함
+          </p>
+          <button
+            type="button"
+            className="RatingbarGraph_ToggleButton"
+            onClick={this.toggleRatingGraphDropDown}
+          >
             별점 분포 보기
             <Icon
               name={isRatingGraphDropDownOpen ? 'arrow_1_up' : 'arrow_1_down'}
@@ -91,20 +107,16 @@ export class BuyerRatingSummaryDefault extends React.Component<BuyerRatingSummar
   }
 }
 
-export const BuyerRatingSummaryBlock: React.SFC<BuyerRatingSummaryProps> = (props) => {
+export const BuyerRatingSummaryBlock: React.SFC<BuyerRatingSummaryProps> = props => {
   const { summary } = props;
 
   return (
     <>
       <MediaQuery maxWidth={MAX_WIDTH}>
-        <BuyerRatingSummaryDefault
-          summary={summary}
-        />
+        <BuyerRatingSummaryDefault summary={summary} />
       </MediaQuery>
       <MediaQuery minWidth={MIN_WIDTH}>
-        <BuyerRatingSummaryVertical
-          summary={summary}
-        />
+        <BuyerRatingSummaryVertical summary={summary} />
       </MediaQuery>
     </>
   );

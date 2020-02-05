@@ -1,9 +1,5 @@
 import { FetchStatusFlag } from 'app/constants';
-import {
-  DateDTO,
-  MaskedUId,
-  TextWithLF,
-} from 'app/types';
+import { DateDTO, MaskedUId, TextWithLF } from 'app/types';
 
 import {
   ReviewInvisibilityType,
@@ -25,7 +21,7 @@ export interface Comment {
   isMyComment: boolean;
 }
 
-export interface  MyReviewFetchStatus {
+export interface MyReviewFetchStatus {
   rating: FetchStatusFlag;
   content: FetchStatusFlag;
   delete: FetchStatusFlag;
@@ -66,7 +62,7 @@ export interface MyReviewState {
   isBeingEdited: boolean;
 }
 
-export interface ReviewSummary  {
+export interface ReviewSummary {
   buyerRatingAverage: number;
   buyerRatingDistribution: [number, number, number, number, number];
   buyerRatingCount: number;

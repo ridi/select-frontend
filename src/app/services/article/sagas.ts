@@ -19,21 +19,35 @@ import { refineArticleJSON } from 'app/utils/utils';
 export function* loadArticle({ payload }: ReturnType<typeof Actions.loadArticleRequest>) {
   const { channelName, contentIndex, requestQueries } = payload;
   try {
-    const response: ArticleResponse = yield call(requestSingleArticle, channelName, contentIndex, requestQueries);
-    yield put(Actions.updateArticleContent({
+    const response: ArticleResponse = yield call(
+      requestSingleArticle,
       channelName,
       contentIndex,
-      content: response && response.content ? refineArticleJSON(JSON.parse(response.content)) : undefined,
-    }));
-    yield put(ChannelActions.updateChannelDetail({
-      channels: response.channel ? [response.channel] : [],
-    }));
+      requestQueries,
+    );
+    yield put(
+      Actions.updateArticleContent({
+        channelName,
+        contentIndex,
+        content:
+          response && response.content
+            ? refineArticleJSON(JSON.parse(response.content))
+            : undefined,
+      }),
+    );
+    yield put(
+      ChannelActions.updateChannelDetail({
+        channels: response.channel ? [response.channel] : [],
+      }),
+    );
     const { channel, content, ...restData } = response;
-    yield put(Actions.loadArticleSuccess({
-      channelName,
-      contentIndex,
-      articleResponse: restData,
-    }));
+    yield put(
+      Actions.loadArticleSuccess({
+        channelName,
+        contentIndex,
+        articleResponse: restData,
+      }),
+    );
   } catch (error) {
     const status = error && error.response && error.response.status;
 
@@ -47,46 +61,59 @@ export function* loadArticle({ payload }: ReturnType<typeof Actions.loadArticleR
     } else {
       toast.failureMessage();
     }
-    yield put(Actions.loadArticleFailure({
-      channelName,
-      contentIndex,
-    }));
+    yield put(
+      Actions.loadArticleFailure({
+        channelName,
+        contentIndex,
+      }),
+    );
   }
 }
 
 export function* updateArticles({ payload }: ReturnType<typeof Actions.updateArticles>) {
   const { articles } = payload;
   try {
-    const articleChannels = articles.map((article) => article.channel!);
-    yield put(ChannelActions.updateChannelDetail({
-      channels: articleChannels,
-    }));
+    const articleChannels = articles.map(article => article.channel!);
+    yield put(
+      ChannelActions.updateChannelDetail({
+        channels: articleChannels,
+      }),
+    );
   } catch (error) {
     // 채널 업데이트 에러
   }
 }
 
-function* favoriteArticleAction({ payload }: ReturnType<typeof Actions.favoriteArticleActionRequest>) {
+function* favoriteArticleAction({
+  payload,
+}: ReturnType<typeof Actions.favoriteArticleActionRequest>) {
   const { articleId, method } = payload;
   try {
-    const hasAvailableTicket = yield select((state: RidiSelectState) => state.user.hasAvailableTicket);
+    const hasAvailableTicket = yield select(
+      (state: RidiSelectState) => state.user.hasAvailableTicket,
+    );
     if (!hasAvailableTicket && method === 'POST') {
       toast.failureMessage('구독 후 이용하실 수 있습니다.');
       return;
     }
-    const response: FavoriteArticleActionResponse = yield call(requestFavoriteArticleAction, method, articleId);
-    yield put(Actions.updateFavoriteArticleStatus({
-      channelName: response.channelName,
-      contentIndex: response.contentId,
-      isFavorite: response.isFavorite,
-    }));
+    const response: FavoriteArticleActionResponse = yield call(
+      requestFavoriteArticleAction,
+      method,
+      articleId,
+    );
+    yield put(
+      Actions.updateFavoriteArticleStatus({
+        channelName: response.channelName,
+        contentIndex: response.contentId,
+        isFavorite: response.isFavorite,
+      }),
+    );
     const eventName = method === 'POST' ? 'Like Article' : 'Unlike Article';
     const trackingParams = {
       eventName,
       id: Number(articleId),
     };
     yield put(TrackingActions.trackingArticleActions({ trackingParams }));
-
   } catch (e) {
     const data = e && e.response && e.response.data;
 
@@ -111,9 +138,5 @@ export function* watchFavoriteArticleActionRequest() {
 }
 
 export function* articleRootSaga() {
-  yield all([
-    watchLoadArticle(),
-    watchLoadUpdateArticles(),
-    watchFavoriteArticleActionRequest(),
-  ]);
+  yield all([watchLoadArticle(), watchLoadUpdateArticles(), watchFavoriteArticleActionRequest()]);
 }

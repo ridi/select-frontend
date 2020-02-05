@@ -14,7 +14,7 @@ export interface ReviewButtonsProps {
   likeButtonFetchStatus: FetchStatusFlag;
 }
 
-export const ReviewButtons: React.SFC<ReviewButtonsProps> = (props) => {
+export const ReviewButtons: React.SFC<ReviewButtonsProps> = props => {
   const {
     isCommentSectionOpen,
     commentCount,
@@ -31,7 +31,7 @@ export const ReviewButtons: React.SFC<ReviewButtonsProps> = (props) => {
         <Button
           color="gray"
           size="small"
-          outline={true}
+          outline
           className={classNames([
             'ReviewButtons_OpenCommentsButton',
             { pressed: isCommentSectionOpen },
@@ -49,12 +49,9 @@ export const ReviewButtons: React.SFC<ReviewButtonsProps> = (props) => {
         <Button
           color="gray"
           size="small"
-          outline={true}
+          outline
           spinner={likeButtonFetchStatus === FetchStatusFlag.FETCHING}
-          className={classNames([
-            'ReviewButtons_LikeButton',
-            { pressed: isLikedByMe },
-          ])}
+          className={classNames(['ReviewButtons_LikeButton', { pressed: isLikedByMe }])}
           onClick={toggleLike}
         >
           <>

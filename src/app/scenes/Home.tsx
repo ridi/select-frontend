@@ -20,24 +20,21 @@ interface State {
   isInitialized: boolean;
 }
 
-export class Home extends React.PureComponent<HomeStateProps & ReturnType<typeof mapDispatchToProps>, State> {
+export class Home extends React.PureComponent<
+  HomeStateProps & ReturnType<typeof mapDispatchToProps>,
+  State
+> {
   private initialDispatchTimeout?: number | null;
+
   public state: State = {
     isInitialized: false,
   };
 
   public componentDidMount() {
     this.initialDispatchTimeout = window.setTimeout(() => {
-      const {
-        fetchedAt,
-        dispatchLoadHomeRequest,
-        dispatchLoadCollectionRequest,
-      } = this.props;
+      const { fetchedAt, dispatchLoadHomeRequest, dispatchLoadCollectionRequest } = this.props;
       sendPostRobotInitialRendered();
-      if (
-        !fetchedAt ||
-        Math.abs(differenceInHours(fetchedAt, Date.now())) >= 3
-      ) {
+      if (!fetchedAt || Math.abs(differenceInHours(fetchedAt, Date.now())) >= 3) {
         dispatchLoadHomeRequest();
         dispatchLoadCollectionRequest('spotlight');
       }
@@ -66,7 +63,9 @@ export class Home extends React.PureComponent<HomeStateProps & ReturnType<typeof
         )}
       >
         <HelmetWithTitle titleName={PageTitleText.HOME} />
-        <div className="a11y"><h1>리디셀렉트 홈</h1></div>
+        <div className="a11y">
+          <h1>리디셀렉트 홈</h1>
+        </div>
         <ConnectedBigBannerCarousel />
         <ConnectedHomeSectionList />
       </main>
@@ -80,7 +79,8 @@ const mapStateToProps = (state: RidiSelectState): HomeStateProps => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
   dispatchLoadHomeRequest: () => dispatch(Actions.loadHomeRequest()),
-  dispatchLoadCollectionRequest: (collectionId: CollectionId) => dispatch(CollectionActions.loadCollectionRequest({ collectionId, page: 1 })),
+  dispatchLoadCollectionRequest: (collectionId: CollectionId) =>
+    dispatch(CollectionActions.loadCollectionRequest({ collectionId, page: 1 })),
 });
 
 export const ConnectedHome = connect(mapStateToProps, mapDispatchToProps)(Home);

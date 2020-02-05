@@ -8,8 +8,8 @@ export * from '../../components/CustomHistory';
 
 export const Actions = {
   syncHistoryStack: createAction<{
-    location: Location,
-    stack?: HistoryStack,
+    location: Location;
+    stack?: HistoryStack;
   }>('syncHistoryStack'),
   navigateUp: createAction('navigateUp'),
 };
@@ -22,16 +22,16 @@ export const INITIAL_CUSTOM_HISTORY_STATE: CustomHistoryState = {
   historyStack: [],
 };
 
-export const customHistoryReducer = createReducer<typeof INITIAL_CUSTOM_HISTORY_STATE>({}, INITIAL_CUSTOM_HISTORY_STATE);
+export const customHistoryReducer = createReducer<typeof INITIAL_CUSTOM_HISTORY_STATE>(
+  {},
+  INITIAL_CUSTOM_HISTORY_STATE,
+);
 
 customHistoryReducer.on(Actions.syncHistoryStack, (state, action) => {
   const { stack, location } = action;
   return {
     ...state,
-    historyStack: updateHistoryStack(
-      stack || state.historyStack,
-      location,
-    ),
+    historyStack: updateHistoryStack(stack || state.historyStack, location),
   };
 });
 

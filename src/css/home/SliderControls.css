@@ -29,7 +29,7 @@
   text-align: center;
   cursor: pointer;
   pointer-events: all;
-  transition: background-color .2s;
+  transition: background-color 0.2s;
   @media (hover: hover) {
     &:hover {
       background-color: rgba(209, 213, 217, 0.25);

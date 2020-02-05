@@ -6,23 +6,23 @@ import { createAction, createReducer } from 'redux-act';
 export const Actions = {
   loadArticleBannerRequest: createAction('loadArticleBannerRequest'),
   loadArticleBannerSuccess: createAction<{
-    fetchedAt: number,
-    response: BigBanner[],
-    isIosInApp: boolean,
+    fetchedAt: number;
+    response: BigBanner[];
+    isIosInApp: boolean;
   }>('loadArticleBannerSuccess'),
   loadArticleBannerFailure: createAction('loadArticleBannerFailure'),
   loadArticleHomeSectionListRequest: createAction<{
-    targetSection: ArticleHomeSectionType,
+    targetSection: ArticleHomeSectionType;
   }>('loadArticleHomeSectionListRequest'),
   loadArticleHomeSectionListSuccess: createAction<{
-    targetSection: ArticleHomeSectionType,
-    articles: string[],
+    targetSection: ArticleHomeSectionType;
+    articles: string[];
   }>('loadArticleHomeSectionListSuccess'),
   loadArticleHomeSectionListFailure: createAction<{
-    targetSection: ArticleHomeSectionType,
+    targetSection: ArticleHomeSectionType;
   }>('loadArticleHomeSectionListFailure'),
   updateBannerIndex: createAction<{
-    currentIdx: number,
+    currentIdx: number;
   }>('updateBannerIndex'),
 };
 
@@ -70,44 +70,53 @@ export const INITIAL_ARTICLE_HOME_STATE: ArticleHomeState = {
 
 export const articleHomeReducer = createReducer<ArticleHomeState>({}, INITIAL_ARTICLE_HOME_STATE);
 
-articleHomeReducer.on(Actions.loadArticleHomeSectionListRequest, (state = INITIAL_ARTICLE_HOME_STATE, action) => {
-  const { targetSection } = action;
+articleHomeReducer.on(
+  Actions.loadArticleHomeSectionListRequest,
+  (state = INITIAL_ARTICLE_HOME_STATE, action) => {
+    const { targetSection } = action;
 
-  return {
-    ...state,
-    [targetSection]: {
-      ...state[targetSection],
-      fetchStatus: FetchStatusFlag.FETCHING,
-    },
-  };
-});
+    return {
+      ...state,
+      [targetSection]: {
+        ...state[targetSection],
+        fetchStatus: FetchStatusFlag.FETCHING,
+      },
+    };
+  },
+);
 
-articleHomeReducer.on(Actions.loadArticleHomeSectionListSuccess, (state = INITIAL_ARTICLE_HOME_STATE, action) => {
-  const { articles, targetSection } = action;
+articleHomeReducer.on(
+  Actions.loadArticleHomeSectionListSuccess,
+  (state = INITIAL_ARTICLE_HOME_STATE, action) => {
+    const { articles, targetSection } = action;
 
-  return {
-    ...state,
-    [targetSection]: {
-      ...state[targetSection],
-      fetchStatus: FetchStatusFlag.IDLE,
-      articles,
-    },
-  };
-});
+    return {
+      ...state,
+      [targetSection]: {
+        ...state[targetSection],
+        fetchStatus: FetchStatusFlag.IDLE,
+        articles,
+      },
+    };
+  },
+);
 
-articleHomeReducer.on(Actions.loadArticleHomeSectionListFailure, (state = INITIAL_ARTICLE_HOME_STATE, action) => {
-  const { targetSection } = action;
+articleHomeReducer.on(
+  Actions.loadArticleHomeSectionListFailure,
+  (state = INITIAL_ARTICLE_HOME_STATE, action) => {
+    const { targetSection } = action;
 
-  return {
-    ...state,
-    [targetSection]: {
-      ...state[targetSection],
-      fetchStatus: FetchStatusFlag.FETCH_ERROR,
-    },
-  };
-});
+    return {
+      ...state,
+      [targetSection]: {
+        ...state[targetSection],
+        fetchStatus: FetchStatusFlag.FETCH_ERROR,
+      },
+    };
+  },
+);
 
-articleHomeReducer.on(Actions.loadArticleBannerRequest, (state) => ({
+articleHomeReducer.on(Actions.loadArticleBannerRequest, state => ({
   ...state,
   fetchStatus: FetchStatusFlag.FETCHING,
 }));
@@ -118,14 +127,14 @@ articleHomeReducer.on(Actions.loadArticleBannerSuccess, (state, action) => {
   return {
     ...state,
     bigBannerList: isIosInApp
-      ? response.filter((banner) => isRidiselectUrl(banner.linkUrl))
+      ? response.filter(banner => isRidiselectUrl(banner.linkUrl))
       : response,
     fetchedAt,
     fetchStatus: FetchStatusFlag.IDLE,
   };
 });
 
-articleHomeReducer.on(Actions.loadArticleBannerFailure, (state) => ({
+articleHomeReducer.on(Actions.loadArticleBannerFailure, state => ({
   ...state,
   fetchStatus: FetchStatusFlag.FETCH_ERROR,
 }));

@@ -43,7 +43,7 @@
   font-weight: 700;
   line-height: 19px;
   text-decoration: none;
-  transition: opacity .2s;
+  transition: opacity 0.2s;
   &,
   &:active,
   &:visited,
@@ -59,12 +59,12 @@
   }
   @media (hover: hover) {
     &:hover {
-      opacity: .8;
+      opacity: 0.8;
     }
   }
   @media (hover: none) {
     &:active {
-      opacity: .8;
+      opacity: 0.8;
     }
   }
 }
@@ -118,18 +118,18 @@
   font-size: 11px;
   line-height: 1em;
   text-decoration: none;
-  transition: opacity .2s;
+  transition: opacity 0.2s;
   &.Personal_Info_Term_Link {
     font-weight: 700;
   }
   @media (hover: hover) {
     &:hover {
-      opacity: .8;
+      opacity: 0.8;
     }
   }
   @media (hover: none) {
     &:active {
-      opacity: .8;
+      opacity: 0.8;
     }
   }
 }

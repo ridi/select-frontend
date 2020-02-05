@@ -1,7 +1,6 @@
 import 'jest-localstorage-mock';
 import 'regenerator-runtime/runtime';
 
-
 window.matchMedia =
   window.matchMedia ||
   function() {

@@ -26,30 +26,46 @@ export interface SetAllFollowingFeedsToSeenResponse {
   feedLastSeenTime: DateDTO;
 }
 
-export const requestFollowingChannelList = (requestQueries?: ArticleRequestQueries): Promise<FollowingChannelListResponse> => (
+export const requestFollowingChannelList = (
+  requestQueries?: ArticleRequestQueries,
+): Promise<FollowingChannelListResponse> =>
   request({
     url: `/article/me/following${buildArticleRequestQueriesToString(requestQueries)}&size=100`,
     method: 'GET',
-  }).then((response) => camelize<AxiosResponse<FollowingChannelListResponse>>(response, { recursive: true }).data)
-);
+  }).then(
+    response =>
+      camelize<AxiosResponse<FollowingChannelListResponse>>(response, { recursive: true }).data,
+  );
 
-export const requestFollowingArticleList = (page: number, requestQueries?: ArticleRequestQueries): Promise<FollowingArticleListResponse> => (
+export const requestFollowingArticleList = (
+  page: number,
+  requestQueries?: ArticleRequestQueries,
+): Promise<FollowingArticleListResponse> =>
   request({
-    url: `/article/me/feeds${buildArticleRequestQueriesToString(requestQueries)}&size=12&page=${page}`,
+    url: `/article/me/feeds${buildArticleRequestQueriesToString(
+      requestQueries,
+    )}&size=12&page=${page}`,
     method: 'GET',
-  }).then((response) => camelize<AxiosResponse<FollowingArticleListResponse>>(response, { recursive: true }).data)
-);
+  }).then(
+    response =>
+      camelize<AxiosResponse<FollowingArticleListResponse>>(response, { recursive: true }).data,
+  );
 
-export const requestUnseenFollowingFeeds = (): Promise<UnseenFollowingFeedsResponse> => (
+export const requestUnseenFollowingFeeds = (): Promise<UnseenFollowingFeedsResponse> =>
   request({
     url: '/article/me/feeds/unseen',
     method: 'GET',
-  }).then((response) => camelize<AxiosResponse<UnseenFollowingFeedsResponse>>(response, { recursive: true }).data)
-);
+  }).then(
+    response =>
+      camelize<AxiosResponse<UnseenFollowingFeedsResponse>>(response, { recursive: true }).data,
+  );
 
-export const requestUnseenFollowingFeedsToSeen = (): Promise<SetAllFollowingFeedsToSeenResponse> => (
+export const requestUnseenFollowingFeedsToSeen = (): Promise<SetAllFollowingFeedsToSeenResponse> =>
   request({
     url: '/article/me/feeds/unseen',
     method: 'POST',
-  }).then((response) => camelize<AxiosResponse<SetAllFollowingFeedsToSeenResponse>>(response, { recursive: true }).data)
-);
+  }).then(
+    response =>
+      camelize<AxiosResponse<SetAllFollowingFeedsToSeenResponse>>(response, { recursive: true })
+        .data,
+  );

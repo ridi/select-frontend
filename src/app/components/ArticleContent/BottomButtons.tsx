@@ -10,7 +10,7 @@ import { RidiSelectState } from 'app/store';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
 import toast from 'app/utils/toast';
 
-export const ShareSVG = (props: { className?: string; }) => (
+export const ShareSVG = (props: { className?: string }) => (
   <svg width="24" height="24" viewBox="0 0 24 24" className={props.className}>
     <path d="M0 0h24v24H0z" fill="none" />
     // tslint:disable-next-line:max-line-length
@@ -18,8 +18,12 @@ export const ShareSVG = (props: { className?: string; }) => (
   </svg>
 );
 
-export const ArticleContentBottomButtons: React.FunctionComponent<{ contentKey: string }> = (props) => {
-  const articleState = useSelector((state: RidiSelectState) => state.articlesById[props.contentKey]);
+export const ArticleContentBottomButtons: React.FunctionComponent<{
+  contentKey: string;
+}> = props => {
+  const articleState = useSelector(
+    (state: RidiSelectState) => state.articlesById[props.contentKey],
+  );
   const dispatch = useDispatch();
 
   if (!articleState || !articleState.article) {
@@ -42,9 +46,9 @@ export const ArticleContentBottomButtons: React.FunctionComponent<{ contentKey: 
     const trackingParams = {
       eventName: 'Share Article',
       id: articleState.article!.id,
-      misc: JSON.stringify({ share_type : 'copy' }),
+      misc: JSON.stringify({ share_type: 'copy' }),
     };
-    dispatch(TrackingActions.trackingArticleActions({trackingParams}));
+    dispatch(TrackingActions.trackingArticleActions({ trackingParams }));
   };
 
   return (
@@ -53,30 +57,33 @@ export const ArticleContentBottomButtons: React.FunctionComponent<{ contentKey: 
         <Button
           color="gray"
           size="medium"
-          outline={true}
+          outline
           type="button"
           className={classNames(
             'ArticleContent_Button',
             'ArticleContent_LikeButton',
             articleState.article.isFavorite && 'ArticleContent_LikeButton-active',
           )}
-          onClick={() => dispatch(Actions.favoriteArticleActionRequest({
-            articleId: articleState.article!.id,
-            method: articleState.article!.isFavorite ? 'DELETE' : 'POST',
-          }))}
+          onClick={() =>
+            dispatch(
+              Actions.favoriteArticleActionRequest({
+                articleId: articleState.article!.id,
+                method: articleState.article!.isFavorite ? 'DELETE' : 'POST',
+              }),
+            )
+          }
         >
-          <Icon
-            name="heart_1"
-            className="ArticleContent_LikeButton_Icon"
-          />
-          {typeof articleState.article.favoritesCount === 'number' ? thousandsSeperator(articleState.article.favoritesCount) : ''}
+          <Icon name="heart_1" className="ArticleContent_LikeButton_Icon" />
+          {typeof articleState.article.favoritesCount === 'number'
+            ? thousandsSeperator(articleState.article.favoritesCount)
+            : ''}
         </Button>
       </li>
       <li className="ArticleContent_ButtonElement">
         <Button
           color="gray"
           size="medium"
-          outline={true}
+          outline
           type="button"
           className="ArticleContent_Button ArticleContent_ShareButton"
           onClick={copyUrl}

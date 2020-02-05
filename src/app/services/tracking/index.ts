@@ -20,23 +20,22 @@ export interface TrackingArticleEventParams {
 
 export const Actions = {
   trackClick: createAction<{
-    trackingParams: DefaultTrackingParams,
+    trackingParams: DefaultTrackingParams;
   }>('trackClick'),
 
   trackImpression: createAction<{
-    trackingParams: DefaultTrackingParams,
+    trackingParams: DefaultTrackingParams;
   }>('trackImpression'),
 
   trackMySelectAdded: createAction<{
-    trackingParams: TrakcingCustomEventParams,
+    trackingParams: TrakcingCustomEventParams;
   }>('trackMySelectAdded'),
   trackingArgsUpdate: createAction<{
-    updateKey: 'userId' | 'deviceType',
-    updateValue: string,
+    updateKey: 'userId' | 'deviceType';
+    updateValue: string;
   }>('trackingArgsUpdate'),
 
   trackingArticleActions: createAction<{
-    trackingParams: TrackingArticleEventParams,
+    trackingParams: TrackingArticleEventParams;
   }>('trackingArticleActions'),
-
 };

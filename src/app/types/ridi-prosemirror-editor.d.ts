@@ -1,4 +1,3 @@
-
 declare module '@ridi/ridi-prosemirror-editor' {
   import { FunctionComponent } from 'react';
 
@@ -24,7 +23,7 @@ declare module '@ridi/ridi-prosemirror-editor' {
   }
   export const Article: FunctionComponent<{
     json: ArticleContentJSON;
-    classes?: string[]
+    classes?: string[];
     style?: AttrbuteOfContent;
   }>;
 }

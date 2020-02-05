@@ -32,9 +32,16 @@ export const ArticleFavorite: React.FunctionComponent = () => {
 
     return {
       page: getPageQuery(state),
-      isFetched: state.favoriteArticle.itemListByPage[pageFromQuery] ? state.favoriteArticle.itemListByPage[pageFromQuery].isFetched : false,
-      favoriteArticleFetchStatus: state.favoriteArticle.itemListByPage[pageFromQuery] ? state.favoriteArticle.itemListByPage[pageFromQuery].fetchStatus : FetchStatusFlag.IDLE,
-      itemCount: state.favoriteArticle && state.favoriteArticle.itemCount ? state.favoriteArticle.itemCount : 1,
+      isFetched: state.favoriteArticle.itemListByPage[pageFromQuery]
+        ? state.favoriteArticle.itemListByPage[pageFromQuery].isFetched
+        : false,
+      favoriteArticleFetchStatus: state.favoriteArticle.itemListByPage[pageFromQuery]
+        ? state.favoriteArticle.itemListByPage[pageFromQuery].fetchStatus
+        : FetchStatusFlag.IDLE,
+      itemCount:
+        state.favoriteArticle && state.favoriteArticle.itemCount
+          ? state.favoriteArticle.itemCount
+          : 1,
       hasAvailableTicket: state.user.hasAvailableTicket,
       unseenFeedsFetchStatus: state.articleFollowing.unseenFeedsFetchStatus,
     };
@@ -42,7 +49,10 @@ export const ArticleFavorite: React.FunctionComponent = () => {
 
   const dispatch = useDispatch();
   React.useEffect(() => {
-    if ((favoriteArticleFetchStatus === FetchStatusFlag.IDLE || !isFetched) && checkCorrectPath(RoutePaths.ARTICLE_FAVORITE)) {
+    if (
+      (favoriteArticleFetchStatus === FetchStatusFlag.IDLE || !isFetched) &&
+      checkCorrectPath(RoutePaths.ARTICLE_FAVORITE)
+    ) {
       dispatch(Actions.loadFavoriteArticleListRequest({ page }));
     }
     if (hasAvailableTicket && unseenFeedsFetchStatus !== FetchStatusFlag.FETCHING) {
@@ -66,7 +76,9 @@ export const ArticleFavorite: React.FunctionComponent = () => {
       )}
     >
       <HelmetWithTitle titleName={PageTitleText.ARTICLE_FAVORITE} />
-      <div className="a11y"><h1>리디셀렉트 좋아한 아티클</h1></div>
+      <div className="a11y">
+        <h1>리디셀렉트 좋아한 아티클</h1>
+      </div>
 
       <div className="FollowingArticleList">
         {articleItems ? (
@@ -78,16 +90,16 @@ export const ArticleFavorite: React.FunctionComponent = () => {
                 uiPartTitleForTracking="article-list"
                 miscTracking={JSON.stringify({ sect_page: page })}
                 articles={articleItems}
-                renderChannelThumbnail={true}
-                renderChannelMeta={true}
+                renderChannelThumbnail
+                renderChannelMeta
                 renderAuthor={false}
-                renderPublishDate={true}
-                renderFavoriteButton={true}
-                isFullWidthAvailable={true}
+                renderPublishDate
+                renderFavoriteButton
+                isFullWidthAvailable
                 gridListSizeClassNames="GridArticleList-large"
               />
               <MediaQuery maxWidth={MAX_WIDTH}>
-                {(isMobile) => (
+                {isMobile => (
                   <Pagination
                     currentPage={page}
                     totalPages={Math.ceil(itemCount / itemCountPerPage)}
@@ -103,15 +115,10 @@ export const ArticleFavorite: React.FunctionComponent = () => {
               </MediaQuery>
             </>
           ) : (
-            <ArticleEmpty
-              iconName="document"
-              description="좋아한 아티클이 없습니다."
-            />
+            <ArticleEmpty iconName="document" description="좋아한 아티클이 없습니다." />
           )
         ) : (
-          <GridArticleListPlaceholder
-            gridSize={'large'}
-          />
+          <GridArticleListPlaceholder gridSize="large" />
         )}
       </div>
     </main>

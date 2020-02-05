@@ -15,7 +15,7 @@ interface BookDetailMovieTrailerStateProps {
 
 type Props = BookDetailMovieTrailerProps & BookDetailMovieTrailerStateProps;
 
-const BookDetailMovieTrailer: React.FunctionComponent<Props> = (props) => {
+const BookDetailMovieTrailer: React.FunctionComponent<Props> = props => {
   const { isMobile = false, introVideoUrl } = props;
 
   if (!introVideoUrl) {
@@ -37,9 +37,7 @@ const BookDetailMovieTrailer: React.FunctionComponent<Props> = (props) => {
   }
 
   return (
-    <BookDetailPanelWrapper
-      className={isMobile ? 'PageBookDetail_Panel-inMeta' : ''}
-    >
+    <BookDetailPanelWrapper className={isMobile ? 'PageBookDetail_Panel-inMeta' : ''}>
       <h2 className={isMobile ? 'a11y' : 'PageBookDetail_PanelTitle'}>북 트레일러</h2>
       <div className="PageBookDetail_PanelContent PageBookDetail_PanelContent-trailer">
         <iframe
@@ -47,21 +45,24 @@ const BookDetailMovieTrailer: React.FunctionComponent<Props> = (props) => {
           width={isMobile ? 300 : 800}
           height={isMobile ? 225 : 450}
           frameBorder="0"
-          allowFullScreen={true}
+          allowFullScreen
         />
       </div>
     </BookDetailPanelWrapper>
   );
 };
 
-const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailMovieTrailerProps): BookDetailMovieTrailerStateProps => {
-  const bookId = ownProps.bookId;
+const mapStateToProps = (
+  state: RidiSelectState,
+  ownProps: BookDetailMovieTrailerProps,
+): BookDetailMovieTrailerStateProps => {
+  const { bookId } = ownProps;
   const stateExists = !!state.booksById[bookId];
   const bookState = state.booksById[bookId];
   const bookDetail = stateExists ? bookState.bookDetail : undefined;
 
   return {
-    introVideoUrl: !!bookDetail ? bookDetail.introVideoUrl : undefined,
+    introVideoUrl: bookDetail ? bookDetail.introVideoUrl : undefined,
   };
 };
 

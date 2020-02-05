@@ -11,7 +11,7 @@
   background: url(icon_star@2x.png) 50% top no-repeat;
   background-size: 45px 90px;
   text-align: center;
-  transition: transform .2s;
+  transition: transform 0.2s;
   z-index: 20;
 }
 

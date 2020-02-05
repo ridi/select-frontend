@@ -6,15 +6,15 @@ import { getArticleKeyFromData } from 'app/utils/utils';
 import { createAction, createReducer } from 'redux-act';
 
 export const Actions = {
-  loadFavoriteArticleListRequest : createAction<{
-    page: number,
+  loadFavoriteArticleListRequest: createAction<{
+    page: number;
   }>('loadArticleChannelListRequest'),
-  loadFavoriteArticleListSuccess : createAction<{
-    page: number,
-    response: FavoriteArticleListResponse,
+  loadFavoriteArticleListSuccess: createAction<{
+    page: number;
+    response: FavoriteArticleListResponse;
   }>('loadFavoriteArticleListSuccess'),
-  loadFavoriteArticleListFailure : createAction<{
-    page: number,
+  loadFavoriteArticleListFailure: createAction<{
+    page: number;
   }>('loadFavoriteArticleListFailure'),
 };
 
@@ -24,7 +24,7 @@ export interface FavoriteArticle {
   article: Article;
 }
 
-export type FavoriteArticleListState = Paginated<ArticleKey>
+export type FavoriteArticleListState = Paginated<ArticleKey>;
 
 export const INITIAL_STATE: FavoriteArticleListState = {
   itemListByPage: {},
@@ -55,7 +55,7 @@ favoriteArticleListReducer.on(Actions.loadFavoriteArticleListSuccess, (state, ac
       ...state.itemListByPage,
       [page]: {
         fetchStatus: FetchStatusFlag.IDLE,
-        itemList: response.results.map((data) => getArticleKeyFromData(data.article)),
+        itemList: response.results.map(data => getArticleKeyFromData(data.article)),
         isFetched: true,
       },
     },

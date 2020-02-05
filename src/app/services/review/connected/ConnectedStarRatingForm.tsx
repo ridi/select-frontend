@@ -4,24 +4,20 @@ import { RidiSelectState } from 'app/store';
 import { Omit } from 'app/types';
 
 import { StarRatingForm, StarRatingFormProps } from '../components/StarRating';
-import {
-  deleteRatingRequest,
-  postRatingRequest,
-} from './../actions';
-import {
-  getHasMyReviewContent,
-  getMyRating,
-  getMyReviewFetchStatus,
-} from './../selectors';
+import { deleteRatingRequest, postRatingRequest } from '../actions';
+import { getHasMyReviewContent, getMyRating, getMyReviewFetchStatus } from '../selectors';
 
 export type StarRatingFormStateProps = Pick<
-StarRatingFormProps,
-'ratingFetchStatus' | 'selectedRating' | 'isRatingCancelable'
+  StarRatingFormProps,
+  'ratingFetchStatus' | 'selectedRating' | 'isRatingCancelable'
 >;
 
 function mapStateToProps(
   state: RidiSelectState,
-  ownProps: Omit<StarRatingFormProps, keyof StarRatingFormStateProps | keyof StarRatingFormDispatchProps>,
+  ownProps: Omit<
+    StarRatingFormProps,
+    keyof StarRatingFormStateProps | keyof StarRatingFormDispatchProps
+  >,
 ): StarRatingFormStateProps {
   return {
     ratingFetchStatus: getMyReviewFetchStatus(state, ownProps).rating,
@@ -30,19 +26,13 @@ function mapStateToProps(
   };
 }
 
-export type StarRatingFormDispatchProps = Pick<
-StarRatingFormProps,
-'onSubmitRating' | 'onCancel'
->;
+export type StarRatingFormDispatchProps = Pick<StarRatingFormProps, 'onSubmitRating' | 'onCancel'>;
 
-function mapDispatchToProps(
-  dispatch: Dispatch<RidiSelectState>,
-): StarRatingFormDispatchProps {
+function mapDispatchToProps(dispatch: Dispatch<RidiSelectState>): StarRatingFormDispatchProps {
   return {
     onSubmitRating: (bookId, rating) => dispatch(postRatingRequest(bookId, rating)),
-    onCancel: (bookId) => dispatch(deleteRatingRequest(bookId)),
+    onCancel: bookId => dispatch(deleteRatingRequest(bookId)),
   };
 }
 
-export const ConnectedStarRatingForm =
-  connect(mapStateToProps, mapDispatchToProps)(StarRatingForm);
+export const ConnectedStarRatingForm = connect(mapStateToProps, mapDispatchToProps)(StarRatingForm);

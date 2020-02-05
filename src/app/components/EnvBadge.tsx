@@ -17,7 +17,7 @@ declare global {
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const useProduction = window.__RIDISELECT_USE_PRODUCTION__ || (() => {});
 
-export const EnvBadge: React.SFC<EnvBadgeState> = (props) => {
+export const EnvBadge: React.SFC<EnvBadgeState> = props => {
   if (!props.isProduction) {
     // select.ridi.io 에서 모바일 테스트를 위한 임시방편입니다..ㅠ_ㅠ
     const [test, setTest] = React.useState(0);
@@ -42,13 +42,15 @@ export const EnvBadge: React.SFC<EnvBadgeState> = (props) => {
       }
     });
 
-    return <p className="DEV_environment_ribbon" onClick={(e) => setTest(test + 1)}>DEV</p>;
-  } else if (window.__RIDISELECT_STAGING__) {
     return (
-      <p
-        className="PRE_RELEASE_environment_ribbon"
-        onClick={useProduction}
-      >
+      <p className="DEV_environment_ribbon" onClick={e => setTest(test + 1)}>
+        DEV
+      </p>
+    );
+  }
+  if (window.__RIDISELECT_STAGING__) {
+    return (
+      <p className="PRE_RELEASE_environment_ribbon" onClick={useProduction}>
         PRE-RELEASE
       </p>
     );

@@ -1,12 +1,9 @@
-
 import { AxiosResponse } from 'axios';
 
 import { camelize } from '@ridi/object-case-converter';
 import request from 'app/config/axios';
 
-import {
-  Book,
-} from 'app/services/book';
+import { Book } from 'app/services/book';
 import * as qs from 'qs';
 
 export type closingReservedTermType = 'thisMonth' | 'nextMonth';
@@ -17,7 +14,10 @@ export interface ClosingReservedBooksResponse {
   books: Book[];
 }
 
-export const requestClosingReservedBooks = (termType: closingReservedTermType, page: number): Promise<ClosingReservedBooksResponse> => {
+export const requestClosingReservedBooks = (
+  termType: closingReservedTermType,
+  page: number,
+): Promise<ClosingReservedBooksResponse> => {
   const url = '/api/books';
   const queryString = qs.parse(window.location.search, { ignoreQueryPrefix: true });
   let params = {
@@ -31,5 +31,8 @@ export const requestClosingReservedBooks = (termType: closingReservedTermType, p
     url,
     method: 'GET',
     params,
-  }).then((response) => camelize<AxiosResponse<ClosingReservedBooksResponse>>(response, { recursive: true }).data);
+  }).then(
+    response =>
+      camelize<AxiosResponse<ClosingReservedBooksResponse>>(response, { recursive: true }).data,
+  );
 };

@@ -14,7 +14,7 @@
   font-family: Noto Sans KR, NotoSansKR, sans-serif;
   font-size: 14px;
   font-weight: 500;
-  letter-spacing: -.3px;
+  letter-spacing: -0.3px;
   color: var(--gray_100);
 }
 .ChannelInfoHeader_Desc {
@@ -28,11 +28,10 @@
   word-break: break-all;
   line-height: 18px;
   font-size: 12px;
-  letter-spacing: -.3px;
+  letter-spacing: -0.3px;
   color: var(--slategray_60);
   padding-right: 5px;
   vertical-align: top;
-
 }
 
 .ChannelInfoHeader_Desc_PublishDate {
@@ -40,7 +39,7 @@
   position: relative;
   line-height: 18px;
   font-size: 12px;
-  letter-spacing: -.3px;
+  letter-spacing: -0.3px;
   color: var(--slategray_60);
   vertical-align: top;
   &.ChannelInfoHeader_Desc_PublishDate-hasDivider {

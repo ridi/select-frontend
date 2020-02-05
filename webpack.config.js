@@ -16,9 +16,11 @@ module.exports = (env, argv) => {
   const devtool = isProduction
     ? 'cheap-source-map'
     : argv.liveReload
-      ? 'cheap-module-eval-source-map'
-      : 'cheap-module-source-map';
-  const { env: { ASSET_PATH, SELECT_URL } } = process;
+    ? 'cheap-module-eval-source-map'
+    : 'cheap-module-source-map';
+  const {
+    env: { ASSET_PATH, SELECT_URL },
+  } = process;
 
   const config = {
     entry: {

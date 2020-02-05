@@ -54,22 +54,21 @@ export function getReviews(
   bookId: number,
   params: RequestReviewsParameters,
 ) {
-  requestGetReviews(
-    bookId,
-    params,
-  ).then((response) => {
-    if (response.status === 200) {
-      dispatch(getReviewsSuccess(bookId, params, response.data));
-    } else {
-      dispatch(getReviewsFailure(bookId, params));
-    }
-  }).catch(() => dispatch(getReviewsFailure(bookId, params)));
+  requestGetReviews(bookId, params)
+    .then(response => {
+      if (response.status === 200) {
+        dispatch(getReviewsSuccess(bookId, params, response.data));
+      } else {
+        dispatch(getReviewsFailure(bookId, params));
+      }
+    })
+    .catch(() => dispatch(getReviewsFailure(bookId, params)));
 }
 
 export function* watchGetReviews(dispatch: Dispatch<RidiSelectState>) {
   while (true) {
     const { payload }: ActionGetReviewsRequest = yield take(GET_REVIEWS_REQUEST);
-    yield call(getReviews, dispatch, payload!.bookId, payload!.params);
+    yield call(getReviews, dispatch, payload.bookId, payload.params);
   }
 }
 
@@ -79,29 +78,23 @@ export function postReview(
   content: TextWithLF,
   hasSpoiler: boolean,
 ) {
-  requestPostReview(
-    bookId,
-    content,
-    hasSpoiler,
-  ).then((response) => {
-    if (response.status === 200) {
-      dispatch(postReviewSuccess(
-        bookId,
-        response.data.my.review,
-        response.data.reviewSummary,
-      ));
-    } else {
-      dispatch(postReviewFailure(bookId));
-    }
-  }).catch((error) => {
-    dispatch(postReviewFailure(bookId, error));
-  });
+  requestPostReview(bookId, content, hasSpoiler)
+    .then(response => {
+      if (response.status === 200) {
+        dispatch(postReviewSuccess(bookId, response.data.my.review, response.data.reviewSummary));
+      } else {
+        dispatch(postReviewFailure(bookId));
+      }
+    })
+    .catch(error => {
+      dispatch(postReviewFailure(bookId, error));
+    });
 }
 
 export function* watchPostReviewRequest(dispatch: Dispatch<RidiSelectState>) {
   while (true) {
     const { payload }: ActionPostReviewRequest = yield take(POST_REVIEW_REQUEST);
-    yield call(postReview, dispatch, payload!.bookId, payload!.content, payload!.hasSpoiler);
+    yield call(postReview, dispatch, payload.bookId, payload.content, payload.hasSpoiler);
   }
 }
 
@@ -109,24 +102,30 @@ export function* watchPostReviewSuccess(dispatch: Dispatch<RidiSelectState>) {
   while (true) {
     const { payload }: ActionPostReviewSuccess = yield take(POST_REVIEW_SUCCESS);
     const reviewsBybookId: ReviewsState = yield select(selectors.reviewsByBookId);
-    yield put(endEditingReview(payload!.bookId));
-    yield put(resetReviews(payload!.bookId));
-    yield put(getReviewsRequest(payload!.bookId, {
-      userFilterType: payload!.review.isBuyer ? reviewsBybookId[payload!.bookId].userFilterType : UserFilterType.total,
-      sortBy: ReviewSortingCriteria.latest,
-      page: 1,
-    }));
+    yield put(endEditingReview(payload.bookId));
+    yield put(resetReviews(payload.bookId));
+    yield put(
+      getReviewsRequest(payload.bookId, {
+        userFilterType: payload.review.isBuyer
+          ? reviewsBybookId[payload.bookId].userFilterType
+          : UserFilterType.total,
+        sortBy: ReviewSortingCriteria.latest,
+        page: 1,
+      }),
+    );
   }
 }
 
 export function* watchReviewFailure(dispatch: Dispatch<RidiSelectState>) {
   while (true) {
-    const { payload: { error } }: ActionPostReviewFailure | ActionDeleteReviewFailure = yield take([
+    const {
+      payload: { error },
+    }: ActionPostReviewFailure | ActionDeleteReviewFailure = yield take([
       POST_REVIEW_FAILURE,
       DELETE_REVIEW_FAILURE,
     ]);
 
-    const { response } = error || { response: {} } as AxiosError;
+    const { response } = error || ({ response: {} } as AxiosError);
 
     if (!response) {
       return;
@@ -140,23 +139,21 @@ export function* watchReviewFailure(dispatch: Dispatch<RidiSelectState>) {
 }
 
 export function deleteReviewRequest(dispatch: Dispatch<RidiSelectState>, bookId: number) {
-  requestDeleteReview(bookId).then((response) => {
-    if (response.status === 200) {
-      dispatch(deleteReviewSuccess(
-        bookId,
-        response.data.my.review,
-        response.data.reviewSummary,
-      ));
-    } else {
-      dispatch(deleteReviewFailure(bookId));
-    }
-  }).catch(() => dispatch(deleteReviewFailure(bookId)));
+  requestDeleteReview(bookId)
+    .then(response => {
+      if (response.status === 200) {
+        dispatch(deleteReviewSuccess(bookId, response.data.my.review, response.data.reviewSummary));
+      } else {
+        dispatch(deleteReviewFailure(bookId));
+      }
+    })
+    .catch(() => dispatch(deleteReviewFailure(bookId)));
 }
 
 export function* watchDeleteReviewRequest(dispatch: Dispatch<RidiSelectState>) {
   while (true) {
     const { payload }: ActionDeleteReviewRequest = yield take(DELETE_REVIEW_REQUEST);
-    yield call(deleteReviewRequest, dispatch, payload!.bookId);
+    yield call(deleteReviewRequest, dispatch, payload.bookId);
   }
 }
 
@@ -164,12 +161,14 @@ export function* watchDeleteReviewSuccess(dispatch: Dispatch<RidiSelectState>) {
   while (true) {
     const { payload }: ActionDeleteReviewSuccess = yield take(DELETE_REVIEW_SUCCESS);
     const reviewsBybookId: ReviewsState = yield select(selectors.reviewsByBookId);
-    yield put(resetReviews(payload!.bookId));
-    yield put(getReviewsRequest(payload!.bookId, {
-      userFilterType: reviewsBybookId[payload!.bookId].userFilterType,
-      sortBy: ReviewSortingCriteria.latest,
-      page: 1,
-    }));
+    yield put(resetReviews(payload.bookId));
+    yield put(
+      getReviewsRequest(payload.bookId, {
+        userFilterType: reviewsBybookId[payload.bookId].userFilterType,
+        sortBy: ReviewSortingCriteria.latest,
+        page: 1,
+      }),
+    );
   }
 }
 
@@ -178,15 +177,18 @@ export function* watchChangeUserFilterTab() {
     const { payload }: ActionChangeUserFilterTab = yield take(CHANGE_USER_FILTER_TAB);
     const reviewsBybookId: ReviewsState = yield select(selectors.reviewsByBookId);
     // if there isn't first page, request fetch
-    const currentUserFilterTab = reviewsBybookId[payload!.bookId].reviewIdsByUserFilterType[payload!.userFilterType];
-    const currentSortBy = reviewsBybookId[payload!.bookId].sortBy;
+    const currentUserFilterTab =
+      reviewsBybookId[payload.bookId].reviewIdsByUserFilterType[payload.userFilterType];
+    const currentSortBy = reviewsBybookId[payload.bookId].sortBy;
     const firstPage = currentUserFilterTab[currentSortBy].itemListByPage[1];
     if (!firstPage) {
-      yield put(getReviewsRequest(payload!.bookId, {
-        userFilterType: payload!.userFilterType,
-        sortBy: currentSortBy,
-        page: 1,
-      }));
+      yield put(
+        getReviewsRequest(payload.bookId, {
+          userFilterType: payload.userFilterType,
+          sortBy: currentSortBy,
+          page: 1,
+        }),
+      );
     }
   }
 }
@@ -196,15 +198,18 @@ export function* watchChangeSortBy() {
     const { payload }: ActionChangeSortBy = yield take(CHANGE_SORT_BY);
     const reviewsBybookId: ReviewsState = yield select(selectors.reviewsByBookId);
     // if there isn't first page, request fetch
-    const currentUserFilterType = reviewsBybookId[payload!.bookId].userFilterType;
-    const currentUserFilterTab = reviewsBybookId[payload!.bookId].reviewIdsByUserFilterType[currentUserFilterType];
-    const firstPage = currentUserFilterTab[payload!.sortBy].itemListByPage[1];
+    const currentUserFilterType = reviewsBybookId[payload.bookId].userFilterType;
+    const currentUserFilterTab =
+      reviewsBybookId[payload.bookId].reviewIdsByUserFilterType[currentUserFilterType];
+    const firstPage = currentUserFilterTab[payload.sortBy].itemListByPage[1];
     if (!firstPage) {
-      yield put(getReviewsRequest(payload!.bookId, {
-        userFilterType: currentUserFilterType,
-        sortBy: payload!.sortBy,
-        page: 1,
-      }));
+      yield put(
+        getReviewsRequest(payload.bookId, {
+          userFilterType: currentUserFilterType,
+          sortBy: payload.sortBy,
+          page: 1,
+        }),
+      );
     }
   }
 }

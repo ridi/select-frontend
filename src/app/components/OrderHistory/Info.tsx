@@ -5,7 +5,7 @@ import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDat
 interface OrderHistoryListAmountInfoProps {
   payment: Ticket;
 }
-export const OrderHistoryListInfo: React.FunctionComponent<OrderHistoryListAmountInfoProps> = (props) =>  {
+export const OrderHistoryListInfo: React.FunctionComponent<OrderHistoryListAmountInfoProps> = props => {
   const { payment } = props;
 
   return (
@@ -15,8 +15,14 @@ export const OrderHistoryListInfo: React.FunctionComponent<OrderHistoryListAmoun
         {payment.title}
         {payment.voucherCode && !payment.isFreePromotion ? (
           <>
-            <span className="Ordered_VoucherInfo">{payment.voucherCode.match(/.{1,4}/g)!.join('-')} ({buildOnlyDateFormat(payment.voucherExpireDate)}까지)</span>
-            <span className="Ordered_Term">이용 기간: {buildOnlyDateFormat(payment.startDate)}~{buildOnlyDateFormat(payment.endDate)}</span>
+            <span className="Ordered_VoucherInfo">
+              {payment.voucherCode.match(/.{1,4}/g)!.join('-')} (
+              {buildOnlyDateFormat(payment.voucherExpireDate)}까지)
+            </span>
+            <span className="Ordered_Term">
+              이용 기간: {buildOnlyDateFormat(payment.startDate)}~
+              {buildOnlyDateFormat(payment.endDate)}
+            </span>
           </>
         ) : null}
       </p>
@@ -25,4 +31,4 @@ export const OrderHistoryListInfo: React.FunctionComponent<OrderHistoryListAmoun
       </p>
     </>
   );
-}
+};

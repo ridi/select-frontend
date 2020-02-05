@@ -13,7 +13,7 @@ interface BookSkeletonProps {
   hasCheckbox?: boolean;
 }
 
-export const BookSkeleton: React.SFC<BookSkeletonProps> = (props) => {
+export const BookSkeleton: React.SFC<BookSkeletonProps> = props => {
   const { hasCheckbox } = props;
 
   return (
@@ -35,10 +35,7 @@ export const BookSkeleton: React.SFC<BookSkeletonProps> = (props) => {
 export const InlineHorizontalBookListSkeleton: React.SFC = () => (
   <ul className="InlineHorizontalBookList_Skeleton">
     {range(0, 12).map((value, index) => (
-      <li
-        className="InlineHorizontalBookList_Item_Skeleton"
-        key={`skeltonBook_${index}`}
-      >
+      <li className="InlineHorizontalBookList_Item_Skeleton" key={`skeltonBook_${index}`}>
         <BookSkeleton />
       </li>
     ))}
@@ -48,10 +45,7 @@ export const InlineHorizontalBookListSkeleton: React.SFC = () => (
 export const SpotlightBookListSkeleton: React.SFC = () => (
   <ul className="SpotlightBookList_Skeleton">
     {range(0, 5).map((value, index) => (
-      <li
-        className="SpotlightBookList_Item_Skeleton"
-        key={`skeltonBook_${index}`}
-      >
+      <li className="SpotlightBookList_Item_Skeleton" key={`skeltonBook_${index}`}>
         <BookSkeleton />
       </li>
     ))}
@@ -69,16 +63,14 @@ export const ChartBookListSkeleton: React.SFC = () => {
             const index = groupIdx * 4 + idxInGroup;
             return (
               <li className="HomeSection_ChartBook" key={String(groupIdx) + idxInGroup}>
-                <span className="HomeSection_ChartBookRanking">
-                  {index + 1}
-                </span>
+                <span className="HomeSection_ChartBookRanking">{index + 1}</span>
                 <span className="Skeleton HomeSection_ChartBookThumbnail" />
                 <div className="HomeSection_ChartBookMeta">
                   <span className="HomeSection_ChartBookTitle Skeleton" />
                   <span className="HomeSection_ChartBookRating Skeleton" />
                 </div>
               </li>
-            ) 
+            );
           })}
         </ol>
       ))}
@@ -86,14 +78,14 @@ export const ChartBookListSkeleton: React.SFC = () => {
   );
 };
 
-export const GridBookListSkeleton: React.SFC<GridBookListSkeletonProps> = (props) => {
+export const GridBookListSkeleton: React.SFC<GridBookListSkeletonProps> = props => {
   const { displayRanking } = props;
 
   return (
     <ul className="GridBookList_Skeleton">
       {range(0, 12).map((value, index) => (
         <li className="GridBookList_Item_Skeleton" key={index}>
-          {displayRanking ? (<div className="Ranking_Placeholder Skeleton" />) : null}
+          {displayRanking ? <div className="Ranking_Placeholder Skeleton" /> : null}
           <BookSkeleton />
         </li>
       ))}
@@ -101,16 +93,14 @@ export const GridBookListSkeleton: React.SFC<GridBookListSkeletonProps> = (props
   );
 };
 
-export const LandscapeBookListSkeleton: React.SFC<LandscapeBookListSkeletonProps> = (props) => {
+export const LandscapeBookListSkeleton: React.SFC<LandscapeBookListSkeletonProps> = props => {
   const { hasCheckbox } = props;
 
   return (
     <ul className="LandscapeBookList_Skeleton">
       {range(0, 2).map((value, index) => (
         <li className="LandscapeBookList_Item_Skeleton" key={index}>
-          <BookSkeleton
-            hasCheckbox={hasCheckbox ? true : false}
-          />
+          <BookSkeleton hasCheckbox={!!hasCheckbox} />
         </li>
       ))}
     </ul>

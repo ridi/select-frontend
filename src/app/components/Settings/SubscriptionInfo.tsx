@@ -40,7 +40,7 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
     if (confirm(confirmMessage)) {
       dispatchCancelPurchase(purchaseId);
     }
-  }
+  };
 
   private renderAccountInfo() {
     const { uId } = this.props;
@@ -48,7 +48,8 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
     return (
       <li className="AccountInfo">
         <p className="AccountInfo_Id">
-          <strong className="Id_Text">{uId}</strong><span className="Id_Postfix">님</span>
+          <strong className="Id_Text">{uId}</strong>
+          <span className="Id_Postfix">님</span>
         </p>
       </li>
     );
@@ -86,7 +87,7 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
         <strong className="LatestBillDateInfo_Title">최근 결제일</strong>
         <span className="LatestBillDateInfo_Term">
           {buildOnlyDateFormat(latestPurchaseDate)}
-          {isPurchaseCancellable && latestPurchaseId &&
+          {isPurchaseCancellable && latestPurchaseId && (
             <span className="CancelSubscriptionButton_Wrapper">
               <Button
                 color="gray"
@@ -98,23 +99,29 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
                 결제 취소
               </Button>
             </span>
-          }
+          )}
         </span>
       </li>
     );
   }
+
   private renderCancelReservedInfo() {
     const { subscriptionState } = this.props;
     const { isOptout } = subscriptionState!;
 
-    return isOptout && (
-      <li className="NextSubscriptionInfo NextSubscriptionInfo-canceled" key="subscription-cancel-reserved-info">
-        <Icon
-          name={isOptout ? 'exclamation_3' : 'payment_3'}
-          className="NextSubscriptionInfo_Icon"
-        />
-        구독 해지가 예약되었습니다. 현재 구독 기간까지 이용 가능합니다.
-      </li>
+    return (
+      isOptout && (
+        <li
+          className="NextSubscriptionInfo NextSubscriptionInfo-canceled"
+          key="subscription-cancel-reserved-info"
+        >
+          <Icon
+            name={isOptout ? 'exclamation_3' : 'payment_3'}
+            className="NextSubscriptionInfo_Icon"
+          />
+          구독 해지가 예약되었습니다. 현재 구독 기간까지 이용 가능합니다.
+        </li>
+      )
     );
   }
 
@@ -168,7 +175,9 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
               {this.renderSubscriptionTermInfo()}
               {this.renderAddCardButton()}
             </>
-          ) : this.renderSubscribeButton()}
+          ) : (
+            this.renderSubscribeButton()
+          )}
         </ul>
       </div>
     );
@@ -183,12 +192,18 @@ const mapStateToProps = (state: RidiSelectState): SubscriptionInfoStateProps => 
   hasAvailableTicket: state.user.hasAvailableTicket,
   subscriptionState: state.user.subscription,
   hasSubscribedBefore: state.user.hasSubscribedBefore,
-  latestPurchaseTicket: !!state.user.purchaseHistory.itemListByPage[1] && state.user.purchaseHistory.itemListByPage[1].itemList[0],
+  latestPurchaseTicket:
+    !!state.user.purchaseHistory.itemListByPage[1] &&
+    state.user.purchaseHistory.itemListByPage[1].itemList[0],
   isPurchaseCancelFetching: state.user.purchaseHistory.isCancelFetching,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  dispatchCancelPurchase: (purchaseId: number) => dispatch(Actions.cancelPurchaseRequest({ purchaseId })),
+  dispatchCancelPurchase: (purchaseId: number) =>
+    dispatch(Actions.cancelPurchaseRequest({ purchaseId })),
 });
 
-export const ConnectedSubscriptionInfo = connect(mapStateToProps, mapDispatchToProps)(SubscriptionInfo);
+export const ConnectedSubscriptionInfo = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SubscriptionInfo);

@@ -23,10 +23,7 @@ interface ReviewsProps {
   getReviews: (bookId: number) => void;
 }
 
-export type ReviewsStateProps = Pick<
-ReviewsProps,
-'reviewsSetFetchStatus' | 'reviewsSet'
->;
+export type ReviewsStateProps = Pick<ReviewsProps, 'reviewsSetFetchStatus' | 'reviewsSet'>;
 
 function mapStateToProps(
   state: RidiSelectState,
@@ -40,15 +37,16 @@ function mapStateToProps(
 
 export type ReviewsDispatchProps = Pick<ReviewsProps, 'getReviews'>;
 
-function mapDispatchToProps(
-  dispatch: Dispatch<RidiSelectState>,
-): ReviewsDispatchProps {
+function mapDispatchToProps(dispatch: Dispatch<RidiSelectState>): ReviewsDispatchProps {
   return {
-    getReviews: (bookId: number) => dispatch(getReviewsRequest(bookId, {
-      userFilterType: UserFilterType.buyer,
-      sortBy: ReviewSortingCriteria.latest,
-      page: 1,
-    })),
+    getReviews: (bookId: number) =>
+      dispatch(
+        getReviewsRequest(bookId, {
+          userFilterType: UserFilterType.buyer,
+          sortBy: ReviewSortingCriteria.latest,
+          page: 1,
+        }),
+      ),
   };
 }
 
@@ -68,16 +66,11 @@ export class Reviews extends React.Component<ReviewsProps> {
   }
 
   public render() {
-    const {
-      bookId,
-      reviewsSetFetchStatus,
-      reviewsSet,
-      getReviews,
-      checkAuth,
-    } = this.props;
+    const { bookId, reviewsSetFetchStatus, reviewsSet, getReviews, checkAuth } = this.props;
     if (!reviewsSet || reviewsSetFetchStatus === FetchStatusFlag.FETCHING) {
       return <ReviewPlaceholder />;
-    } else if (reviewsSetFetchStatus === FetchStatusFlag.FETCH_ERROR) {
+    }
+    if (reviewsSetFetchStatus === FetchStatusFlag.FETCH_ERROR) {
       return (
         <FetchRetryBlock
           description="리뷰를 가져오는 데 실패했습니다."
@@ -90,7 +83,7 @@ export class Reviews extends React.Component<ReviewsProps> {
     return (
       <div className="Reviews">
         <span className="a11y">리뷰</span>
-        <ConnectedReviewsHeader bookId={bookId} checkAuth={checkAuth}/>
+        <ConnectedReviewsHeader bookId={bookId} checkAuth={checkAuth} />
         <ConnectedReviewListHeader bookId={bookId} />
         <ConnectedReviewList bookId={bookId} checkAuth={checkAuth} />
         <AboutIndicatingBuyer />

@@ -11,15 +11,8 @@ export interface LinkWrapperProps {
   onClick: (event: React.SyntheticEvent<any>) => void;
 }
 
-export const LinkWrapper: React.SFC<LinkWrapperProps> = (props) => {
-  const {
-    className,
-    linkUrl,
-    linkType,
-    onClick,
-    children,
-    expired,
-  } = props;
+export const LinkWrapper: React.SFC<LinkWrapperProps> = props => {
+  const { className, linkUrl, linkType, onClick, children, expired } = props;
 
   if (!linkUrl || expired) {
     return <>{children}</>;
@@ -48,10 +41,7 @@ export const LinkWrapper: React.SFC<LinkWrapperProps> = (props) => {
       );
     case 'button':
       return (
-        <button
-          className={classNames(['RSGBookThumbnail_Link', className])}
-          onClick={onClick}
-        >
+        <button className={classNames(['RSGBookThumbnail_Link', className])} onClick={onClick}>
           {children}
         </button>
       );

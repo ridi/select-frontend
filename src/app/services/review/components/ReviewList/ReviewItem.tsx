@@ -86,39 +86,24 @@ export class ReviewItem extends React.Component<ReviewItemProps, ReviewItemState
       isLikedByMe,
       commentIdsByPage,
     } = this.props.review;
-    const {
-      checkAuth,
-      isInApp,
-      isIosInApp,
-    } = this.props;
+    const { checkAuth, isInApp, isIosInApp } = this.props;
     const { isCommentSectionOpen, isContentOpen } = this.state;
 
     return (
       <>
         <li className="ReviewItem">
           <MediaQuery maxWidth={MAX_WIDTH}>
-            {isBuyer && <StarRating rating={rating} width={60}/>}
-            {isContentOpen ? (
-              <ReviewContent>
-                {content}
-              </ReviewContent>
-            ) : null}
+            {isBuyer && <StarRating rating={rating} width={60} />}
+            {isContentOpen ? <ReviewContent>{content}</ReviewContent> : null}
             {!isContentOpen && hasSpoiler ? (
               <ReviewSpoilerAlert onButtonClick={this.openContent} />
             ) : null}
             {isInvisible ? (
-              <ReviewClosed
-                type={invisibilityType!}
-                isInApp={isInApp}
-                isIosInApp={isIosInApp}
-              />
+              <ReviewClosed type={invisibilityType!} isInApp={isInApp} isIosInApp={isIosInApp} />
             ) : null}
             <div className="ReviewItem_MetadataGroup">
               <div>
-                <ReviewerMetadata
-                  maskedUId={maskedUId}
-                  isBuyer={isBuyer}
-                />
+                <ReviewerMetadata maskedUId={maskedUId} isBuyer={isBuyer} />
                 <ReviewMetadata
                   bookId={this.props.bookId}
                   reviewId={id}
@@ -145,11 +130,8 @@ export class ReviewItem extends React.Component<ReviewItemProps, ReviewItemState
           </MediaQuery>
           <MediaQuery minWidth={841}>
             <div className="ReviewItem_Left">
-              {isBuyer && <StarRating rating={rating} width={60}/>}
-              <ReviewerMetadata
-                maskedUId={maskedUId}
-                isBuyer={isBuyer}
-              />
+              {isBuyer && <StarRating rating={rating} width={60} />}
+              <ReviewerMetadata maskedUId={maskedUId} isBuyer={isBuyer} />
               <ReviewMetadata
                 bookId={this.props.bookId}
                 reviewId={id}
@@ -162,11 +144,7 @@ export class ReviewItem extends React.Component<ReviewItemProps, ReviewItemState
             </div>
             <div className="ReviewItem_Right">
               <div className="ReviewItem_Right_Top">
-                {isContentOpen ? (
-                  <ReviewContent>
-                    {content}
-                  </ReviewContent>
-                ) : null}
+                {isContentOpen ? <ReviewContent>{content}</ReviewContent> : null}
                 {!isContentOpen && hasSpoiler ? (
                   <ReviewSpoilerAlert onButtonClick={this.openContent} />
                 ) : null}

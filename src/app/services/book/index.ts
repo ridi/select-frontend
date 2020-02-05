@@ -1,7 +1,11 @@
 import { createAction, createReducer } from 'redux-act';
 
 import { FetchStatusFlag } from 'app/constants';
-import { BookDetailResponse, BookDetailResponseV1, BookDetailResponseV2 } from 'app/services/book/requests';
+import {
+  BookDetailResponse,
+  BookDetailResponseV1,
+  BookDetailResponseV2,
+} from 'app/services/book/requests';
 import { RGB } from 'app/services/commonUI';
 import { BookId, DateDTO } from 'app/types';
 
@@ -9,47 +13,47 @@ export * from './utils';
 
 export const Actions = {
   initializeBooks: createAction<{
-    staticBookState: LocalStorageStaticBookState,
+    staticBookState: LocalStorageStaticBookState;
   }>('initializeBooks'),
   updateBooks: createAction<{
-    books: Book[],
+    books: Book[];
   }>('updateBooks'),
   loadBookDetailRequest: createAction<{
-    bookId: BookId,
+    bookId: BookId;
   }>('loadBookDetailRequest'),
   loadBookDetailSuccess: createAction<{
-    bookId: BookId,
-    bookDetail: BookDetailResponse,
+    bookId: BookId;
+    bookDetail: BookDetailResponse;
   }>('loadBookDetailSuccess'),
   loadBookDetailFailure: createAction<{
-    bookId: BookId,
+    bookId: BookId;
   }>('loadBookDetailFailure'),
   loadBookOwnershipRequest: createAction<{
-    bookId: BookId,
+    bookId: BookId;
   }>('loadBookOwnershipRequest'),
   loadBookOwnershipSuccess: createAction<{
-    bookId: BookId,
-    ownershipStatus: BookOwnershipStatus,
+    bookId: BookId;
+    ownershipStatus: BookOwnershipStatus;
   }>('loadBookOwnershipSuccess'),
   loadBookOwnershipFailure: createAction<{
-    bookId: BookId,
+    bookId: BookId;
   }>('loadBookOwnershipFailure'),
   clearBookOwnership: createAction<{
-    bookIds: BookId[],
+    bookIds: BookId[];
   }>('clearBookOwnership'),
   loadBookToBookRecommendationRequest: createAction<{
-    bookId: BookId,
+    bookId: BookId;
   }>('loadBookToBookRecommendationRequest'),
   loadBookToBookRecommendationSuccess: createAction<{
-    bookId: BookId,
-    recommendedBooks: Book[],
+    bookId: BookId;
+    recommendedBooks: Book[];
   }>('loadBookToBookRecommendationSuccess'),
   loadBookToBookRecommendationFailure: createAction<{
-    bookId: BookId,
+    bookId: BookId;
   }>('loadBookToBookRecommendationFailure'),
   updateDominantColor: createAction<{
-    bookId: BookId,
-    color: RGB,
+    bookId: BookId;
+    color: RGB;
   }>('updateDominantColor'),
 };
 
@@ -177,9 +181,11 @@ bookReducer.on(Actions.updateBooks, (state, action) => {
   const newState: BookState = books.reduce((prev, book) => {
     prev[book.id] = {
       ...state[book.id],
-      detailFetchStatus: !!state[book.id] ? state[book.id].detailFetchStatus : FetchStatusFlag.IDLE,
-      ownershipFetchStatus: !!state[book.id] ? state[book.id].ownershipFetchStatus : FetchStatusFlag.IDLE,
-      book: !!state[book.id] ? { ...state[book.id].book, ...book } : book,
+      detailFetchStatus: state[book.id] ? state[book.id].detailFetchStatus : FetchStatusFlag.IDLE,
+      ownershipFetchStatus: state[book.id]
+        ? state[book.id].ownershipFetchStatus
+        : FetchStatusFlag.IDLE,
+      book: state[book.id] ? { ...state[book.id].book, ...book } : book,
     };
     return prev;
   }, state);
@@ -194,7 +200,9 @@ bookReducer.on(Actions.loadBookDetailRequest, (state, action) => {
     [bookId]: {
       ...state[bookId],
       detailFetchStatus: FetchStatusFlag.FETCHING,
-      ownershipFetchStatus: !!state[bookId] ? state[bookId].ownershipFetchStatus : FetchStatusFlag.IDLE,
+      ownershipFetchStatus: state[bookId]
+        ? state[bookId].ownershipFetchStatus
+        : FetchStatusFlag.IDLE,
       bookDetail: !!book && book.bookDetail ? state[bookId].bookDetail : undefined,
     },
   };
@@ -261,13 +269,16 @@ bookReducer.on(Actions.loadBookOwnershipFailure, (state, action) => {
 
 bookReducer.on(Actions.clearBookOwnership, (state, action) => {
   const { bookIds } = action;
-  return bookIds.reduce((newState, bookId) => ({
-    ...newState,
-    [bookId]: {
-      ...newState[bookId],
-      ownershipStatus: undefined,
-    },
-  }), state);
+  return bookIds.reduce(
+    (newState, bookId) => ({
+      ...newState,
+      [bookId]: {
+        ...newState[bookId],
+        ownershipStatus: undefined,
+      },
+    }),
+    state,
+  );
 });
 
 bookReducer.on(Actions.updateDominantColor, (state, action) => {

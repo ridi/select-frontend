@@ -18,12 +18,14 @@ module.exports = ({ file, options }) => {
       require('postcss-reporter')({
         clearReportedMessages: true,
       }),
-    ].concat(production && [
-      require('cssnano')({
-        safe: true,
-        autoprefixer: false,
-        discardComments: { removeAll: true },
-      }),
-    ]),
+    ].concat(
+      production && [
+        require('cssnano')({
+          safe: true,
+          autoprefixer: false,
+          discardComments: { removeAll: true },
+        }),
+      ],
+    ),
   };
 };

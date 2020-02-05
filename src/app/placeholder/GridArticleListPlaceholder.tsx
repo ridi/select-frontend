@@ -6,7 +6,7 @@ interface GridArticleListPlaceholderProps {
   gridSize?: string;
 }
 
-export const GridArticleListPlaceholder: React.FunctionComponent<GridArticleListPlaceholderProps> = (props) => (
+export const GridArticleListPlaceholder: React.FunctionComponent<GridArticleListPlaceholderProps> = props => (
   <ul
     className={classNames(
       'GridArticleList',

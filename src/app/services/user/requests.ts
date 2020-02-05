@@ -10,12 +10,11 @@ import axios, { AxiosResponse, Method } from 'axios';
 export enum cashReceiptIssueResponseCode {
   notEnoughParams = 'SUBSCRIPTION_REQUIRED_VOUCHER',
   invalidParams = 'INVALID_PARAM',
-  ticketNotFound  = 'TICKET_NOT_FOUND',
+  ticketNotFound = 'TICKET_NOT_FOUND',
   cashReceiptIssueFailed = 'CASH_RECEIPT_ISSUE_FAILED',
   internalServerError = 'INTERNAL_SERVER_ERROR',
   cashReceiptCancellationFailed = 'CASH_RECEIPT_CANCELLATION_FAILED',
 }
-
 
 export interface Ticket {
   id: number;
@@ -65,10 +64,10 @@ export interface CancelPurchaseResponse {
 
 export interface AccountsMeResponse {
   result: {
-    id: string,
-    idx: number,
-    email: string,
-    is_verified_adult: boolean,
+    id: string;
+    idx: number;
+    email: string;
+    is_verified_adult: boolean;
   };
 }
 
@@ -98,14 +97,16 @@ export const requestSubscription = (): Promise<AxiosResponse<SubscriptionRespons
     url: `${env.STORE_API}/api/select/users/me/subscription`,
     method: 'GET',
   }).then((response: AxiosResponse<SubscriptionResponse>) =>
-    camelize<AxiosResponse<SubscriptionResponse>>(response.data, { recursive: true }));
+    camelize<AxiosResponse<SubscriptionResponse>>(response.data, { recursive: true }),
+  );
 
 export const requestTicketInfo = (): Promise<AxiosResponse<{ availableUntil: DateDTO }>> =>
   request({
     url: `${env.STORE_API}/users/me/tickets/available`,
     method: 'GET',
   }).then((response: AxiosResponse<{ availableUntil: DateDTO }>) =>
-    camelize<AxiosResponse<{ availableUntil: DateDTO }>>(response.data, { recursive: true }));
+    camelize<AxiosResponse<{ availableUntil: DateDTO }>>(response.data, { recursive: true }),
+  );
 
 export const requestPurchases = (page: number): Promise<AxiosResponse<PurchasesResponse>> =>
   request({
@@ -113,23 +114,31 @@ export const requestPurchases = (page: number): Promise<AxiosResponse<PurchasesR
     params: { page },
     method: 'GET',
   }).then((response: AxiosResponse<PurchasesResponse>) =>
-    camelize<AxiosResponse<PurchasesResponse>>(response.data, { recursive: true }));
+    camelize<AxiosResponse<PurchasesResponse>>(response.data, { recursive: true }),
+  );
 
-export const requestCancelPurchase = (ticketId: number): Promise<AxiosResponse<CancelPurchaseResponse>> =>
+export const requestCancelPurchase = (
+  ticketId: number,
+): Promise<AxiosResponse<CancelPurchaseResponse>> =>
   request({
     url: `${env.STORE_API}/api/select/users/me/purchases/${ticketId}`,
     method: 'DELETE',
   });
 
-export const reqeustMySelectHistory = (page: number): Promise<AxiosResponse<MySelectHistoryResponse>> =>
+export const reqeustMySelectHistory = (
+  page: number,
+): Promise<AxiosResponse<MySelectHistoryResponse>> =>
   request({
     url: `${env.STORE_API}/api/select/users/me/books/history`,
     method: 'GET',
     params: { page },
-  }).then((response) =>
-    camelize<AxiosResponse<MySelectHistoryResponse>>(response.data, { recursive: true }));
+  }).then(response =>
+    camelize<AxiosResponse<MySelectHistoryResponse>>(response.data, { recursive: true }),
+  );
 
-export const reqeustDeleteMySelectHistory = (mySelectBookIds: number[]): Promise<AxiosResponse<any>> =>
+export const reqeustDeleteMySelectHistory = (
+  mySelectBookIds: number[],
+): Promise<AxiosResponse<any>> =>
   request({
     url: `${env.STORE_API}/api/select/users/me/books/history`,
     method: 'DELETE',
@@ -150,7 +159,12 @@ export const requestCancelUnsubscription = (subscriptionId: number): Promise<Axi
     method: 'PUT',
   });
 
-export const requestCashReceiptIssue = (ticketId: number, method: Method, issuePurpose?: string, issueNumber?: string): Promise<AxiosResponse<CashReceiptIssueResponse>> => {
+export const requestCashReceiptIssue = (
+  ticketId: number,
+  method: Method,
+  issuePurpose?: string,
+  issueNumber?: string,
+): Promise<AxiosResponse<CashReceiptIssueResponse>> => {
   let data = null;
   if (issuePurpose && issueNumber) {
     data = {
@@ -163,8 +177,10 @@ export const requestCashReceiptIssue = (ticketId: number, method: Method, issueP
     method,
     data,
     withCredentials: true,
-  }).then((response) => camelize<AxiosResponse<CashReceiptIssueResponse>>(response.data, { recursive: true }));
-}
+  }).then(response =>
+    camelize<AxiosResponse<CashReceiptIssueResponse>>(response.data, { recursive: true }),
+  );
+};
 
 export const requestAccountsMe = (): Promise<AxiosResponse<AccountsMeResponse>> =>
   axios({

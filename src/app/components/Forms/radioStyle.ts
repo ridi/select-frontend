@@ -39,7 +39,7 @@ export const radioLabel = css`
   vertical-align: top;
   cursor: pointer;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  transition: color .2s;
+  transition: color 0.2s;
 
   &:before {
     border-radius: 10px;
@@ -53,7 +53,7 @@ export const radioLabel = css`
     border: 1px solid ${Colors.slategray_20};
     background: white;
     content: '';
-    transition: border-color .2s;
+    transition: border-color 0.2s;
   }
 `;
 

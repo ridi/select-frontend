@@ -23,10 +23,5 @@ export const HelmetWithTitle: React.SFC<HelmetWithTitleProps> = ({
   } else if (titleName && titleType === TitleType.PREFIXED) {
     title = `${title} - ${titleName}`;
   }
-  return (
-    <Helmet
-      title={title}
-      meta={meta}
-    />
-  );
+  return <Helmet title={title} meta={meta} />;
 };

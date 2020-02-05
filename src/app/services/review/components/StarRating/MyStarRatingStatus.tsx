@@ -6,7 +6,7 @@ export interface MyStarRatingStatusProps {
   onCancel: () => void;
 }
 
-export const MyStarRatingStatus: React.SFC<MyStarRatingStatusProps> = (props) => {
+export const MyStarRatingStatus: React.SFC<MyStarRatingStatusProps> = props => {
   const { rating, isRatingCancelable, onCancel } = props;
 
   return (
@@ -16,11 +16,7 @@ export const MyStarRatingStatus: React.SFC<MyStarRatingStatusProps> = (props) =>
         <span className="MyStarRatingStatus_Rating">{rating}.0</span>
       </p>
       {isRatingCancelable && (
-        <button
-          className="MyStarRatingStatus_CancelButton"
-          type="button"
-          onClick={onCancel}
-        >
+        <button className="MyStarRatingStatus_CancelButton" type="button" onClick={onCancel}>
           취소
         </button>
       )}

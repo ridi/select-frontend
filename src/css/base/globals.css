@@ -59,7 +59,7 @@ body {
         width: 100%;
         height: 100%;
         height: 100vh;
-        overflow: hidden!important;
+        overflow: hidden !important;
       }
     }
   }
@@ -67,15 +67,15 @@ body {
   & *,
   & .RUIButton,
   & .THRButton,
-  & [class^="rui_"],
-  & [class*=" rui_"] {
+  & [class^='rui_'],
+  & [class*=' rui_'] {
     @apply --reset-font-unlimited;
   }
 
   & .RUIButton-color-gray:not(.RUIButton_Spinner),
-  & [class^="rui_button_white_"]:not(.spinner, .disabled),
-  & [class*=" rui_button_white_"]:not(.spinner, .disabled) {
-    transition: background .2s;
+  & [class^='rui_button_white_']:not(.spinner, .disabled),
+  & [class*=' rui_button_white_']:not(.spinner, .disabled) {
+    transition: background 0.2s;
     @media (hover: hover) {
       &:hover:not(:disabled) {
         background: var(--slategray_60);
@@ -95,9 +95,9 @@ body {
   }
 
   & .RUIButton-color-blue:not(.RUIButton_Spinner),
-  & [class^="rui_button_blue_"]:not(.spinner, .disabled),
-  & [class*=" rui_button_blue_"]:not(.spinner, .disabled) {
-    transition: background .2s;
+  & [class^='rui_button_blue_']:not(.spinner, .disabled),
+  & [class*=' rui_button_blue_']:not(.spinner, .disabled) {
+    transition: background 0.2s;
     @media (hover: hover) {
       &:hover:not(:disabled) {
         background: var(--dodgerblue_60);
@@ -111,9 +111,9 @@ body {
   }
 
   & .RUIButton-color-blue.RUIButton-outline:not(.RUIButton_Spinner),
-  & [class^="rui_button_blue_line_"]:not(.spinner, .disabled),
-  & [class*=" rui_button_blue_line_"]:not(.spinner, .disabled) {
-    transition: background .2s;
+  & [class^='rui_button_blue_line_']:not(.spinner, .disabled),
+  & [class*=' rui_button_blue_line_']:not(.spinner, .disabled) {
+    transition: background 0.2s;
     @media (hover: hover) {
       &:hover:not(:disabled) {
         background: var(--dodgerblue_5);
@@ -206,7 +206,7 @@ main.SceneWrapper {
   margin: 0 auto;
   padding: 0 15px;
   background-color: #fff;
-  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .15);
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.15);
   & .PageTitle {
     color: #000;
   }
@@ -283,7 +283,7 @@ main.SceneWrapper {
   align-items: center;
   width: 100%;
   height: 56px;
-  border-bottom: solid 1px rgba(0, 0, 0, .1);
+  border-bottom: solid 1px rgba(0, 0, 0, 0.1);
   background-color: var(--bluegray_90);
   z-index: 900;
 
@@ -309,7 +309,7 @@ main.SceneWrapper {
 
 .WebActionBar_Text {
   overflow: hidden;
-  color: var(--bluegray_80);;
+  color: var(--bluegray_80);
   font-size: 18px;
   font-weight: 400;
   line-height: 27px;
@@ -390,19 +390,18 @@ main.SceneWrapper {
 
 .RSGBookThumbnail_Wrapper-lazyloaded {
   display: inline-block;
-  animation: fade-in .3s;
+  animation: fade-in 0.3s;
   opacity: 1;
 }
 
 .RSGBookThumbnail_CoverImage_Shadow {
-  background:
-    linear-gradient(
-      to right,
-      rgba(0, 0, 0, .2) 0,
-      rgba(0, 0, 0, 0) 5%,
-      rgba(0, 0, 0, 0) 95%,
-      rgba(0, 0, 0, .2) 100%
-    );
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.2) 0,
+    rgba(0, 0, 0, 0) 5%,
+    rgba(0, 0, 0, 0) 95%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
 }
 
 .RSGBookThumbnail_Link,
@@ -457,7 +456,7 @@ main.SceneWrapper {
   width: 100%;
   height: 100%;
   background: var(--bluegray_90);
-  animation: @keyframes fade-in .5s;
+  animation: @keyframes fade-in 0.5s;
   z-index: 100000;
 }
 .SplashScreen-whiteScreen {
@@ -469,7 +468,6 @@ main.SceneWrapper {
   height: 20px;
   fill: #475161;
 }
-
 
 .Pagination {
   padding: 0;

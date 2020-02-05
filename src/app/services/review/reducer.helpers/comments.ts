@@ -1,22 +1,11 @@
-import {
-  findIndex,
-  findKey,
-  flow,
-  keyBy,
-  mapValues,
-  range,
-} from 'lodash-es';
+import { findIndex, findKey, flow, keyBy, mapValues, range } from 'lodash-es';
 import Immutable from 'object-path-immutable';
 
 import { FetchStatusFlag } from 'app/constants';
 import { TextWithLF } from 'app/types';
 
-import {
-  Comment,
-  CommentsById,
-  ReviewsState,
-} from './../reducer.state';
-import { ResponseComment } from './../requests';
+import { Comment, CommentsById, ReviewsState } from '../reducer.state';
+import { ResponseComment } from '../requests';
 
 export function responseCommentToStateComment(responseComment: ResponseComment): Comment {
   return {
@@ -28,7 +17,7 @@ export function responseCommentToStateComment(responseComment: ResponseComment):
 export function commentListToCommentsById(commentList: ResponseComment[]): CommentsById {
   return flow(
     (list: ResponseComment[]) => keyBy(list, 'id'),
-    (dic) => mapValues(dic, responseCommentToStateComment),
+    dic => mapValues(dic, responseCommentToStateComment),
   )(commentList);
 }
 
@@ -39,17 +28,19 @@ export function responseCommentsToCommentIdListByPage(
 ) {
   const totalPageCount = Math.ceil(itemCount / size);
   const reversedList = responseCommentList.reverse();
-  return range(1, totalPageCount + 1)
-    .reduce((result, value: number) => ({
+  return range(1, totalPageCount + 1).reduce(
+    (result, value: number) => ({
       ...result,
       [value]: {
         fetchStatus: FetchStatusFlag.IDLE,
-        itemList: reversedList.slice(
-          size * (value - 1),
-          size * value,
-        ).map((review) => review.id).reverse(),
+        itemList: reversedList
+          .slice(size * (value - 1), size * value)
+          .map(review => review.id)
+          .reverse(),
       },
-    }), {});
+    }),
+    {},
+  );
 }
 
 export function setCommentFetchStatus(
@@ -60,14 +51,10 @@ export function setCommentFetchStatus(
   fetchStatus: FetchStatusFlag,
 ) {
   return Immutable(state)
-    .set([
-      `${bookId}`,
-      'reviewsById',
-      `${reviewId}`,
-      'commentsById',
-      `${commentId}`,
-      'fetchStatus',
-    ], fetchStatus)
+    .set(
+      [`${bookId}`, 'reviewsById', `${reviewId}`, 'commentsById', `${commentId}`, 'fetchStatus'],
+      fetchStatus,
+    )
     .value();
 }
 
@@ -78,13 +65,7 @@ export function changeCurrentCommentPage(
   page: number,
 ) {
   return Immutable(state)
-    .set([
-      `${bookId}`,
-      'reviewsById',
-      `${reviewId}`,
-      'commentIdsByPage',
-      'currentPage',
-    ], page)
+    .set([`${bookId}`, 'reviewsById', `${reviewId}`, 'commentIdsByPage', 'currentPage'], page)
     .value();
 }
 
@@ -95,36 +76,30 @@ export function postMyComment(
   responseComment: ResponseComment,
 ) {
   return Immutable(state)
-    .set([
-      `${bookId}`,
-      'reviewsById',
-      `${reviewId}`,
-      'fetchStatus',
-      'myComment',
-    ], FetchStatusFlag.IDLE)
-    .update([
-      `${bookId}`,
-      'reviewsById',
-      `${reviewId}`,
-      'commentIdsByPage',
-      'itemCount',
-    ], (count) => count + 1)
-    .push([
-      `${bookId}`,
-      'reviewsById',
-      `${reviewId}`,
-      'commentIdsByPage',
-      'itemListByPage',
-      '1',
-      'itemList',
-    ], responseComment.id)
-    .set([
-      `${bookId}`,
-      'reviewsById',
-      `${reviewId}`,
-      'commentsById',
-      `${responseComment.id}`,
-    ], responseCommentToStateComment(responseComment))
+    .set(
+      [`${bookId}`, 'reviewsById', `${reviewId}`, 'fetchStatus', 'myComment'],
+      FetchStatusFlag.IDLE,
+    )
+    .update(
+      [`${bookId}`, 'reviewsById', `${reviewId}`, 'commentIdsByPage', 'itemCount'],
+      count => count + 1,
+    )
+    .push(
+      [
+        `${bookId}`,
+        'reviewsById',
+        `${reviewId}`,
+        'commentIdsByPage',
+        'itemListByPage',
+        '1',
+        'itemList',
+      ],
+      responseComment.id,
+    )
+    .set(
+      [`${bookId}`, 'reviewsById', `${reviewId}`, 'commentsById', `${responseComment.id}`],
+      responseCommentToStateComment(responseComment),
+    )
     .value();
 }
 
@@ -134,20 +109,17 @@ export function deleteComment(
   reviewId: number,
   commentId: number,
 ) {
-  const commentPage = Number(findKey(
-    state[bookId].reviewsById[reviewId].commentIdsByPage.itemListByPage,
-    (page) => page.itemList.some((comment) => comment === commentId),
-  ));
+  const commentPage = Number(
+    findKey(state[bookId].reviewsById[reviewId].commentIdsByPage.itemListByPage, page =>
+      page.itemList.some(comment => comment === commentId),
+    ),
+  );
   if (!commentPage) {
     return Immutable(state)
-      .set([
-        `${bookId}`,
-        'reviewsById',
-        `${reviewId}`,
-        'commentsById',
-        `${commentId}`,
-        'fetchStatus',
-      ], FetchStatusFlag.IDLE)
+      .set(
+        [`${bookId}`, 'reviewsById', `${reviewId}`, 'commentsById', `${commentId}`, 'fetchStatus'],
+        FetchStatusFlag.IDLE,
+      )
       .value();
   }
 
@@ -156,14 +128,10 @@ export function deleteComment(
     (id: number) => id === commentId,
   );
   return Immutable(state)
-    .set([
-      `${bookId}`,
-      'reviewsById',
-      `${reviewId}`,
-      'commentsById',
-      `${commentId}`,
-      'fetchStatus',
-    ], FetchStatusFlag.IDLE)
+    .set(
+      [`${bookId}`, 'reviewsById', `${reviewId}`, 'commentsById', `${commentId}`, 'fetchStatus'],
+      FetchStatusFlag.IDLE,
+    )
     .del([
       `${bookId}`,
       'reviewsById',
@@ -174,13 +142,10 @@ export function deleteComment(
       'itemList',
       `${commentIndexFromPage}`,
     ])
-    .update([
-      `${bookId}`,
-      'reviewsById',
-      `${reviewId}`,
-      'commentIdsByPage',
-      'itemCount',
-    ], (count) => count - 1)
+    .update(
+      [`${bookId}`, 'reviewsById', `${reviewId}`, 'commentIdsByPage', 'itemCount'],
+      count => count - 1,
+    )
     .value();
 }
 
@@ -191,11 +156,6 @@ export function updateCommentFormContent(
   content: TextWithLF,
 ) {
   return Immutable(state)
-    .set([
-      `${bookId}`,
-      'reviewsById',
-      `${reviewId}`,
-      'commentInput',
-    ], content)
+    .set([`${bookId}`, 'reviewsById', `${reviewId}`, 'commentInput'], content)
     .value();
 }

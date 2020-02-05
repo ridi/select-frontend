@@ -17,7 +17,7 @@ describe('HomeSpotlightSection test', () => {
         title={'hot spot'}
         trackClick={() => null}
         trackImpression={() => null}
-      />
+      />,
     );
   });
 });

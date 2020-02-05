@@ -8,10 +8,16 @@ import classNames from 'classnames';
 import { throttle } from 'lodash-es';
 import { Link } from 'react-router-dom';
 
-export const ArticleContentGetTicketToRead: React.FunctionComponent<{ contentKey: string }> = (props) => {
-  const articleState = useSelector((state: RidiSelectState) => state.articlesById[props.contentKey]);
+export const ArticleContentGetTicketToRead: React.FunctionComponent<{
+  contentKey: string;
+}> = props => {
+  const articleState = useSelector(
+    (state: RidiSelectState) => state.articlesById[props.contentKey],
+  );
   const isLoggedIn = useSelector((state: RidiSelectState) => state.user.isLoggedIn);
-  const hasSubscribedBefore = useSelector((state: RidiSelectState) => state.user.hasSubscribedBefore);
+  const hasSubscribedBefore = useSelector(
+    (state: RidiSelectState) => state.user.hasSubscribedBefore,
+  );
 
   const [isSticky, setIsSticky] = React.useState(true);
   const getTicketToReadButtonWrapper = React.useRef<HTMLDivElement>(null);
@@ -23,16 +29,11 @@ export const ArticleContentGetTicketToRead: React.FunctionComponent<{ contentKey
     ) {
       return;
     }
-    const parentElement = getTicketToReadButtonWrapper.current.parentElement as HTMLElement;
-    const currentScrollTop = window.pageYOffset || document.documentElement!.scrollTop;
+    const { parentElement } = getTicketToReadButtonWrapper.current;
+    const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
     if (
-      (
-        window.innerHeight >=
-        (parentElement.offsetTop + parentElement.offsetHeight)
-      ) || (
-        (currentScrollTop + window.innerHeight) >=
-        (parentElement.offsetTop + parentElement.offsetHeight)
-      )
+      window.innerHeight >= parentElement.offsetTop + parentElement.offsetHeight ||
+      currentScrollTop + window.innerHeight >= parentElement.offsetTop + parentElement.offsetHeight
     ) {
       setIsSticky(true);
     } else {
@@ -57,7 +58,8 @@ export const ArticleContentGetTicketToRead: React.FunctionComponent<{ contentKey
     <div
       className={classNames(
         'ArticleContent_GetTicketToReadButtonWrapper',
-        articleState.article.isPublic && 'ArticleContent_GetTicketToReadButtonWrapper-publicContent',
+        articleState.article.isPublic &&
+          'ArticleContent_GetTicketToReadButtonWrapper-publicContent',
         isSticky && 'ArticleContent_GetTicketToReadButtonWrapper-sticky',
       )}
       ref={getTicketToReadButtonWrapper}

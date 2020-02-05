@@ -25,17 +25,14 @@ export const Voucher: React.FunctionComponent = () => {
   const [inputValue, setInputValue] = React.useState('');
   const dispatch = useDispatch();
 
-  const {
-    searchQuery,
-    isLoggedIn,
-    isUserFetching,
-    BASE_URL_SELECT,
-  } = useSelector((state: RidiSelectState) => ({
-    searchQuery: state.router.location.search,
-    isLoggedIn: state.user.isLoggedIn,
-    isUserFetching: state.user.isFetching,
-    BASE_URL_SELECT: state.environment.SELECT_URL,
-  }));
+  const { searchQuery, isLoggedIn, isUserFetching, BASE_URL_SELECT } = useSelector(
+    (state: RidiSelectState) => ({
+      searchQuery: state.router.location.search,
+      isLoggedIn: state.user.isLoggedIn,
+      isUserFetching: state.user.isFetching,
+      BASE_URL_SELECT: state.environment.SELECT_URL,
+    }),
+  );
 
   const modifyValue = (value: string) => {
     let resultValue = value.replace(/[^\w]|_/g, '').toUpperCase();
@@ -58,10 +55,14 @@ export const Voucher: React.FunctionComponent = () => {
   };
 
   React.useEffect(() => {
-    dispatch(CommonUIActions.updateGNBTransparent({ transparentType: GNBTransparentType.transparent }));
+    dispatch(
+      CommonUIActions.updateGNBTransparent({ transparentType: GNBTransparentType.transparent }),
+    );
     dispatch(CommonUIActions.updateFooterTheme({ theme: FooterTheme.dark }));
     return () => {
-      dispatch(CommonUIActions.updateGNBTransparent({ transparentType: GNBTransparentType.default }));
+      dispatch(
+        CommonUIActions.updateGNBTransparent({ transparentType: GNBTransparentType.default }),
+      );
       dispatch(CommonUIActions.updateFooterTheme({ theme: FooterTheme.default }));
     };
   }, []);
@@ -78,10 +79,7 @@ export const Voucher: React.FunctionComponent = () => {
 
   return (
     <main className="SceneWrapper PageVoucher">
-      <HelmetWithTitle
-        titleName={PageTitleText.VOUCHER}
-        titleType={TitleType.POSTFIXED}
-      />
+      <HelmetWithTitle titleName={PageTitleText.VOUCHER} titleType={TitleType.POSTFIXED} />
       {isLoaded ? null : (
         <>
           <img
@@ -98,64 +96,60 @@ export const Voucher: React.FunctionComponent = () => {
           <h2 className="VoucherContent_MainCopy">리디셀렉트 이용권 등록</h2>
           <p className="VoucherContent_Description">
             {/* 베스트셀러부터 프리미엄 아티클까지<br/> 무제한 월정액 서비스 리디셀렉트 */}
-            신간도 베스트셀러도<br />월정액으로 제한없이
+            신간도 베스트셀러도
+            <br />
+            월정액으로 제한없이
           </p>
-          {isUserFetching ?
-            null :
-            isLoggedIn ? (
-              <>
-                <div className="VoucherContent_CodeInputWrapper">
-                  <input
-                    type="text"
-                    className="VoucherContent_CodeInput"
-                    placeholder="이용권 번호 16자리를 입력해주세요."
-                    onChange={(e) => setInputValue(modifyValue(e.target.value))}
-                    value={inputValue}
-                  />
-                  {inputValue.length > 0 ? (
-                    <button
-                      className="VoucherContent_CodeInputClearButton"
-                      type="button"
-                      onClick={() => setInputValue('')}
-                    >
-                      <Icon
-                        name="close_2"
-                        className="VoucherContent_CodeInputClearButtonIcon"
-                      />
-                      <span className="a11y">검색어 비우기</span>
-                    </button>
-                  ) : null}
-                </div>
-                <Button
-                  type="button"
-                  color="blue"
-                  size="large"
-                  className="VoucherContent_SubmitButton"
-                  onClick={() => submitVoucherCode(inputValue)}
-                >
-                  이용권 등록
-                </Button>
-                <p className="VoucherContent_SupportCaption">
-                  이용권 등록 후 취소 및 일시 정지할 수 없습니다.
-                </p>
-              </>
-            ) : (
-              <>
-                <Button
-                  type="button"
-                  color="blue"
-                  size="large"
-                  className="VoucherContent_LoginButton"
-                  onClick={() => moveToLogin(`${BASE_URL_SELECT}${RoutePaths.VOUCHER}`)}
-                >
-                  로그인
-                </Button>
-                <p className="VoucherContent_SupportCaption">
-                  로그인 후 이용권을 등록할 수 있습니다.
-                </p>
-              </>
-            )
-          }
+          {isUserFetching ? null : isLoggedIn ? (
+            <>
+              <div className="VoucherContent_CodeInputWrapper">
+                <input
+                  type="text"
+                  className="VoucherContent_CodeInput"
+                  placeholder="이용권 번호 16자리를 입력해주세요."
+                  onChange={e => setInputValue(modifyValue(e.target.value))}
+                  value={inputValue}
+                />
+                {inputValue.length > 0 ? (
+                  <button
+                    className="VoucherContent_CodeInputClearButton"
+                    type="button"
+                    onClick={() => setInputValue('')}
+                  >
+                    <Icon name="close_2" className="VoucherContent_CodeInputClearButtonIcon" />
+                    <span className="a11y">검색어 비우기</span>
+                  </button>
+                ) : null}
+              </div>
+              <Button
+                type="button"
+                color="blue"
+                size="large"
+                className="VoucherContent_SubmitButton"
+                onClick={() => submitVoucherCode(inputValue)}
+              >
+                이용권 등록
+              </Button>
+              <p className="VoucherContent_SupportCaption">
+                이용권 등록 후 취소 및 일시 정지할 수 없습니다.
+              </p>
+            </>
+          ) : (
+            <>
+              <Button
+                type="button"
+                color="blue"
+                size="large"
+                className="VoucherContent_LoginButton"
+                onClick={() => moveToLogin(`${BASE_URL_SELECT}${RoutePaths.VOUCHER}`)}
+              >
+                로그인
+              </Button>
+              <p className="VoucherContent_SupportCaption">
+                로그인 후 이용권을 등록할 수 있습니다.
+              </p>
+            </>
+          )}
         </div>
       </section>
     </main>

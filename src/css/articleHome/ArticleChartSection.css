@@ -41,7 +41,7 @@
   font-family: Roboto, Sans-serif;
   font-weight: 500;
   font-size: 16px;
-  letter-spacing: -.64px;
+  letter-spacing: -0.64px;
   color: var(--gray_100);
   margin-right: 10px;
 }
@@ -67,7 +67,7 @@
   font-size: 15px;
   font-weight: 500;
   line-height: 1.53;
-  letter-spacing: -.5px;
+  letter-spacing: -0.5px;
   color: var(--gray_100);
 
   overflow: hidden;
@@ -88,7 +88,7 @@
   display: block;
   font-family: var(--defaultFontFamily);
   font-size: 13px;
-  letter-spacing: -.3px;
+  letter-spacing: -0.3px;
   color: var(--slategray_60);
 }
 

@@ -7,13 +7,13 @@ interface StarRatingTooltipProps {
   isRatingCancelable: boolean;
 }
 
-export const StarRatingTooltip: React.SFC<StarRatingTooltipProps> = (props) => {
+export const StarRatingTooltip: React.SFC<StarRatingTooltipProps> = props => {
   const { rating, isRatingCancelable } = props;
 
   if (isRatingCancelable) {
     return (
       <p className="StarRatingTooltip_Tooltip dimmed">
-         별점 취소
+        별점 취소
         <Icon name="arrow_1_down" className="StarRatingTooltip_Icon" />
       </p>
     );
@@ -56,10 +56,6 @@ export const StarRatingTooltip: React.SFC<StarRatingTooltipProps> = (props) => {
         </p>
       );
     default:
-      return (
-        <p className="StarRatingTooltip_Guide">
-          이 책을 평가해주세요!
-        </p>
-      );
+      return <p className="StarRatingTooltip_Guide">이 책을 평가해주세요!</p>;
   }
 };

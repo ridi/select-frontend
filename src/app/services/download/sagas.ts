@@ -7,7 +7,7 @@ import { all, put, select, take } from 'redux-saga/effects';
 export function* watchLocationChange() {
   while (true) {
     yield take(LOCATION_CHANGE);
-    const state: RidiSelectState = yield select((s) => s);
+    const state: RidiSelectState = yield select(s => s);
     if (hasRefreshedForAppDownload()) {
       toast.info('리디북스 뷰어에서 책을 이용하실 수 있습니다.', {
         link: {
@@ -17,16 +17,16 @@ export function* watchLocationChange() {
         },
         durationMs: 5000,
       });
-      yield put(replace({
-        ...state.router.location,
-        search: state.router.location!.search.replace(/to_app_store=[^&=]+/, ''),
-      }));
+      yield put(
+        replace({
+          ...state.router.location,
+          search: state.router.location.search.replace(/to_app_store=[^&=]+/, ''),
+        }),
+      );
     }
   }
 }
 
 export function* downloadSaga() {
-  yield all([
-    watchLocationChange(),
-  ]);
+  yield all([watchLocationChange()]);
 }

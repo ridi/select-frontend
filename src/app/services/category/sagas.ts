@@ -6,10 +6,18 @@ import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
 import history from 'app/config/history';
 import { Actions as BookActions } from 'app/services/book';
 import { Actions, Category } from 'app/services/category';
-import { CategoryBooksResponse, requestCategoryBooks, requestCategoryList } from 'app/services/category/requests';
+import {
+  CategoryBooksResponse,
+  requestCategoryBooks,
+  requestCategoryList,
+} from 'app/services/category/requests';
 import { localStorageManager } from 'app/services/category/utils';
 import { RidiSelectState } from 'app/store';
-import { fixWrongPaginationScope, isValidPaginationParameter, updateQueryStringParam } from 'app/utils/request';
+import {
+  fixWrongPaginationScope,
+  isValidPaginationParameter,
+  updateQueryStringParam,
+} from 'app/utils/request';
 import toast from 'app/utils/toast';
 import showMessageForRequestError from 'app/utils/toastHelper';
 
@@ -25,19 +33,23 @@ export function* watchLoadCategoryListRequest() {
       yield put(Actions.loadCategoryListSuccess({ categoryList }));
     } catch (e) {
       showMessageForRequestError(e);
-      const state: RidiSelectState = yield select((s) => s);
-      yield put(replace({
-        ...state.router.location,
-        pathname: '/',
-      }));
+      const state: RidiSelectState = yield select(s => s);
+      yield put(
+        replace({
+          ...state.router.location,
+          pathname: '/',
+        }),
+      );
     }
   }
 }
 
 export function* watchInitializeWhole() {
   while (true) {
-    const { payload }: ReturnType<typeof Actions.initializeCategoriesWhole> = yield take(Actions.initializeCategoriesWhole.getType());
-    if (payload.shouldFetchCategoryList ) {
+    const { payload }: ReturnType<typeof Actions.initializeCategoriesWhole> = yield take(
+      Actions.initializeCategoriesWhole.getType(),
+    );
+    if (payload.shouldFetchCategoryList) {
       yield put(Actions.loadCategoryListRequest());
       yield take(Actions.loadCategoryListSuccess.getType());
     }
@@ -50,25 +62,27 @@ export function* watchInitializeWhole() {
 export function* watchInitializeCategoryId() {
   while (true) {
     yield take(Actions.initializeCategoryId.getType());
-    const state: RidiSelectState = yield select((s) => s);
+    const state: RidiSelectState = yield select(s => s);
     const idFromLocalStorage = localStorageManager.load().lastVisitedCategoryId;
 
     const categoryId =
-      (state.categories.itemList || [])
+      ((state.categories.itemList || [])
         .map((category: Category) => category.id)
-        .includes((idFromLocalStorage)) &&
-        idFromLocalStorage ||
+        .includes(idFromLocalStorage) &&
+        idFromLocalStorage) ||
       state.categories.itemList[0].id;
 
-    const parsedQueryString = qs.parse(state.router.location!.search, { ignoreQueryPrefix: true });
+    const parsedQueryString = qs.parse(state.router.location.search, { ignoreQueryPrefix: true });
 
-    yield put(replace({
-      ...state.router.location,
-      search: qs.stringify({
-        ...parsedQueryString,
-        id: categoryId,
+    yield put(
+      replace({
+        ...state.router.location,
+        search: qs.stringify({
+          ...parsedQueryString,
+          id: categoryId,
+        }),
       }),
-    }));
+    );
 
     yield put(Actions.cacheCategoryId({ categoryId }));
   }
@@ -81,7 +95,9 @@ export function* watchCacheCategoryId() {
   }
 }
 
-export function* loadCategoryBooks({ payload }: ReturnType<typeof Actions.loadCategoryBooksRequest>) {
+export function* loadCategoryBooks({
+  payload,
+}: ReturnType<typeof Actions.loadCategoryBooksRequest>) {
   const { page, categoryId } = payload;
   try {
     if (!isValidPaginationParameter(page)) {
@@ -105,7 +121,11 @@ export function* watchLoadCategoryBooks() {
 
 export function* watchCategoryBooksFailure() {
   while (true) {
-    const { payload: { page, error } }: ReturnType<typeof Actions.loadCategoryBooksFailure> = yield take(Actions.loadCategoryBooksFailure.getType());
+    const {
+      payload: { page, error },
+    }: ReturnType<typeof Actions.loadCategoryBooksFailure> = yield take(
+      Actions.loadCategoryBooksFailure.getType(),
+    );
     if (page === 1) {
       toast.failureMessage('없는 페이지입니다. 다시 시도해주세요.');
       return;

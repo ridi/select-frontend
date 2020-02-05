@@ -29,9 +29,11 @@ interface BookDetailDownloadButtonStateProps {
   mySelect: MySelectState;
 }
 
-type Props = ReturnType<typeof mapDispatchToProps> & BookDetailDownloadButtonProps & BookDetailDownloadButtonStateProps;
+type Props = ReturnType<typeof mapDispatchToProps> &
+  BookDetailDownloadButtonProps &
+  BookDetailDownloadButtonStateProps;
 
-const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
+const BookDetailDownloadButton: React.FunctionComponent<Props> = props => {
   const {
     bookId,
     isLoggedIn,
@@ -46,7 +48,8 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
 
   const checkCanDownload = () => !!ownershipStatus && ownershipStatus.isDownloadAvailable;
 
-  const checkShouldDisplaySpinnerOnDownload = () => (isLoggedIn && !ownershipStatus) ||
+  const checkShouldDisplaySpinnerOnDownload = () =>
+    (isLoggedIn && !ownershipStatus) ||
     ownershipFetchStatus === FetchStatusFlag.FETCHING ||
     mySelect.additionFetchStatus === FetchStatusFlag.FETCHING;
 
@@ -64,7 +67,10 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
         readBooksInRidiselect(bookId);
         return;
       }
-      if (!checkCurrentBookExistsInMySelect() && !confirm('리디북스에서 이미 구매/대여한 책입니다.\n다운로드하시겠습니까?')) {
+      if (
+        !checkCurrentBookExistsInMySelect() &&
+        !confirm('리디북스에서 이미 구매/대여한 책입니다.\n다운로드하시겠습니까?')
+      ) {
         return;
       }
       downloadBooksInRidiselect([bookId]);
@@ -86,7 +92,8 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
         {isInApp ? '읽기' : '다운로드'}
       </Button>
     );
-  } else if (hasAvailableTicket) {
+  }
+  if (hasAvailableTicket) {
     return (
       <Button
         color="blue"
@@ -115,8 +122,11 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
   );
 };
 
-const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailDownloadButtonProps): BookDetailDownloadButtonStateProps => {
-  const bookId = ownProps.bookId;
+const mapStateToProps = (
+  state: RidiSelectState,
+  ownProps: BookDetailDownloadButtonProps,
+): BookDetailDownloadButtonStateProps => {
+  const { bookId } = ownProps;
   const stateExists = !!state.booksById[bookId];
   const bookState = state.booksById[bookId];
 
@@ -136,4 +146,7 @@ const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailDownloadBut
 const mapDispatchToProps = (dispatch: any) => ({
   dispatchAddMySelect: (bookId: BookId) => dispatch(MySelectActions.addMySelectRequest({ bookId })),
 });
-export const ConnectedBookDetailDownloadButton = connect(mapStateToProps, mapDispatchToProps)(BookDetailDownloadButton);
+export const ConnectedBookDetailDownloadButton = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(BookDetailDownloadButton);

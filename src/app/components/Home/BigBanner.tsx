@@ -11,10 +11,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import Slider from 'react-slick';
+import { AppStatus } from 'app/services/app/index';
 import { BigBannerItem } from './BigBannerItem';
 import { SliderControls } from './SliderControls';
-
-import { AppStatus } from 'app/services/app/index';
 
 const PC_BANNER_WIDTH = 432;
 const PC_BANNER_HEIGHT = 432;
@@ -37,8 +36,11 @@ interface State {
 
 export class BigBannerCarousel extends React.Component<Props, State> {
   private static touchThereshold = 10;
+
   private slider: Slider;
+
   private wrapper: HTMLElement | null;
+
   private firstClientX: number;
 
   private handleWindowResize = debounce(() => {
@@ -53,7 +55,7 @@ export class BigBannerCarousel extends React.Component<Props, State> {
 
   private handleTouchStart = (e: TouchEvent) => {
     this.firstClientX = e.touches[0].clientX;
-  }
+  };
 
   private preventTouch = (e: TouchEvent) => {
     const clientX = e.touches[0].clientX - this.firstClientX;
@@ -61,14 +63,14 @@ export class BigBannerCarousel extends React.Component<Props, State> {
     if (horizontalScroll) {
       e.preventDefault();
     }
-  }
+  };
 
   private updateClientWidth = () => {
     const { clientWidth } = document.body;
     if (this.state.clientWidth !== clientWidth) {
       this.setState({ clientWidth });
     }
-  }
+  };
 
   private setSliderImpression(section: string, Idx: number) {
     const { trackImpression, bigBannerList } = this.props;
@@ -122,14 +124,14 @@ export class BigBannerCarousel extends React.Component<Props, State> {
     const service = appStatus === AppStatus.Articles ? 'select-article' : 'select-book';
     const section = getSectionStringForTracking(service, 'home', 'big-banner');
     if (!fetchedAt || bigBannerList.length === 0) {
-      return (<BigBannerPlaceholder minHeight={this.state.clientWidth} />);
+      return <BigBannerPlaceholder minHeight={this.state.clientWidth} />;
     }
 
     return (
       <MediaQuery maxWidth={432}>
-        {(isMobile) => (
+        {isMobile => (
           <section
-            ref={(wrapper) => this.wrapper = wrapper}
+            ref={wrapper => (this.wrapper = wrapper)}
             className={classNames(['BigBanner', isMobile && 'BigBanner-isMobile'])}
             style={{
               maxHeight: isMobile ? document.body.clientWidth : PC_BANNER_HEIGHT,
@@ -138,9 +140,9 @@ export class BigBannerCarousel extends React.Component<Props, State> {
           >
             <h2 className="a11y">메인 배너</h2>
             <Slider
-              ref={(slider: Slider) => this.slider = slider}
+              ref={(slider: Slider) => (this.slider = slider)}
               dots={false}
-              infinite={true}
+              infinite
               adaptiveHeight={false}
               arrows={false}
               centerMode={!isMobile}
@@ -151,7 +153,7 @@ export class BigBannerCarousel extends React.Component<Props, State> {
               slidesToScroll={1}
               onInit={() => this.setSliderImpression(section, this.props.currentIdx)}
               initialSlide={this.props.currentIdx}
-              afterChange={(currentIdx) => {
+              afterChange={currentIdx => {
                 this.setState({
                   currentIdx,
                 });
@@ -163,11 +165,13 @@ export class BigBannerCarousel extends React.Component<Props, State> {
               {bigBannerList.map((item, index) => (
                 <BigBannerItem
                   linkUrl={item.linkUrl}
-                  onClick={() => trackClick({
-                    section,
-                    index,
-                    id: item.id,
-                  })}
+                  onClick={() =>
+                    trackClick({
+                      section,
+                      index,
+                      id: item.id,
+                    })
+                  }
                   key={index}
                   isInApp={isInApp}
                 >
@@ -202,15 +206,19 @@ const mapStateToProps = (state: RidiSelectState): BigBannerStateProps => {
   return {
     appStatus,
     fetchedAt: appStatus === AppStatus.Books ? state.home.fetchedAt : state.articleHome.fetchedAt,
-    bigBannerList: appStatus === AppStatus.Books ? state.home.bigBannerList : state.articleHome.bigBannerList,
-    currentIdx: appStatus === AppStatus.Books ? state.home.currentIdx : state.articleHome.currentIdx,
+    bigBannerList:
+      appStatus === AppStatus.Books ? state.home.bigBannerList : state.articleHome.bigBannerList,
+    currentIdx:
+      appStatus === AppStatus.Books ? state.home.currentIdx : state.articleHome.currentIdx,
     isInApp: selectIsInApp(state),
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => ({
-  trackClick: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackClick({ trackingParams })),
-  trackImpression: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackImpression({ trackingParams })),
+  trackClick: (trackingParams: DefaultTrackingParams) =>
+    dispatch(Actions.trackClick({ trackingParams })),
+  trackImpression: (trackingParams: DefaultTrackingParams) =>
+    dispatch(Actions.trackImpression({ trackingParams })),
   updateCurrentIdx: (currentIdx: number, appType: AppStatus) => {
     const targetAction = appType === AppStatus.Books ? BookBannerActions : ArticleBannerActions;
 
@@ -218,4 +226,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   },
 });
 
-export const ConnectedBigBannerCarousel = connect(mapStateToProps, mapDispatchToProps)(BigBannerCarousel);
+export const ConnectedBigBannerCarousel = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(BigBannerCarousel);

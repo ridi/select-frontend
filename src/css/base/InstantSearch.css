@@ -34,7 +34,7 @@
   border-top: 1px solid var(--slategray_5);
   line-height: var(--history_item_height);
   cursor: pointer;
-  transition: background .2s;
+  transition: background 0.2s;
   &:first-child {
     border-top: 0;
     border-top-right-radius: 3px;
@@ -79,7 +79,7 @@
   & .InstantSearchChannel,
   & .InstantSearchPublisher {
     display: inline;
-    letter-spacing: -.3px;
+    letter-spacing: -0.3px;
     line-height: inherit;
     vertical-align: top;
   }
@@ -111,8 +111,8 @@
       width: 1px;
       height: 10px;
       margin: 0 6px;
-      content: "";
-    }    
+      content: '';
+    }
   }
   & .InstantSearchPublisher {
     position: relative;
@@ -136,7 +136,7 @@
     left: auto;
     width: 300px;
     border-radius: 3px;
-    box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, .3);
+    box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.3);
   }
   .InstantSearch-loading,
   .InstantSearchList {

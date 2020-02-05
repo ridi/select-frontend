@@ -7,9 +7,7 @@ const KEY_LOCAL_STORAGE = 'rs.home';
 export const localStorageManager = {
   load: (): AppStatus => {
     const data = localStorage.getItem(KEY_LOCAL_STORAGE) as AppStatus;
-    return [AppStatus.Books, AppStatus.Articles].includes(data)
-      ? data
-      : AppStatus.Books;
+    return [AppStatus.Books, AppStatus.Articles].includes(data) ? data : AppStatus.Books;
   },
   save: (status: AppStatus) => {
     localStorage.setItem(KEY_LOCAL_STORAGE, status);

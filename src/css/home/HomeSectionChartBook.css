@@ -71,7 +71,7 @@
   text-overflow: ellipsis;
   white-space: normal;
   word-break: break-all;
-  transition: color .2s;
+  transition: color 0.2s;
   -webkit-box-orient: vertical;
   word-wrap: break-word;
   -webkit-line-clamp: 2;

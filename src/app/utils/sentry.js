@@ -12,7 +12,7 @@ const RAVEN_OPTIONS = {
     'canvas.contentDocument',
     'MyApp_RemoveAllHighlights',
     'http://tt.epicplay.com',
-    'Can\'t find variable: ZiteReader',
+    "Can't find variable: ZiteReader",
     'jigsaw is not defined',
     'ComboSearch is not defined',
     'http://loading.retry.widdit.com/',
@@ -30,43 +30,38 @@ const RAVEN_OPTIONS = {
     // See https://github.com/SamsungInternet/support/issues/56
     'document.getElementsByClassName.ToString is not a function',
     // NAVER App (See https://developers.naver.com/forum/posts/21372)
-    'Cannot call method \'checkDomStatus\' of undefined',
-    'Cannot read property \'checkDomStatus\' of undefined',
+    "Cannot call method 'checkDomStatus' of undefined",
+    "Cannot read property 'checkDomStatus' of undefined",
     // NAVER App
-    'Cannot read property \'childNodes\' of null',
-    'Can\'t find variable: NaverDetectLang',
+    "Cannot read property 'childNodes' of null",
+    "Can't find variable: NaverDetectLang",
     // See https://stackoverflow.com/questions/49077748/androidinterface-is-not-defined-what-gives
     'androidInterface is not defined',
     // See https://bugs.chromium.org/p/chromium/issues/detail?id=590375
-    'TypeError: undefined is not an object (evaluating \'__gCrWeb.autofill.extractForms\')',
+    "TypeError: undefined is not an object (evaluating '__gCrWeb.autofill.extractForms')",
     // EZWEL
     'net.sourceforge.htmlunit.corejs.javascript.Undefined',
     '"regeneratorRuntime" is not defined',
     // Almost all occur in Google Chrome
     'Unexpected token else',
     // Triggered from an unknown linux user
-    'Failed to execute \'postMessage\' on \'Window\': function (s){return eval(s);} could not be cloned',
+    "Failed to execute 'postMessage' on 'Window': function (s){return eval(s);} could not be cloned",
     // IE, Edge only
     /^undefined$/,
     'Target container is not a DOM element.',
     // Chrome only
-    'Cannot read property \'processEvent\' of undefined',
+    "Cannot read property 'processEvent' of undefined",
     'Unexpected identifier',
-    'Failed to read the \'cssRules\' property from \'CSSStyleSheet\': Cannot access rules',
+    "Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
     // Facebook crawler. see https://app.asana.com/0/325622807541174/823860092252432
     'ReferenceError: _isMatchingDomain is not defined',
     // quit while calling Tracking uri
     'TypeError: Failed to fetch at _promiseRejectionHandler',
     /^https:\/\/s3\.ap-northeast-2\.amazonaws\.com\/beacon-select\/beacon_select\.gif\?event=/,
   ],
-  whitelistUrls: [
-    /https?:\/\/(.+\.)?ridibooks\.com/,
-    '<anonymous>',
-  ],
+  whitelistUrls: [/https?:\/\/(.+\.)?ridibooks\.com/, '<anonymous>'],
 };
 
 if (env.SENTRY_DSN_FRONTEND && env.production) {
-  Raven
-    .config(env.SENTRY_DSN_FRONTEND, RAVEN_OPTIONS)
-    .install();
+  Raven.config(env.SENTRY_DSN_FRONTEND, RAVEN_OPTIONS).install();
 }

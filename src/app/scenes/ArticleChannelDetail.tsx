@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import { Link, LinkProps, useParams } from 'react-router-dom';
 
-import { HelmetWithTitle, Pagination , ConnectedPageHeader } from 'app/components';
+import { HelmetWithTitle, Pagination, ConnectedPageHeader } from 'app/components';
 
 import { ArticleChannelMeta } from 'app/components/ArticleChannelDetail/ArticleChannelMeta';
 import { GridArticleList } from 'app/components/GridArticleList';
@@ -17,9 +17,11 @@ import { RidiSelectState } from 'app/store';
 import { articleChannelToPath } from 'app/utils/toPath';
 
 export const ArticleChannelDetail: React.FunctionComponent = () => {
-  const channelName = useParams<{ channelName: string }>().channelName;
+  const { channelName } = useParams<{ channelName: string }>();
   const page = useSelector(getPageQuery);
-  const articleChannelData = useSelector((state: RidiSelectState) => state.articleChannelById[channelName] ? state.articleChannelById[channelName] : undefined);
+  const articleChannelData = useSelector((state: RidiSelectState) =>
+    state.articleChannelById[channelName] ? state.articleChannelById[channelName] : undefined,
+  );
   const articlesById = useSelector((state: RidiSelectState) => state.articlesById);
   const isInApp = useSelector(selectIsInApp);
 
@@ -27,13 +29,17 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
 
   const dispatch = useDispatch();
 
-  const isFetched = () => (channelName && articleChannelData);
+  const isFetched = () => channelName && articleChannelData;
   const isFetchedChannelMeta = () => {
-    if (!isFetched()) { return false; }
+    if (!isFetched()) {
+      return false;
+    }
     return articleChannelData!.isMetaFetched;
   };
   const isFetchedChannelArticles = () => {
-    if (!isFetched()) { return false; }
+    if (!isFetched()) {
+      return false;
+    }
     return (
       articleChannelData!.itemListByPage &&
       articleChannelData!.itemListByPage[page] &&
@@ -42,45 +48,59 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
   };
   React.useEffect(() => {
     if (!isFetchedChannelMeta()) {
-      dispatch(Actions.loadArticleChannelDetailRequest({channelName}));
+      dispatch(Actions.loadArticleChannelDetailRequest({ channelName }));
     }
     if (!isFetchedChannelArticles()) {
-      if (location.pathname === articleChannelToPath({channelName})) {
-        dispatch(Actions.loadArticleChannelArticlesRequest({channelName, page}));
+      if (location.pathname === articleChannelToPath({ channelName })) {
+        dispatch(Actions.loadArticleChannelArticlesRequest({ channelName, page }));
       }
     }
   }, [page]);
 
   return (
     <main className="SceneWrapper PageArticleChannelDetail">
-      <HelmetWithTitle titleName={isFetchedChannelMeta() && articleChannelData ? articleChannelData.channelMeta!.displayName : ''} />
-      {isInApp ? <ConnectedPageHeader pageTitle={isFetchedChannelMeta() && articleChannelData ? articleChannelData.channelMeta!.displayName : ''} /> : null}
-      <div className="a11y"><h1>리디셀렉트 아티클 채널</h1></div>
-      {
-        isFetchedChannelMeta() && articleChannelData ?
-          <ArticleChannelMeta {...articleChannelData.channelMeta!} /> :
-          <ArticleChannelDetailPlaceholder />
-      }
+      <HelmetWithTitle
+        titleName={
+          isFetchedChannelMeta() && articleChannelData
+            ? articleChannelData.channelMeta!.displayName
+            : ''
+        }
+      />
+      {isInApp ? (
+        <ConnectedPageHeader
+          pageTitle={
+            isFetchedChannelMeta() && articleChannelData
+              ? articleChannelData.channelMeta!.displayName
+              : ''
+          }
+        />
+      ) : null}
+      <div className="a11y">
+        <h1>리디셀렉트 아티클 채널</h1>
+      </div>
+      {isFetchedChannelMeta() && articleChannelData ? (
+        <ArticleChannelMeta {...articleChannelData.channelMeta!} />
+      ) : (
+        <ArticleChannelDetailPlaceholder />
+      )}
       <div className="Channel_ArticleList">
-        {isFetchedChannelArticles() && articleChannelData ?
+        {isFetchedChannelArticles() && articleChannelData ? (
           <GridArticleList
             serviceTitleForTracking="select-article"
             pageTitleForTracking="channel-detail"
             uiPartTitleForTracking="article-list"
             miscTracking={JSON.stringify({ sect_page: page })}
             renderAuthor={false}
-            articles={
-              articleChannelData
-                .itemListByPage[page]
-                .itemList
-                .map((articleKey) => articlesById[articleKey].article!)
-            }
-          /> :
+            articles={articleChannelData.itemListByPage[page].itemList.map(
+              articleKey => articlesById[articleKey].article!,
+            )}
+          />
+        ) : (
           <GridArticleListPlaceholder />
-        }
-        {articleChannelData && articleChannelData.itemCount! > 0 &&
+        )}
+        {articleChannelData && articleChannelData.itemCount! > 0 && (
           <MediaQuery maxWidth={MAX_WIDTH}>
-            {(isMobile) => (
+            {isMobile => (
               <Pagination
                 currentPage={page}
                 totalPages={Math.ceil(articleChannelData.itemCount! / itemCountPerPage)}
@@ -94,7 +114,7 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
               />
             )}
           </MediaQuery>
-        }
+        )}
       </div>
     </main>
   );

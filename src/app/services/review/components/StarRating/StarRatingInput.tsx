@@ -13,7 +13,7 @@ export interface StarRatingInputProps {
   onMouseOut: () => void;
 }
 
-export const StarRatingInput: React.SFC<StarRatingInputProps> = (props) => {
+export const StarRatingInput: React.SFC<StarRatingInputProps> = props => {
   const { selectedRating, onLabelClick, hoveredRating, onMouseOver, onMouseOut, classname } = props;
   const isTouchDevice = detectIt.hasTouch;
 
@@ -24,30 +24,33 @@ export const StarRatingInput: React.SFC<StarRatingInputProps> = (props) => {
       onTouchEnd={() => onMouseOut()}
       onTouchCancel={() => onMouseOut()}
     >
-      {ratingList.map((ratingData) => (
+      {ratingList.map(ratingData => (
         <React.Fragment key={ratingData}>
           <label
             htmlFor={`MyStarRating${ratingData}`}
-            className={classNames(
-              'StarRatingInput_Label',
-              { 'StarRatingInput_Label-filled': hoveredRating >= ratingData ||
-                !hoveredRating && selectedRating >= ratingData },
-            )}
-            onClick={(event) => onLabelClick(event, ratingData)}
+            className={classNames('StarRatingInput_Label', {
+              'StarRatingInput_Label-filled':
+                hoveredRating >= ratingData || (!hoveredRating && selectedRating >= ratingData),
+            })}
+            onClick={event => onLabelClick(event, ratingData)}
             data-rating={ratingData}
             onMouseOver={() => !isTouchDevice && onMouseOver(ratingData)}
             onTouchStart={() => isTouchDevice && onMouseOver(ratingData)}
-            onTouchMove={(e) => isTouchDevice && onMouseOver(
-              e.touches[0].clientX ?
-                Number(
-                  document
-                    .elementFromPoint(e.touches[0].clientX, e.touches[0].clientY)
-                    .getAttribute('data-rating'),
-                ) : ratingData,
-            )}
+            onTouchMove={e =>
+              isTouchDevice &&
+              onMouseOver(
+                e.touches[0].clientX
+                  ? Number(
+                      document
+                        .elementFromPoint(e.touches[0].clientX, e.touches[0].clientY)
+                        .getAttribute('data-rating'),
+                    )
+                  : ratingData,
+              )
+            }
           >
             <span className="a11y">{`${ratingData}점`}</span>
-            {(ratingData < 5) && <span className="StarRatingInput_Separator" />}
+            {ratingData < 5 && <span className="StarRatingInput_Separator" />}
           </label>
           <input
             id={`MyStarRating${ratingData}`}
@@ -72,7 +75,10 @@ interface WrappedStarRatingInputState {
   hoveredRating: number;
 }
 
-export class WrappedStarRatingInput extends React.Component<WrapperStarRatingInputProps, WrappedStarRatingInputState> {
+export class WrappedStarRatingInput extends React.Component<
+  WrapperStarRatingInputProps,
+  WrappedStarRatingInputState
+> {
   constructor(props: WrapperStarRatingInputProps) {
     super(props);
     this.state = {

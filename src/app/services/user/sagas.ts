@@ -29,15 +29,21 @@ import {
 } from 'app/services/user/requests';
 import { RidiSelectState } from 'app/store';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
-import { fixWrongPaginationScope, isValidPaginationParameter, updateQueryStringParam } from 'app/utils/request';
+import {
+  fixWrongPaginationScope,
+  isValidPaginationParameter,
+  updateQueryStringParam,
+} from 'app/utils/request';
 import toast from 'app/utils/toast';
 import showMessageForRequestError from 'app/utils/toastHelper';
 
 export function* initializeUser({ payload }: ReturnType<typeof Actions.initializeUser>) {
-  yield put(TrackingActions.trackingArgsUpdate({
-    updateKey: 'userId',
-    updateValue: payload.userDTO.uId,
-  }));
+  yield put(
+    TrackingActions.trackingArgsUpdate({
+      updateKey: 'userId',
+      updateValue: payload.userDTO.uId,
+    }),
+  );
 }
 
 export function* watchInitializeUser() {
@@ -46,14 +52,16 @@ export function* watchInitializeUser() {
 
 export function* watchLoadAccountsMeRequest() {
   while (true) {
-    const state: RidiSelectState = yield select((s) => s);
+    const state: RidiSelectState = yield select(s => s);
     yield take(Actions.loadAccountsMeRequest.getType());
     try {
       const response: { data: AccountsMeResponse } = yield call(requestAccountsMe);
-      yield put(Actions.loadAccountsMeSuccess({
-        uId: response.data.result.id,
-        email: response.data.result.email,
-      }));
+      yield put(
+        Actions.loadAccountsMeSuccess({
+          uId: response.data.result.id,
+          email: response.data.result.email,
+        }),
+      );
     } catch (e) {
       yield put(Actions.loadAccountsMeFailure());
       const { STORE_URL, SELECT_URL } = state.environment;
@@ -72,7 +80,11 @@ export function* watchLoadSubscription() {
         try {
           const payInfoResponse = yield call(requestPayInfo);
           if (payInfoResponse.data.payment_methods.cards) {
-            const { issuer_name , iin , subscriptions } = payInfoResponse.data.payment_methods.cards[0];
+            const {
+              issuer_name,
+              iin,
+              subscriptions,
+            } = payInfoResponse.data.payment_methods.cards[0];
             response.cardBrand = issuer_name;
             response.maskedCardNo = `${iin.substr(0, 4)} ${iin.substr(4, 2)}`;
             response.cardSubscription = subscriptions;
@@ -100,7 +112,11 @@ export function* watchLoadSubscription() {
 
 export function* watchLoadPurchases() {
   while (true) {
-    const { payload: { page } }: ReturnType<typeof Actions.loadPurchasesRequest> = yield take(Actions.loadPurchasesRequest.getType());
+    const {
+      payload: { page },
+    }: ReturnType<typeof Actions.loadPurchasesRequest> = yield take(
+      Actions.loadPurchasesRequest.getType(),
+    );
     try {
       const response: PurchasesResponse = yield call(requestPurchases, page);
       yield put(Actions.loadPurchasesSuccess({ page, response }));
@@ -111,15 +127,20 @@ export function* watchLoadPurchases() {
   }
 }
 
-export function* loadMySelectHistory({ payload }: ReturnType<typeof Actions.loadMySelectHistoryRequest>) {
-  const { page } = payload!;
+export function* loadMySelectHistory({
+  payload,
+}: ReturnType<typeof Actions.loadMySelectHistoryRequest>) {
+  const { page } = payload;
   try {
     if (!isValidPaginationParameter(page)) {
       throw FetchErrorFlag.UNEXPECTED_PAGE_PARAMS;
     }
     const response: MySelectHistoryResponse = yield call(reqeustMySelectHistory, page);
     if (response.userRidiSelectBooks.length > 0) {
-      const books: Book[] = yield call(requestBooks, response.userRidiSelectBooks.map((book) => parseInt(book.bId, 10)));
+      const books: Book[] = yield call(
+        requestBooks,
+        response.userRidiSelectBooks.map(book => parseInt(book.bId, 10)),
+      );
       const booksMap = keyBy(books, 'id');
       response.userRidiSelectBooks.forEach((book, index) => {
         response.userRidiSelectBooks[index].book = booksMap[book.bId];
@@ -142,7 +163,11 @@ export function* watchLoadMySelectHistory() {
 
 export function* watchLoadMySelectHistoryFailure() {
   while (true) {
-    const { payload: { page, error } }: ReturnType<typeof Actions.loadMySelectHistoryFailure> = yield take(Actions.loadMySelectHistoryFailure.getType());
+    const {
+      payload: { page, error },
+    }: ReturnType<typeof Actions.loadMySelectHistoryFailure> = yield take(
+      Actions.loadMySelectHistoryFailure.getType(),
+    );
     if (page === 1) {
       const { data } = error.response!;
       if (!data || data.status !== ErrorStatus.MAINTENANCE) {
@@ -159,12 +184,15 @@ export function* watchDeleteMySelectHistory() {
     const { payload }: ReturnType<typeof Actions.deleteMySelectHistoryRequest> = yield take(
       Actions.deleteMySelectHistoryRequest.getType(),
     );
-    const { mySelectBookIds, page } = payload!;
+    const { mySelectBookIds, page } = payload;
     try {
       yield call(reqeustDeleteMySelectHistory, mySelectBookIds);
       const response: MySelectHistoryResponse = yield call(reqeustMySelectHistory, page);
       if (response.userRidiSelectBooks.length > 0) {
-        const books: Book[] = yield call(requestBooks, response.userRidiSelectBooks.map((book) => parseInt(book.bId, 10)));
+        const books: Book[] = yield call(
+          requestBooks,
+          response.userRidiSelectBooks.map(book => parseInt(book.bId, 10)),
+        );
         const booksMap = keyBy(books, 'id');
         response.userRidiSelectBooks.forEach((book, index) => {
           response.userRidiSelectBooks[index].book = booksMap[book.bId];
@@ -187,7 +215,7 @@ export function* watchCancelPurchase() {
     const { payload }: ReturnType<typeof Actions.cancelPurchaseRequest> = yield take(
       Actions.cancelPurchaseRequest.getType(),
     );
-    const { purchaseId } = payload!;
+    const { purchaseId } = payload;
     try {
       yield call(requestCancelPurchase, purchaseId);
       yield put(Actions.cancelPurchaseSuccess({ purchaseId }));
@@ -203,7 +231,7 @@ export function* watchCancelPurchase() {
 export function* watchUnsubscribe() {
   while (true) {
     yield take(Actions.unsubscribeRequest.getType());
-    const state: RidiSelectState = yield select((s) => s);
+    const state: RidiSelectState = yield select(s => s);
     try {
       yield call(requestUnsubscribe, state.user.subscription!.subscriptionId);
       yield put(Actions.unsubscribeSuccess());
@@ -220,7 +248,7 @@ export function* watchUnsubscribe() {
 export function* watchCancelUnsubscription() {
   while (true) {
     yield take(Actions.cancelUnsubscriptionRequest.getType());
-    const state: RidiSelectState = yield select((s) => s);
+    const state: RidiSelectState = yield select(s => s);
     try {
       yield call(requestCancelUnsubscription, state.user.subscription!.subscriptionId);
       yield put(Actions.cancelUnsubscriptionSuccess());
@@ -234,7 +262,11 @@ export function* watchCancelUnsubscription() {
           return;
         }
 
-        if (confirm('구독했던 카드가 삭제되어 카드 등록 후 구독 해지 예약을 취소할 수 있습니다. 카드를 등록하시겠습니까?')) {
+        if (
+          confirm(
+            '구독했던 카드가 삭제되어 카드 등록 후 구독 해지 예약을 취소할 수 있습니다. 카드를 등록하시겠습니까?',
+          )
+        ) {
           const { STORE_URL } = state.environment;
           const currentLocation = encodeURIComponent(location.href);
           window.location.href = `${STORE_URL}/select/payments/ridi-pay?is_payment_method_change=true&return_url=${currentLocation}`;
@@ -246,37 +278,45 @@ export function* watchCancelUnsubscription() {
   }
 }
 
-
-export function* cashReceiptIssueRequest({ payload }: ReturnType<typeof Actions.cashReceiptIssueRequest>) {
+export function* cashReceiptIssueRequest({
+  payload,
+}: ReturnType<typeof Actions.cashReceiptIssueRequest>) {
   const { ticketId, method, issuePurpose, issueNumber } = payload;
   try {
-    const { cashReceiptUrl }: CashReceiptIssueResponse = yield call(requestCashReceiptIssue, ticketId, method, issuePurpose, issueNumber);
-    yield put(Actions.cashReceiptIssueSuccess({
+    const { cashReceiptUrl }: CashReceiptIssueResponse = yield call(
+      requestCashReceiptIssue,
       ticketId,
       method,
-      cashReceiptUrl: cashReceiptUrl ? cashReceiptUrl : null,
-    }));
+      issuePurpose,
+      issueNumber,
+    );
+    yield put(
+      Actions.cashReceiptIssueSuccess({
+        ticketId,
+        method,
+        cashReceiptUrl: cashReceiptUrl || null,
+      }),
+    );
     toast.success(`현금영수증이 ${method === 'POST' ? '발급' : '취소'}되었습니다.`);
   } catch (e) {
     yield put(Actions.cashReceiptIssueFailure());
     if (
-      e.response.status === 400 && e.response.data.code === cashReceiptIssueResponseCode.invalidParams ||
-      e.response.status === 500 && (
-        e.response.data.code === cashReceiptIssueResponseCode.cashReceiptIssueFailed ||
-        e.response.data.code === cashReceiptIssueResponseCode.cashReceiptCancellationFailed
-      )
+      (e.response.status === 400 &&
+        e.response.data.code === cashReceiptIssueResponseCode.invalidParams) ||
+      (e.response.status === 500 &&
+        (e.response.data.code === cashReceiptIssueResponseCode.cashReceiptIssueFailed ||
+          e.response.data.code === cashReceiptIssueResponseCode.cashReceiptCancellationFailed))
     ) {
       toast.failureMessage(e.response.data.message);
       return;
     }
-    toast.failureMessage('알 수 없는 문제가 발생했습니다. 다시 시도해주세요.')
+    toast.failureMessage('알 수 없는 문제가 발생했습니다. 다시 시도해주세요.');
   }
 }
 
 export function* watchCashReceiptIssueRequest() {
   yield takeLatest(Actions.cashReceiptIssueRequest.getType(), cashReceiptIssueRequest);
 }
-
 
 export function* userRootSaga() {
   yield all([

@@ -22,10 +22,10 @@
   color: #808991;
   font-size: 12px;
   cursor: pointer;
-  transition: color .2s;
+  transition: color 0.2s;
 
   & * {
-    transition: color .2s;
+    transition: color 0.2s;
   }
 
   & button {

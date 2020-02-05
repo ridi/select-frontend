@@ -7,5 +7,4 @@ declare module 'vex-js' {
   };
 }
 
-declare module 'vex-dialog' {
-}
+declare module 'vex-dialog' {}

@@ -30,31 +30,37 @@ export const setDisableScroll = (isDisabled: boolean) => {
   }
 };
 
-export const buildAuthorString = (authors: BookAuthor[], suffix: string, authorLimitCount?: number): string => {
+export const buildAuthorString = (
+  authors: BookAuthor[],
+  suffix: string,
+  authorLimitCount?: number,
+): string => {
   if (!authors) {
     return '';
   }
   if (authorLimitCount && authors.length > authorLimitCount) {
     const expandedAuthors = authors
       .slice(0, authorLimitCount)
-      .map((author) => author.name)
+      .map(author => author.name)
       .join(', ');
     return `${expandedAuthors} 외 ${authors.length - authorLimitCount}명 ${suffix}`;
   }
   return authors
-    .map((author) => author.name)
+    .map(author => author.name)
     .join(', ')
     .concat(` ${suffix}`);
 };
 
 export const stringifyAuthors = (authors: BookAuthors, authorLimitCount?: number): string =>
   authorKeys
-    .map((key: AuthorKeys) => buildAuthorString(authors[key], authorKoreanNames[key], authorLimitCount))
+    .map((key: AuthorKeys) =>
+      buildAuthorString(authors[key], authorKoreanNames[key], authorLimitCount),
+    )
     .filter((str: string) => str.length > 0)
     .join(', ');
 
 export function getDTOAuthorsCount(authors: BookAuthors): number {
-  return flatMap(authors, (value) => value).length;
+  return flatMap(authors, value => value).length;
 }
 
 export function moveToLogin(additionalReturnUrl?: string) {
@@ -65,9 +71,11 @@ export function moveToLogin(additionalReturnUrl?: string) {
     return;
   }
 
-  const returnUrl = additionalReturnUrl ? additionalReturnUrl : window.location.href;
+  const returnUrl = additionalReturnUrl || window.location.href;
 
-  window.location.replace(`${ STORE_URL }/account/oauth-authorize?fallback=login&return_url=${ returnUrl }`);
+  window.location.replace(
+    `${STORE_URL}/account/oauth-authorize?fallback=login&return_url=${returnUrl}`,
+  );
 }
 
 export function refineArticleJSON(articleJSON: ArticleContentJSON): ArticleContent {
@@ -88,7 +96,10 @@ export function refineArticleJSON(articleJSON: ArticleContentJSON): ArticleConte
   };
 }
 
-export function getArticleKeyFromData(article: Article | SearchResultArticle, articleType?: string): string {
+export function getArticleKeyFromData(
+  article: Article | SearchResultArticle,
+  articleType?: string,
+): string {
   const channelName = articleType ? article.articleChannel.name : article.channelName;
   const contentIndex = article.contentId;
 

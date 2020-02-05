@@ -33,21 +33,19 @@ export class ReviewContent extends React.Component<ReviewContentProps, ReviewCon
       <div className="ReviewContent">
         <Truncate
           lines={!expanded && 3}
-          trimWhitespace={true}
-          ellipsis={(
-            <span className="Review_Ellipsis">...
-              <button
-                className="Review_ReadMoreButton"
-                onClick={this.expandContent}
-              >
+          trimWhitespace
+          ellipsis={
+            <span className="Review_Ellipsis">
+              ...
+              <button className="Review_ReadMoreButton" onClick={this.expandContent}>
                 계속 읽기
               </button>
             </span>
-          )}
+          }
         >
           {this.props.children.split('\n').map((child, i, arr) => {
             const line = <span key={i}>{child}</span>;
-            return i === arr.length - 1 ? line : [line, <br key={`${i  }br`} />];
+            return i === arr.length - 1 ? line : [line, <br key={`${i}br`} />];
           })}
         </Truncate>
       </div>

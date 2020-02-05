@@ -53,9 +53,7 @@ export class ReviewMetadata extends React.Component<ReviewMetadataProps, ReviewM
 
     return (
       <ul className="ReviewMetadata_List">
-        <li className="ReviewMetadata_Date">
-          {buildOnlyDateFormat(this.props.reviewDate)}
-        </li>
+        <li className="ReviewMetadata_Date">{buildOnlyDateFormat(this.props.reviewDate)}</li>
         {!this.props.isMyReview && (
           <li className="ReviewMetadata_Report">
             <button

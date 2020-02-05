@@ -19,7 +19,7 @@ export class NotAvailableBook extends React.Component {
           <Link to={RoutePaths.HOME} className="MySelectBookList_Link">
             <Button
               color="blue"
-              outline={true}
+              outline
               className="PageSearchResult_RidibooksResult"
               size="large"
               style={{
@@ -27,14 +27,10 @@ export class NotAvailableBook extends React.Component {
               }}
             >
               홈으로 바로가기
-              <Icon
-                name="arrow_5_right"
-                className="PageSearchResult_RidibooksResultIcon"
-              />
+              <Icon name="arrow_5_right" className="PageSearchResult_RidibooksResultIcon" />
             </Button>
           </Link>
         </section>
-
       </main>
     );
   }

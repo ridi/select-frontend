@@ -10,7 +10,12 @@ import { BookState } from 'app/services/book';
 import { Actions as CommonUIActions, GNBSearchActiveType } from 'app/services/commonUI';
 import { EnvironmentState } from 'app/services/environment';
 import { getPageQuery } from 'app/services/routing/selectors';
-import { Actions as SearchResultActions, SearchResultArticle, SearchResultBook, SearchResultState } from 'app/services/searchResult';
+import {
+  Actions as SearchResultActions,
+  SearchResultArticle,
+  SearchResultBook,
+  SearchResultState,
+} from 'app/services/searchResult';
 import { RidiSelectState } from 'app/store';
 import classNames from 'classnames';
 import * as qs from 'qs';
@@ -34,8 +39,8 @@ type OwnProps = RouteComponentProps;
 type Props = SearchResultStateProps & ReturnType<typeof mapDispatchToProps> & OwnProps;
 
 interface QueryString {
-  'q'?: string;
-  'type'?: string;
+  q?: string;
+  type?: string;
 }
 
 interface State {
@@ -62,13 +67,11 @@ export class SearchResult extends React.Component<Props, State> {
     return (
       <div className="SearchResult_EmptyWrapper">
         <div className="EmptyIcon">
-          <Icon
-            name="search"
-            className="SearchResult_EmptyIcon"
-          />
+          <Icon name="search" className="SearchResult_EmptyIcon" />
         </div>
         <h3 className="SearchResult_EmptyTitle">
-          {'\''}<strong>{query}</strong>{`'에 대한 ${searchType} 검색결과가 없습니다.`}
+          '<strong>{query}</strong>
+          {`'에 대한 ${searchType} 검색결과가 없습니다.`}
         </h3>
       </div>
     );
@@ -82,18 +85,20 @@ export class SearchResult extends React.Component<Props, State> {
       searchResult[appType][query].itemListByPage[page] &&
       searchResult[appType][query].itemListByPage[page].isFetched
     );
-  }
+  };
 
   public UNSAFE_componentWillMount() {
     this.props.dispatchUpdateGNBSearchActiveType(GNBSearchActiveType.block);
-    const queryString: QueryString = qs.parse(this.props.location.search, { ignoreQueryPrefix: true });
-    this.unlistenToHistory = this.props.history.listen((location) => {
+    const queryString: QueryString = qs.parse(this.props.location.search, {
+      ignoreQueryPrefix: true,
+    });
+    this.unlistenToHistory = this.props.history.listen(location => {
       const newQueryString = qs.parse(location.search, { ignoreQueryPrefix: true });
       if (this.state.query !== newQueryString.q) {
         this.setState({ query: newQueryString.q });
       }
     });
-    this.setState({ query: queryString.q || '', type: (queryString.type!).toLowerCase() || 'books' });
+    this.setState({ query: queryString.q || '', type: queryString.type!.toLowerCase() || 'books' });
   }
 
   public componentDidMount() {
@@ -109,7 +114,7 @@ export class SearchResult extends React.Component<Props, State> {
     const { query } = this.state;
     const { query: nextQuery, type } = nextState;
 
-    if ((query !== nextQuery) || (nextProps.page !== this.props.page)) {
+    if (query !== nextQuery || nextProps.page !== this.props.page) {
       const { dispatchRequestSearchResult, page } = nextProps;
 
       if (!this.isFetched(nextQuery, page)) {
@@ -148,45 +153,52 @@ export class SearchResult extends React.Component<Props, State> {
           'SceneWrapper_WithSearchBar',
         )}
       >
-        <HelmetWithTitle titleName={!!query ? `'${query}' 검색 결과` : null} />
-        <h1 className="a11y">{'\''}<strong>{query}</strong>{'\'에 대한 검색 결과'}</h1>
-        {(
-          !this.isFetched(query, page) || isNaN(page)
-        ) ? 
+        <HelmetWithTitle titleName={query ? `'${query}' 검색 결과` : null} />
+        <h1 className="a11y">
+          '<strong>{query}</strong>
+          '에 대한 검색 결과
+        </h1>
+        {!this.isFetched(query, page) || isNaN(page) ? (
           <LandscapeBookListSkeleton />
-          : (this.isListExist(searchResultData[query].itemListByPage[page].itemList) ? (
-            <>
-              {type === 'books' ? (
-                <>
-                  <p className="PageSearchResult_Title">
-                    {'\''}<strong>{query}</strong>{'\'에 대한 도서 검색 결과'}
-                  </p>
-                  <ConnectedSearchResultBookList
-                    keyword={query}
-                    books={searchResult.books[query].itemListByPage[page].itemList.map((item): SearchResultBook => ({
+        ) : this.isListExist(searchResultData[query].itemListByPage[page].itemList) ? (
+          <>
+            {type === 'books' ? (
+              <>
+                <p className="PageSearchResult_Title">
+                  '<strong>{query}</strong>
+                  '에 대한 도서 검색 결과
+                </p>
+                <ConnectedSearchResultBookList
+                  keyword={query}
+                  books={searchResult.books[query].itemListByPage[page].itemList.map(
+                    (item): SearchResultBook => ({
                       ...books[item.bookId].book!,
                       highlight: item.highlight,
                       publisher: item.publisher,
-                    }))}
-                  />
-                </>
-              ) : (
-                <>
-                  <p className="PageSearchResult_Title">
-                    {'\''}<strong>{query}</strong>{'\' 아티클 검색 결과'}
-                  </p>
-                  <SearchResultArticleList
-                    keyword={query}
-                    articles={searchResult.articles[query].itemListByPage[page].itemList.map((item): SearchResultArticle => ({
+                    }),
+                  )}
+                />
+              </>
+            ) : (
+              <>
+                <p className="PageSearchResult_Title">
+                  '<strong>{query}</strong>' 아티클 검색 결과
+                </p>
+                <SearchResultArticleList
+                  keyword={query}
+                  articles={searchResult.articles[query].itemListByPage[page].itemList.map(
+                    (item): SearchResultArticle => ({
                       ...articles[item.contentKey].article!,
                       highlight: item.highlight,
-                    }))}
-                  />
-                </>
-              )}
-              {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
-                {
-                  (isMobile) => <Pagination
+                    }),
+                  )}
+                />
+              </>
+            )}
+            {!isNaN(itemCount) && itemCount > 0 && (
+              <MediaQuery maxWidth={MAX_WIDTH}>
+                {isMobile => (
+                  <Pagination
                     currentPage={page}
                     totalPages={Math.ceil(itemCount / itemCountPerPage)}
                     isMobile={isMobile}
@@ -197,28 +209,26 @@ export class SearchResult extends React.Component<Props, State> {
                       }),
                     }}
                   />
-                }
-              </MediaQuery>}
-            </>) : this.renderEmpty()
-          )}
-        {
-          !environment.platform.isRidibooks &&
-          type === 'books' &&
+                )}
+              </MediaQuery>
+            )}
+          </>
+        ) : (
+          this.renderEmpty()
+        )}
+        {!environment.platform.isRidibooks && type === 'books' && (
           <Button
             color="blue"
-            outline={true}
+            outline
             component="a"
             href={`${environment.STORE_URL}/search?q=${encodeURIComponent(query)}`}
             className="PageSearchResult_RidibooksResult"
             size="large"
           >
             리디북스 검색 결과 보기
-            <Icon
-              name="arrow_5_right"
-              className="PageSearchResult_RidibooksResultIcon"
-            />
+            <Icon name="arrow_5_right" className="PageSearchResult_RidibooksResultIcon" />
           </Button>
-        }
+        )}
       </main>
     );
   }
@@ -237,7 +247,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(SearchResultActions.queryKeywordRequest({ keyword, page, type })),
   dispatchUpdateGNBSearchActiveType: (type: GNBSearchActiveType) =>
     dispatch(CommonUIActions.updateSearchActiveType({ gnbSearchActiveType: type })),
-  dispatchUpdateGNBTabExpose: (isGnbTab: boolean) => dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
+  dispatchUpdateGNBTabExpose: (isGnbTab: boolean) =>
+    dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
 });
 export const ConnectedSearchResult = withRouter(
   connect(mapStateToProps, mapDispatchToProps)(SearchResult),

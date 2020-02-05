@@ -1,13 +1,17 @@
 import React from 'react';
 
-import { ChartBookListSkeleton, InlineHorizontalBookListSkeleton, SpotlightBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
+import {
+  ChartBookListSkeleton,
+  InlineHorizontalBookListSkeleton,
+  SpotlightBookListSkeleton,
+} from 'app/placeholder/BookListPlaceholder';
 import { CollectionType } from 'app/services/home';
 
 interface HomeSectionPlaceholderProps {
   type?: CollectionType;
 }
 
-export const HomeSectionPlaceholder: React.SFC<HomeSectionPlaceholderProps> = (props) => {
+export const HomeSectionPlaceholder: React.SFC<HomeSectionPlaceholderProps> = props => {
   if (props.type && props.type === CollectionType.CHART) {
     return (
       <div className="HomeSection_Skeleton HomeSection_Chart_Skeleton">
@@ -15,7 +19,8 @@ export const HomeSectionPlaceholder: React.SFC<HomeSectionPlaceholderProps> = (p
         <ChartBookListSkeleton />
       </div>
     );
-  } else if (props.type && props.type === CollectionType.SPOTLIGHT) {
+  }
+  if (props.type && props.type === CollectionType.SPOTLIGHT) {
     return (
       <div className="HomeSection_Spotlight_Skeleton HomeSection_Spotlight">
         <div className="HomeSection_Spotlight_Contents">

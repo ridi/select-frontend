@@ -15,7 +15,7 @@ interface ExpandableBookListProps {
   books?: Book[];
 }
 
-export const ExpandableBookList: React.FunctionComponent<ExpandableBookListProps> = (props) =>  {
+export const ExpandableBookList: React.FunctionComponent<ExpandableBookListProps> = props => {
   const [isExpanded, setIsExpanded] = React.useState(false);
   const { className, listTitle, uiPartTitleForTracking, books, pageTitleForTracking } = props;
 
@@ -29,10 +29,10 @@ export const ExpandableBookList: React.FunctionComponent<ExpandableBookListProps
     >
       <h2 className="ExpandableBookList_Title">{listTitle}</h2>
       <MediaQuery maxWidth={MAX_WIDTH}>
-        {(isMobile) => (
+        {isMobile => (
           <>
             <ConnectedInlineHorizontalBookList
-              books={(isExpanded || isMobile) ? books : books.slice(0, 6)}
+              books={isExpanded || isMobile ? books : books.slice(0, 6)}
               serviceTitleForTracking="select-book"
               uiPartTitleForTracking={uiPartTitleForTracking}
               disableInlineOnPC={isExpanded}
@@ -41,7 +41,7 @@ export const ExpandableBookList: React.FunctionComponent<ExpandableBookListProps
               bookThumbnailSize={isMobile ? 110 : 120}
               pageTitleForTracking={pageTitleForTracking}
             />
-            {(books.length > 6 && !isMobile && !isExpanded) && (
+            {books.length > 6 && !isMobile && !isExpanded && (
               <div className="ExpandableBookList_ExpandButton_Wrapper">
                 <Expander
                   onClick={() => setIsExpanded(!isExpanded)}
@@ -53,7 +53,6 @@ export const ExpandableBookList: React.FunctionComponent<ExpandableBookListProps
           </>
         )}
       </MediaQuery>
-
     </section>
   ) : null;
 };

@@ -10,30 +10,17 @@ interface BookDetailPanelWrapperProps {
   renderCondition?: boolean;
 }
 
-export const BookDetailPanelWrapper: React.FunctionComponent<BookDetailPanelWrapperProps> = (props) => {
-  const {
-    className,
-    renderCondition = true,
-    children,
-  } = props;
+export const BookDetailPanelWrapper: React.FunctionComponent<BookDetailPanelWrapperProps> = props => {
+  const { className, renderCondition = true, children } = props;
 
   if (!children) {
     return null;
   }
 
   return renderCondition ? (
-    <section
-      className={classNames(
-        'PageBookDetail_Panel',
-        className,
-      )}
-    >
-      {children}
-    </section>
+    <section className={classNames('PageBookDetail_Panel', className)}>{children}</section>
   ) : (
-    <>
-      {children}
-    </>
+    <>{children}</>
   );
 };
 
@@ -45,7 +32,7 @@ interface BookDetailPanelProps {
   useSkeleton?: boolean;
 }
 
-export const BookDetailPanel: React.FunctionComponent<BookDetailPanelProps> = (props) => {
+export const BookDetailPanel: React.FunctionComponent<BookDetailPanelProps> = props => {
   const {
     title,
     children,
@@ -64,18 +51,20 @@ export const BookDetailPanel: React.FunctionComponent<BookDetailPanelProps> = (p
             lines={9}
             text={`${imageUrl ? `<img src="${imageUrl}" /><br /><br />` : ''}${children}`}
             lineHeight={isMobile ? 23 : 25}
-            renderExpander={(({ expand, isExpanded, isTruncated }) => !isTruncated || isExpanded ? null : (
-              <div className="BookDetail_ContentTruncWrapper">
-                <Expander
-                  onClick={expand}
-                  text="계속 읽기"
-                  isExpanded={false}
-                />
-              </div>
-            ))}
+            renderExpander={({ expand, isExpanded, isTruncated }) =>
+              !isTruncated || isExpanded ? null : (
+                <div className="BookDetail_ContentTruncWrapper">
+                  <Expander onClick={expand} text="계속 읽기" isExpanded={false} />
+                </div>
+              )
+            }
           />
-        ) : children}
+        ) : (
+          children
+        )}
       </div>
     </BookDetailPanelWrapper>
-  ) : (useSkeleton ? <BookDetailSectionPlaceholder /> : null);
+  ) : useSkeleton ? (
+    <BookDetailSectionPlaceholder />
+  ) : null;
 };

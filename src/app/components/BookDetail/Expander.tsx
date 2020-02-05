@@ -8,7 +8,7 @@ interface Props {
   onClick: (e: React.SyntheticEvent<any>) => void;
 }
 
-export const Expander: React.SFC<Props> = (props) => {
+export const Expander: React.SFC<Props> = props => {
   const { isExpanded, text, onClick } = props;
   return (
     <button onClick={onClick} className="BookDetail_ContentTruncButton">

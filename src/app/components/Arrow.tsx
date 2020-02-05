@@ -20,7 +20,7 @@ const ArrowV = (props: any) => (
   </svg>
 );
 
-const Arrow: React.FunctionComponent<ArrowProps> = (props) => {
+const Arrow: React.FunctionComponent<ArrowProps> = props => {
   const { arrowTransition, side, arrowClass, arrowGradient, onClickHandler } = props;
   const handleClick = (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,15 +28,19 @@ const Arrow: React.FunctionComponent<ArrowProps> = (props) => {
   };
   return (
     <>
-      <div className={classNames('ArrowButtonGradient', arrowGradient, arrowTransition ? arrowTransition : '')} />
+      <div className={classNames('ArrowButtonGradient', arrowGradient, arrowTransition || '')} />
       <MediaQuery minWidth={900}>
         <button
           type="button"
           onClick={handleClick}
-          className={classNames('SlideArrowButton', arrowClass, arrowTransition ? arrowTransition : '')}
+          className={classNames('SlideArrowButton', arrowClass, arrowTransition || '')}
         >
-          <ArrowV className={classNames(side === 'left' ? 'SlideArrowButtonIcon_Left' : 'SlideArrowButtonIcon_Right')} />
-          <span className={'a11y'}>{props.label}</span>
+          <ArrowV
+            className={classNames(
+              side === 'left' ? 'SlideArrowButtonIcon_Left' : 'SlideArrowButtonIcon_Right',
+            )}
+          />
+          <span className="a11y">{props.label}</span>
         </button>
       </MediaQuery>
     </>

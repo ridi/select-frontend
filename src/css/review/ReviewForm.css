@@ -19,7 +19,6 @@
   }
 }
 
-
 .ReviewForm_MainButtonList {
   @apply --reset-list;
 
@@ -84,4 +83,3 @@
     fill: #40474d;
   }
 }
-

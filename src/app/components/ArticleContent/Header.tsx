@@ -6,8 +6,10 @@ import { RidiSelectState } from 'app/store';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-export const ArticleContentHeader: React.FunctionComponent<{ contentKey: string }> = (props) => {
-  const articleState = useSelector((state: RidiSelectState) => state.articlesById[props.contentKey]);
+export const ArticleContentHeader: React.FunctionComponent<{ contentKey: string }> = props => {
+  const articleState = useSelector(
+    (state: RidiSelectState) => state.articlesById[props.contentKey],
+  );
   const isInApp = useSelector((state: RidiSelectState) => selectIsInApp(state));
 
   if (!articleState || !articleState.article) {

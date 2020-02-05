@@ -1,13 +1,16 @@
 // tslint:disable-next-line
-const Vibrant = require('node-vibrant');
-
 import React from 'react';
 import { connect } from 'react-redux';
 
 import { Palette as VibrantPalette } from 'node-vibrant/lib/color';
 
 import { Actions as BookActions, BookThumbnailUrlMap, BookTitle } from 'app/services/book';
-import { Actions as CommonUIActions, GNB_DEFAULT_COLOR, GNBColorLevel, RGB } from 'app/services/commonUI';
+import {
+  Actions as CommonUIActions,
+  GNB_DEFAULT_COLOR,
+  GNBColorLevel,
+  RGB,
+} from 'app/services/commonUI';
 
 import { ConnectedBookDetailOverlays } from 'app/components/BookDetail/Overlays';
 import {
@@ -19,6 +22,8 @@ import {
 import { RidiSelectState } from 'app/store';
 import { withThumbnailQuery } from 'app/utils/withThumbnailQuery';
 import { FetchStatusFlag } from 'app/constants';
+
+const Vibrant = require('node-vibrant');
 
 interface BookDetailHeaderPorps {
   bookId: number;
@@ -36,9 +41,11 @@ interface BookDetailHeaderStatePorps {
   transparentBackgroundColorRGBString: string;
 }
 
-type Props = ReturnType<typeof mapDispatchToProps> & BookDetailHeaderPorps & BookDetailHeaderStatePorps;
+type Props = ReturnType<typeof mapDispatchToProps> &
+  BookDetailHeaderPorps &
+  BookDetailHeaderStatePorps;
 
-const BookDetailHeader: React.FunctionComponent<Props> = (props) => {
+const BookDetailHeader: React.FunctionComponent<Props> = props => {
   const {
     bookId,
     title,
@@ -66,15 +73,11 @@ const BookDetailHeader: React.FunctionComponent<Props> = (props) => {
         const image = new Image();
         image.crossOrigin = 'anonymous';
         image.src = withThumbnailQuery(thumbnail.large!);
-        Vibrant
-          .from(image)
+        Vibrant.from(image)
           .getPalette()
           .then((palette: VibrantPalette) => {
             const rgb =
-              palette.DarkVibrant ||
-              palette.Vibrant ||
-              palette.LightMuted ||
-              GNB_DEFAULT_COLOR;
+              palette.DarkVibrant || palette.Vibrant || palette.LightMuted || GNB_DEFAULT_COLOR;
             dispatchUpdateGNBColor(rgb);
             dispatchUpdateDominantColor(bookId, rgb);
           });
@@ -99,9 +102,7 @@ const BookDetailHeader: React.FunctionComponent<Props> = (props) => {
       <span
         className="PageBookDetail_HeaderBackground"
         style={{
-          backgroundImage: `url(${
-            thumbnail ? `${thumbnail.xxlarge}?dpi=xxhdpi` : ''
-          })`,
+          backgroundImage: `url(${thumbnail ? `${thumbnail.xxlarge}?dpi=xxhdpi` : ''})`,
         }}
       >
         <span
@@ -144,8 +145,11 @@ const BookDetailHeader: React.FunctionComponent<Props> = (props) => {
   );
 };
 
-const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailHeaderPorps): BookDetailHeaderStatePorps => {
-  const bookId = ownProps.bookId;
+const mapStateToProps = (
+  state: RidiSelectState,
+  ownProps: BookDetailHeaderPorps,
+): BookDetailHeaderStatePorps => {
+  const { bookId } = ownProps;
   const stateExists = !!state.booksById[bookId];
   const bookState = state.booksById[bookId];
   const book = stateExists ? bookState.book : undefined;
@@ -159,16 +163,20 @@ const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailHeaderPorps
     backgroundColorGradientToLeft: getBackgroundColorGradientToLeft(state),
     backgroundColorGradientToRight: getBackgroundColorGradientToRight(state),
     // Data that can be pre-fetched in home
-    title: !!bookDetail ? bookDetail.title : !!book ? book.title : undefined,
-    thumbnail: !!bookDetail ? bookDetail.thumbnail : !!book ? book.thumbnail : undefined,
+    title: bookDetail ? bookDetail.title : book ? book.title : undefined,
+    thumbnail: bookDetail ? bookDetail.thumbnail : book ? book.thumbnail : undefined,
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => ({
-  dispatchUpdateGNBTabExpose: (isGnbTab: boolean) => dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
+  dispatchUpdateGNBTabExpose: (isGnbTab: boolean) =>
+    dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
   dispatchUpdateGNBColor: (color: RGB) => dispatch(CommonUIActions.updateGNBColor({ color })),
   dispatchUpdateDominantColor: (bookId: number, color: RGB) =>
     dispatch(BookActions.updateDominantColor({ bookId, color })),
 });
 
-export const ConnectedBookDetailHeader = connect(mapStateToProps, mapDispatchToProps)(BookDetailHeader);
+export const ConnectedBookDetailHeader = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(BookDetailHeader);

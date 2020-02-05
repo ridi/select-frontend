@@ -14,7 +14,7 @@ interface OrderHistoryListAmountInfoProps {
   payment: Ticket;
 }
 
-export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryListAmountInfoProps> = (props) => {
+export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryListAmountInfoProps> = props => {
   const { payment } = props;
   const {
     id,
@@ -47,43 +47,49 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
     const comfirmMessageBlocks = [];
 
     if (subscriptionState && subscriptionState.isSubscribedWithOldPrice) {
-      comfirmMessageBlocks.push(`결제 금액이 인상되어 결제 취소 이후\n월 ${subscriptionState.formattedNewMonthlyPayPrice}이 적용됩니다.`);
+      comfirmMessageBlocks.push(
+        `결제 금액이 인상되어 결제 취소 이후\n월 ${subscriptionState.formattedNewMonthlyPayPrice}이 적용됩니다.`,
+      );
     }
     if (ticketIdsToBeCanceledWith.length > 0) {
-      comfirmMessageBlocks.push(`${comfirmMessageBlocks.length > 0 ? '\n' : ''}미사용된 이용권이 함께 취소되며 이용권은 유효기간 내에 다시 등록 가능합니다.`);
+      comfirmMessageBlocks.push(
+        `${
+          comfirmMessageBlocks.length > 0 ? '\n' : ''
+        }미사용된 이용권이 함께 취소되며 이용권은 유효기간 내에 다시 등록 가능합니다.`,
+      );
     }
     if (comfirmMessageBlocks.length <= 0) {
       comfirmMessageBlocks.push('결제를 취소할 경우 즉시 이용할 수 없습니다.');
     }
 
     if (confirm(`결제를 취소하시겠습니까?\n${comfirmMessageBlocks.join('\n')}`)) {
-      dispatch(Actions.cancelPurchaseRequest({ purchaseId: id }))
+      dispatch(Actions.cancelPurchaseRequest({ purchaseId: id }));
     }
-  }
+  };
 
   const handleCandleCashReceiptButtonClick = () => {
     if (orderHistory.isCashReceiptIssueFetching) {
       return;
     }
-    dispatch(Actions.cashReceiptIssueRequest({
-      ticketId: id,
-      method: 'DELETE',
-    }));
-  }
+    dispatch(
+      Actions.cashReceiptIssueRequest({
+        ticketId: id,
+        method: 'DELETE',
+      }),
+    );
+  };
 
   return (
     <>
       <p className="Ordered_Amount">
-        {isFreePromotion
-          ? '무료'
-          : voucherCode ? '' : formattedPrice}
+        {isFreePromotion ? '무료' : voucherCode ? '' : formattedPrice}
       </p>
       <div className="OrderHistoryButtons">
         {isCancellable ? (
           <Button
             className="CancelOrderButton"
             color="gray"
-            outline={true}
+            outline
             onClick={handleCancelPurchaseButtonClick}
             size="medium"
           >
@@ -95,17 +101,18 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
             <Button
               className="CashReceiptCancel_Button"
               color="gray"
-              outline={true}
+              outline
               size="medium"
               onClick={handleCandleCashReceiptButtonClick}
             >
               발급 취소
-            </Button><br/>
+            </Button>
+            <br />
             <Button
               className="CashReceiptPrint_Button"
               component="a"
               color="gray"
-              outline={true}
+              outline
               size="medium"
               href={cashReceiptUrl}
               target="_blank"
@@ -118,7 +125,7 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
           <Button
             className="CashReceiptIssue_Button"
             color="gray"
-            outline={true}
+            outline
             onClick={() => setCashReceiptIssuePopupActive(true)}
             size="medium"
           >
@@ -128,12 +135,9 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
       </div>
       {cashReceiptIssuePopupActive ? (
         <div css={styles.cashReceiptIssueModalColumn}>
-          <CashReceiptIssueModal
-            id={id}
-            closeModal={() => setCashReceiptIssuePopupActive(false)}
-          />
+          <CashReceiptIssueModal id={id} closeModal={() => setCashReceiptIssuePopupActive(false)} />
         </div>
       ) : null}
     </>
   );
-}
+};

@@ -3,11 +3,8 @@ import fetch from 'node-fetch';
 import { override, OpenGraph } from './utils/override';
 import { ellipsisDescription } from './utils/descriptions';
 
-const getThumbnailUrl = (thumbnails: {
-  small?: string,
-  large?: string,
-  xxlarge?: string,
-}) => thumbnails.xxlarge || thumbnails.large || thumbnails.small || '';
+const getThumbnailUrl = (thumbnails: { small?: string; large?: string; xxlarge?: string }) =>
+  thumbnails.xxlarge || thumbnails.large || thumbnails.small || '';
 
 const getBookApiUrl = (bookId: string, paths = '') =>
   `https://book-api.ridibooks.com/books/${bookId}${paths}`;

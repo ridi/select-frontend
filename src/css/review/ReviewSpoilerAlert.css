@@ -9,7 +9,8 @@
 .Review_Alert_Article {
   background: var(--slategray_5);
   border-radius: 3px;
-  padding: 27px 0; text-align: center;
+  padding: 27px 0;
+  text-align: center;
 }
 
 .Review_Alert_Description {

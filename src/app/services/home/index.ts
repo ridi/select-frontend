@@ -6,13 +6,13 @@ import { HomeResponse } from './requests';
 export const Actions = {
   loadHomeRequest: createAction('loadHomeRequest'),
   loadHomeSuccess: createAction<{
-    response: HomeResponse,
-    fetchedAt: number,
-    isIosInApp: boolean,
+    response: HomeResponse;
+    fetchedAt: number;
+    isIosInApp: boolean;
   }>('loadHomeSuccess'),
   loadHomeFailure: createAction('loadHomeFailure'),
   updateBannerIndex: createAction<{
-    currentIdx: number,
+    currentIdx: number;
   }>('updateBannerIndex'),
 };
 
@@ -59,9 +59,9 @@ homeReducer.on(Actions.loadHomeSuccess, (state, action) => {
     ...state,
     fetchedAt,
     bigBannerList: isIosInApp
-      ? response.banners.filter((banner) => isRidiselectUrl(banner.linkUrl))
+      ? response.banners.filter(banner => isRidiselectUrl(banner.linkUrl))
       : response.banners,
-    collectionIdList: response.collections.map((collection) => collection.collectionId),
+    collectionIdList: response.collections.map(collection => collection.collectionId),
     fetchStatus: FetchStatusFlag.IDLE,
   };
 });
@@ -75,6 +75,6 @@ homeReducer.on(Actions.updateBannerIndex, (state, action) => {
   const { currentIdx } = action;
   return {
     ...state,
-    currentIdx, 
+    currentIdx,
   };
 });

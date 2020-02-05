@@ -1,5 +1,6 @@
 .PageError {
-  font-family: Helvetica Neue, Apple SD Gothic Neo, arial, '나눔고딕', Nanum Gothic, '돋움', Dotum, Tahoma, Geneva, sans-serif;
+  font-family: Helvetica Neue, Apple SD Gothic Neo, arial, '나눔고딕', Nanum Gothic, '돋움', Dotum,
+    Tahoma, Geneva, sans-serif;
   text-align: center;
   margin: 0;
   padding: 100px 0;
@@ -19,7 +20,7 @@
   margin: 15px 0 20px;
   font-size: 16px;
   line-height: 1.6em;
-  color: #525A61;
+  color: #525a61;
 }
 .Error_ButtonWrapper {
   margin-top: 30px;
@@ -36,7 +37,7 @@
   font-weight: 700;
   text-align: center;
   cursor: pointer;
-  transition: background .2s,color .2s;
+  transition: background 0.2s, color 0.2s;
   outline: 0;
   box-sizing: border-box;
   border-radius: 4px;
@@ -45,11 +46,11 @@
   color: #808991;
   background: #fff;
   border: 1px solid #d1d5d9;
-  box-shadow: 0 1px 1px 0 rgba(209,213,217,.3);
+  box-shadow: 0 1px 1px 0 rgba(209, 213, 217, 0.3);
 }
 .GrayButton {
-  color: #FFFFFF;
+  color: #ffffff;
   background: #808991;
   border: 1px solid #798086;
-  box-shadow: 0 1px 1px 0 rgba(209,213,217,.3);
+  box-shadow: 0 1px 1px 0 rgba(209, 213, 217, 0.3);
 }

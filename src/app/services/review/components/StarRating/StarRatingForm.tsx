@@ -63,19 +63,24 @@ export class StarRatingForm extends React.Component<StarRatingFormProps, StarRat
 
     return (
       <div className="StarRatingForm">
-        {ratingFetchStatus === FetchStatusFlag.FETCHING && <div className="StarRatingForm_Spinner" />}
+        {ratingFetchStatus === FetchStatusFlag.FETCHING && (
+          <div className="StarRatingForm_Spinner" />
+        )}
         <div className="StarRatingForm_Row">
-          {hoveredRating !== 0 || !selectedRating ?
+          {hoveredRating !== 0 || !selectedRating ? (
             <StarRatingTooltip
               rating={hoveredRating}
-              isRatingCancelable={isRatingCancelable && !!selectedRating && selectedRating === hoveredRating}
-            /> :
+              isRatingCancelable={
+                isRatingCancelable && !!selectedRating && selectedRating === hoveredRating
+              }
+            />
+          ) : (
             <MyStarRatingStatus
               rating={selectedRating}
               onCancel={() => onCancel(bookId)}
               isRatingCancelable={isRatingCancelable}
             />
-          }
+          )}
         </div>
         <div className="StarRatingForm_Row">
           <StarRatingInput

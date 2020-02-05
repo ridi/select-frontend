@@ -5,24 +5,16 @@ import MediaQuery from 'react-responsive';
 
 export type ReviewListTabProps = ScopedTabProps;
 
-export const ReviewListTab: React.SFC<ReviewListTabProps> = (props) => {
+export const ReviewListTab: React.SFC<ReviewListTabProps> = props => {
   const { tabList, selectedTabName, onClick } = props;
 
   return (
     <>
       <MediaQuery maxWidth={MAX_WIDTH}>
-        <ScopedTab
-          tabList={tabList}
-          selectedTabName={selectedTabName}
-          onClick={onClick}
-        />
+        <ScopedTab tabList={tabList} selectedTabName={selectedTabName} onClick={onClick} />
       </MediaQuery>
       <MediaQuery minWidth={MIN_WIDTH}>
-        <RSGTab
-          tabList={tabList}
-          selectedTabName={selectedTabName}
-          onClick={onClick}
-        />
+        <RSGTab tabList={tabList} selectedTabName={selectedTabName} onClick={onClick} />
       </MediaQuery>
     </>
   );

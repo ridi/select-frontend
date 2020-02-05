@@ -1,6 +1,7 @@
 import { createAction, createReducer } from 'redux-act';
 
-export const isDefaultColor = (color: RGB) => color.r === GNB_DEFAULT_COLOR.r &&
+export const isDefaultColor = (color: RGB) =>
+  color.r === GNB_DEFAULT_COLOR.r &&
   color.g === GNB_DEFAULT_COLOR.g &&
   color.b === GNB_DEFAULT_COLOR.b;
 
@@ -8,19 +9,19 @@ export const toRGBString = (rgb: RGB): string => `rgb(${rgb.r},${rgb.g},${rgb.b}
 
 export const Actions = {
   updateGNBColor: createAction<{
-    color: RGB,
+    color: RGB;
   }>('updateGNBColor'),
   updateSearchActiveType: createAction<{
-    gnbSearchActiveType: GNBSearchActiveType,
+    gnbSearchActiveType: GNBSearchActiveType;
   }>('updateSearchActiveType'),
   updateGNBTransparent: createAction<{
-    transparentType: GNBTransparentType,
+    transparentType: GNBTransparentType;
   }>('updateGNBTransparent'),
   updateFooterTheme: createAction<{
-    theme: FooterTheme,
+    theme: FooterTheme;
   }>('updateFooterTheme'),
   updateGNBTabExpose: createAction<{
-    isGnbTab: boolean,
+    isGnbTab: boolean;
   }>('updateGNBTabExpose'),
 };
 
@@ -93,8 +94,8 @@ commonUIReducer.on(Actions.updateGNBColor, (state, action) => {
     gnbColorLevel: isDefaultColor(color)
       ? GNBColorLevel.DEFAULT
       : color.r === GNB_DEFAULT_COLOR.r && redCalc + greenCalc + blueCalc > 186
-        ? GNBColorLevel.BRIGHT
-        : GNBColorLevel.DARK,
+      ? GNBColorLevel.BRIGHT
+      : GNBColorLevel.DARK,
   };
 });
 

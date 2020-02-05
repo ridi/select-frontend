@@ -26,13 +26,16 @@ export interface ReviewListHeaderProps {
 }
 
 export type ReviewListHeaderStateProps = Pick<
-ReviewListHeaderProps,
-'currentUserFilterType' | 'currentSortBy' | 'summary' | 'sortingCriteriaList'
+  ReviewListHeaderProps,
+  'currentUserFilterType' | 'currentSortBy' | 'summary' | 'sortingCriteriaList'
 >;
 
 function mapStateToProps(
   state: RidiSelectState,
-  ownProps: Omit<ReviewListHeaderProps, keyof ReviewListHeaderStateProps | keyof ReviewListHeaderDispatchProps>,
+  ownProps: Omit<
+    ReviewListHeaderProps,
+    keyof ReviewListHeaderStateProps | keyof ReviewListHeaderDispatchProps
+  >,
 ): ReviewListHeaderStateProps {
   return {
     currentUserFilterType: getReviewUserFilterType(state, ownProps),
@@ -43,20 +46,20 @@ function mapStateToProps(
 }
 
 export type ReviewListHeaderDispatchProps = Pick<
-ReviewListHeaderProps,
-'changeTab' | 'changeOrder'
+  ReviewListHeaderProps,
+  'changeTab' | 'changeOrder'
 >;
 
-function mapDispatchToProps(
-  dispatch: Dispatch<RidiSelectState>,
-): ReviewListHeaderDispatchProps {
+function mapDispatchToProps(dispatch: Dispatch<RidiSelectState>): ReviewListHeaderDispatchProps {
   return {
-    changeTab: (bookId: number, tabName: UserFilterType) => dispatch(changeUserFilterTab(bookId, tabName)),
-    changeOrder: (bookId: number, sortByName: ReviewSortingCriteria) => dispatch(changeSortBy(bookId, sortByName)),
+    changeTab: (bookId: number, tabName: UserFilterType) =>
+      dispatch(changeUserFilterTab(bookId, tabName)),
+    changeOrder: (bookId: number, sortByName: ReviewSortingCriteria) =>
+      dispatch(changeSortBy(bookId, sortByName)),
   };
 }
 
-export const ReviewListHeader: React.SFC<ReviewListHeaderProps> = (props) => {
+export const ReviewListHeader: React.SFC<ReviewListHeaderProps> = props => {
   const {
     bookId,
     currentUserFilterType,
@@ -65,23 +68,23 @@ export const ReviewListHeader: React.SFC<ReviewListHeaderProps> = (props) => {
     changeTab,
     sortingCriteriaList,
   } = props;
-  const {
-    buyerReviewCount,
-    totalReviewCount,
-  } = props.summary;
+  const { buyerReviewCount, totalReviewCount } = props.summary;
 
   return (
     <div className="ReviewListHeader">
       <ReviewListTab
-        tabList={[{
-          name: UserFilterType.buyer,
-          displayName: '구매자',
-          count: buyerReviewCount,
-        }, {
-          name: UserFilterType.total,
-          displayName: '전체',
-          count: totalReviewCount,
-        }]}
+        tabList={[
+          {
+            name: UserFilterType.buyer,
+            displayName: '구매자',
+            count: buyerReviewCount,
+          },
+          {
+            name: UserFilterType.total,
+            displayName: '전체',
+            count: totalReviewCount,
+          },
+        ]}
         selectedTabName={currentUserFilterType}
         onClick={(tabName: UserFilterType) => changeTab(bookId, tabName)}
       />
@@ -94,5 +97,7 @@ export const ReviewListHeader: React.SFC<ReviewListHeaderProps> = (props) => {
   );
 };
 
-export const ConnectedReviewListHeader =
-  connect(mapStateToProps, mapDispatchToProps)(ReviewListHeader);
+export const ConnectedReviewListHeader = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ReviewListHeader);

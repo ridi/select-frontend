@@ -18,7 +18,7 @@ interface SlideChannelListProps {
   channels: ArticleChannel[];
 }
 
-export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = (props) => {
+export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = props => {
   const ref = React.useRef<HTMLUListElement>(null);
   const [moveLeft, moveRight, isOnTheLeft, isOnTheRight] = useScrollSlider(ref, true);
 
@@ -29,7 +29,7 @@ export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = 
     const method: Method = 'DELETE';
     const toastButton = {
       callback: () => {
-        dispatch(Actions.loadUnFollowChannelRequest({channelId, channelName, method}));
+        dispatch(Actions.loadUnFollowChannelRequest({ channelId, channelName, method }));
       },
       label: '팔로잉 취소',
     };
@@ -42,72 +42,73 @@ export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = 
   };
 
   const trackingClick = (index: number, id: string) => {
-    if (!section) { return; }
+    if (!section) {
+      return;
+    }
 
     const trackingParams: DefaultTrackingParams = {
       section,
       index,
       id,
     };
-    dispatch(TrackingActions.trackClick({trackingParams}));
+    dispatch(TrackingActions.trackClick({ trackingParams }));
   };
 
   return (
     <section className="FollowingChannel_ListWrap">
       <ul className="FollowingChannel_List scrollBarHidden" ref={ref}>
-        {
-          channels.map((channel, idx) => (
-            <li key={idx} className="FollowingChannel_Item">
-              <ConnectedTrackImpression
-                section={section}
-                index={idx}
-                id={`ch:${channel.id}`}
-              >
-                <div className="FollowingChannel_Item_InnerWrapper">
-                  { channel.isEnabled ?
-                    <>
-                      <ArticleChannelThumbnail
-                        imageUrl={channel.thumbnailUrl}
-                        channelName={channel.displayName}
-                        linkUrl={articleChannelToPath({channelName: channel.name})}
-                        onLinkClick={() => trackingClick(idx, `ch:${channel.id}`)}
+        {channels.map((channel, idx) => (
+          <li key={idx} className="FollowingChannel_Item">
+            <ConnectedTrackImpression section={section} index={idx} id={`ch:${channel.id}`}>
+              <div className="FollowingChannel_Item_InnerWrapper">
+                {channel.isEnabled ? (
+                  <>
+                    <ArticleChannelThumbnail
+                      imageUrl={channel.thumbnailUrl}
+                      channelName={channel.displayName}
+                      linkUrl={articleChannelToPath({ channelName: channel.name })}
+                      onLinkClick={() => trackingClick(idx, `ch:${channel.id}`)}
+                    />
+                    <Link
+                      to={articleChannelToPath({ channelName: channel.name })}
+                      className="FollowingChannel_Item_Link"
+                      onClick={() => trackingClick(idx, `ch:${channel.id}`)}
+                    >
+                      {channel.displayName}
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      className="ArticleFollowing_BlockButton"
+                      onClick={() => handleBlockChannelClick(channel.id, channel.name)}
+                    >
+                      <BlockIconComponent
+                        width={24}
+                        height={24}
+                        className="ArticleFollowing_BlockIcon"
                       />
-                      <Link
-                        to={articleChannelToPath({channelName: channel.name})}
-                        className="FollowingChannel_Item_Link"
-                        onClick={() => trackingClick(idx, `ch:${channel.id}`)}
-                      >
-                        {channel.displayName}
-                      </Link>
-                    </> :
-                    <>
-                      <button
-                        type="button"
-                        className="ArticleFollowing_BlockButton"
-                        onClick={() => handleBlockChannelClick(channel.id, channel.name)}
-                      >
-                        <BlockIconComponent width={24} height={24} className={'ArticleFollowing_BlockIcon'} />
-                      </button>
-                      <div className="FollowingChannel_Block_Title">{channel.displayName}</div>
-                    </>
-                  }
-                </div>
-              </ConnectedTrackImpression>
-            </li>
-          ))
-        }
+                    </button>
+                    <div className="FollowingChannel_Block_Title">{channel.displayName}</div>
+                  </>
+                )}
+              </div>
+            </ConnectedTrackImpression>
+          </li>
+        ))}
       </ul>
       <Arrow
-        label={'이전'}
-        side={'left'}
+        label="이전"
+        side="left"
         onClickHandler={moveLeft}
         arrowClass="SlideArrowButton_Left"
         arrowGradient="ArrowButtonGradient_Left"
         arrowTransition={!isOnTheLeft && 'arrowTransition'}
       />
       <Arrow
-        label={'다음'}
-        side={'right'}
+        label="다음"
+        side="right"
         onClickHandler={moveRight}
         arrowClass="SlideArrowButton_Right"
         arrowGradient="ArrowButtonGradient_Right"

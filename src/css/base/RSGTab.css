@@ -12,7 +12,7 @@
   font-weight: 700;
   line-height: 36px;
   cursor: pointer;
-  transition: border-color .2s;
+  transition: border-color 0.2s;
   vertical-align: top;
   appearance: none;
   &.active {
@@ -35,7 +35,7 @@
   padding-left: 3px;
   color: #b8bfc4;
   font-weight: 500;
-  transition: color .2s;
+  transition: color 0.2s;
   @nest .active & {
     color: var(--slategray_80);
   }
@@ -51,7 +51,7 @@
     display: inline-block;
     margin: 0;
     margin-right: 13px;
-    padding: 0
+    padding: 0;
   }
 }
 

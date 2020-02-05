@@ -39,16 +39,22 @@ export const requestMySelectList = (page: number): Promise<MySelectListResponse>
       newest_first: true,
       page,
     },
-  }).then((response) => camelize<AxiosResponse<MySelectListResponse>>(response, { recursive: true }).data);
+  }).then(
+    response => camelize<AxiosResponse<MySelectListResponse>>(response, { recursive: true }).data,
+  );
 
-export const requestDeleteMySelect = (mySelectBookIds: number[]): Promise<AxiosResponse<MySelectDeleteResponse>> =>
+export const requestDeleteMySelect = (
+  mySelectBookIds: number[],
+): Promise<AxiosResponse<MySelectDeleteResponse>> =>
   request({
     url: `${env.STORE_API}/api/select/users/me/books`,
     method: 'DELETE',
     data: {
       user_select_book_ids: mySelectBookIds,
     },
-  }).then((response) => camelize<AxiosResponse<MySelectDeleteResponse>>(response, { recursive: true }));
+  }).then(response =>
+    camelize<AxiosResponse<MySelectDeleteResponse>>(response, { recursive: true }),
+  );
 
 export const requestAddMySelect = (bookId: BookId): Promise<UserRidiSelectBookResponse> =>
   request({
@@ -57,4 +63,7 @@ export const requestAddMySelect = (bookId: BookId): Promise<UserRidiSelectBookRe
     data: {
       b_id: String(bookId),
     },
-  }).then((response) => camelize<AxiosResponse<UserRidiSelectBookResponse>>(response, { recursive: true }).data);
+  }).then(
+    response =>
+      camelize<AxiosResponse<UserRidiSelectBookResponse>>(response, { recursive: true }).data,
+  );

@@ -16,13 +16,9 @@ module.exports = {
   },
   target: 'node',
   module: {
-    rules: [
-      { test: /\.tsx?$/, loader: 'babel-loader' },
-    ],
+    rules: [{ test: /\.tsx?$/, loader: 'babel-loader' }],
   },
-  externals: [
-    nodeExternals(),
-  ],
+  externals: [nodeExternals()],
   optimization: {
     minimize: false,
   },

@@ -19,20 +19,14 @@ export function fixWrongPaginationScope(response?: AxiosResponse, paramKeyName =
     return;
   }
   const pageParam = config.params[paramKeyName];
-  if (
-    (status === 404 && Number(pageParam) > 1) ||
-    Number(pageParam) < 1
-  ) {
+  if ((status === 404 && Number(pageParam) > 1) || Number(pageParam) < 1) {
     history.replace(`?${updateQueryStringParam('page', 1)}`);
   }
 }
 
 export function updateQueryStringParam(key: string, value: string | number) {
   return qs.stringify(
-    Object.assign(
-      qs.parse(location.search, { ignoreQueryPrefix: true }),
-      { [key]: value },
-    ),
+    Object.assign(qs.parse(location.search, { ignoreQueryPrefix: true }), { [key]: value }),
   );
 }
 

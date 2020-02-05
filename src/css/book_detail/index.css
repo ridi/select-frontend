@@ -59,7 +59,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  transition: background .3s;
+  transition: background 0.3s;
   z-index: 10;
 
   @media (--mobile-screen) {
@@ -116,7 +116,7 @@
 
 .PageBookDetail_Thumbnail {
   width: 150px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   @media (--pc-screen) {
     width: 200px;
   }
@@ -128,7 +128,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
   content: '';
 }
 
@@ -162,7 +162,7 @@
         height: 2px;
         background-color: #e6e8eb;
         content: '';
-        opacity: .9;
+        opacity: 0.9;
       }
     }
 
@@ -233,8 +233,8 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%!important;
-    height: 100%!important;
+    width: 100% !important;
+    height: 100% !important;
   }
 }
 
@@ -261,7 +261,7 @@
     margin: 0 6px;
     background-color: #b8bfc4;
     content: '';
-    opacity: .3;
+    opacity: 0.3;
     @media (--pc-screen) {
       @nest :not(.PageBookDetail_Header-bright) & {
         background-color: #fff;
@@ -280,7 +280,7 @@
     margin: 0 6px;
     background-color: #b8bfc4;
     content: '';
-    opacity: .3;
+    opacity: 0.3;
     @media (--pc-screen) {
       @nest :not(.PageBookDetail_Header-bright) & {
         background-color: #fff;
@@ -320,7 +320,7 @@
   height: 7px;
   margin: 0;
   margin: 0 2px;
-  opacity: .8;
+  opacity: 0.8;
   fill: #000;
   @media (--pc-screen) {
     @nest :not(.PageBookDetail_Header-bright) & {
@@ -346,7 +346,7 @@
   border: none;
   background: none;
   color: var(--slategray_90);
-  transition: opacity .2s;
+  transition: opacity 0.2s;
 
   @media (--pc-screen) {
     color: inherit;
@@ -354,12 +354,12 @@
   @media (hover: hover) {
     cursor: pointer;
     &:hover {
-      opacity: .8;
+      opacity: 0.8;
     }
   }
   @media (hover: none) {
     &:active {
-      opacity: .8;
+      opacity: 0.8;
     }
   }
 }
@@ -416,7 +416,7 @@
   height: 46px;
   color: #1f8ce6;
   font-size: 9px;
-  transition: background .2s;
+  transition: background 0.2s;
   & > .RSGIcon {
     width: 17.5px;
     height: 14px;
@@ -427,7 +427,7 @@
   @media (--pc-screen) {
     flex-direction: row;
     width: 110px;
-    border-color: rgba(255, 255, 255, .5) !important;
+    border-color: rgba(255, 255, 255, 0.5) !important;
     background-color: transparent !important;
     color: #fff !important;
     font-size: 15px;
@@ -441,12 +441,12 @@
 
   @media (hover: hover) {
     &:hover {
-      background-color: rgba(255, 255, 255, .1) !important;
+      background-color: rgba(255, 255, 255, 0.1) !important;
     }
   }
   @media (hover: none) {
     &:active {
-      background-color: rgba(255, 255, 255, .1) !important;
+      background-color: rgba(255, 255, 255, 0.1) !important;
     }
   }
 }
@@ -505,7 +505,6 @@
   }
 }
 
-
 .PageBookDetail_ThumbnailPopup {
   display: flex;
   position: fixed;
@@ -514,7 +513,7 @@
   align-items: center;
   width: 100%;
   height: 100%;
-  background-color: rgba(33, 37, 41, .8);
+  background-color: rgba(33, 37, 41, 0.8);
   z-index: 1000;
 }
 
@@ -616,14 +615,14 @@
   background-color: #fff;
   color: var(--slategray_60);
   cursor: pointer;
-  transition: color .2s;
+  transition: color 0.2s;
   fill: var(--slategray_30);
   & > .RSGIcon {
     display: inline-block;
     width: 10.3px;
     height: 6px;
     margin-left: 4px;
-    transition: fill .2s;
+    transition: fill 0.2s;
   }
   @media (hover: hover) {
     &:hover {

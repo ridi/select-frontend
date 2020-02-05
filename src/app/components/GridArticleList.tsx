@@ -31,7 +31,7 @@ interface Props {
   isFullWidthAvailable?: boolean;
   gridListSizeClassNames?: string;
 }
-export const GridArticleList: React.FunctionComponent<Props> = (props) => {
+export const GridArticleList: React.FunctionComponent<Props> = props => {
   const dispatch = useDispatch();
   const {
     serviceTitleForTracking,
@@ -48,10 +48,17 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
     gridListSizeClassNames,
   } = props;
 
-  const section = !!serviceTitleForTracking && !!pageTitleForTracking
-    ? getSectionStringForTracking(serviceTitleForTracking, pageTitleForTracking, uiPartTitleForTracking)
-    : undefined;
-  const { articleChannelById } = useSelector((state: RidiSelectState) => ({ articleChannelById: state.articleChannelById }));
+  const section =
+    !!serviceTitleForTracking && !!pageTitleForTracking
+      ? getSectionStringForTracking(
+          serviceTitleForTracking,
+          pageTitleForTracking,
+          uiPartTitleForTracking,
+        )
+      : undefined;
+  const { articleChannelById } = useSelector((state: RidiSelectState) => ({
+    articleChannelById: state.articleChannelById,
+  }));
   const favoriteArticleAction = (articleId: number, isFavorite: boolean | undefined) => {
     let method: Method = 'POST';
     if (isFavorite) {
@@ -61,7 +68,9 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
   };
 
   const trackingClick = (index: number, id: number | string, misc?: string) => {
-    if (!section) { return; }
+    if (!section) {
+      return;
+    }
 
     const trackingParams: DefaultTrackingParams = { section, index, id };
 
@@ -73,7 +82,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
       trackingParams.misc = miscParam;
     }
 
-    dispatch(TrackingActions.trackClick({trackingParams}));
+    dispatch(TrackingActions.trackClick({ trackingParams }));
   };
 
   return (
@@ -86,7 +95,8 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
     >
       {articles.map((article, idx) => {
         const articleUrl = `/article/${getArticleKeyFromData(article)}`;
-        const channelMeta = articleChannelById &&
+        const channelMeta =
+          articleChannelById &&
           articleChannelById[article.channelName] &&
           articleChannelById[article.channelName].channelMeta;
         return (
@@ -102,13 +112,19 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                 imageUrl={article.thumbnailUrl}
                 articleTitle={article.title}
                 isEnabled={article.isEnabled}
-                onLinkClick={() => trackingClick(idx, article.id, JSON.stringify({sect_ch: `ch:${channelMeta!.id}`}))}
+                onLinkClick={() =>
+                  trackingClick(
+                    idx,
+                    article.id,
+                    JSON.stringify({ sect_ch: `ch:${channelMeta!.id}` }),
+                  )
+                }
               />
               <div className="GridArticleItem_Meta">
                 {renderChannelThumbnail && channelMeta ? (
                   <ArticleChannelThumbnail
                     imageUrl={channelMeta.thumbnailUrl}
-                    linkUrl={articleChannelToPath({channelName: channelMeta.name})}
+                    linkUrl={articleChannelToPath({ channelName: channelMeta.name })}
                     channelName={channelMeta.displayName}
                     isEnabled={channelMeta.isEnabled}
                     onLinkClick={() => trackingClick(idx, `ch:${channelMeta.id}`)}
@@ -120,54 +136,60 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                       <Link
                         to={articleUrl}
                         className="GridArticleItem_Link"
-                        onClick={() => trackingClick(idx, article.id, JSON.stringify({sect_ch: `ch:${channelMeta!.id}`}))}
+                        onClick={() =>
+                          trackingClick(
+                            idx,
+                            article.id,
+                            JSON.stringify({ sect_ch: `ch:${channelMeta!.id}` }),
+                          )
+                        }
                       >
-                        <p className="GridArticleItem_Title">
-                          {article.title}
-                        </p>
+                        <p className="GridArticleItem_Title">{article.title}</p>
                       </Link>
                       {renderChannelMeta && channelMeta ? (
                         <Link
-                          to={articleChannelToPath({channelName: channelMeta.name})}
+                          to={articleChannelToPath({ channelName: channelMeta.name })}
                           onClick={() => trackingClick(idx, `ch:${channelMeta.id}`)}
                         >
-                          <p className="GridArticleItem_ChannelName">
-                            {channelMeta.displayName}
-                          </p>
+                          <p className="GridArticleItem_ChannelName">{channelMeta.displayName}</p>
                         </Link>
                       ) : null}
                       <Link
                         to={articleUrl}
                         className="GridArticleItem_Link"
-                        onClick={() => trackingClick(idx, article.id, JSON.stringify({sect_ch: `ch:${channelMeta!.id}`}))}
+                        onClick={() =>
+                          trackingClick(
+                            idx,
+                            article.id,
+                            JSON.stringify({ sect_ch: `ch:${channelMeta!.id}` }),
+                          )
+                        }
                       >
                         {renderAuthor && article.author ? (
-                          <span className="GridArticleItem_Author">
-                            {article.author.name}
-                          </span>
+                          <span className="GridArticleItem_Author">{article.author.name}</span>
                         ) : null}
                         {renderPublishDate && article.publishDate ? (
-                          <span className="GridArticleItem_RegDate"> · {buildDateDistanceFormat(article.publishDate)} 전</span>
+                          <span className="GridArticleItem_RegDate">
+                            {' '}
+                            · {buildDateDistanceFormat(article.publishDate)} 전
+                          </span>
                         ) : null}
                       </Link>
                     </>
                   ) : (
                     <>
-                      <p className="GridArticleItem_Title">
-                        {article.title}
-                      </p>
+                      <p className="GridArticleItem_Title">{article.title}</p>
                       {renderChannelMeta && channelMeta ? (
-                        <p className="GridArticleItem_ChannelName">
-                          {channelMeta.displayName}
-                        </p>
+                        <p className="GridArticleItem_ChannelName">{channelMeta.displayName}</p>
                       ) : null}
                       {renderAuthor && article.author ? (
-                        <span className="GridArticleItem_Author">
-                          {article.author.name}
-                        </span>
+                        <span className="GridArticleItem_Author">{article.author.name}</span>
                       ) : null}
                       {renderPublishDate && article.publishDate ? (
-                        <span className="GridArticleItem_RegDate"> · {buildDateDistanceFormat(article.publishDate)} 전</span>
+                        <span className="GridArticleItem_RegDate">
+                          {' '}
+                          · {buildDateDistanceFormat(article.publishDate)} 전
+                        </span>
                       ) : null}
                     </>
                   )}

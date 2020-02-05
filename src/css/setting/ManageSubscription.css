@@ -131,7 +131,7 @@
   margin-top: 20px;
   color: #636c73;
   font-size: 13px;
-  letter-spacing: -.5px;
+  letter-spacing: -0.5px;
   text-align: center;
 }
 
@@ -143,7 +143,7 @@
   padding: 0 20px 0 36px;
   color: #b0874a;
   font-size: 13px;
-  letter-spacing: -.5px;
+  letter-spacing: -0.5px;
   line-height: 20px;
   @media (--pc-screen) {
     width: 300px;

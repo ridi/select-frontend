@@ -4,7 +4,7 @@ import { CoverImage } from 'app/components/BookThumbnail/CoverImage';
 import { LazyloadWrapper } from 'app/components/BookThumbnail/LazyloadWrapper';
 import { LinkWrapper } from 'app/components/BookThumbnail/LinkWrapper';
 import { SizeWrapper } from 'app/components/BookThumbnail/SizeWrapper';
-import { DEFAULT_THUMBNAIL_SIZE, ThumbnailSize} from 'app/components/BookThumbnail/types';
+import { DEFAULT_THUMBNAIL_SIZE, ThumbnailSize } from 'app/components/BookThumbnail/types';
 
 export interface BookThumbnailProps {
   sizeWrapperClassName?: string;
@@ -23,7 +23,7 @@ export interface BookThumbnailProps {
   expired?: boolean;
 }
 
-export const BookThumbnail: React.SFC<BookThumbnailProps> = (props) => {
+export const BookThumbnail: React.SFC<BookThumbnailProps> = props => {
   const {
     sizeWrapperClassName,
     linkWrapperClassName,
@@ -43,10 +43,7 @@ export const BookThumbnail: React.SFC<BookThumbnailProps> = (props) => {
   } = props;
 
   return (
-    <SizeWrapper
-      className={sizeWrapperClassName}
-      width={width}
-    >
+    <SizeWrapper className={sizeWrapperClassName} width={width}>
       <LinkWrapper
         className={linkWrapperClassName}
         linkUrl={linkUrl}

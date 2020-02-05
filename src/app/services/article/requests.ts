@@ -36,30 +36,52 @@ export interface FavoriteArticleActionResponse {
   isFavorite: boolean;
 }
 
-export const requestArticles = (requestQueries?: ArticleRequestQueries, articleIds?: number[]): Promise<ArticleListResponse> => {
+export const requestArticles = (
+  requestQueries?: ArticleRequestQueries,
+  articleIds?: number[],
+): Promise<ArticleListResponse> => {
   let requestUrl = `/article/articles${buildArticleRequestQueriesToString(requestQueries)}`;
   if (articleIds) {
-    requestUrl = `/article/articles${buildArticleRequestQueriesToString(requestQueries)}&ids=${articleIds}&size=24`;
+    requestUrl = `/article/articles${buildArticleRequestQueriesToString(
+      requestQueries,
+    )}&ids=${articleIds}&size=24`;
   }
   return request({
     url: requestUrl,
     method: 'GET',
-  }).then((response) => camelize<AxiosResponse<ArticleListResponse>>(response, { recursive: true }).data);
+  }).then(
+    response => camelize<AxiosResponse<ArticleListResponse>>(response, { recursive: true }).data,
+  );
 };
 
-export const requestSingleArticle = (channelName: string, contentIndex: number, requestQueries?: ArticleRequestQueries): Promise<ArticleResponse> => {
-  const requestUrl = `/article/articles/@${channelName}/${contentIndex}${buildArticleRequestQueriesToString(requestQueries)}`;
+export const requestSingleArticle = (
+  channelName: string,
+  contentIndex: number,
+  requestQueries?: ArticleRequestQueries,
+): Promise<ArticleResponse> => {
+  const requestUrl = `/article/articles/@${channelName}/${contentIndex}${buildArticleRequestQueriesToString(
+    requestQueries,
+  )}`;
 
   return request({
     url: requestUrl,
     method: 'GET',
-  }).then((response) => camelize<AxiosResponse<ArticleResponse>>(response, { recursive: true }).data);
+  }).then(
+    response => camelize<AxiosResponse<ArticleResponse>>(response, { recursive: true }).data,
+  );
 };
 
-export const requestFavoriteArticleAction = (method: Method, articleId: number): Promise<FavoriteArticleActionResponse> => request({
-  url: '/article/me/favorites',
-  method,
-  data: {
-    article_id: articleId,
-  },
-}).then((response) => camelize<AxiosResponse<FavoriteArticleActionResponse>>(response, { recursive: true }).data);
+export const requestFavoriteArticleAction = (
+  method: Method,
+  articleId: number,
+): Promise<FavoriteArticleActionResponse> =>
+  request({
+    url: '/article/me/favorites',
+    method,
+    data: {
+      article_id: articleId,
+    },
+  }).then(
+    response =>
+      camelize<AxiosResponse<FavoriteArticleActionResponse>>(response, { recursive: true }).data,
+  );

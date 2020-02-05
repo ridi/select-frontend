@@ -15,7 +15,7 @@
   font-family: Noto Sans KR, NotoSansKR, sans-serif;
   font-size: 14px;
   font-weight: 500;
-  letter-spacing: -.3px;
+  letter-spacing: -0.3px;
   color: var(--gray_100);
 }
 .ArticleChannelMeta_Desc {
@@ -23,7 +23,7 @@
   display: block;
   font-family: Noto Sans KR, NotoSansKR, sans-serif;
   font-size: 12px;
-  letter-spacing: -.3px;
+  letter-spacing: -0.3px;
   color: var(--slategray_60);
   white-space: nowrap;
   text-overflow: ellipsis;

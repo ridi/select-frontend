@@ -4,7 +4,7 @@
   width: 40px;
   height: 40px;
   margin-right: 10px;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 .ArticleChannelThumbnail_CoverImage {
@@ -36,8 +36,8 @@
   left: 0;
   top: 0;
   box-sizing: border-box;
-  border: 1px solid rgba(0,0,0,.1);
-  border-radius: 20px;  
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
   display: block;
   z-index: 1;
 }
@@ -46,7 +46,7 @@
   width: 100%;
   height: 100%;
   border-radius: 20px;
-  border: solid 1px rgba(0, 0, 0, .1);
+  border: solid 1px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
 }
 
@@ -58,7 +58,7 @@
   top: 0;
   left: 0;
   background: #e6e8eb;
-  border: solid 1px rgba(0, 0, 0, .1);
+  border: solid 1px rgba(0, 0, 0, 0.1);
   border-radius: 999px;
   box-sizing: border-box;
 }

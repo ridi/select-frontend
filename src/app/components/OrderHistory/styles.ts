@@ -1,7 +1,12 @@
 import { css } from '@emotion/core';
 
 import Colors from 'app/styles/colors';
-import { resetLayout, resetAppearance, resetInputFocus, customMedia } from 'app/styles/customProperties';
+import {
+  resetLayout,
+  resetAppearance,
+  resetInputFocus,
+  customMedia,
+} from 'app/styles/customProperties';
 
 export const cashReceiptIssueModalColumn = css`
   @media ${customMedia.pcLayout} {
@@ -11,7 +16,7 @@ export const cashReceiptIssueModalColumn = css`
   }
 `;
 
-export const cashReceiptIssueModalWrapper  = css`
+export const cashReceiptIssueModalWrapper = css`
   width: 280px;
   text-align: left;
 `;

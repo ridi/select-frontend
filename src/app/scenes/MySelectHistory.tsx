@@ -37,13 +37,14 @@ class MySelectHistory extends React.Component<Props, State> {
   public state: State = {
     inputs: {},
   };
+
   private handleDeleteButtonClick = () => {
     const { inputs } = this.state;
     const { page } = this.props;
     const { deletionFetchingStatus, itemListByPage } = this.props.mySelectHistory;
     const selectedCurrentPageUbhIds = itemListByPage[page].itemList
-      .filter((book) => inputs[book.mySelectBookId])
-      .map((book) => book.mySelectBookId);
+      .filter(book => inputs[book.mySelectBookId])
+      .map(book => book.mySelectBookId);
     if (
       selectedCurrentPageUbhIds.length === 0 ||
       deletionFetchingStatus === FetchStatusFlag.FETCHING
@@ -55,7 +56,8 @@ class MySelectHistory extends React.Component<Props, State> {
       return;
     }
     this.props.dispatchDeleteMySelectHistoryRequest(selectedCurrentPageUbhIds, page);
-  }
+  };
+
   private areEveryBookChecked = (page: number): boolean => {
     const { mySelectHistory } = this.props;
     if (
@@ -64,9 +66,10 @@ class MySelectHistory extends React.Component<Props, State> {
     ) {
       return false;
     }
-    const itemList = mySelectHistory.itemListByPage[page].itemList;
-    return itemList.every((book) => this.state.inputs[book.mySelectBookId]);
-  }
+    const { itemList } = mySelectHistory.itemListByPage[page];
+    return itemList.every(book => this.state.inputs[book.mySelectBookId]);
+  };
+
   private handleIndividualCheckBoxClick = (book: MySelectBook) => (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -77,40 +80,47 @@ class MySelectHistory extends React.Component<Props, State> {
         [book.mySelectBookId]: e.target.checked,
       },
     });
-  }
+  };
+
   private handleSelectAllCheckBoxClick = () => {
     const { page } = this.props;
     this.setState({
-      inputs: this.props.mySelectHistory.itemListByPage[page].itemList.reduce((prev, book) => ({
-        ...prev,
-        [book.mySelectBookId]: !this.areEveryBookChecked(page),
-      }), {}),
+      inputs: this.props.mySelectHistory.itemListByPage[page].itemList.reduce(
+        (prev, book) => ({
+          ...prev,
+          [book.mySelectBookId]: !this.areEveryBookChecked(page),
+        }),
+        {},
+      ),
     });
-  }
+  };
 
   private isFetched = () => {
     const { page } = this.props;
     const { itemListByPage } = this.props.mySelectHistory;
-    return (itemListByPage[page] && itemListByPage[page].isFetched);
-  }
+    return itemListByPage[page] && itemListByPage[page].isFetched;
+  };
 
   public componentDidMount() {
     this.props.dispatchLoadMySelectHistoryRequest(this.props.page);
     this.props.dispatchUpdateGNBTabExpose(false);
   }
+
   public componentWillUnmount() {
     this.props.dispatchUpdateGNBTabExpose(true);
   }
+
   public componentDidUpdate(prevProps: Props) {
     if (prevProps.page !== this.props.page) {
       this.setState({ inputs: {} });
       this.props.dispatchLoadMySelectHistoryRequest(this.props.page);
     }
   }
+
   public renderBooks(books: MySelectBook[]) {
     return (
       <ul className="MySelectHistoryBookList">
-        {books.map((book) => (
+        {books.map(book => (
           <li
             className="MySelectHistoryBookList_Item MySelectHistoryBookList_Item-no-bottom-pad"
             key={book.mySelectBookId}
@@ -127,7 +137,7 @@ class MySelectHistory extends React.Component<Props, State> {
               )}
             >
               <MediaQuery maxWidth={MAX_WIDTH}>
-                {(isMobile) => (
+                {isMobile => (
                   <DTOBookThumbnail
                     book={book}
                     width={isMobile ? 50 : 80}
@@ -156,6 +166,7 @@ class MySelectHistory extends React.Component<Props, State> {
       </ul>
     );
   }
+
   public render() {
     const { mySelectHistory, page } = this.props;
     const { itemListByPage } = this.props.mySelectHistory;
@@ -170,9 +181,7 @@ class MySelectHistory extends React.Component<Props, State> {
         <ConnectedPageHeader pageTitle={PageTitleText.MY_SELECT_HISTORY} />
         {!this.isFetched() ? (
           <div className="PageMySelectHistory Skeleton_Wrapper">
-            <LandscapeBookListSkeleton
-              hasCheckbox={true}
-            />
+            <LandscapeBookListSkeleton hasCheckbox />
           </div>
         ) : (
           <div className="PageMySelect">
@@ -194,7 +203,7 @@ class MySelectHistory extends React.Component<Props, State> {
                   <Button
                     onClick={this.handleDeleteButtonClick}
                     className="MySelectControls_Button"
-                    outline={true}
+                    outline
                     spinner={mySelectHistory.deletionFetchingStatus === FetchStatusFlag.FETCHING}
                   >
                     선택 삭제
@@ -207,9 +216,9 @@ class MySelectHistory extends React.Component<Props, State> {
                     currentPage={page}
                     item={{
                       el: Link,
-                      getProps: (p) => ({ to: `/my-select-history?page=${p}` } as LinkProps),
+                      getProps: p => ({ to: `/my-select-history?page=${p}` } as LinkProps),
                     }}
-                    isMobile={true}
+                    isMobile
                     totalPages={Math.ceil(mySelectHistory.itemCount / 10)}
                   />
                 )}
@@ -228,15 +237,18 @@ const mapStateToProps = (state: RidiSelectState): StateProps => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  dispatchClearMySelectHistory: () =>
-    dispatch(Actions.clearMySelectHistory()),
+  dispatchClearMySelectHistory: () => dispatch(Actions.clearMySelectHistory()),
   dispatchLoadMySelectHistoryRequest: (page: number) =>
     dispatch(Actions.loadMySelectHistoryRequest({ page })),
   dispatchDeleteMySelectHistoryRequest: (mySelectBookIds: number[], page: number) =>
     dispatch(Actions.deleteMySelectHistoryRequest({ mySelectBookIds, page })),
   dispatchResetMySelectHistoryFetchedStatus: () =>
     dispatch(Actions.resetMySelectHistoryFetchedStatus()),
-  dispatchUpdateGNBTabExpose: (isGnbTab: boolean) => dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
+  dispatchUpdateGNBTabExpose: (isGnbTab: boolean) =>
+    dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
 });
 
-export const ConnectedMySelectHistory = connect(mapStateToProps, mapDispatchToProps)(MySelectHistory);
+export const ConnectedMySelectHistory = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(MySelectHistory);

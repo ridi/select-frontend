@@ -4,7 +4,7 @@ import { localStorageManager } from 'app/services/app/sagas';
 
 export const Actions = {
   updateAppStatus: createAction<{
-    appStatus: AppStatus,
+    appStatus: AppStatus;
   }>('updateAppStatus'),
 };
 
@@ -19,9 +19,8 @@ export interface AppState {
 }
 
 export const INITIAL_STATE: AppState = {
-  appStatus: localStorageManager.load() === AppStatus.Articles
-    ? AppStatus.Articles
-    : AppStatus.Books,
+  appStatus:
+    localStorageManager.load() === AppStatus.Articles ? AppStatus.Articles : AppStatus.Books,
 };
 
 export const appReducer = createReducer<typeof INITIAL_STATE>({}, INITIAL_STATE);

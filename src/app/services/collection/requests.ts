@@ -27,7 +27,9 @@ export const requestCollection = (
     return request({
       url: '/api/pages/collections/spotlight',
       method: 'GET',
-    }).then((response) => camelize<AxiosResponse<CollectionResponse>>(response, { recursive: true }).data);
+    }).then(
+      response => camelize<AxiosResponse<CollectionResponse>>(response, { recursive: true }).data,
+    );
   }
   let params = {
     page,
@@ -39,5 +41,7 @@ export const requestCollection = (
     url,
     method: 'GET',
     params,
-  }).then((response) => camelize<AxiosResponse<CollectionResponse>>(response, { recursive: true }).data);
+  }).then(
+    response => camelize<AxiosResponse<CollectionResponse>>(response, { recursive: true }).data,
+  );
 };

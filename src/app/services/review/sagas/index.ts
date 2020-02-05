@@ -8,16 +8,8 @@ import {
   watchPostCommentRequest,
   watchPostCommentSuccess,
 } from './comments';
-import {
-  watchDeleteLike,
-  watchLikeFailure,
-  watchPostLike,
-} from './like';
-import {
-  watchDeleteRating,
-  watchPostRating,
-  watchRatingFailure,
-} from './rating';
+import { watchDeleteLike, watchLikeFailure, watchPostLike } from './like';
+import { watchDeleteRating, watchPostRating, watchRatingFailure } from './rating';
 import {
   watchChangeSortBy,
   watchChangeUserFilterTab,

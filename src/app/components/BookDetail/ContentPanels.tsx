@@ -30,7 +30,7 @@ interface BookDetailContentPanelsStateProps {
 
 type Props = BookDetailContentPanelsProps & BookDetailContentPanelsStateProps;
 
-const BookDetailContentPanels: React.FunctionComponent<Props> = (props) => {
+const BookDetailContentPanels: React.FunctionComponent<Props> = props => {
   const {
     env,
     isLoggedIn,
@@ -48,16 +48,11 @@ const BookDetailContentPanels: React.FunctionComponent<Props> = (props) => {
     authorIntroduction,
     tableOfContents,
     publishingDate,
-  } = bookDetail ? bookDetail : {};
+  } = bookDetail || {};
 
   return (
     <>
-      <BookDetailPanel
-        title="책 소개"
-        imageUrl={introImageUrl}
-        isMobile={isMobile}
-        useSkeleton={true}
-      >
+      <BookDetailPanel title="책 소개" imageUrl={introImageUrl} isMobile={isMobile} useSkeleton>
         {introduction}
       </BookDetailPanel>
       <ExpandableBookList
@@ -77,15 +72,22 @@ const BookDetailContentPanels: React.FunctionComponent<Props> = (props) => {
         {tableOfContents}
       </BookDetailPanel>
       <BookDetailPanel title="출간일" useTruncate={false}>
-        {publishingDate && (publishingDate.ebookPublishDate || publishingDate.paperBookPublishDate) && (
-          publishingDate.ebookPublishDate === publishingDate.paperBookPublishDate
-            ? `${buildOnlyDateFormat(publishingDate.ebookPublishDate)} 전자책, 종이책 동시 출간` : (
-              <>
-                {publishingDate.ebookPublishDate && <>{buildOnlyDateFormat(publishingDate.ebookPublishDate)} 전자책 출간<br /></>}
-                {publishingDate.paperBookPublishDate && `${buildOnlyDateFormat(publishingDate.paperBookPublishDate)} 종이책 출간`}
-              </>
-            )
-        )}
+        {publishingDate &&
+          (publishingDate.ebookPublishDate || publishingDate.paperBookPublishDate) &&
+          (publishingDate.ebookPublishDate === publishingDate.paperBookPublishDate ? (
+            `${buildOnlyDateFormat(publishingDate.ebookPublishDate)} 전자책, 종이책 동시 출간`
+          ) : (
+            <>
+              {publishingDate.ebookPublishDate && (
+                <>
+                  {buildOnlyDateFormat(publishingDate.ebookPublishDate)} 전자책 출간
+                  <br />
+                </>
+              )}
+              {publishingDate.paperBookPublishDate &&
+                `${buildOnlyDateFormat(publishingDate.paperBookPublishDate)} 종이책 출간`}
+            </>
+          ))}
       </BookDetailPanel>
       <ExpandableBookList
         books={recommendedBooks}
@@ -95,7 +97,7 @@ const BookDetailContentPanels: React.FunctionComponent<Props> = (props) => {
         uiPartTitleForTracking="book-to-book-recommendation"
       />
       <BookDetailPanelWrapper className="Reviews_Wrapper">
-        <LazyLoad height={200} once={true} offset={400}>
+        <LazyLoad height={200} once offset={400}>
           <ConnectedReviews
             bookId={bookId}
             checkAuth={() => {
@@ -117,8 +119,11 @@ const BookDetailContentPanels: React.FunctionComponent<Props> = (props) => {
   );
 };
 
-const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailContentPanelsProps): BookDetailContentPanelsStateProps => {
-  const bookId = ownProps.bookId;
+const mapStateToProps = (
+  state: RidiSelectState,
+  ownProps: BookDetailContentPanelsProps,
+): BookDetailContentPanelsStateProps => {
+  const { bookId } = ownProps;
   const stateExists = !!state.booksById[bookId];
   const bookState = state.booksById[bookId];
   const bookDetail = stateExists ? bookState.bookDetail : undefined;
@@ -128,9 +133,13 @@ const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailContentPane
     isInApp: selectIsInApp(state),
     bookDetail,
     env: state.environment,
-    seriesBookList: !!bookDetail ? bookDetail.seriesBooks : undefined,
-    recommendedBooks: !!bookDetail && bookState.recommendedBooks ? bookState.recommendedBooks : undefined,
+    seriesBookList: bookDetail ? bookDetail.seriesBooks : undefined,
+    recommendedBooks:
+      !!bookDetail && bookState.recommendedBooks ? bookState.recommendedBooks : undefined,
   };
 };
 
-export const ConnectedBookDetailContentPanels = connect(mapStateToProps, null)(BookDetailContentPanels);
+export const ConnectedBookDetailContentPanels = connect(
+  mapStateToProps,
+  null,
+)(BookDetailContentPanels);

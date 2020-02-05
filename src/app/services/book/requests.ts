@@ -24,7 +24,7 @@ export interface Publisher {
 }
 
 export interface BookFile {
-  format: 'epub'|'pdf'|'bom';
+  format: 'epub' | 'pdf' | 'bom';
   size: number;
   pageCount?: number;
   characterCount?: number;
@@ -90,22 +90,28 @@ export const requestBooks = (bookIds: number[]): Promise<BookDetailResponse> =>
   request({
     url: `/api/books?b_ids=${bookIds.join(',')}`,
     method: 'GET',
-  }).then((response) => camelize<AxiosResponse<BookDetailResponse>>(response, { recursive: true }).data);
+  }).then(
+    response => camelize<AxiosResponse<BookDetailResponse>>(response, { recursive: true }).data,
+  );
 
 export const requestBookDetail = (bookId: number): Promise<BookDetailResponse> =>
   request({
     url: `/api/books/${bookId}`,
     method: 'GET',
-  }).then((response) => camelize<AxiosResponse<BookDetailResponse>>(response, { recursive: true }).data);
+  }).then(
+    response => camelize<AxiosResponse<BookDetailResponse>>(response, { recursive: true }).data,
+  );
 
 export const requestBookOwnership = (bookId: number): Promise<BookOwnershipStatus> =>
   request({
     url: `${env.STORE_API}/api/select/users/me/books/${bookId}`,
     method: 'GET',
-  }).then((response) => camelize<AxiosResponse<BookOwnershipStatus>>(response, { recursive: true }).data);
+  }).then(
+    response => camelize<AxiosResponse<BookOwnershipStatus>>(response, { recursive: true }).data,
+  );
 
 export const requestBookToBookRecommendation = (bookId: number): Promise<RecommendedBook[]> =>
   request({
     url: `/api/recommendations/books/${bookId}`,
     method: 'GET',
-  }).then((response) => camelize<RecommendedBook[]>(response.data, { recursive: true }));
+  }).then(response => camelize<RecommendedBook[]>(response.data, { recursive: true }));

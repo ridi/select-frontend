@@ -53,7 +53,9 @@ declare module 'post-robot' {
     errorOnClose?: boolean;
   }
 
-  interface Cancellable { cancel: () => void; }
+  interface Cancellable {
+    cancel: () => void;
+  }
   function listener(
     options?: ServerOptionsType,
   ): { on: (name: string, handler: HandlerType) => Cancellable };

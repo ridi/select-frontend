@@ -4,8 +4,7 @@
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: 400;
-  src:
-    url(../fonts/NotoSans-Regular.woff2) format('woff2'),
+  src: url(../fonts/NotoSans-Regular.woff2) format('woff2'),
     url(../fonts/NotoSans-Regular.woff) format('woff'),
     url(../fonts/NotoSans-Regular.otf) format('opentype');
 }
@@ -14,8 +13,7 @@
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: 700;
-  src:
-    url(../fonts/NotoSans-Bold.woff2) format('woff2'),
+  src: url(../fonts/NotoSans-Bold.woff2) format('woff2'),
     url(../fonts/NotoSans-Bold.woff) format('woff'),
     url(../fonts/NotoSans-Bold.otf) format('opentype');
 }
@@ -24,8 +22,7 @@
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: 900;
-  src:
-    url(../fonts/NotoSans-Black.woff2) format('woff2'),
+  src: url(../fonts/NotoSans-Black.woff2) format('woff2'),
     url(../fonts/NotoSans-Black.woff) format('woff'),
     url(../fonts/NotoSans-Black.otf) format('opentype');
 }
@@ -33,9 +30,7 @@
 @font-face {
   font-family: Minion Pro;
   font-style: normal;
-  src:
-    url(../fonts/best_num.woff2) format('woff2'),
-    url(../fonts/best_num.woff) format('woff'),
+  src: url(../fonts/best_num.woff2) format('woff2'), url(../fonts/best_num.woff) format('woff'),
     url(../fonts/best_num.ttf) format('truetype');
 }
 
@@ -43,8 +38,6 @@
   font-family: review_num;
   font-style: normal;
   font-weight: 400;
-  src:
-    url(../fonts/review_num.woff2) format('woff2'),
-    url(../fonts/review_num.woff) format('woff'),
-    url(../fonts/review_num.ttf)  format('truetype');
+  src: url(../fonts/review_num.woff2) format('woff2'), url(../fonts/review_num.woff) format('woff'),
+    url(../fonts/review_num.ttf) format('truetype');
 }

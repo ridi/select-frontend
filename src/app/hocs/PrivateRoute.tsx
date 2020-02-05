@@ -20,7 +20,7 @@ export interface PrivateRouteProps extends RouteProps {
   routeBlockLevel?: RouteBlockLevel;
 }
 
-export const PrivateRoute: React.SFC<PrivateRouteProps & RouteComponentProps> = (props) => {
+export const PrivateRoute: React.SFC<PrivateRouteProps & RouteComponentProps> = props => {
   const {
     isFetching,
     isLoggedIn,
@@ -36,13 +36,13 @@ export const PrivateRoute: React.SFC<PrivateRouteProps & RouteComponentProps> = 
   }
 
   if (routeBlockLevel === RouteBlockLevel.LOGGED_IN && !isLoggedIn) {
-    window.location.replace(`${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${window.location.href}`);
+    window.location.replace(
+      `${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${window.location.href}`,
+    );
     return null;
   }
 
-  if (
-    routeBlockLevel === RouteBlockLevel.HAS_AVAILABLE_TICKET && !hasAvailableTicket
-  ) {
+  if (routeBlockLevel === RouteBlockLevel.HAS_AVAILABLE_TICKET && !hasAvailableTicket) {
     toast.failureMessage('이용권 결제 후 접근할 수 있는 화면입니다.');
     props.history.replace({
       pathname: RoutePaths.HOME,

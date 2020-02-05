@@ -37,7 +37,7 @@ export class ListWithPaginationPage extends React.Component<Props> {
     if (!isFetched(page)) {
       fetch(page);
     }
-  }
+  };
 
   public componentDidMount() {
     this.fetchIfNeeded();
@@ -77,19 +77,23 @@ export class ListWithPaginationPage extends React.Component<Props> {
               <h2 className="a11y">{page} 페이지</h2>
               {renderItems(page)}
             </section>
-            {itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
-              {(isMobile) => <Pagination
-                currentPage={page}
-                isMobile={isMobile}
-                totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                item={{
-                  el: Link,
-                  getProps: (p): LinkProps => ({
-                    to: buildPaginationURL(p),
-                  }),
-                }}
-              />}
-            </MediaQuery>}
+            {itemCount > 0 && (
+              <MediaQuery maxWidth={MAX_WIDTH}>
+                {isMobile => (
+                  <Pagination
+                    currentPage={page}
+                    isMobile={isMobile}
+                    totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                    item={{
+                      el: Link,
+                      getProps: (p): LinkProps => ({
+                        to: buildPaginationURL(p),
+                      }),
+                    }}
+                  />
+                )}
+              </MediaQuery>
+            )}
             {children}
           </>
         )}
@@ -102,4 +106,4 @@ const mapStateToProps = (state: RidiSelectState): StateProps => ({
   page: getPageQuery(state),
 });
 
-export const ConnectedListWithPagination =  connect(mapStateToProps)(ListWithPaginationPage);
+export const ConnectedListWithPagination = connect(mapStateToProps)(ListWithPaginationPage);

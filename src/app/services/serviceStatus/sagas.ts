@@ -7,14 +7,18 @@ import { requestMaintenanceData } from 'app/services/serviceStatus/requests';
 export function* loadMaintenanceData() {
   try {
     const response: AxiosResponse<ErrorResponseData> = yield call(requestMaintenanceData);
-    yield put(Actions.setState({
-      status: 503,
-      data: response.data,
-    }));
+    yield put(
+      Actions.setState({
+        status: 503,
+        data: response.data,
+      }),
+    );
   } catch (e) {
-    yield put(Actions.setState({
-      status: 404,
-    }));
+    yield put(
+      Actions.setState({
+        status: 404,
+      }),
+    );
   }
 }
 

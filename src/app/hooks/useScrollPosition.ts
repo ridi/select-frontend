@@ -17,8 +17,7 @@ export const useScrollPosition = (
     if (ref.current) {
       setIsOnTheLeft(ref.current && ref.current.scrollLeft > 0);
       setIsOnTheRight(
-        ref.current &&
-          ref.current.scrollWidth !== ref.current.clientWidth + ref.current.scrollLeft,
+        ref.current && ref.current.scrollWidth !== ref.current.clientWidth + ref.current.scrollLeft,
       );
     }
   }, [ref]);
@@ -41,7 +40,7 @@ export const useScrollPosition = (
   );
 
   const handleWheelEvent = useCallback(
-    (event) => {
+    event => {
       if (Math.abs(event.deltaX) > 10 && rafId.current) {
         cancelAnimationFrame(rafId.current);
         rafId.current = null;

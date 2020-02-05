@@ -2,15 +2,12 @@ import { Action as ReduxAction } from 'redux';
 
 import { FetchStatusFlag } from 'app/constants';
 
-export interface Action<
-  T extends string,
-  P = undefined
-> extends ReduxAction {
+export interface Action<T extends string, P = undefined> extends ReduxAction {
   type: T;
   payload: P;
 }
 
-export interface Page<Item>  {
+export interface Page<Item> {
   fetchStatus: FetchStatusFlag;
   itemList: Item[];
 }

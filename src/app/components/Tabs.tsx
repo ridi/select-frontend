@@ -13,24 +13,13 @@ export interface TabProps {
   onClick?: (e: React.SyntheticEvent<any>) => void;
 }
 
-export const Tab: React.SFC<TabProps> = (props) => {
-  const {
-    active,
-    children,
-    className,
-    component,
-    href,
-    to,
-  } = props;
+export const Tab: React.SFC<TabProps> = props => {
+  const { active, children, className, component, href, to } = props;
 
   const Wrapper = component || 'button';
   return (
     <li className={classNames('Tab', className)}>
-      <Wrapper
-        className={classNames('Tab_Button', { active })}
-        href={href}
-        to={to}
-      >
+      <Wrapper className={classNames('Tab_Button', { active })} href={href} to={to}>
         {children}
       </Wrapper>
     </li>
@@ -42,20 +31,8 @@ export interface TabsProps {
   children?: Array<React.ReactElement<TabProps>> | React.ReactElement<TabProps>;
 }
 
-export const Tabs: React.SFC<TabsProps> = (props) => {
-  const {
-    children,
-    className,
-  } = props;
+export const Tabs: React.SFC<TabsProps> = props => {
+  const { children, className } = props;
 
-  return (
-    <ul
-      className={classNames(
-        'Tabs',
-        className,
-      )}
-    >
-      {children}
-    </ul>
-  );
+  return <ul className={classNames('Tabs', className)}>{children}</ul>;
 };

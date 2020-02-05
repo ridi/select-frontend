@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import { Icon } from '@ridi/rsg';
 import { ConnectedInlineHorizontalBookList } from 'app/components/InlineHorizontalBookList';
-import { MAX_WIDTH , FetchStatusFlag } from 'app/constants';
+import { MAX_WIDTH, FetchStatusFlag } from 'app/constants';
 
 import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
 import { Book, BookState } from 'app/services/book';
@@ -28,10 +28,10 @@ interface HomeCollectionStateProps {
 
 type Props = HomeSectionProps & HomeCollectionStateProps;
 
-export const SectionHeader: React.SFC<{ title: string; link: string }> = (props) => (
+export const SectionHeader: React.SFC<{ title: string; link: string }> = props => (
   <div className="HomeSection_Header">
     <MediaQuery maxWidth={MAX_WIDTH}>
-      {(isMobile) =>
+      {isMobile =>
         isMobile ? (
           <Link to={props.link}>
             <h2 className="HomeSection_Title reset-heading">
@@ -43,7 +43,7 @@ export const SectionHeader: React.SFC<{ title: string; link: string }> = (props)
           <div className="HomeSection_Title">
             <h2 className="reset-heading">{props.title}</h2>
             <Link to={props.link} className="HomeSection_TitleLink">
-                전체 보기
+              전체 보기
               <Icon name="arrow_5_right" className="HomeSection_TitleArrowIcon" />
             </Link>
           </div>
@@ -57,25 +57,20 @@ export class HomeSection extends React.Component<Props> {
   public render() {
     const { collection, onScreen, books, order } = this.props;
     const { type, title, id, itemListByPage } = collection;
-    const collectionBooks: Book[] = itemListByPage[1].itemList.map((bookId: number) => books[bookId].book!);
+    const collectionBooks: Book[] = itemListByPage[1].itemList.map(
+      (bookId: number) => books[bookId].book!,
+    );
 
     if (
-      itemListByPage[1].fetchStatus === FetchStatusFlag.IDLE && itemListByPage[1].itemList.length < 1 ||
+      (itemListByPage[1].fetchStatus === FetchStatusFlag.IDLE &&
+        itemListByPage[1].itemList.length < 1) ||
       itemListByPage[1].fetchStatus === FetchStatusFlag.FETCH_ERROR
     ) {
       return null;
     }
 
-    if (
-      !onScreen ||
-      itemListByPage[1].fetchStatus === FetchStatusFlag.FETCHING
-    ) {
-      return (
-        <HomeSectionPlaceholder
-          type={collection.type}
-          key={`${collection.id}_skeleton`}
-        />
-      );
+    if (!onScreen || itemListByPage[1].fetchStatus === FetchStatusFlag.FETCHING) {
+      return <HomeSectionPlaceholder type={collection.type} key={`${collection.id}_skeleton`} />;
     }
 
     if (type === CollectionType.SPOTLIGHT) {
@@ -103,7 +98,7 @@ export class HomeSection extends React.Component<Props> {
       <section className="HomeSection">
         <SectionHeader title={title!} link={collectionToPath({ collectionId: id })} />
         <MediaQuery maxWidth={MAX_WIDTH}>
-          {(isMobile) => (
+          {isMobile => (
             <ConnectedInlineHorizontalBookList
               books={collectionBooks}
               serviceTitleForTracking="select-book"
@@ -119,7 +114,10 @@ export class HomeSection extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = (state: RidiSelectState, ownProps: HomeSectionProps): HomeCollectionStateProps => ({
+const mapStateToProps = (
+  state: RidiSelectState,
+  ownProps: HomeSectionProps,
+): HomeCollectionStateProps => ({
   books: state.booksById,
 });
 

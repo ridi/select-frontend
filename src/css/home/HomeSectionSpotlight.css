@@ -7,7 +7,7 @@
 
 .HomeSection_Spotlight {
   box-sizing: border-box;
-  background-color: rgba(242,244,245,.5);
+  background-color: rgba(242, 244, 245, 0.5);
   & .Skeleton {
     background-color: var(--slategray_10);
   }
@@ -38,7 +38,7 @@
         padding-right: var(--horizontal-padding);
       }
 
-      & > .InlineHorizontalBookList_Item:nth-child(n+7) {
+      & > .InlineHorizontalBookList_Item:nth-child(n + 7) {
         display: inline-block;
       }
     }
@@ -54,14 +54,14 @@
     @media (hover: hover) {
       &:hover {
         & .InlineHorizontalBookList_Title {
-          opacity: .8;
+          opacity: 0.8;
         }
       }
     }
     @media (hover: none) {
       &:active {
         & .InlineHorizontalBookList_Title {
-          opacity: .8;
+          opacity: 0.8;
         }
       }
     }
@@ -82,7 +82,7 @@
     text-overflow: ellipsis;
     white-space: normal;
     word-break: break-all;
-    transition: opacity .2s;
+    transition: opacity 0.2s;
     -webkit-box-orient: vertical;
     word-wrap: break-word;
     -webkit-line-clamp: 1;
@@ -93,7 +93,7 @@
     font-size: 14px;
     font-weight: 700;
     color: #000;
-    transition: opacity .2s;
+    transition: opacity 0.2s;
   }
   & .InlineHorizontalBookList_Author {
     padding-top: 4px;
@@ -116,17 +116,17 @@
     height: var(--pc-spotlight-section-height);
     margin: 0 auto;
     & .Slider_ControlButton {
-      transition: opacity .2s;
+      transition: opacity 0.2s;
       @media (hover: hover) {
         &:hover {
           background-color: #fff;
-          opacity: .6;
+          opacity: 0.6;
         }
       }
       @media (hover: none) {
         &:active {
           background-color: #fff;
-          opacity: .6;
+          opacity: 0.6;
         }
       }
     }
@@ -155,7 +155,7 @@
   padding: 45px 0 0 10px;
   font-size: 24px;
   line-height: 21px;
-  letter-spacing: -.3px;
+  letter-spacing: -0.3px;
   color: #000;
   @media (--spotlight-inline-view) {
     padding: 30px 0 0 0;
@@ -197,7 +197,7 @@
   text-overflow: ellipsis;
   white-space: normal;
   word-break: break-all;
-  transition: color .2s;
+  transition: color 0.2s;
   -webkit-box-orient: vertical;
   word-wrap: break-word;
 }
@@ -235,14 +235,14 @@
       border: 0;
       background: var(--slategray_30);
       font-size: 0;
-      opacity: .3;
+      opacity: 0.3;
       cursor: pointer;
     }
-     &:first-child > button {
+    &:first-child > button {
       border-top-left-radius: 3px;
       border-bottom-left-radius: 3px;
     }
-     &:last-child > button {
+    &:last-child > button {
       border-top-right-radius: 3px;
       border-bottom-right-radius: 3px;
     }

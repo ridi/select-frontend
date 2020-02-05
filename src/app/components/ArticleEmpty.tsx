@@ -22,29 +22,17 @@ const DocumentComponent = (props: any) => (
   </svg>
 );
 
-export const ArticleEmpty: React.FunctionComponent<ArticleEmptyProps> = (props) => {
+export const ArticleEmpty: React.FunctionComponent<ArticleEmptyProps> = props => {
   const { iconName, iconClassName, description, renderButton } = props;
 
   return (
     <div className="ArticleEmpty_Wrapper">
-      {
-        iconName === 'profile' &&
-        <ProfileComponent
-          className={classNames(
-            'ArticleEmpty_Icon',
-            iconClassName,
-          )}
-        />
-      }
-      {
-        iconName === 'document' &&
-        <DocumentComponent
-          className={classNames(
-            'ArticleEmpty_Icon',
-            iconClassName,
-          )}
-        />
-      }
+      {iconName === 'profile' && (
+        <ProfileComponent className={classNames('ArticleEmpty_Icon', iconClassName)} />
+      )}
+      {iconName === 'document' && (
+        <DocumentComponent className={classNames('ArticleEmpty_Icon', iconClassName)} />
+      )}
       <p className="ArticleEmpty_Description">{description}</p>
       {renderButton ? renderButton() : null}
     </div>

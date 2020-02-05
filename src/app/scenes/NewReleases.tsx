@@ -36,14 +36,17 @@ interface State {
 
 export class NewReleases extends React.Component<Props> {
   private initialDispatchTimeout?: number | null;
+
   public state: State = {
     isInitialized: false,
   };
 
   private isFetched = (page: number) => {
     const { newReleases } = this.props;
-    return (newReleases && newReleases.itemListByPage[page] && newReleases.itemListByPage[page].isFetched);
-  }
+    return (
+      newReleases && newReleases.itemListByPage[page] && newReleases.itemListByPage[page].isFetched
+    );
+  };
 
   public componentDidMount() {
     this.initialDispatchTimeout = window.setTimeout(() => {
@@ -81,31 +84,24 @@ export class NewReleases extends React.Component<Props> {
     const itemCount: number = newReleases.itemCount ? newReleases.itemCount : 0;
     const itemCountPerPage = 24;
     return (
-      <main
-        className={classNames(
-          'SceneWrapper',
-          'SceneWrapper_WithGNB',
-          'SceneWrapper_WithLNB',
-        )}
-      >
+      <main className={classNames('SceneWrapper', 'SceneWrapper_WithGNB', 'SceneWrapper_WithLNB')}>
         <HelmetWithTitle titleName={PageTitleText.NEW_RELEASE} />
         <PCPageHeader pageTitle={PageTitleText.NEW_RELEASE} />
-        {(
-          !this.isFetched(page) || isNaN(page)
-        ) ? 
+        {!this.isFetched(page) || isNaN(page) ? (
           <GridBookListSkeleton />
-          : (
-            <>
-              <ConnectedGridBookList
-                serviceTitleForTracking="select-book"
-                pageTitleForTracking="recent"
-                uiPartTitleForTracking="book-list"
-                miscTracking={JSON.stringify({ sect_page: page })}
-                books={newReleases.itemListByPage[page].itemList.map((id) => books[id].book!)}
-              />
-              {itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
-                {
-                  (isMobile) => <Pagination
+        ) : (
+          <>
+            <ConnectedGridBookList
+              serviceTitleForTracking="select-book"
+              pageTitleForTracking="recent"
+              uiPartTitleForTracking="book-list"
+              miscTracking={JSON.stringify({ sect_page: page })}
+              books={newReleases.itemListByPage[page].itemList.map(id => books[id].book!)}
+            />
+            {itemCount > 0 && (
+              <MediaQuery maxWidth={MAX_WIDTH}>
+                {isMobile => (
+                  <Pagination
                     currentPage={page}
                     totalPages={Math.ceil(itemCount / itemCountPerPage)}
                     isMobile={isMobile}
@@ -116,10 +112,11 @@ export class NewReleases extends React.Component<Props> {
                       }),
                     }}
                   />
-                }
-              </MediaQuery>}
-            </>
-          )}
+                )}
+              </MediaQuery>
+            )}
+          </>
+        )}
       </main>
     );
   }
@@ -131,7 +128,8 @@ const mapStateToProps = (rootState: RidiSelectState): CollectionStateProps => ({
   page: getPageQuery(rootState),
 });
 const mapDispatchToProps = (dispatch: Dispatch): CollectionDispatchProps => ({
-  dispatchLoadNewReleases: (page: number) => dispatch(Actions.loadCollectionRequest({ collectionId: 'recent', page })),
+  dispatchLoadNewReleases: (page: number) =>
+    dispatch(Actions.loadCollectionRequest({ collectionId: 'recent', page })),
 });
 export const ConnectedNewReleases = withRouter(
   connect(mapStateToProps, mapDispatchToProps)(NewReleases),

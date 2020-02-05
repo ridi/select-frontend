@@ -5,11 +5,11 @@ import { ReviewReportActionTypes } from './report';
 import { ReviewsActionTypes } from './reviews';
 
 export type ReviewActionTypes =
-  CommentsActionTypes |
-  ReviewLikeActionTypes |
-  RatingActionTypes |
-  ReviewReportActionTypes |
-  ReviewsActionTypes;
+  | CommentsActionTypes
+  | ReviewLikeActionTypes
+  | RatingActionTypes
+  | ReviewReportActionTypes
+  | ReviewsActionTypes;
 
 export * from './comments';
 export * from './like';

@@ -11,7 +11,7 @@ interface BigBannerItemProps {
   isInApp: boolean;
 }
 
-export const BigBannerItem: React.SFC<BigBannerItemProps> = (props) => {
+export const BigBannerItem: React.SFC<BigBannerItemProps> = props => {
   const { onClick, linkUrl, isInApp, children } = props;
   const SELECT_URL = useSelector((state: RidiSelectState) => state.environment.SELECT_URL);
 
@@ -23,15 +23,18 @@ export const BigBannerItem: React.SFC<BigBannerItemProps> = (props) => {
 
   if (isRidiselectUrl(linkUrl)) {
     const linkProps = { ...compProps, to: linkUrl.replace(SELECT_URL, '') };
-    return <Link {...linkProps}/>;
+    return <Link {...linkProps} />;
   }
   if (isInApp) {
-    const buttonProps = { ...compProps, onClick: () => {
-      sendPostRobotOpenBrowser(linkUrl);
-      onClick();
-    }};
+    const buttonProps = {
+      ...compProps,
+      onClick: () => {
+        sendPostRobotOpenBrowser(linkUrl);
+        onClick();
+      },
+    };
     return <button {...buttonProps} />;
   }
   const anchorProps = { ...compProps, href: linkUrl };
-  return <a {...anchorProps}/>;
+  return <a {...anchorProps} />;
 };

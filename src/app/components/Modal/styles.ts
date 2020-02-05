@@ -24,14 +24,14 @@ export const modalContainerDimmedBG = css`
   height: 100%;
   z-index: 10;
   content: '';
-  background: rgba(0, 0, 0, .5);
+  background: rgba(0, 0, 0, 0.5);
 `;
 
 export const modalComponent = css`
   position: relative;
   display: block;
   margin: 0 auto;
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 3px;
   z-index: 20;
 `;

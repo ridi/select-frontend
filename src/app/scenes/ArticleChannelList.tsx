@@ -13,12 +13,16 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const ArticleChannelList: React.FunctionComponent = () => {
-  const { channelList, hasAvailableTicket, unseenFeedsFetchStatus } = useSelector((state: RidiSelectState) => ({
-    channelList: getChannelList(state),
-    hasAvailableTicket: state.user.hasAvailableTicket,
-    unseenFeedsFetchStatus: state.articleFollowing.unseenFeedsFetchStatus,
-  }));
-  const channelListFetchStatus = useSelector((state: RidiSelectState) => state.articleChannels.fetchStatus);
+  const { channelList, hasAvailableTicket, unseenFeedsFetchStatus } = useSelector(
+    (state: RidiSelectState) => ({
+      channelList: getChannelList(state),
+      hasAvailableTicket: state.user.hasAvailableTicket,
+      unseenFeedsFetchStatus: state.articleFollowing.unseenFeedsFetchStatus,
+    }),
+  );
+  const channelListFetchStatus = useSelector(
+    (state: RidiSelectState) => state.articleChannels.fetchStatus,
+  );
   const dispatch = useDispatch();
   const section = getSectionStringForTracking('select-article', 'all-channels', 'channel-list');
 
@@ -44,30 +48,31 @@ export const ArticleChannelList: React.FunctionComponent = () => {
       )}
     >
       <HelmetWithTitle titleName={PageTitleText.ARTICLE_CHANNEL} />
-      <div className="a11y"><h1>리디셀렉트 아티클 전체 채널</h1></div>
+      <div className="a11y">
+        <h1>리디셀렉트 아티클 전체 채널</h1>
+      </div>
       <section>
-        { channelListFetchStatus === FetchStatusFlag.FETCHING ?
-          <ArticleChannelListPlaceholder /> : (
-            <div className="ArticleChannelList_Wrapper">
-              <ul className="ArticleChannelList">
-                {channelList.map((channelMeta, idx) => channelMeta ? (
+        {channelListFetchStatus === FetchStatusFlag.FETCHING ? (
+          <ArticleChannelListPlaceholder />
+        ) : (
+          <div className="ArticleChannelList_Wrapper">
+            <ul className="ArticleChannelList">
+              {channelList.map((channelMeta, idx) =>
+                channelMeta ? (
                   <li key={idx} className="ArticleChannelList_Item">
                     <ConnectedTrackImpression
                       section={section}
                       index={idx}
                       id={`ch:${channelMeta.id}`}
                     >
-                      <ArticleChannelMeta
-                        idx={idx}
-                        section={section}
-                        {...channelMeta}
-                      />
+                      <ArticleChannelMeta idx={idx} section={section} {...channelMeta} />
                     </ConnectedTrackImpression>
                   </li>
-                ) : null)}
-              </ul>
-            </div>
-          )}
+                ) : null,
+              )}
+            </ul>
+          </div>
+        )}
       </section>
     </main>
   );

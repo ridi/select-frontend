@@ -14,12 +14,7 @@ import { ConnectBookDetailNoticeList } from 'app/components/BookDetail/NoticeLis
 import { BookDetailPanelWrapper } from 'app/components/BookDetail/Panel';
 import { FetchStatusFlag, MAX_WIDTH } from 'app/constants';
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
-import {
-  Actions as BookActions,
-  Book,
-  BookOwnershipStatus,
-  BookTitle,
-} from 'app/services/book';
+import { Actions as BookActions, Book, BookOwnershipStatus, BookTitle } from 'app/services/book';
 import { getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
 import { EnvironmentState } from 'app/services/environment';
 import { Actions as MySelectActions } from 'app/services/mySelect';
@@ -40,7 +35,7 @@ interface BookDetailStateProps {
   ownershipFetchStatus?: FetchStatusFlag;
 }
 
-type RouteProps = RouteComponentProps<{ bookId: string; }>;
+type RouteProps = RouteComponentProps<{ bookId: string }>;
 
 type OwnProps = RouteProps & {};
 
@@ -51,19 +46,26 @@ export class BookDetail extends React.Component<Props> {
     if (props.fetchStatus !== FetchStatusFlag.FETCHING && !props.bookEndDateTime) {
       props.dispatchLoadBookRequest(props.bookId);
     }
-  }
+  };
 
   private fetchBookDetailAdditionalData = (props: Props) => {
     if (props.fetchStatus !== FetchStatusFlag.IDLE || !props.bookEndDateTime) {
       return;
     }
-    if (props.isLoggedIn && props.ownershipFetchStatus !== FetchStatusFlag.FETCHING && !props.ownershipStatus) {
+    if (
+      props.isLoggedIn &&
+      props.ownershipFetchStatus !== FetchStatusFlag.FETCHING &&
+      !props.ownershipStatus
+    ) {
       props.dispatchLoadBookOwnershipRequest(props.bookId);
     }
-    if (props.bookToBookRecommendationFetchStatus !== FetchStatusFlag.FETCHING && !props.recommendedBooks) {
+    if (
+      props.bookToBookRecommendationFetchStatus !== FetchStatusFlag.FETCHING &&
+      !props.recommendedBooks
+    ) {
       props.dispatchLoadBookToBookRecommendation(props.bookId);
     }
-  }
+  };
 
   public componentDidMount() {
     this.fetchBookDetailPageData(this.props);
@@ -79,37 +81,27 @@ export class BookDetail extends React.Component<Props> {
   }
 
   public render() {
-    const {
-      bookId,
-      title,
-      env,
-      solidBackgroundColorRGBString,
-    } = this.props;
+    const { bookId, title, env, solidBackgroundColorRGBString } = this.props;
 
     if (!title || !title.main) {
       return <BookDetailPlaceholder />;
     }
     return (
       <MediaQuery maxWidth={MAX_WIDTH}>
-        {(isMobile) => (
-          <main
-            className={classNames(
-              'SceneWrapper',
-              'PageBookDetail',
-            )}
-          >
+        {isMobile => (
+          <main className={classNames('SceneWrapper', 'PageBookDetail')}>
             <HelmetWithTitle
               titleName={title && title.main ? title.main : null}
-              meta={[{
-                name: 'theme-color',
-                content: solidBackgroundColorRGBString,
-              }]}
+              meta={[
+                {
+                  name: 'theme-color',
+                  content: solidBackgroundColorRGBString,
+                },
+              ]}
             />
             {env.platform.isRidibooks && <ConnectedPageHeader pageTitle={title.main} />}
             <ConnectedBookDetailHeader bookId={bookId}>
-              {!isMobile && (
-                <ConnectedBookDetailMetaContents bookId={bookId} isMobile={false} />
-              )}
+              {!isMobile && <ConnectedBookDetailMetaContents bookId={bookId} isMobile={false} />}
             </ConnectedBookDetailHeader>
             <BookDetailPanelWrapper renderCondition={isMobile}>
               {isMobile ? (
@@ -145,19 +137,24 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
     isLoggedIn: state.user.isLoggedIn,
     ownershipStatus: stateExists ? bookState.ownershipStatus : undefined,
     ownershipFetchStatus: stateExists ? bookState.ownershipFetchStatus : undefined,
-    bookEndDateTime: !!bookDetail ? bookDetail.endDatetime : '',
+    bookEndDateTime: bookDetail ? bookDetail.endDatetime : '',
     env: state.environment,
     solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(state),
-    bookToBookRecommendationFetchStatus: !!bookDetail ? bookState.bookToBookRecommendationFetchStatus : FetchStatusFlag.IDLE,
-    recommendedBooks: !!bookDetail && bookState.recommendedBooks ? bookState.recommendedBooks : undefined,
+    bookToBookRecommendationFetchStatus: bookDetail
+      ? bookState.bookToBookRecommendationFetchStatus
+      : FetchStatusFlag.IDLE,
+    recommendedBooks:
+      !!bookDetail && bookState.recommendedBooks ? bookState.recommendedBooks : undefined,
     // Data that can be pre-fetched in home
-    title: !!bookDetail ? bookDetail.title : !!book ? book.title : undefined,
+    title: bookDetail ? bookDetail.title : book ? book.title : undefined,
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => ({
-  dispatchLoadBookRequest: (bookId: number) => dispatch(BookActions.loadBookDetailRequest({ bookId })),
-  dispatchLoadBookToBookRecommendation: (bookId: number) => dispatch(BookActions.loadBookToBookRecommendationRequest({ bookId })),
+  dispatchLoadBookRequest: (bookId: number) =>
+    dispatch(BookActions.loadBookDetailRequest({ bookId })),
+  dispatchLoadBookToBookRecommendation: (bookId: number) =>
+    dispatch(BookActions.loadBookToBookRecommendationRequest({ bookId })),
   dispatchLoadBookOwnershipRequest: (bookId: number) =>
     dispatch(BookActions.loadBookOwnershipRequest({ bookId })),
   dispatchAddMySelect: (bookId: BookId) => dispatch(MySelectActions.addMySelectRequest({ bookId })),

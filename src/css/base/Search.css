@@ -79,7 +79,7 @@
 
 .GNBSearchWrapper-colored {
   & .GNBSearchInputWrapper {
-    background: rgba(255, 255, 255, .1);
+    background: rgba(255, 255, 255, 0.1);
   }
   & .GNBSearchInput {
     color: #fff;
@@ -92,15 +92,22 @@
   }
   &.active {
     & .RSGIcon-search {
-      fill: rgba(255, 255, 255, .5);
+      fill: rgba(255, 255, 255, 0.5);
     }
   }
-  & .GNBSearchInput::-webkit-input-placeholder { color: rgba(255, 255, 255, .5); }
-  & .GNBSearchInput:-moz-placeholder { color: rgba(255, 255, 255, .5); }
-  & .GNBSearchInput:-ms-input-placeholder { color: rgba(255, 255, 255, .5); }
-  & .GNBSearchInput:-moz-placeholder { color: rgba(255, 255, 255, .5); }
+  & .GNBSearchInput::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  & .GNBSearchInput:-moz-placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  & .GNBSearchInput:-ms-input-placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  & .GNBSearchInput:-moz-placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
 }
-
 
 .GNBSearchInput::-ms-clear,
 .GNBSearchInput::-ms-reveal {
@@ -116,7 +123,6 @@
   display: none;
 }
 
-
 .GNBSearchButton {
   @apply --reset-button;
 
@@ -126,15 +132,15 @@
   border: none;
   background: transparent;
   cursor: pointer;
-  transition: opacity .2;
+  transition: opacity 0.2;
   @media (hover: hover) {
     &:hover {
-      opacity: .8;
+      opacity: 0.8;
     }
   }
   @media (hover: none) {
     &:active {
-      opacity: .8;
+      opacity: 0.8;
     }
   }
   @nest .androidApp & {
@@ -201,10 +207,18 @@
   letter-spacing: -0.3px;
   color: var(--gray_100);
 
-  &::-webkit-input-placeholder { color: var(--slategray_40); }
-  &:-moz-placeholder { color: var(--slategray_40); }
-  &:-ms-input-placeholder { color: var(--slategray_40); }
-  &:-moz-placeholder { color: var(--slategray_40); }
+  &::-webkit-input-placeholder {
+    color: var(--slategray_40);
+  }
+  &:-moz-placeholder {
+    color: var(--slategray_40);
+  }
+  &:-ms-input-placeholder {
+    color: var(--slategray_40);
+  }
+  &:-moz-placeholder {
+    color: var(--slategray_40);
+  }
 }
 .GNBSearchResetButton {
   display: none;
@@ -275,7 +289,9 @@
   .GNBSearchIcon {
     display: block;
   }
-  .GNBSearchInput { display: inline-block; }
+  .GNBSearchInput {
+    display: inline-block;
+  }
 }
 
 @media (--mobile-screen) {
@@ -340,7 +356,7 @@
         height: 100%;
         background: var(--slategray_70);
         content: '';
-        opacity: .5;
+        opacity: 0.5;
       }
       @nest .androidApp & {
         margin-top: var(--gnb_android_app_height);

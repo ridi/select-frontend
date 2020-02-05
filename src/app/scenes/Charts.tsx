@@ -5,8 +5,13 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
-import { ConnectedGridBookList, ConnectedPageHeader, HelmetWithTitle, Pagination } from 'app/components';
-import { MAX_WIDTH, PageTitleText} from 'app/constants';
+import {
+  ConnectedGridBookList,
+  ConnectedPageHeader,
+  HelmetWithTitle,
+  Pagination,
+} from 'app/components';
+import { MAX_WIDTH, PageTitleText } from 'app/constants';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 
 import { BookState } from 'app/services/book';
@@ -33,14 +38,17 @@ type Props = CollectionStateProps & CollectionDispatchProps & RouteProps;
 
 export class Charts extends React.Component<Props> {
   private initialDispatchTimeout?: number | null;
+
   public state: State = {
     isInitialized: false,
   };
 
   private isFetched = (page: number) => {
     const { collection } = this.props;
-    return (collection && collection.itemListByPage[page] && collection.itemListByPage[page].isFetched);
-  }
+    return (
+      collection && collection.itemListByPage[page] && collection.itemListByPage[page].isFetched
+    );
+  };
 
   public componentDidMount() {
     this.initialDispatchTimeout = window.setTimeout(() => {
@@ -82,36 +90,38 @@ export class Charts extends React.Component<Props> {
       <main className="SceneWrapper">
         <HelmetWithTitle titleName={PageTitleText.CHARTS} />
         <ConnectedPageHeader pageTitle={PageTitleText.CHARTS} />
-        {!this.isFetched(page) || isNaN(page)
-          ? <GridBookListSkeleton displayRanking={true} />
-          : 
+        {!this.isFetched(page) || isNaN(page) ? (
+          <GridBookListSkeleton displayRanking />
+        ) : (
           <>
             <ConnectedGridBookList
               serviceTitleForTracking="select-book"
               pageTitleForTracking="popular"
               uiPartTitleForTracking="book-list"
-              miscTracking={JSON.stringify({sect_page: page})}
-              books={collection.itemListByPage[page].itemList.map((id) => books[id].book!)}
-              isChart={true}
+              miscTracking={JSON.stringify({ sect_page: page })}
+              books={collection.itemListByPage[page].itemList.map(id => books[id].book!)}
+              isChart
               page={page}
             />
-            {itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
-              {
-                (isMobile) => <Pagination
-                  currentPage={page}
-                  totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                  isMobile={isMobile}
-                  item={{
-                    el: Link,
-                    getProps: (p): LinkProps => ({
-                      to: `/charts?page=${p}`,
-                    }),
-                  }}
-                />
-              }
-            </MediaQuery>}
+            {itemCount > 0 && (
+              <MediaQuery maxWidth={MAX_WIDTH}>
+                {isMobile => (
+                  <Pagination
+                    currentPage={page}
+                    totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                    isMobile={isMobile}
+                    item={{
+                      el: Link,
+                      getProps: (p): LinkProps => ({
+                        to: `/charts?page=${p}`,
+                      }),
+                    }}
+                  />
+                )}
+              </MediaQuery>
+            )}
           </>
-        }
+        )}
       </main>
     );
   }
@@ -123,10 +133,9 @@ const mapStateToProps = (rootState: RidiSelectState): CollectionStateProps => ({
   page: getPageQuery(rootState),
 });
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  dispatchLoadNewReleases: (page: number) => dispatch(Actions.loadCollectionRequest({ collectionId: 'popular', page })),
+  dispatchLoadNewReleases: (page: number) =>
+    dispatch(Actions.loadCollectionRequest({ collectionId: 'popular', page })),
 });
-export const ConnectedCharts = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(Charts),
-);
+export const ConnectedCharts = withRouter(connect(mapStateToProps, mapDispatchToProps)(Charts));
 
 export default ConnectedCharts;

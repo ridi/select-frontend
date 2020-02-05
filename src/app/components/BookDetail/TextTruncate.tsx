@@ -5,7 +5,11 @@ interface Props {
   text: string;
   lines: number;
   lineHeight: number;
-  renderExpander?: ({ isExpanded, isTruncated, expand }: {
+  renderExpander?: ({
+    isExpanded,
+    isTruncated,
+    expand,
+  }: {
     isExpanded: boolean;
     isTruncated: boolean;
     expand: () => void;
@@ -19,6 +23,7 @@ interface State {
 
 export class TextTruncate extends React.Component<Props, State> {
   private wrapper: HTMLParagraphElement | null;
+
   public state = {
     isExpanded: false,
     isTruncated: false,
@@ -26,7 +31,7 @@ export class TextTruncate extends React.Component<Props, State> {
 
   private expand = () => {
     this.setState({ isExpanded: true });
-  }
+  };
 
   public componentDidMount() {
     if (this.wrapper) {
@@ -42,17 +47,17 @@ export class TextTruncate extends React.Component<Props, State> {
     const { isExpanded, isTruncated } = this.state;
     // Not setting type since WebkitLiineClamp doesn't exist in StyleProperties
     const style = {
-      WebkitLineClamp: isTruncated && !isExpanded ? lines : 'unset' as 'unset',
+      WebkitLineClamp: isTruncated && !isExpanded ? lines : ('unset' as 'unset'),
       maxHeight: isTruncated && !isExpanded ? lines * lineHeight : 'none',
     };
     return (
       <>
         <p
           className={classNames({
-            'TextTruncate': true,
+            TextTruncate: true,
             'TextTruncate-truncated': isTruncated && !isExpanded,
           })}
-          ref={(wrapper) => this.wrapper = wrapper}
+          ref={wrapper => (this.wrapper = wrapper)}
           dangerouslySetInnerHTML={{ __html: text.split('\n').join('<br />') }}
           style={style}
         />

@@ -1,13 +1,12 @@
 import { connectRouter, routerMiddleware, RouterState } from 'connected-react-router';
 import { isEmpty } from 'lodash-es';
 import * as qs from 'qs';
-import { Dispatch , applyMiddleware, combineReducers, compose, createStore } from 'redux';
+import { Dispatch, applyMiddleware, combineReducers, compose, createStore } from 'redux';
 
 import { loggers } from 'redux-act';
 import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
-import { closingReservedBooksReducer } from './services/closingReservedBooks/index';
 
 import browserHistory from 'app/config/history';
 import { appReducer, AppState } from 'app/services/app';
@@ -31,33 +30,50 @@ import { articleRootSaga } from 'app/services/article/sagas';
 import { ArticleFollowingState, articleFollowReducer } from 'app/services/articleFollowing';
 import { articleFollowingRootSaga } from 'app/services/articleFollowing/sagas';
 
-import { categoryBooksReducer, CategoryBooksState, categoryListReducer, CategoryListState } from 'app/services/category';
+import {
+  categoryBooksReducer,
+  CategoryBooksState,
+  categoryListReducer,
+  CategoryListState,
+} from 'app/services/category';
 import { categoryRootSaga } from 'app/services/category/sagas';
-import { ClosingReservedBooksState } from 'app/services/closingReservedBooks/index';
+import {
+  ClosingReservedBooksState,
+  closingReservedBooksReducer,
+} from 'app/services/closingReservedBooks/index';
 import { closingReservedBooksRootSaga } from 'app/services/closingReservedBooks/sagas';
 import { collectionReducer, CollectionsState } from 'app/services/collection';
 import { collectionsRootSaga } from 'app/services/collection/sagas';
 import { environmentReducer, EnvironmentState } from 'app/services/environment';
-import { MySelectState , mySelectReducer } from 'app/services/mySelect';
+import { MySelectState, mySelectReducer } from 'app/services/mySelect';
 
 import { mySelectRootSaga } from 'app/services/mySelect/sagas';
 import { reviewsReducer, ReviewsState } from 'app/services/review';
 import { reviewRootSaga } from 'app/services/review/sagas';
-import { searchResultReducer , SearchResultState } from 'app/services/searchResult';
+import { searchResultReducer, SearchResultState } from 'app/services/searchResult';
 
 import { searchResultRootSaga } from 'app/services/searchResult/sagas';
 import { serviceStatusReducer, ServiceStatusState } from 'app/services/serviceStatus';
 import { serviceStatusSaga } from 'app/services/serviceStatus/sagas';
 import { trackingSaga } from 'app/services/tracking/sagas';
 import { voucherRootSaga } from 'app/services/voucher/sagas';
-import { articleChannelListReducer, ArticleChannelListState, articleChannelReducer, ArticleChannelState } from './services/articleChannel';
-import { articleHomeReducer, ArticleHomeState } from './services/articleHome';
 
 import env from 'app/config/env';
-import { customHistoryReducer, customHistorySaga, CustomHistoryState } from 'app/services/customHistory';
+import {
+  customHistoryReducer,
+  customHistorySaga,
+  CustomHistoryState,
+} from 'app/services/customHistory';
 import { downloadSaga } from 'app/services/download/sagas';
 import { userReducer, UserState } from 'app/services/user';
 import { stateHydrator } from 'app/utils/stateHydrator';
+import { articleHomeReducer, ArticleHomeState } from './services/articleHome';
+import {
+  articleChannelListReducer,
+  ArticleChannelListState,
+  articleChannelReducer,
+  ArticleChannelState,
+} from './services/articleChannel';
 
 declare global {
   interface Window {
@@ -120,9 +136,12 @@ const logger = createLogger({
   ...loggers.reduxLogger,
 });
 
-export const hasRefreshedForAppDownload = () => !!qs.parse(location.search, { ignoreQueryPrefix: true }).to_app_store;
-export const hasCompletedRidiPaySubscription = () => !!qs.parse(location.search, { ignoreQueryPrefix: true }).new_subscription;
-export const hasCompletedPayletterSubscription = () => !!qs.parse(location.search, { ignoreQueryPrefix: true }).new_payletter_subscription;
+export const hasRefreshedForAppDownload = () =>
+  !!qs.parse(location.search, { ignoreQueryPrefix: true }).to_app_store;
+export const hasCompletedRidiPaySubscription = () =>
+  !!qs.parse(location.search, { ignoreQueryPrefix: true }).new_subscription;
+export const hasCompletedPayletterSubscription = () =>
+  !!qs.parse(location.search, { ignoreQueryPrefix: true }).new_payletter_subscription;
 
 const reducers = combineReducers({
   router: connectRouter(browserHistory),
@@ -150,10 +169,7 @@ const reducers = combineReducers({
   favoriteArticle: favoriteArticleListReducer,
 });
 
-const middleware = [
-  routerMiddleware(browserHistory),
-  sagaMiddleware,
-];
+const middleware = [routerMiddleware(browserHistory), sagaMiddleware];
 
 if (!env.production) {
   middleware.push(logger);
@@ -161,12 +177,12 @@ if (!env.production) {
 
 const enhancers = (!env.production
   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-  : compose
-)(applyMiddleware(...middleware));
+  : compose)(applyMiddleware(...middleware));
 
 const savedState = stateHydrator.load();
-export const store = hasRefreshedForAppDownload() && !isEmpty(savedState)
-  ? createStore(reducers, savedState, enhancers)
-  : createStore(reducers, enhancers);
+export const store =
+  hasRefreshedForAppDownload() && !isEmpty(savedState)
+    ? createStore(reducers, savedState, enhancers)
+    : createStore(reducers, enhancers);
 
 sagaMiddleware.run(rootSaga, store.dispatch);

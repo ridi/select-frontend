@@ -24,7 +24,5 @@ export function formatFileCount(count: number): string {
     unit = '만';
   }
 
-  return (
-    floorNums > 0 ? `약 ${floorNums}${unit} 자` : ''
-  );
+  return floorNums > 0 ? `약 ${floorNums}${unit} 자` : '';
 }

@@ -79,7 +79,7 @@
     flex-direction: row;
   } */
 
-  transition: background .2s;
+  transition: background 0.2s;
   @media (hover: hover) {
     &:hover {
       background: var(--slategray_5);

@@ -44,28 +44,28 @@ export interface CollectionsState {
 
 export const Actions = {
   updateCollections: createAction<{
-    collections: CollectionResponse[],
+    collections: CollectionResponse[];
   }>('updateCollections'),
 
   updateSpotlight: createAction<{
-    spotlight: CollectionResponse,
+    spotlight: CollectionResponse;
   }>('updateSpotlight'),
 
   loadCollectionRequest: createAction<{
-    collectionId: CollectionId,
-    page: number,
+    collectionId: CollectionId;
+    page: number;
   }>('loadCollectionRequest'),
 
   loadCollectionSuccess: createAction<{
-    collectionId: CollectionId,
-    page: number,
-    response: CollectionResponse,
+    collectionId: CollectionId;
+    page: number;
+    response: CollectionResponse;
   }>('loadCollectionSuccess'),
 
   loadCollectionFailure: createAction<{
-    collectionId: CollectionId,
-    page: number,
-    error: AxiosError,
+    collectionId: CollectionId;
+    page: number;
+    error: AxiosError;
   }>('loadCollectionSuccess'),
 };
 
@@ -86,30 +86,32 @@ export const INITIAL_STATE: CollectionsState = {
 
 export const collectionReducer = createReducer<CollectionsState>({}, INITIAL_STATE);
 
-collectionReducer.on(Actions.updateCollections, (state = INITIAL_STATE, { collections = [] }) => collections.reduce((prev, collection) => {
-  // Don't need to update data if data exists
-  const { collectionId } = collection;
-  if (!!state[collectionId]) {
-    prev[collectionId] = state[collectionId];
-  } else {
-    prev[collectionId] = {
-      ...state[collectionId],
-      id: collectionId,
-      itemCount: collection.totalCount, // TODO: Ask to @minq if we can get this number in home response
-      itemListByPage: {
-        1: {
-          fetchStatus: FetchStatusFlag.IDLE,
-          itemList: collection.books.map((book) => book.id),
-          isFetched: false,
+collectionReducer.on(Actions.updateCollections, (state = INITIAL_STATE, { collections = [] }) =>
+  collections.reduce((prev, collection) => {
+    // Don't need to update data if data exists
+    const { collectionId } = collection;
+    if (state[collectionId]) {
+      prev[collectionId] = state[collectionId];
+    } else {
+      prev[collectionId] = {
+        ...state[collectionId],
+        id: collectionId,
+        itemCount: collection.totalCount, // TODO: Ask to @minq if we can get this number in home response
+        itemListByPage: {
+          1: {
+            fetchStatus: FetchStatusFlag.IDLE,
+            itemList: collection.books.map(book => book.id),
+            isFetched: false,
+          },
         },
-      },
-      pageCount: 0,
-      title: collection.title,
-      type: collection.type,
-    };
-  }
-  return prev;
-}, state));
+        pageCount: 0,
+        title: collection.title,
+        type: collection.type,
+      };
+    }
+    return prev;
+  }, state),
+);
 
 collectionReducer.on(Actions.updateSpotlight, (state = INITIAL_STATE, { spotlight }) => ({
   ...state,
@@ -118,7 +120,7 @@ collectionReducer.on(Actions.updateSpotlight, (state = INITIAL_STATE, { spotligh
     itemListByPage: {
       1: {
         fetchStatus: FetchStatusFlag.IDLE,
-        itemList: spotlight.books.map((book) => book.id),
+        itemList: spotlight.books.map(book => book.id),
         isFetched: false,
       },
     },
@@ -128,53 +130,62 @@ collectionReducer.on(Actions.updateSpotlight, (state = INITIAL_STATE, { spotligh
   },
 }));
 
-collectionReducer.on(Actions.loadCollectionRequest, (state = INITIAL_STATE, { page, collectionId }) => ({
-  ...state,
-  [collectionId]: {
-    ...state[collectionId],
-    id: collectionId,
-    itemCount: 0,
-    itemListByPage: {
-      ...(state[collectionId] && state[collectionId].itemListByPage),
-      [page]: {
-        fetchStatus: FetchStatusFlag.FETCHING,
-        itemList: [],
-        isFetched: false,
+collectionReducer.on(
+  Actions.loadCollectionRequest,
+  (state = INITIAL_STATE, { page, collectionId }) => ({
+    ...state,
+    [collectionId]: {
+      ...state[collectionId],
+      id: collectionId,
+      itemCount: 0,
+      itemListByPage: {
+        ...(state[collectionId] && state[collectionId].itemListByPage),
+        [page]: {
+          fetchStatus: FetchStatusFlag.FETCHING,
+          itemList: [],
+          isFetched: false,
+        },
       },
     },
-  },
-}));
+  }),
+);
 
-collectionReducer.on(Actions.loadCollectionSuccess, (state = INITIAL_STATE, { page, collectionId, response }) => ({
-  ...state,
-  [collectionId]: {
-    ...state[collectionId],
-    itemListByPage: {
-      ...state[collectionId].itemListByPage,
-      [page]: {
-        fetchStatus: FetchStatusFlag.IDLE,
-        itemList: response.books.map((book) => book.id),
-        isFetched: true,
+collectionReducer.on(
+  Actions.loadCollectionSuccess,
+  (state = INITIAL_STATE, { page, collectionId, response }) => ({
+    ...state,
+    [collectionId]: {
+      ...state[collectionId],
+      itemListByPage: {
+        ...state[collectionId].itemListByPage,
+        [page]: {
+          fetchStatus: FetchStatusFlag.IDLE,
+          itemList: response.books.map(book => book.id),
+          isFetched: true,
+        },
       },
+      title: response.title,
+      id: response.collectionId,
+      itemCount: response.totalCount,
+      type: response.type,
     },
-    title: response.title,
-    id: response.collectionId,
-    itemCount: response.totalCount,
-    type: response.type,
-  },
-}));
+  }),
+);
 
-collectionReducer.on(Actions.loadCollectionFailure, (state = INITIAL_STATE, { collectionId, page }) => ({
-  ...state,
-  [collectionId]: {
-    ...state[collectionId],
-    itemListByPage: {
-      ...state[collectionId].itemListByPage,
-      [page]: {
-        fetchStatus: FetchStatusFlag.FETCH_ERROR,
-        itemList: [],
-        isFetched: false,
+collectionReducer.on(
+  Actions.loadCollectionFailure,
+  (state = INITIAL_STATE, { collectionId, page }) => ({
+    ...state,
+    [collectionId]: {
+      ...state[collectionId],
+      itemListByPage: {
+        ...state[collectionId].itemListByPage,
+        [page]: {
+          fetchStatus: FetchStatusFlag.FETCH_ERROR,
+          itemList: [],
+          isFetched: false,
+        },
       },
     },
-  },
-}));
+  }),
+);

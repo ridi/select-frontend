@@ -3,7 +3,6 @@ import MediaQuery from 'react-responsive';
 import { Link, LinkProps } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-
 import { FetchStatusFlag, MAX_WIDTH, PageTitleText } from 'app/constants';
 import { ConnectedPageHeader, HelmetWithTitle, Pagination } from 'app/components';
 import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
@@ -18,14 +17,15 @@ export const OrderHistory: React.FunctionComponent = () => {
   const currentPage = useSelector(getPageQuery);
   const orderHistory = useSelector((state: RidiSelectState) => state.user.purchaseHistory);
   const subscriptionState = useSelector((state: RidiSelectState) => state.user.subscription);
-  const subscriptionFetchStatus = useSelector((state: RidiSelectState) => state.user.subscriptionFetchStatus);
+  const subscriptionFetchStatus = useSelector(
+    (state: RidiSelectState) => state.user.subscriptionFetchStatus,
+  );
 
   const dispatch = useDispatch();
 
-  const isFetched = () => (
+  const isFetched = () =>
     orderHistory.itemListByPage[currentPage] &&
-    orderHistory.itemListByPage[currentPage].fetchStatus !== FetchStatusFlag.FETCHING
-  );
+    orderHistory.itemListByPage[currentPage].fetchStatus !== FetchStatusFlag.FETCHING;
 
   useEffect(() => {
     if (!isFetched()) {
@@ -41,7 +41,7 @@ export const OrderHistory: React.FunctionComponent = () => {
     return () => {
       dispatch(Actions.clearPurchases());
       dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab: true }));
-    }
+    };
   }, []);
 
   useEffect(() => {
@@ -56,21 +56,18 @@ export const OrderHistory: React.FunctionComponent = () => {
     <main className="SceneWrapper PageOrderHistory">
       <HelmetWithTitle titleName={PageTitleText.ORDER_HISTORY} />
       <ConnectedPageHeader pageTitle={PageTitleText.ORDER_HISTORY} />
-      {(
-        !isFetched() ||
-        subscriptionFetchStatus === FetchStatusFlag.FETCHING ||
-        isNaN(currentPage)
-      ) ?
+      {!isFetched() ||
+      subscriptionFetchStatus === FetchStatusFlag.FETCHING ||
+      isNaN(currentPage) ? (
         <SubscriptionListPlaceholder />
-        : (
-          <>
-            <OrderHistoryList
-              page={currentPage}
-            />
-            {itemCount > 0 &&
-              <>
-                <MediaQuery maxWidth={MAX_WIDTH}>
-                  {(isMobile) => <Pagination
+      ) : (
+        <>
+          <OrderHistoryList page={currentPage} />
+          {itemCount > 0 && (
+            <>
+              <MediaQuery maxWidth={MAX_WIDTH}>
+                {isMobile => (
+                  <Pagination
                     currentPage={currentPage}
                     totalPages={Math.ceil(itemCount / itemCountPerPage)}
                     isMobile={isMobile}
@@ -80,16 +77,20 @@ export const OrderHistory: React.FunctionComponent = () => {
                         to: `/order-history?page=${p}`,
                       }),
                     }}
-                  />}
-                </MediaQuery>
-                <ul className="NoticeList">
-                  <li className="NoticeItem">결제 취소는 결제일로부터 7일 이내 이용권 대상 도서를 1권 이상 다운로드하지 않는 경우에만 가능합니다.</li>
-                  <li className="NoticeItem">결제 취소 시 리디셀렉트 구독이 자동으로 해지됩니다.</li>
-                </ul>
-              </>
-            }
-          </>
-        )}
+                  />
+                )}
+              </MediaQuery>
+              <ul className="NoticeList">
+                <li className="NoticeItem">
+                  결제 취소는 결제일로부터 7일 이내 이용권 대상 도서를 1권 이상 다운로드하지 않는
+                  경우에만 가능합니다.
+                </li>
+                <li className="NoticeItem">결제 취소 시 리디셀렉트 구독이 자동으로 해지됩니다.</li>
+              </ul>
+            </>
+          )}
+        </>
+      )}
     </main>
   );
-}
+};

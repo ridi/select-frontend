@@ -9,14 +9,11 @@ export interface RUIRadioInputProps {
   onChange: (event: React.ChangeEvent<any>) => void;
 }
 
-export const RUIRadioInput: React.SFC<RUIRadioInputProps> = (props) => {
+export const RUIRadioInput: React.SFC<RUIRadioInputProps> = props => {
   const { id, inputName, value, displayName, isChecked, onChange } = props;
 
   return (
-    <label
-      htmlFor={id}
-      className="RUIRadio"
-    >
+    <label htmlFor={id} className="RUIRadio">
       <input
         id={id}
         type="radio"

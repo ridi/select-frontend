@@ -25,7 +25,7 @@
       box-sizing: border-box;
       border-radius: 999px;
       background-size: cover;
-      background-position: center center;      
+      background-position: center center;
     }
 
     & .ArticleChannel_ImageShadow {
@@ -36,7 +36,7 @@
       left: 0;
       top: 0;
       box-sizing: border-box;
-      border: 1px solid rgba(0,0,0,.1);
+      border: 1px solid rgba(0, 0, 0, 0.1);
       border-radius: 999px;
       display: block;
     }
@@ -75,7 +75,6 @@
   white-space: pre-line;
 }
 
-
 .ArticleChannel_Meta_Serial {
   display: block;
   margin-top: 4px;
@@ -92,7 +91,6 @@
   font-size: 13px;
   letter-spacing: -0.3px;
   color: var(--dodgerblue_50);
-
 }
 
 .ArticleChannel_Meta_FollowingNumber {
@@ -109,8 +107,6 @@
   fill: #fff;
   margin-right: 4px;
 }
-
-
 
 .Channel_ArticleList {
   @media (--pc-screen) {

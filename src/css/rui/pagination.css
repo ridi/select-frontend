@@ -38,11 +38,10 @@
   line-height: var(--Paging-height);
   text-align: center;
   white-space: nowrap;
-  
+
   @media (--pc-screen) {
     padding-bottom: 0;
   }
-
 }
 
 .Pagination_Button {

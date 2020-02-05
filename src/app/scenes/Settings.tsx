@@ -37,12 +37,8 @@ export class Settings extends React.PureComponent<SettingProps> {
     const { isIosInApp } = this.props;
     const { STORE_URL } = this.props.environment;
     return (
-      <SettingMenu title={'도서 / 리뷰'} icon={'book'} key="Menus About Books">
-        <SettingMenuItem
-          linkComponent={Link}
-          to="/my-select-history"
-          key="ReadHistory"
-        >
+      <SettingMenu title="도서 / 리뷰" icon="book" key="Menus About Books">
+        <SettingMenuItem linkComponent={Link} to="/my-select-history" key="ReadHistory">
           도서 이용 내역
         </SettingMenuItem>
         <SettingMenuItem
@@ -61,11 +57,7 @@ export class Settings extends React.PureComponent<SettingProps> {
   private renderBooksMenus() {
     const { subscriptionState, isIosInApp, hasAvailableTicket } = this.props;
     return (
-      <SettingMenu
-        title={'구독 / 결제'}
-        icon={'card'}
-        key="Menus About Subscription"
-      >
+      <SettingMenu title="구독 / 결제" icon="card" key="Menus About Subscription">
         <SettingMenuItem
           linkComponent={Link}
           to={RoutePaths.MANAGE_SUBSCRIPTION}
@@ -74,11 +66,7 @@ export class Settings extends React.PureComponent<SettingProps> {
         >
           구독 관리
         </SettingMenuItem>
-        <SettingMenuItem
-          linkComponent={Link}
-          to="/order-history"
-          key="PaymentHistory"
-        >
+        <SettingMenuItem linkComponent={Link} to="/order-history" key="PaymentHistory">
           결제/이용권 내역
         </SettingMenuItem>
         <SettingMenuItem
@@ -107,13 +95,10 @@ export class Settings extends React.PureComponent<SettingProps> {
   // 개인 메뉴
   private renderUserMenus() {
     const { isIosInApp, environment, isInApp } = this.props;
-    const {
-      STORE_URL: BASE_URL_STORE,
-      SELECT_URL: BASE_URL_RIDISELECT,
-    } = environment;
+    const { STORE_URL: BASE_URL_STORE, SELECT_URL: BASE_URL_RIDISELECT } = environment;
 
     return !isIosInApp ? (
-      <SettingMenu title={'개인'} icon={'user'} key="Menus About User">
+      <SettingMenu title="개인" icon="user" key="Menus About User">
         <SettingMenuItem
           href="https://ridihelp.zendesk.com/hc/ko/requests/new"
           target="_blank"
@@ -144,12 +129,9 @@ export class Settings extends React.PureComponent<SettingProps> {
   }
 
   private renderMenus() {
-    return [
-      this.renderBooksMenus(),
-      this.renderSubscriptionMenus(),
-      this.renderUserMenus(),
-    ];
+    return [this.renderBooksMenus(), this.renderSubscriptionMenus(), this.renderUserMenus()];
   }
+
   public componentDidMount() {
     const {
       isAccountMeRetried,
@@ -177,11 +159,7 @@ export class Settings extends React.PureComponent<SettingProps> {
   }
 
   public render() {
-    const {
-      isLoggedIn,
-      subscriptionFetchStatus,
-      ticketFetchStatus,
-    } = this.props;
+    const { isLoggedIn, subscriptionFetchStatus, ticketFetchStatus } = this.props;
 
     return (
       <main className={classNames('SceneWrapper', 'PageSetting')}>
@@ -189,11 +167,11 @@ export class Settings extends React.PureComponent<SettingProps> {
         <ConnectedPageHeader pageTitle={PageTitleText.SETTING} />
         {subscriptionFetchStatus === FetchStatusFlag.IDLE &&
         ticketFetchStatus === FetchStatusFlag.IDLE &&
-        isLoggedIn ? 
+        isLoggedIn ? (
           <ConnectedSubscriptionInfo />
-          : (
-            <SettingPlaceholder />
-          )}
+        ) : (
+          <SettingPlaceholder />
+        )}
         {this.renderMenus()}
       </main>
     );
@@ -215,14 +193,10 @@ const mapStateToProps = (state: RidiSelectState): SettingStateProps => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
   dispatchLoadAccountMeRequest: () => dispatch(Actions.loadAccountsMeRequest()),
-  dispatchLoadSubscriptionRequest: () =>
-    dispatch(Actions.loadSubscriptionRequest()),
-  dispatchLoadOrderHistory: (page: number) =>
-    dispatch(Actions.loadPurchasesRequest({ page })),
-  dispatchUpdateGNBTabExpose: (isGnbTab: boolean) => dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
+  dispatchLoadSubscriptionRequest: () => dispatch(Actions.loadSubscriptionRequest()),
+  dispatchLoadOrderHistory: (page: number) => dispatch(Actions.loadPurchasesRequest({ page })),
+  dispatchUpdateGNBTabExpose: (isGnbTab: boolean) =>
+    dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
 });
 
-export const ConnectedSetting = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Settings);
+export const ConnectedSetting = connect(mapStateToProps, mapDispatchToProps)(Settings);

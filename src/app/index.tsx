@@ -28,11 +28,13 @@ const styleCache = createCache();
 
 class App extends React.Component {
   public componentDidMount() {
-    fetchUserInfo().then((user) => {
-      store.dispatch(Actions.initializeUser({ userDTO: user }));
-    }).finally(() => {
-      store.dispatch(Actions.fetchUserInfo({ isFetching: false }));
-    });
+    fetchUserInfo()
+      .then(user => {
+        store.dispatch(Actions.initializeUser({ userDTO: user }));
+      })
+      .finally(() => {
+        store.dispatch(Actions.fetchUserInfo({ isFetching: false }));
+      });
     loadFonts();
   }
 
@@ -48,7 +50,4 @@ class App extends React.Component {
   }
 }
 
-render(
-  <App />,
-  document.getElementById('app'),
-);
+render(<App />, document.getElementById('app'));

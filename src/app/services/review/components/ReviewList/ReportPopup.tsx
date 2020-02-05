@@ -61,25 +61,24 @@ export class ReportPopup extends React.Component<ReviewPopupProps, ReportPopupSt
       return;
     }
 
-    requestReportReview(
-      this.props.bookId,
-      this.props.reviewId,
-      this.state.selectedReasonValue,
-    ).then((response) => {
-      if (response.status === 200) {
-        this.props.onSubmitCallback();
-        toast.success('신고가 접수되었습니다.');
-        this.props.close();
-      } else {
-        toast.failureMessage();
-      }
-    }).catch((e) => {
-      showMessageForRequestError(e);
-    }).finally(() => {
-      this.setState({
-        isSubmitting: false,
+    requestReportReview(this.props.bookId, this.props.reviewId, this.state.selectedReasonValue)
+      .then(response => {
+        if (response.status === 200) {
+          this.props.onSubmitCallback();
+          toast.success('신고가 접수되었습니다.');
+          this.props.close();
+        } else {
+          toast.failureMessage();
+        }
+      })
+      .catch(e => {
+        showMessageForRequestError(e);
+      })
+      .finally(() => {
+        this.setState({
+          isSubmitting: false,
+        });
       });
-    });
   }
 
   public render() {
@@ -90,8 +89,8 @@ export class ReportPopup extends React.Component<ReviewPopupProps, ReportPopupSt
       <div className="ReportPopup">
         <Popup
           title="리뷰 신고하기"
-          active={true}
-          useButtons={true}
+          active
+          useButtons
           showFooterHr={false}
           cancelButtonName="취소"
           onCancel={this.props.close}
@@ -101,7 +100,7 @@ export class ReportPopup extends React.Component<ReviewPopupProps, ReportPopupSt
         >
           <span className="ReportPopup_Header">신고하는 이유를 선택해주세요.</span>
           <ul className="ReportPopup_RadioInputList">
-            {Object.keys(reportReasonMap).map((reasonValue) => (
+            {Object.keys(reportReasonMap).map(reasonValue => (
               <li key={reasonValue} className="ReportPopup_RadioInputItem">
                 <RUIRadioInput
                   id={`${inputName}${Number(reasonValue)}`}

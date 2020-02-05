@@ -1,7 +1,7 @@
 const focusFreeClass = 'focus-free';
 
 function addFocusOnTabKeyup(element: HTMLElement) {
-  window.addEventListener('keyup', (event) => {
+  window.addEventListener('keyup', event => {
     const code = event.keyCode || event.which;
     if (Number(code) === 9) {
       element.classList.remove(focusFreeClass);
@@ -10,7 +10,7 @@ function addFocusOnTabKeyup(element: HTMLElement) {
 }
 
 function removeFocusOnMouseDown(element: HTMLElement) {
-  window.addEventListener('mousedown', (event) => {
+  window.addEventListener('mousedown', event => {
     element.classList.add(focusFreeClass);
   });
 }

@@ -26,8 +26,8 @@ interface Menu {
   pathname: string;
   pathRegExp: RegExp;
   defaultSearch?: {
-    searchKey: string,
-    propKeyForValue: keyof MenuStateProps,
+    searchKey: string;
+    propKeyForValue: keyof MenuStateProps;
   };
 }
 
@@ -93,12 +93,12 @@ function getLNBMenuSearch(menu: Menu, props: MenuStateProps) {
   const { currentPathname, currentSearch } = props;
   return flow(
     (search: string) => qs.parse(search, { ignoreQueryPrefix: true }),
-    (parsedSearch: object) => menu.defaultSearch ?
-      assignIn(
-        parsedSearch,
-        { [menu.defaultSearch.searchKey]: props[menu.defaultSearch.propKeyForValue] },
-      ) :
-      parsedSearch,
+    (parsedSearch: object) =>
+      menu.defaultSearch
+        ? assignIn(parsedSearch, {
+            [menu.defaultSearch.searchKey]: props[menu.defaultSearch.propKeyForValue],
+          })
+        : parsedSearch,
     (searchObject: object) => qs.stringify(searchObject, { addQueryPrefix: true }),
   )(currentPathname === menu.pathname ? currentSearch : '');
 }
@@ -110,35 +110,44 @@ function getFilteredLNBMenu(appStatus: AppStatus, isAndroidInApp: boolean, isLog
   if (!isAndroidInApp || isLoggedIn) {
     return menus;
   }
-  return menus.filter((menu) => menu.classname !== 'MySelect');
+  return menus.filter(menu => menu.classname !== 'MySelect');
 }
 
-export const LNB: React.SFC<MenuStateProps> = (props) => {
-  const { isLoggedIn, isAndroidInApp, currentPathname, solidBackgroundColorRGBString, appStatus } = props;
+export const LNB: React.SFC<MenuStateProps> = props => {
+  const {
+    isLoggedIn,
+    isAndroidInApp,
+    currentPathname,
+    solidBackgroundColorRGBString,
+    appStatus,
+  } = props;
   const unseenFeeds = useSelector((state: RidiSelectState) => state.articleFollowing.unseenFeeds);
   const filteredMenu = getFilteredLNBMenu(appStatus, isAndroidInApp, isLoggedIn);
 
   return (
     <nav
-      className={classNames(
-        'LnbMenu_Wrapper',
-        `LnbMenu_Wrapper-count${filteredMenu.length}`,
-      )}
+      className={classNames('LnbMenu_Wrapper', `LnbMenu_Wrapper-count${filteredMenu.length}`)}
       style={{ backgroundColor: solidBackgroundColorRGBString }}
     >
       <h2 className="a11y">메인 메뉴</h2>
       <ul className="LnbMenu_List">
-        {filteredMenu.map((menu) => (
+        {filteredMenu.map(menu => (
           <li
             className={classNames(
               'LnbMenu',
               `LnbMenu_${menu.classname}`,
-              menu.pathname === RoutePaths.ARTICLE_FOLLOWING && unseenFeeds && unseenFeeds.length > 0 && 'LnbMenu-hasNew',
+              menu.pathname === RoutePaths.ARTICLE_FOLLOWING &&
+                unseenFeeds &&
+                unseenFeeds.length > 0 &&
+                'LnbMenu-hasNew',
             )}
             key={menu.pathname}
           >
             <Link
-              className={classNames(['LnbMenu_Link', !!currentPathname.match(menu.pathRegExp) && 'LnbMenu_Link-active'])}
+              className={classNames([
+                'LnbMenu_Link',
+                !!currentPathname.match(menu.pathRegExp) && 'LnbMenu_Link-active',
+              ])}
               to={{
                 pathname: menu.pathname,
                 search: getLNBMenuSearch(menu, props),
@@ -158,8 +167,8 @@ const mapStateToProps = (state: RidiSelectState): MenuStateProps => ({
   isLoggedIn: state.user.isLoggedIn,
   isAndroidInApp: getIsAndroidInApp(state),
   solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(state),
-  currentPathname: state.router.location!.pathname,
-  currentSearch: state.router.location!.search,
+  currentPathname: state.router.location.pathname,
+  currentSearch: state.router.location.search,
   lastSelectedCategoryId: state.categories.lastSelectedCategoryId,
 });
 

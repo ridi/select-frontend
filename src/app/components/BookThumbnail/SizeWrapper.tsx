@@ -9,12 +9,8 @@ export interface SizeWrapperProps {
   width?: ThumbnailSize;
 }
 
-export const SizeWrapper: React.SFC<SizeWrapperProps> = (props) => {
-  const {
-    className,
-    width = DEFAULT_THUMBNAIL_SIZE,
-    children,
-  } = props;
+export const SizeWrapper: React.SFC<SizeWrapperProps> = props => {
+  const { className, width = DEFAULT_THUMBNAIL_SIZE, children } = props;
 
   const sizeStyle = {
     width,
@@ -23,13 +19,7 @@ export const SizeWrapper: React.SFC<SizeWrapperProps> = (props) => {
   };
 
   return (
-    <div
-      className={classNames([
-        'RSGBookThumbnail',
-        className,
-      ])}
-      style={sizeStyle}
-    >
+    <div className={classNames(['RSGBookThumbnail', className])} style={sizeStyle}>
       {children}
     </div>
   );

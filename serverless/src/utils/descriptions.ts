@@ -7,7 +7,8 @@ const entities = new AllHtmlEntities();
 
 export const ellipsisDescription = (description: string) =>
   ellipsis(
-    entities.decode(htmlToText.fromString(description, { wordwrap: null }))
+    entities
+      .decode(htmlToText.fromString(description, { wordwrap: null }))
       .replace('<', '〈')
       .replace('>', '〉'),
     MAX_DESCRIPTION_LENGTH,

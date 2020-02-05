@@ -8,16 +8,13 @@ interface ToggleNoticeButtonProps {
   onClick: () => void;
 }
 
-export const ToggleNoticeButton: React.SFC<ToggleNoticeButtonProps> = (props) => {
+export const ToggleNoticeButton: React.SFC<ToggleNoticeButtonProps> = props => {
   const { isPressed, onClick } = props;
 
   return (
     <Button
-      className={classNames(
-        'ReviewForm_ToggleNoticeButton',
-        { pressed: isPressed },
-      )}
-      outline={true}
+      className={classNames('ReviewForm_ToggleNoticeButton', { pressed: isPressed })}
+      outline
       onClick={onClick}
     >
       <Icon name="exclamation_2" className="ReviewForm_ToggleNoticeButton_Icon" />
@@ -31,7 +28,7 @@ interface SpoilerCheckboxProps {
   onChange: (event: React.ChangeEvent<any>) => void;
 }
 
-export const SpoilerCheckbox: React.SFC<SpoilerCheckboxProps> = (props) => {
+export const SpoilerCheckbox: React.SFC<SpoilerCheckboxProps> = props => {
   const { isChecked, onChange } = props;
 
   return (
@@ -54,7 +51,7 @@ interface SubmitButtonProps {
   onClick: () => void;
 }
 
-export const SubmitButton: React.SFC<SubmitButtonProps> = (props) => {
+export const SubmitButton: React.SFC<SubmitButtonProps> = props => {
   const { isDisabled, isFetching, onClick, isFullButton = false } = props;
 
   return (
@@ -81,15 +78,12 @@ interface CancelButtonProps {
   onClick: () => void;
 }
 
-export const CancelButton: React.SFC<CancelButtonProps> = (props) => {
+export const CancelButton: React.SFC<CancelButtonProps> = props => {
   const { onClick, isFullButton = false } = props;
 
   return (
     <Button
-      className={classNames(
-        'ReviewForm_CancelReviewButton',
-        { full: isFullButton },
-      )}
+      className={classNames('ReviewForm_CancelReviewButton', { full: isFullButton })}
       size={isFullButton ? 'large' : 'medium'}
       onClick={onClick}
     >
