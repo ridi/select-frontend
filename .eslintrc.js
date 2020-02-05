@@ -12,19 +12,21 @@ module.exports = {
   ],
   globals: {
     Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly'
+    SharedArrayBuffer: 'readonly',
   },
-  plugins: [
-    'emotion'
-  ],
+  plugins: ['emotion'],
   settings: {
     'import/resolver': 'webpack',
   },
   rules: {
-    'max-len': [0, {
-      code: 180,
-      ignoreUrls: true,
-    }],
+    'prettier/prettier': 'error',
+    'max-len': [
+      0,
+      {
+        code: 100,
+        ignoreUrls: true,
+      },
+    ],
     'array-callback-return': 0,
     camelcase: 0,
     'class-methods-use-this': 0,
