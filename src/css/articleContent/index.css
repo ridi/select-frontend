@@ -100,7 +100,7 @@
 
   &.ArticleContent_GetTicketToReadButtonWrapper-publicContent {
     &.ArticleContent_GetTicketToReadButtonWrapper-sticky {
-      padding: 10px 20px;
+      padding: 10px 0;
       height: auto;
       background: none;
     }
