@@ -23,7 +23,6 @@ interface Props {
   uiPartTitleForTracking?: string;
   miscTracking?: string;
   articles: ArticleResponse[];
-  articleImageSize?: ArticleThumbnailImageSize;
   renderAuthor?: boolean;
   renderChannelThumbnail?: boolean;
   renderChannelMeta?: boolean;
@@ -47,7 +46,6 @@ export const GridArticleList: React.FunctionComponent<Props> = props => {
     renderFavoriteButton = false,
     isFullWidthAvailable = false,
     gridListSizeClassNames,
-    articleImageSize,
   } = props;
 
   const section =
@@ -114,7 +112,11 @@ export const GridArticleList: React.FunctionComponent<Props> = props => {
                 imageUrl={article.thumbnailUrl}
                 articleTitle={article.title}
                 isEnabled={article.isEnabled}
-                imageSize={articleImageSize}
+                imageSize={
+                  isFullWidthAvailable
+                    ? ArticleThumbnailImageSize.WIDTH_900
+                    : ArticleThumbnailImageSize.WIDTH_600
+                }
                 onLinkClick={() =>
                   trackingClick(
                     idx,

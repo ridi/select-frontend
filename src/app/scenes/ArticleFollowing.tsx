@@ -88,7 +88,6 @@ export const ArticleFollowing: React.FunctionComponent = () => {
             <div className="FollowingArticleList">
               {articleItems && articleItems.length > 0 ? (
                 <GridArticleList
-                  articleImageSize={ArticleThumbnailImageSize.WIDTH_900}
                   serviceTitleForTracking="select-article"
                   pageTitleForTracking="following"
                   uiPartTitleForTracking="article-list"
