@@ -1,4 +1,4 @@
-import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
+import { ArticleThumbnail, ArticleThumbnailImageSize } from 'app/components/ArticleThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { SearchResultArticle } from 'app/services/searchResult';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
@@ -46,6 +46,7 @@ export const SearchResultArticleList: React.FunctionComponent<Props> = props => 
                 thumbnailShape={ThumbnailShape.SQUARE}
                 thumbnailClassName="SearchResultArticleList_Thumbnail"
                 articleTitle={article.title}
+                imageSize={ArticleThumbnailImageSize.HEIGHT_200}
                 onLinkClick={() =>
                   trackingClick(
                     idx,
