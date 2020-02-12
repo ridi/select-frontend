@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 import { Icon } from '@ridi/rsg';
 import { ArticleChannelThumbnail } from 'app/components/ArticleChannels/ArticleChannelThumbnail';
-import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
+import { ArticleThumbnail, ArticleThumbnailImageSize } from 'app/components/ArticleThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { Actions } from 'app/services/article';
 import { ArticleResponse } from 'app/services/article/requests';
@@ -23,6 +23,7 @@ interface Props {
   uiPartTitleForTracking?: string;
   miscTracking?: string;
   articles: ArticleResponse[];
+  articleImageSize?: ArticleThumbnailImageSize;
   renderAuthor?: boolean;
   renderChannelThumbnail?: boolean;
   renderChannelMeta?: boolean;
@@ -46,6 +47,7 @@ export const GridArticleList: React.FunctionComponent<Props> = props => {
     renderFavoriteButton = false,
     isFullWidthAvailable = false,
     gridListSizeClassNames,
+    articleImageSize,
   } = props;
 
   const section =
@@ -112,6 +114,7 @@ export const GridArticleList: React.FunctionComponent<Props> = props => {
                 imageUrl={article.thumbnailUrl}
                 articleTitle={article.title}
                 isEnabled={article.isEnabled}
+                imageSize={articleImageSize}
                 onLinkClick={() =>
                   trackingClick(
                     idx,

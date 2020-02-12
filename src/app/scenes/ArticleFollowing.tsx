@@ -16,6 +16,7 @@ import { FetchStatusFlag, MAX_WIDTH, PageTitleText, RoutePaths } from 'app/const
 import { GridArticleListPlaceholder } from 'app/placeholder/GridArticleListPlaceholder';
 import { SlideChannelListPlaceholder } from 'app/placeholder/SlideChannelListPlaceholder';
 import { getArticleItems, getChannelItems } from 'app/services/articleFollowing/selectors';
+import { ArticleThumbnailImageSize } from 'app/components/ArticleThumbnail';
 
 export const ArticleFollowing: React.FunctionComponent = () => {
   const itemCountPerPage = 12;
@@ -87,6 +88,7 @@ export const ArticleFollowing: React.FunctionComponent = () => {
             <div className="FollowingArticleList">
               {articleItems && articleItems.length > 0 ? (
                 <GridArticleList
+                  articleImageSize={ArticleThumbnailImageSize.WIDTH_900}
                   serviceTitleForTracking="select-article"
                   pageTitleForTracking="following"
                   uiPartTitleForTracking="article-list"

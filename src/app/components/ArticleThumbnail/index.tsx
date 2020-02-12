@@ -6,6 +6,12 @@ import classNames from 'classnames';
 
 import { ThumbnailShape } from 'app/components/ArticleThumbnail/types';
 
+export enum ArticleThumbnailImageSize {
+  WIDTH_600 = 'w=600',
+  WIDTH_900 = 'w=900',
+  HEIGHT_200 = 'h=200',
+}
+
 interface ArticleThumbnailProps {
   thumbnailShape?: ThumbnailShape;
   thumbnailClassName?: string;
@@ -14,6 +20,7 @@ interface ArticleThumbnailProps {
   imageUrl?: string;
   articleTitle: string;
   isEnabled?: boolean;
+  imageSize?: ArticleThumbnailImageSize;
   onLinkClick?: (event: React.SyntheticEvent<any>) => void;
 }
 
@@ -30,6 +37,7 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
     imageUrl,
     articleTitle,
     imageClassName,
+    imageSize = ArticleThumbnailImageSize.WIDTH_600,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     onLinkClick = () => {},
     thumbnailShape = ThumbnailShape.RECTANGLE,
@@ -51,7 +59,7 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
         <>
           <div
             className={classNames('ArticleThumbnail_BackgroundImage', imageClassName)}
-            style={{ backgroundImage: `url(${imageUrl})` }}
+            style={{ backgroundImage: `url(${imageUrl}?${imageSize})` }}
           />
           <span className="ArticleThumbnail_CoverShadow" />
         </>
@@ -62,7 +70,7 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
       <>
         <img
           className={classNames('ArticleThumbnail_CoverImage', imageClassName)}
-          src={imageUrl}
+          src={`${imageUrl}?${imageSize}`}
           alt={articleTitle}
           onError={() => setIsWrongImage(true)}
         />

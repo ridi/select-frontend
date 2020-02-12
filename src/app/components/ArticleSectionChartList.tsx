@@ -1,4 +1,4 @@
-import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
+import { ArticleThumbnail, ArticleThumbnailImageSize } from 'app/components/ArticleThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { ArticleResponse } from 'app/services/article/requests';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
@@ -98,6 +98,7 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
                       imageUrl={article.thumbnailUrl}
                       articleTitle={article.title}
                       thumbnailShape={ThumbnailShape.SQUARE}
+                      imageSize={ArticleThumbnailImageSize.HEIGHT_200}
                       onLinkClick={() =>
                         trackingClick(
                           index,
