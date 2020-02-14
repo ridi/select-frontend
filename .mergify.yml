@@ -15,8 +15,7 @@ pull_request_rules:
 
   - name: ask to resolve conflict
     conditions:
-      - base=master
-      - conflicts
+      - conflict
     actions:
       dismiss_reviews: {}
       comment:
