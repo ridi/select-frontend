@@ -27,7 +27,6 @@ export const Actions = {
   loadFollowingArticleListFailure: createAction<{ page: number }>(
     'loadFollowingArticleListFailure',
   ),
-  clearFollowArticleList: createAction<{ page: number }>('clearFollowArticleList'),
   loadUnFollowChannelRequest: createAction<{
     channelId: number;
     channelName: string;
@@ -130,25 +129,6 @@ articleFollowReducer.on(Actions.loadFollowingArticleListFailure, (state, { page 
           state.followingArticleList.itemListByPage &&
           state.followingArticleList.itemListByPage[page]),
         fetchStatus: FetchStatusFlag.FETCH_ERROR,
-        isFetched: false,
-      },
-    },
-  },
-}));
-
-articleFollowReducer.on(Actions.clearFollowArticleList, (state, { page }) => ({
-  ...state,
-  followingChannelList: [],
-  fetchStatus: FetchStatusFlag.IDLE,
-  followingArticleList: {
-    ...state.followingArticleList,
-    itemListByPage: {
-      ...(state.followingArticleList && state.followingArticleList.itemListByPage),
-      [page]: {
-        ...(state.followingArticleList &&
-          state.followingArticleList.itemListByPage &&
-          state.followingArticleList.itemListByPage[page]),
-        itemList: [],
         isFetched: false,
       },
     },

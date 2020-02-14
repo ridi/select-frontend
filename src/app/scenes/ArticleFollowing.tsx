@@ -55,10 +55,6 @@ export const ArticleFollowing: React.FunctionComponent = () => {
     ) {
       dispatch(Actions.loadFollowingArticleListRequest({ page }));
     }
-
-    return () => {
-      dispatch(Actions.clearFollowArticleList({ page }));
-    };
   }, [page]);
 
   React.useEffect(() => {
