@@ -24,7 +24,7 @@ interface ManageSubscriptionStateProps {
 
 type ManageSubscriptionProps = ManageSubscriptionStateProps & ReturnType<typeof mapDispatchToProps>;
 
-export class ManageSubscription extends React.PureComponent<ManageSubscriptionProps> {
+class ManageSubscription extends React.PureComponent<ManageSubscriptionProps> {
   private handleUnsubscribeButtonClick = () => {
     const { userState, subscriptionState, dispatchUnsubscribeRequest } = this.props;
     if (
@@ -262,7 +262,9 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
 });
 
-export const ConnectedManageSubscription = connect(
+const ConnectedManageSubscription = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ManageSubscription);
+
+export default ConnectedManageSubscription;

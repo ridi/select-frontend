@@ -13,7 +13,7 @@ import { Actions, ArticleHomeSectionType, ArticleSectionType } from 'app/service
 import { RidiSelectState } from 'app/store';
 import { sendPostRobotInitialRendered } from 'app/utils/inAppMessageEvents';
 
-export const ArticleHome: React.FunctionComponent = () => {
+const ArticleHome: React.FunctionComponent = () => {
   const { fetchedAt, hasAvailableTicket, unseenFeedsFetchStatus } = useSelector(
     (state: RidiSelectState) => ({
       fetchedAt: state.articleHome.fetchedAt,
@@ -77,3 +77,5 @@ export const ArticleHome: React.FunctionComponent = () => {
     </main>
   );
 };
+
+export default ArticleHome;

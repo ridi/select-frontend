@@ -16,7 +16,7 @@ import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
 import { articleChannelToPath } from 'app/utils/toPath';
 
-export const ArticleChannelDetail: React.FunctionComponent = () => {
+const ArticleChannelDetail: React.FunctionComponent = () => {
   const { channelName } = useParams<{ channelName: string }>();
   const page = useSelector(getPageQuery);
   const articleChannelData = useSelector((state: RidiSelectState) =>
@@ -119,3 +119,5 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
     </main>
   );
 };
+
+export default ArticleChannelDetail;

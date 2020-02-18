@@ -16,7 +16,7 @@ import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
 import { checkCorrectPath } from 'app/utils/utils';
 
-export const ArticleFavorite: React.FunctionComponent = () => {
+const ArticleFavorite: React.FunctionComponent = () => {
   const itemCountPerPage = 12;
 
   const articleItems = useSelector(getFavoriteArticleList);
@@ -124,3 +124,5 @@ export const ArticleFavorite: React.FunctionComponent = () => {
     </main>
   );
 };
+
+export default ArticleFavorite;

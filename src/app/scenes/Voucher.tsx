@@ -20,7 +20,7 @@ const ticketIconStyle = css`
   height: 40px;
 `;
 
-export const Voucher: React.FunctionComponent = () => {
+const Voucher: React.FunctionComponent = () => {
   const [isLoaded, setIsLoaded] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
   const dispatch = useDispatch();
@@ -155,3 +155,5 @@ export const Voucher: React.FunctionComponent = () => {
     </main>
   );
 };
+
+export default Voucher;

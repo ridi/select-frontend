@@ -13,7 +13,7 @@ import { getPageQuery } from 'app/services/routing/selectors';
 import { Actions as CommonUIActions } from 'app/services/commonUI';
 import { OrderHistoryList } from 'app/components/OrderHistory/List';
 
-export const OrderHistory: React.FunctionComponent = () => {
+const OrderHistory: React.FunctionComponent = () => {
   const currentPage = useSelector(getPageQuery);
   const orderHistory = useSelector((state: RidiSelectState) => state.user.purchaseHistory);
   const subscriptionState = useSelector((state: RidiSelectState) => state.user.subscription);
@@ -94,3 +94,5 @@ export const OrderHistory: React.FunctionComponent = () => {
     </main>
   );
 };
+
+export default OrderHistory;

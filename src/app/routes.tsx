@@ -14,34 +14,34 @@ import {
   ArticleChannelList,
   ArticleFavorite,
   ArticleFollowing,
-  ArticleHome,
-  ConnectedBookDetail,
-  ConnectedCategory,
-  ConnectedCharts,
-  ConnectedClosingReservedBooks,
-  ConnectedCollection,
-  ConnectedErrorPage,
-  ConnectedHome,
-  ConnectedManageSubscription,
-  ConnectedMySelect,
-  ConnectedMySelectHistory,
-  ConnectedNewReleases,
+  BookDetail,
+  Category,
+  Charts,
+  ClosingReservedBooks,
+  Collection,
+  ErrorPage,
+  Home,
+  ManageSubscription,
+  MySelect,
+  MySelectHistory,
+  NewReleases,
   OrderHistory,
-  ConnectedSearchResult,
-  ConnectedSetting,
+  SearchResult,
+  Settings,
   Intro,
   NotAvailableBook,
   Voucher,
   WrongLocation,
+  ArticleContent,
+  ArticleHome,
 } from 'app/scenes';
 
-import { AlertForNonSubscriber } from 'app/components/AlertForNonSubscriber';
-import { FetchStatusFlag, RoutePaths } from 'app/constants';
-import { ConnectedAppManager, ConnectedPrivateRoute, RouteBlockLevel } from 'app/hocs';
-import { ArticleContent } from 'app/scenes/ArticleContent';
-import { AppStatus } from 'app/services/app';
-import { selectIsInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
+import { AppStatus } from 'app/services/app';
+import { FetchStatusFlag, RoutePaths } from 'app/constants';
+import { selectIsInApp } from 'app/services/environment/selectors';
+import { AlertForNonSubscriber } from 'app/components/AlertForNonSubscriber';
+import { ConnectedAppManager, ConnectedPrivateRoute, RouteBlockLevel } from 'app/hocs';
 
 export interface Props {
   isRidiApp: boolean;
@@ -119,16 +119,16 @@ export const Routes: React.SFC<Props> = props => {
             )}
           </Route>
           <Redirect exact from={RoutePaths.ARTICLE_ROOTE} to={RoutePaths.ARTICLE_HOME} />
-          <Route path={RoutePaths.HOME} component={ConnectedHome} {...props} />
-          <Route path={RoutePaths.NEW_RELEASE} component={ConnectedNewReleases} {...props} />
-          <Route path={RoutePaths.CHARTS} component={ConnectedCharts} {...props} />
-          <Route path={RoutePaths.COLLECTION} component={ConnectedCollection} {...props} />
-          <Route path={RoutePaths.CATEGORY} component={ConnectedCategory} {...props} />
-          <Route path={RoutePaths.MY_SELECT} component={ConnectedMySelect} {...props} />
-          <Route path={RoutePaths.BOOK_DETAIL} component={ConnectedBookDetail} {...props} />
+          <Route path={RoutePaths.HOME} component={Home} {...props} />
+          <Route path={RoutePaths.NEW_RELEASE} component={NewReleases} {...props} />
+          <Route path={RoutePaths.CHARTS} component={Charts} {...props} />
+          <Route path={RoutePaths.COLLECTION} component={Collection} {...props} />
+          <Route path={RoutePaths.CATEGORY} component={Category} {...props} />
+          <Route path={RoutePaths.MY_SELECT} component={MySelect} {...props} />
+          <Route path={RoutePaths.BOOK_DETAIL} component={BookDetail} {...props} />
           <ConnectedPrivateRoute
             path={RoutePaths.SETTING}
-            component={ConnectedSetting}
+            component={Settings}
             routeBlockLevel={RouteBlockLevel.LOGGED_IN}
             {...props}
           />
@@ -140,15 +140,15 @@ export const Routes: React.SFC<Props> = props => {
           />
           <ConnectedPrivateRoute
             path={RoutePaths.MY_SELECT_HISTORY}
-            component={ConnectedMySelectHistory}
+            component={MySelectHistory}
             routeBlockLevel={RouteBlockLevel.LOGGED_IN}
             {...props}
           />
-          <Route path={RoutePaths.SEARCH_RESULT} component={ConnectedSearchResult} {...props} />
+          <Route path={RoutePaths.SEARCH_RESULT} component={SearchResult} {...props} />
           <Route path={RoutePaths.NOT_AVAILABLE_BOOK} component={NotAvailableBook} {...props} />
           <Route
             path={RoutePaths.CLOSING_RESERVED_BOOKS}
-            component={ConnectedClosingReservedBooks}
+            component={ClosingReservedBooks}
             {...props}
           />
 
@@ -178,7 +178,7 @@ export const Routes: React.SFC<Props> = props => {
           <Route path={RoutePaths.VOUCHER} exact component={Voucher} {...props} />
           <ConnectedPrivateRoute
             path={RoutePaths.MANAGE_SUBSCRIPTION}
-            component={ConnectedManageSubscription}
+            component={ManageSubscription}
             routeBlockLevel={RouteBlockLevel.HAS_AVAILABLE_TICKET}
             {...props}
           />
@@ -193,7 +193,7 @@ export const Routes: React.SFC<Props> = props => {
       </ConnectedAppManager>
     </ConnectedRouter>
   ) : (
-    <ConnectedErrorPage />
+    <ErrorPage />
   );
 };
 

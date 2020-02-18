@@ -31,7 +31,7 @@ interface SettingStateProps {
 
 type SettingProps = SettingStateProps & ReturnType<typeof mapDispatchToProps>;
 
-export class Settings extends React.PureComponent<SettingProps> {
+class Settings extends React.PureComponent<SettingProps> {
   // 도서/리뷰 메뉴
   private renderSubscriptionMenus() {
     const { isIosInApp } = this.props;
@@ -199,4 +199,6 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
 });
 
-export const ConnectedSetting = connect(mapStateToProps, mapDispatchToProps)(Settings);
+const ConnectedSetting = connect(mapStateToProps, mapDispatchToProps)(Settings);
+
+export default ConnectedSetting;

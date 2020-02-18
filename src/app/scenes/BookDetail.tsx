@@ -41,7 +41,7 @@ type OwnProps = RouteProps & {};
 
 type Props = ReturnType<typeof mapDispatchToProps> & BookDetailStateProps & OwnProps;
 
-export class BookDetail extends React.Component<Props> {
+class BookDetail extends React.Component<Props> {
   private fetchBookDetailPageData = (props: Props) => {
     if (props.fetchStatus !== FetchStatusFlag.FETCHING && !props.bookEndDateTime) {
       props.dispatchLoadBookRequest(props.bookId);
@@ -160,6 +160,6 @@ const mapDispatchToProps = (dispatch: any) => ({
   dispatchAddMySelect: (bookId: BookId) => dispatch(MySelectActions.addMySelectRequest({ bookId })),
 });
 
-export const ConnectedBookDetail = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(BookDetail),
-);
+const ConnectedBookDetail = withRouter(connect(mapStateToProps, mapDispatchToProps)(BookDetail));
+
+export default ConnectedBookDetail;

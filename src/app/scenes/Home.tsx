@@ -20,7 +20,7 @@ interface State {
   isInitialized: boolean;
 }
 
-export class Home extends React.PureComponent<
+class Home extends React.PureComponent<
   HomeStateProps & ReturnType<typeof mapDispatchToProps>,
   State
 > {
@@ -83,4 +83,6 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(CollectionActions.loadCollectionRequest({ collectionId, page: 1 })),
 });
 
-export const ConnectedHome = connect(mapStateToProps, mapDispatchToProps)(Home);
+const ConnectedHome = connect(mapStateToProps, mapDispatchToProps)(Home);
+
+export default ConnectedHome;

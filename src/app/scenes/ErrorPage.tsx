@@ -21,7 +21,7 @@ interface ErrorPageStateProps {
 
 type Props = ErrorPageStateProps & ReturnType<typeof mapDispatchToProps>;
 
-export class ErrorPage extends React.Component<Props> {
+class ErrorPage extends React.Component<Props> {
   private getMaintenanceData() {
     const { responseData, requestMaintenanceData } = this.props;
     if (
@@ -77,4 +77,6 @@ const mapDispatchToProps = (dispatch: any) => ({
   requestMaintenanceData: () => dispatch(ServiceStatusActions.loadMaintenanceData()),
 });
 
-export const ConnectedErrorPage = connect(mapStateToProps, mapDispatchToProps)(ErrorPage);
+const ConnectedErrorPage = connect(mapStateToProps, mapDispatchToProps)(ErrorPage);
+
+export default ConnectedErrorPage;

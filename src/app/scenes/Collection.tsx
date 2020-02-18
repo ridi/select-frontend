@@ -18,7 +18,6 @@ import { Actions, DefaultCollectionState } from 'app/services/collection';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
 import { collectionToPath } from 'app/utils/toPath';
-import classNames from 'classnames';
 
 interface CollectionStateProps {
   books: BookState;
@@ -43,7 +42,7 @@ type RouteProps = RouteComponentProps<{
 type OwnProps = RouteProps;
 type Props = CollectionStateProps & CollectionDispatchProps & OwnProps;
 
-export class Collection extends React.Component<Props> {
+class Collection extends React.Component<Props> {
   private initialDispatchTimeout?: number | null;
 
   public state: State = {
@@ -145,6 +144,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   dispatchLoadCollection: (collectionId: number, page: number) =>
     dispatch(Actions.loadCollectionRequest({ collectionId, page })),
 });
-export const ConnectedCollection = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(Collection),
-);
+const ConnectedCollection = withRouter(connect(mapStateToProps, mapDispatchToProps)(Collection));
+
+export default ConnectedCollection;

@@ -16,7 +16,7 @@ type RouteProps = RouteComponentProps<{ channelName: string; contentIndex: strin
 
 type OwnProps = RouteProps & {};
 
-export const ArticleContent: React.FunctionComponent<OwnProps> = props => {
+const ArticleContent: React.FunctionComponent<OwnProps> = props => {
   const { channelName, contentIndex } = props.match.params;
   const contentKey = `@${channelName}/${Number(contentIndex)}`;
   const dispatch = useDispatch();
@@ -72,3 +72,5 @@ export const ArticleContent: React.FunctionComponent<OwnProps> = props => {
     </main>
   );
 };
+
+export default ArticleContent;

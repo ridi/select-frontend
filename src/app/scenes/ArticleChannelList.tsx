@@ -12,7 +12,7 @@ import classNames from 'classnames';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-export const ArticleChannelList: React.FunctionComponent = () => {
+const ArticleChannelList: React.FunctionComponent = () => {
   const { channelList, hasAvailableTicket, unseenFeedsFetchStatus } = useSelector(
     (state: RidiSelectState) => ({
       channelList: getChannelList(state),
@@ -77,3 +77,5 @@ export const ArticleChannelList: React.FunctionComponent = () => {
     </main>
   );
 };
+
+export default ArticleChannelList;

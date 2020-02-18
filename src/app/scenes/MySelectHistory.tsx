@@ -248,7 +248,6 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
 });
 
-export const ConnectedMySelectHistory = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MySelectHistory);
+const ConnectedMySelectHistory = connect(mapStateToProps, mapDispatchToProps)(MySelectHistory);
+
+export default ConnectedMySelectHistory;

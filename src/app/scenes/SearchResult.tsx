@@ -48,7 +48,7 @@ interface State {
   type: string;
 }
 
-export class SearchResult extends React.Component<Props, State> {
+class SearchResult extends React.Component<Props, State> {
   private unlistenToHistory: () => void;
 
   public state: State = {
@@ -250,6 +250,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   dispatchUpdateGNBTabExpose: (isGnbTab: boolean) =>
     dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
 });
-export const ConnectedSearchResult = withRouter(
+const ConnectedSearchResult = withRouter(
   connect(mapStateToProps, mapDispatchToProps)(SearchResult),
 );
+
+export default ConnectedSearchResult;

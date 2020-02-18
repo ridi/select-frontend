@@ -413,4 +413,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(TrackingActions.trackClick({ trackingParams })),
 });
 
-export const ConnectedMySelect = connect(mapStateToProps, mapDispatchToProps)(MySelect);
+const ConnectedMySelect = connect(mapStateToProps, mapDispatchToProps)(MySelect);
+
+export default ConnectedMySelect;

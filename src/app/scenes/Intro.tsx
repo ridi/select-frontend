@@ -10,7 +10,7 @@ import { Actions as CommonUIActions, FooterTheme, GNBTransparentType } from 'app
 import { RidiSelectState } from 'app/store';
 import { moveToLogin } from 'app/utils/utils';
 
-export const Intro: React.FunctionComponent = () => {
+const Intro: React.FunctionComponent = () => {
   const [isLoaded, setIsLoaded] = React.useState(false);
   const dispatch = useDispatch();
   const { isLoggedIn, hasSubscribedBefore, BASE_URL_STORE, FREE_PROMOTION_MONTHS } = useSelector(
@@ -85,3 +85,5 @@ export const Intro: React.FunctionComponent = () => {
     </main>
   );
 };
+
+export default Intro;

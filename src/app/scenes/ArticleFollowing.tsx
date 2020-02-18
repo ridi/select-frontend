@@ -17,7 +17,7 @@ import { GridArticleListPlaceholder } from 'app/placeholder/GridArticleListPlace
 import { SlideChannelListPlaceholder } from 'app/placeholder/SlideChannelListPlaceholder';
 import { getArticleItems, getChannelItems } from 'app/services/articleFollowing/selectors';
 
-export const ArticleFollowing: React.FunctionComponent = () => {
+const ArticleFollowing: React.FunctionComponent = () => {
   const itemCountPerPage = 12;
 
   const dispatch = useDispatch();
@@ -139,3 +139,5 @@ export const ArticleFollowing: React.FunctionComponent = () => {
     </main>
   );
 };
+
+export default ArticleFollowing;

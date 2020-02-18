@@ -5,7 +5,7 @@ import { Button, Empty, Icon } from '@ridi/rsg';
 import { HelmetWithTitle } from 'app/components';
 import { PageTitleText, RoutePaths } from 'app/constants';
 
-export class NotAvailableBook extends React.Component {
+class NotAvailableBook extends React.Component {
   public render() {
     return (
       <main className="SceneWrapper">
@@ -35,3 +35,5 @@ export class NotAvailableBook extends React.Component {
     );
   }
 }
+
+export default NotAvailableBook;

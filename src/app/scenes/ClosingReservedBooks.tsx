@@ -22,7 +22,6 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { Link, LinkProps } from 'react-router-dom';
 
 import { Notice } from 'app/components/Notice';
-import history from 'app/config/history';
 
 interface State {
   isInitialized: boolean;
@@ -43,7 +42,7 @@ interface ClosingReservedBookDispatchProps {
 type OwnProps = RouteComponentProps<{}>;
 type Props = ClosingReservedBooksStateProps & ClosingReservedBookDispatchProps & OwnProps;
 
-export class ClosingReservedBooks extends React.Component<Props> {
+class ClosingReservedBooks extends React.Component<Props> {
   private initialDispatchTimeout?: number | null;
 
   public state: State = {
@@ -189,6 +188,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(Actions.loadClosingReservedBooksRequest({ termType, page })),
 });
 
-export const ConnectedClosingReservedBooks = withRouter(
+const ConnectedClosingReservedBooks = withRouter(
   connect(mapStateToProps, mapDispatchToProps)(ClosingReservedBooks),
 );
+
+export default ConnectedClosingReservedBooks;

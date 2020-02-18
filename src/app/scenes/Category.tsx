@@ -38,7 +38,7 @@ interface State {
   isInitialized: boolean;
 }
 
-export class Category extends React.Component<Props, State> {
+class Category extends React.Component<Props, State> {
   private initialDispatchTimeout?: number | null;
 
   public state: State = {
@@ -212,6 +212,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(categoryActions.loadCategoryBooksRequest({ categoryId, page })),
 });
 
-export const ConnectedCategory = connect(mapStateToProps, mapDispatchToProps, null, {
+const ConnectedCategory = connect(mapStateToProps, mapDispatchToProps, null, {
   pure: false,
 })(Category);
+
+export default ConnectedCategory;
