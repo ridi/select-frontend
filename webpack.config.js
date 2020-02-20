@@ -25,6 +25,22 @@ module.exports = (env, argv) => {
   const config = {
     entry: {
       app: ['url-polyfill', '@babel/polyfill', './src/app/index.tsx', './src/css/main.css'],
+      vendor: [
+        'axios',
+        'axios-retry',
+        'connected-react-router',
+        'history',
+        'react-dom',
+        'react-emotion',
+        'react-redux',
+        'react-helmet',
+        'react-router',
+        'react-responsive',
+        'react-router-dom',
+        'redux',
+        'redux-act',
+        'redux-saga',
+      ],
       articleContentStyle: './src/css/articleContentStyle.css',
     },
     output: {
