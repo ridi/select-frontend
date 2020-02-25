@@ -151,7 +151,7 @@ module.exports = (env, argv) => {
       splitChunks: {
         cacheGroups: {
           commons: {
-            test: /[\\/]node_modules[\\/]/,
+            test: /[\\/]node_modules[\\/](@emotion|@babel|@ridi|@redux-saga|post-robot|axios|axios-retry|connected-react-router|history|react-dom|react-emotion|react-redux|react-helmet|react-router|react-responsive|react-router-dom|redux|redux-act|redux-saga)[\\/]/,
             name: 'vendors',
             chunks: 'all',
           },
