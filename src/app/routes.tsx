@@ -6,36 +6,8 @@ import { Redirect, Switch } from 'react-router';
 import { Route } from 'react-router-dom';
 
 import { ConnectedFooter, ConnectedGNB, ConnectedLNB } from 'app/components';
-import { ErrorResponseStatus } from 'app/services/serviceStatus';
-
 import history from 'app/config/history';
-import {
-  ArticleChannelDetail,
-  ArticleChannelList,
-  ArticleFavorite,
-  ArticleFollowing,
-  BookDetail,
-  Category,
-  Charts,
-  ClosingReservedBooks,
-  Collection,
-  ErrorPage,
-  Home,
-  ManageSubscription,
-  MySelect,
-  MySelectHistory,
-  NewReleases,
-  OrderHistory,
-  SearchResult,
-  Settings,
-  Intro,
-  NotAvailableBook,
-  Voucher,
-  WrongLocation,
-  ArticleContent,
-  ArticleHome,
-} from 'app/scenes';
-
+import { ErrorResponseStatus } from 'app/services/serviceStatus';
 import { RidiSelectState } from 'app/store';
 import { AppStatus } from 'app/services/app';
 import { FetchStatusFlag, RoutePaths } from 'app/constants';
@@ -92,6 +64,31 @@ export const CommonRoutes = [
 ];
 
 export const PrimaryRoutes = [RoutePaths.CHARTS, pathToRegexp.parse(RoutePaths.COLLECTION)[0]];
+
+const ArticleChannelDetail = React.lazy(() => import('app/scenes/ArticleChannelDetail'));
+const ArticleChannelList = React.lazy(() => import('app/scenes/ArticleChannelList'));
+const ArticleFavorite = React.lazy(() => import('app/scenes/ArticleFavorite'));
+const ArticleFollowing = React.lazy(() => import('app/scenes/ArticleFollowing'));
+const BookDetail = React.lazy(() => import('app/scenes/BookDetail'));
+const Category = React.lazy(() => import('app/scenes/Category'));
+const Charts = React.lazy(() => import('app/scenes/Charts'));
+const ClosingReservedBooks = React.lazy(() => import('app/scenes/ClosingReservedBooks'));
+const Collection = React.lazy(() => import('app/scenes/Collection'));
+const ErrorPage = React.lazy(() => import('app/scenes/ErrorPage'));
+const Home = React.lazy(() => import('app/scenes/Home'));
+const ManageSubscription = React.lazy(() => import('app/scenes/ManageSubscription'));
+const MySelect = React.lazy(() => import('app/scenes/MySelect'));
+const MySelectHistory = React.lazy(() => import('app/scenes/MySelectHistory'));
+const NewReleases = React.lazy(() => import('app/scenes/NewReleases'));
+const OrderHistory = React.lazy(() => import('app/scenes/OrderHistory'));
+const SearchResult = React.lazy(() => import('app/scenes/SearchResult'));
+const Settings = React.lazy(() => import('app/scenes/Settings'));
+const Intro = React.lazy(() => import('app/scenes/Intro'));
+const NotAvailableBook = React.lazy(() => import('app/scenes/NotAvailableBook'));
+const Voucher = React.lazy(() => import('app/scenes/Voucher'));
+const WrongLocation = React.lazy(() => import('app/scenes/WrongLocation'));
+const ArticleContent = React.lazy(() => import('app/scenes/ArticleContent'));
+const ArticleHome = React.lazy(() => import('app/scenes/ArticleHome'));
 
 export const Routes: React.SFC<Props> = props => {
   const { errorResponseState } = props;

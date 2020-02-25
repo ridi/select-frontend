@@ -1,3 +1,5 @@
+import createCache from '@emotion/cache';
+import { CacheProvider } from '@emotion/core';
 import React from 'react';
 import Helmet from 'react-helmet';
 import { render } from 'react-dom';
@@ -13,6 +15,7 @@ import { loadFonts } from 'app/config/fonts';
 import setTabKeyFocus from 'app/config/setTabKeyFocus';
 import { fetchUserInfo } from 'app/services/user/helper';
 import { ConnectedEnvBadge } from 'app/components/EnvBadge';
+import PageLoadingSpinner from 'app/components/PageLoadingSpinner';
 import { initializeScrollEnd } from 'app/utils/onWindowScrollEnd';
 import { setInitializeInAppEvent } from 'app/utils/inAppMessageEvents';
 import { selectIsInApp } from './services/environment/selectors';
@@ -53,8 +56,10 @@ class App extends React.Component {
           ]}
         />
         <CacheProvider value={styleCache}>
-          <ConnectedEnvBadge />
-          <ConnectedRoutes />
+          <React.Suspense fallback={<PageLoadingSpinner />}>
+            <ConnectedEnvBadge />
+            <ConnectedRoutes />
+          </React.Suspense>
         </CacheProvider>
       </Provider>
     );
