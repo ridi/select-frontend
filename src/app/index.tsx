@@ -5,9 +5,6 @@ import Helmet from 'react-helmet';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 
-import createCache from '@emotion/cache';
-import { css, CacheProvider } from '@emotion/core';
-
 import { store } from 'app/store';
 import { Actions } from 'app/services/user';
 import { ConnectedRoutes } from 'app/routes';
