@@ -33,11 +33,14 @@ export const requestArticles = (
     size?: number;
   },
 ): Promise<ArticleListResponse> => {
-  const additionalQueryString = qs.stringify({
-    page: etcParams?.page || 1,
-    size: etcParams?.size || COUNT_PER_PAGE,
-    ids: etcParams?.articleIds || undefined,
-  });
+  const additionalQueryString = qs.stringify(
+    {
+      page: etcParams?.page || 1,
+      size: etcParams?.size || COUNT_PER_PAGE,
+      ids: etcParams?.articleIds?.join(',') || undefined,
+    },
+    { encode: false },
+  );
   return request({
     url: `/article/articles${buildArticleRequestQueriesToString(
       requestQueries,
