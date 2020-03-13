@@ -59,13 +59,15 @@ export function* queryKeyword({ payload }: ReturnType<typeof Actions.queryKeywor
       const articles: Article[] = articlesResponse.results;
       const articlesMap = keyBy(articles, 'id');
       yield put(ArticleActions.updateArticles({ articles }));
-      const searchResultArticles: SearchResultArticle[] = response.articles.map(article => {
-        const searchResultArticle: SearchResultArticle = articlesMap[
-          article.id
-        ] as SearchResultArticle;
-        searchResultArticle.highlight = article.highlight;
-        return searchResultArticle;
-      });
+      const searchResultArticles: SearchResultArticle[] = response.articles
+        .filter(article => articlesMap[article.id])
+        .map(article => {
+          const searchResultArticle: SearchResultArticle = articlesMap[
+            article.id
+          ] as SearchResultArticle;
+          searchResultArticle.highlight = article.highlight;
+          return searchResultArticle;
+        });
       searchResultResponse.articles = searchResultArticles;
     }
     yield put(Actions.queryKeywordSuccess({ keyword, page, type, response: searchResultResponse }));
