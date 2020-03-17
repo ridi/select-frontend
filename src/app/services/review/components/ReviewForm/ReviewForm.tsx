@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 import MediaQuery from 'react-responsive';
 
-import { FetchStatusFlag, MAX_WIDTH } from 'app/constants';
+import { FetchStatusFlag, MAX_WIDTH, MIN_WIDTH } from 'app/constants';
 import {
   CancelButton,
   SpoilerCheckbox,
@@ -112,7 +112,7 @@ export class ReviewForm extends React.Component<ReviewFormProps, ReviewFormState
             </li>
           </ul>
         </MediaQuery>
-        <MediaQuery minWidth={841}>
+        <MediaQuery minWidth={MIN_WIDTH}>
           <div
             className={classNames([
               'ReviewForm_ButtonsWrapper',
