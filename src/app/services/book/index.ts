@@ -180,7 +180,12 @@ bookReducer.on(Actions.initializeBooks, (state, action) => {
 bookReducer.on(Actions.updateBooks, (state, action) => {
   const { books = [] } = action;
   const newState: BookState = books.reduce((prev, book) => {
-    book.authors = Array.isArray(book.authors) ? { author: book.authors } : book.authors;
+    // Data 팀에서 전달되어 넘어오는 Book DTO 내의 authors 형태가 기존에 사용하던 데이터와 달라서
+    // 잘못된 형태로 Book data의 authors 정보가 override 되고 있는 부분에 대한 대응
+    // TODO: Data팀, 셀렉트 백엔드 팀과 이야기 하여 형태 통일 후 해당 처리 제거 필요
+    if (Array.isArray(book.authors)) {
+      book.authors = { author: book.authors };
+    }
     prev[book.id] = {
       ...state[book.id],
       detailFetchStatus: state[book.id] ? state[book.id].detailFetchStatus : FetchStatusFlag.IDLE,
