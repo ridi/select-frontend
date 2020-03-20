@@ -180,6 +180,7 @@ bookReducer.on(Actions.initializeBooks, (state, action) => {
 bookReducer.on(Actions.updateBooks, (state, action) => {
   const { books = [] } = action;
   const newState: BookState = books.reduce((prev, book) => {
+    book.authors = Array.isArray(book.authors) ? { author: book.authors } : book.authors;
     prev[book.id] = {
       ...state[book.id],
       detailFetchStatus: state[book.id] ? state[book.id].detailFetchStatus : FetchStatusFlag.IDLE,
