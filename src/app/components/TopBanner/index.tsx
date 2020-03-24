@@ -39,10 +39,12 @@ const CarouselControllerWrapper = styled.div`
   pointer-events: none;
 `;
 
-const CarouselController = styled.div<{ itemWidth: number }>`
+const CarouselController = styled.div`
   position: relative;
-  width: ${props => props.itemWidth}px;
-  height: ${props => props.itemWidth}px;
+  width: 100%;
+  height: 100%;
+  max-width: ${IMAGE_WIDTH}px;
+  max-height: ${IMAGE_WIDTH}px;
 `;
 
 const SlideBadge = styled.p`
@@ -52,6 +54,7 @@ const SlideBadge = styled.p`
   width: 54px;
   height: 12px;
   padding: 5px 0;
+  margin: 0;
 
   background-color: rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.25);
@@ -312,7 +315,7 @@ export default function TopBannerCarousel(props: TopBannerCarouselProps) {
         )}
       </BigBannerCarousel>
       <CarouselControllerWrapper>
-        <CarouselController itemWidth={width}>
+        <CarouselController>
           <SlideBadge>{`${currentIdx + 1} / ${len}`}</SlideBadge>
         </CarouselController>
       </CarouselControllerWrapper>
@@ -324,7 +327,7 @@ export default function TopBannerCarousel(props: TopBannerCarouselProps) {
               <span className="a11y">이전 배너 보기</span>
             </Arrow>
           </ArrowWrapper>
-          <CarouselController itemWidth={width} />
+          <CarouselController />
           <ArrowWrapper>
             <Arrow onClick={handleRightClick}>
               <ArrowRight className="ControllArrow" />
