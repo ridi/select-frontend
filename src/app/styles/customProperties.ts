@@ -126,7 +126,7 @@ export const maxPcContentWidth = '900px';
 export const minContentWidth = '320px';
 export const mobileBlockedSearchHeight = '44px';
 export const mobileSearchVerticalInnerPadding = '4px';
-export const defaultFontFamily = 'Noto Sans KR, NotoSansKR, Sans-serif';
+export const defaultFontFamily = "'Noto Sans KR', NotoSansKR, Sans-serif";
 
 export const resetLayout = css`
   margin: 0;

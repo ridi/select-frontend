@@ -54,7 +54,7 @@
 }
 
 .ArticleChannel_Meta_Title {
-  font-family: Noto Sans KR, NotoSansKR, sans-serif;
+  font-family: 'Noto Sans KR', NotoSansKR, sans-serif;
   font-size: 22px;
   font-weight: 700;
   line-height: 1.55;
@@ -67,7 +67,7 @@
 .ArticleChannel_Meta_Desc {
   margin: 0;
   margin-top: 10px;
-  font-family: Noto Sans KR, NotoSansKR, sans-serif;
+  font-family: 'Noto Sans KR', NotoSansKR, sans-serif;
   font-size: 13px;
   letter-spacing: -0.3px;
   color: var(--slategray_90);
@@ -87,7 +87,7 @@
 .ArticleChannel_Meta_Following {
   display: block;
   margin-top: 10px;
-  font-family: Noto Sans KR, NotoSansKR, sans-serif;
+  font-family: 'Noto Sans KR', NotoSansKR, sans-serif;
   font-size: 13px;
   letter-spacing: -0.3px;
   color: var(--dodgerblue_50);

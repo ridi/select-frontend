@@ -1,35 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:500&display=swap&subset=korean');
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700,900&display=swap&subset=korean');
 @import url('https://fonts.googleapis.com/css?family=Roboto:500,700&display=swap&text=1234567890,/%');
-
-@font-face {
-  font-family: Noto Sans KR;
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(../fonts/NotoSans-Regular.woff2) format('woff2'),
-    url(../fonts/NotoSans-Regular.woff) format('woff'),
-    url(../fonts/NotoSans-Regular.otf) format('opentype');
-}
-
-@font-face {
-  font-family: Noto Sans KR;
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url(../fonts/NotoSans-Bold.woff2) format('woff2'),
-    url(../fonts/NotoSans-Bold.woff) format('woff'),
-    url(../fonts/NotoSans-Bold.otf) format('opentype');
-}
-
-@font-face {
-  font-family: Noto Sans KR;
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url(../fonts/NotoSans-Black.woff2) format('woff2'),
-    url(../fonts/NotoSans-Black.woff) format('woff'),
-    url(../fonts/NotoSans-Black.otf) format('opentype');
-}
 
 @font-face {
   font-family: Minion Pro;

@@ -24,7 +24,7 @@ export const ArticleContent_Title = css`
   ${resetLayout}
 
   padding-top: 60px;
-  font-family: Noto Sans KR, NotoSansKR, sans-serif;
+  font-family: 'Noto Sans KR', NotoSansKR, sans-serif;
   font-size: 30px;
   font-weight: 700;
   line-height: 1.33em;
