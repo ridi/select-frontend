@@ -78,7 +78,7 @@
 .ArticleChannel_Meta_Serial {
   display: block;
   margin-top: 4px;
-  font-family: Noto Sans KR, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-size: 13px;
   letter-spacing: -0.3px;
   color: var(--slategray_50);
