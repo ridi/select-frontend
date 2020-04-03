@@ -40,7 +40,7 @@
   text-decoration: none;
   width: 62px;
   padding-top: 5px;
-  font-family: Noto Sans KR, NotoSansKR, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-size: 11px;
   letter-spacing: -0.3px;
   color: var(--slategray_60);
@@ -73,7 +73,7 @@
   text-decoration: none;
   width: 62px;
   padding-top: 5px;
-  font-family: Noto Sans KR, NotoSansKR, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-size: 11px;
   letter-spacing: -0.3px;
   color: var(--slategray_60);

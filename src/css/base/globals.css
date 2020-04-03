@@ -338,7 +338,7 @@ main.SceneWrapper {
     font-size: 17px;
     font-weight: 600;
     line-height: var(--gnb_ios_app_height);
-    font-family: 'Apple SD Gothic Neo', Noto Sans KR, NotoSansKR, Sans-serif;
+    font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', Sans-serif;
   }
 }
 
@@ -357,7 +357,7 @@ main.SceneWrapper {
     line-height: 24px;
     vertical-align: middle;
     color: var(--dodgerblue_40);
-    font-family: 'Apple SD Gothic Neo', Noto Sans KR, NotoSansKR, Sans-serif;
+    font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', Sans-serif;
     white-space: nowrap;
     z-index: 902;
     box-sizing: border-box;

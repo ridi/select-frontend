@@ -106,7 +106,7 @@
 .ArticleThumbnail_BlockText {
   position: absolute;
   margin: 0;
-  font-family: Noto Sans KR, NotoSansKR, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-size: 13px;
   letter-spacing: -0.37px;
   text-align: center;
