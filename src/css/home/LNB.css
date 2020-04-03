@@ -101,7 +101,7 @@
   }
   @nest .iosApp & {
     & .reset-heading {
-      font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', NotoSansKR, Sans-serif;
+      font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', Sans-serif;
     }
   }
   @nest .LnbMenu-hasNew & {

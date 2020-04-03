@@ -130,7 +130,7 @@
   --min-content-width: 320px;
   --mobile-blocked-search-height: 44px;
   --mobile-search-vertical-inner-padding: 4px;
-  --defaultFontFamily: 'Noto Sans KR', NotoSansKR, Sans-serif;
+  --defaultFontFamily: 'Noto Sans KR', Sans-serif;
 
   --reset-layout: {
     margin: 0;
