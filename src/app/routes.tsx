@@ -194,7 +194,9 @@ export const Routes: React.SFC<Props> = props => {
       </ConnectedAppManager>
     </ConnectedRouter>
   ) : (
-    <ErrorPage />
+    <React.Suspense fallback={<PageLoadingSpinner />}>
+      <ErrorPage />
+    </React.Suspense>
   );
 };
 
