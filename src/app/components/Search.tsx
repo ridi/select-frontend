@@ -267,7 +267,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
     const { appStatus } = this.props;
     const filteredKeywordList: string[] =
       appStatus === AppStatus.Books
-        ? this.state.history.bookKeywordList
+        ? this.state.history.bookKeywordList.filter((listItem: string) => listItem !== keyword)
         : this.state.history.articleKeywordList.filter((listItem: string) => listItem !== keyword);
 
     const updatedHistoryState = {
