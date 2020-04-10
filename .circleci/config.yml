@@ -169,7 +169,6 @@ workflows:
             branches:
               only:
                 - master
-                - fix/search
           dev: true
       - deploy:
           name: deploy-dev
