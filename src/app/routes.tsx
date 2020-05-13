@@ -118,7 +118,7 @@ export const Routes: React.SFC<Props> = props => {
                 <Redirect to={RoutePaths.ARTICLE_HOME} />
               )}
             </Route>
-            <Redirect exact from={RoutePaths.ARTICLE_ROOTE} to={RoutePaths.ARTICLE_HOME} />
+            <Redirect exact from={RoutePaths.ARTICLE_ROOT} to={RoutePaths.ARTICLE_HOME} />
             <Route path={RoutePaths.HOME} component={Home} {...props} />
             <Route path={RoutePaths.NEW_RELEASE} component={NewReleases} {...props} />
             <Route path={RoutePaths.CHARTS} component={Charts} {...props} />
