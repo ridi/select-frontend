@@ -60,7 +60,7 @@ const BigBanner: React.FunctionComponent = () => {
     onChangeCurrentIdx,
   };
 
-  if (!fetchedAt) {
+  if (!fetchedAt || bigBannerList.length === 0) {
     return <TopBannerSkeleton />;
   }
   return isBooks ? <BookCarousel {...carouselProps} /> : <ArticlesCarousel {...carouselProps} />;
