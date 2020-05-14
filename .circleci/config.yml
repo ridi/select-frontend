@@ -169,6 +169,7 @@ workflows:
             branches:
               only:
                 - master
+                - fix/bigbanner
           dev: true
       - deploy:
           name: deploy-dev
