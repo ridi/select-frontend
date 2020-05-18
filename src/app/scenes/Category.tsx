@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, LinkProps, useHistory, useLocation } from 'react-router-dom';
+import { Link, LinkProps, useHistory } from 'react-router-dom';
 
 import { GridBookList, HelmetWithTitle, PCPageHeader } from 'app/components';
 import { PageTitleText } from 'app/constants';
@@ -15,7 +15,6 @@ import { getIsMobile } from 'app/services/commonUI/selectors';
 const Category: React.FunctionComponent = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const location = useLocation();
 
   const isCategoryListFetched = useSelector((state: RidiSelectState) => state.categories.isFetched);
   const categoryList = useSelector((state: RidiSelectState) => state.categories.itemList) || [];
@@ -51,7 +50,7 @@ const Category: React.FunctionComponent = () => {
       dispatch(categoryActions.cacheCategoryId({ categoryId }));
       !isFetched() && dispatch(categoryActions.loadCategoryBooksRequest({ categoryId, page }));
     }
-  }, [location]);
+  }, [categoryId, page]);
 
   const renderSelectBox = () =>
     isValidCategoryId ? (
