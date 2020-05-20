@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, LinkProps, useHistory } from 'react-router-dom';
 
@@ -12,6 +12,8 @@ import { Pagination } from 'app/components/Pagination';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { getIsMobile } from 'app/services/commonUI/selectors';
 
+const ItemCountPerPage = 24;
+
 const Category: React.FunctionComponent = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -21,22 +23,16 @@ const Category: React.FunctionComponent = () => {
   const categoryId = useSelector((state: RidiSelectState) =>
     Number(getIdFromLocationSearch(state.router.location.search)),
   );
-  const category = useSelector(
-    (state: RidiSelectState) =>
-      state.categoriesById[Number(getIdFromLocationSearch(state.router.location.search))],
-  );
+  const category = useSelector((state: RidiSelectState) => state.categoriesById[categoryId]);
   const books = useSelector((state: RidiSelectState) => state.booksById);
   const page = useSelector(getPageQuery);
   const isMobile = useSelector(getIsMobile);
 
   const isValidCategoryId = isValidNumber(categoryId);
   const itemCount = category?.itemCount;
-  const ItemCountPerPage = 24;
+  const isCategoryItemFetched = category?.itemListByPage[page]?.isFetched;
 
-  const isFetched = () =>
-    category && category.itemListByPage[page] && category.itemListByPage[page].isFetched;
-
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(
       categoryActions.initializeCategoriesWhole({
         shouldFetchCategoryList: !isCategoryListFetched,
@@ -45,10 +41,11 @@ const Category: React.FunctionComponent = () => {
     );
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isValidCategoryId) {
       dispatch(categoryActions.cacheCategoryId({ categoryId }));
-      !isFetched() && dispatch(categoryActions.loadCategoryBooksRequest({ categoryId, page }));
+      !isCategoryItemFetched &&
+        dispatch(categoryActions.loadCategoryBooksRequest({ categoryId, page }));
     }
   }, [categoryId, page]);
 
@@ -86,7 +83,7 @@ const Category: React.FunctionComponent = () => {
     <main className="SceneWrapper SceneWrapper_WithGNB SceneWrapper_WithLNB">
       <HelmetWithTitle titleName={PageTitleText.CATEGORY} />
       {renderHeader()}
-      {!isCategoryListFetched || !isValidCategoryId || !isFetched() ? (
+      {!isCategoryListFetched || !isValidCategoryId || !isCategoryItemFetched ? (
         <GridBookListSkeleton />
       ) : (
         <>
