@@ -1,19 +1,6 @@
-import { createAction, createReducer } from 'redux-act';
+import { ImmerReducer, createActionCreators, createReducerFunction } from 'immer-reducer';
 
 import { FetchStatusFlag } from 'app/constants';
-
-export const Actions = {
-  loadHomeRequest: createAction('loadHomeRequest'),
-  loadHomeSuccess: createAction<{
-    fetchedAt: number;
-    bigBannerList: BigBanner[];
-    collectionIdList: number[];
-  }>('loadHomeSuccess'),
-  loadHomeFailure: createAction('loadHomeFailure'),
-  updateBannerIndex: createAction<{
-    currentIdx: number;
-  }>('updateBannerIndex'),
-};
 
 export interface BigBanner {
   id: number;
@@ -22,12 +9,16 @@ export interface BigBanner {
   title: string;
 }
 
-export interface HomeState {
-  fetchedAt: number | null;
-  fetchStatus: FetchStatusFlag;
-  currentIdx: number;
+export type FetchedAt = number | null;
+export interface HomeResponse {
+  fetchedAt: FetchedAt;
   bigBannerList: BigBanner[];
   collectionIdList: number[];
+}
+
+export interface HomeState extends HomeResponse {
+  fetchStatus: FetchStatusFlag;
+  currentIdx: number;
 }
 
 export const INITIAL_HOME_STATE: HomeState = {
@@ -38,33 +29,27 @@ export const INITIAL_HOME_STATE: HomeState = {
   collectionIdList: [],
 };
 
-export const homeReducer = createReducer<typeof INITIAL_HOME_STATE>({}, INITIAL_HOME_STATE);
+class HomeReducer extends ImmerReducer<HomeState> {
+  loadHomeRequest() {
+    this.draftState.fetchStatus = FetchStatusFlag.FETCHING;
+  }
 
-homeReducer.on(Actions.loadHomeRequest, (state, action) => ({
-  ...state,
-  fetchStatus: FetchStatusFlag.FETCHING,
-}));
+  loadHomeSuccess(homeResponse: HomeResponse) {
+    this.draftState = {
+      ...this.draftState,
+      ...homeResponse,
+      fetchStatus: FetchStatusFlag.IDLE,
+    };
+  }
 
-homeReducer.on(Actions.loadHomeSuccess, (state, action) => {
-  const { fetchedAt, bigBannerList, collectionIdList } = action;
-  return {
-    ...state,
-    fetchedAt,
-    bigBannerList,
-    collectionIdList,
-    fetchStatus: FetchStatusFlag.IDLE,
-  };
-});
+  loadHomeFailure() {
+    this.draftState.fetchStatus = FetchStatusFlag.FETCH_ERROR;
+  }
 
-homeReducer.on(Actions.loadHomeFailure, (state, action) => ({
-  ...state,
-  fetchStatus: FetchStatusFlag.FETCH_ERROR,
-}));
+  updateBannerIndex({ currentIdx }: { currentIdx: number }) {
+    this.draftState.currentIdx = currentIdx;
+  }
+}
 
-homeReducer.on(Actions.updateBannerIndex, (state, action) => {
-  const { currentIdx } = action;
-  return {
-    ...state,
-    currentIdx,
-  };
-});
+export const homeActions = createActionCreators(HomeReducer);
+export const homeReducer = createReducerFunction(HomeReducer, INITIAL_HOME_STATE);

@@ -4,29 +4,30 @@ import { forceCheck } from 'react-lazyload';
 import { useSelector, useDispatch } from 'react-redux';
 import differenceInHours from 'date-fns/differenceInHours';
 
-import { Actions } from 'app/services/home';
-import { RidiSelectState } from 'app/store';
+import { homeActions, FetchedAt } from 'app/services/home';
 import { PageTitleText } from 'app/constants';
 import { HelmetWithTitle } from 'app/components';
 import BigBanner from 'app/components/Home/BigBanner';
 import HomeSectionList from 'app/components/Home/HomeSectionList';
 import { sendPostRobotInitialRendered } from 'app/utils/inAppMessageEvents';
 import { Actions as CollectionActions, ReservedCollectionIds } from 'app/services/collection';
+import { getFetchedAt, getIsUserFetching, getCollections } from 'app/services/home/selectors';
+
+const isNeedLoad = (fetchedAt: FetchedAt) =>
+  !fetchedAt || Math.abs(differenceInHours(fetchedAt, Date.now())) >= 3;
 
 const Home: React.FunctionComponent = () => {
   let initialDispatchTimeout: number | null;
-
-  const fetchedAt = useSelector((state: RidiSelectState) => state.home.fetchedAt);
-  const isUserFetching = useSelector((state: RidiSelectState) => state.user.isFetching);
-  const collections = useSelector((state: RidiSelectState) => state.collectionsById);
-
   const dispatch = useDispatch();
+  const fetchedAt = useSelector(getFetchedAt);
+  const isUserFetching = useSelector(getIsUserFetching);
+  const collections = useSelector(getCollections);
 
   useEffect(() => {
     initialDispatchTimeout = window.setTimeout(() => {
       sendPostRobotInitialRendered();
-      if (!fetchedAt || Math.abs(differenceInHours(fetchedAt, Date.now())) >= 3) {
-        dispatch(Actions.loadHomeRequest());
+      if (isNeedLoad(fetchedAt)) {
+        dispatch(homeActions.loadHomeRequest());
         dispatch(
           CollectionActions.loadCollectionRequest({
             collectionId: ReservedCollectionIds.SPOTLIGHT,
@@ -48,10 +49,7 @@ const Home: React.FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
-    if (isUserFetching) {
-      return;
-    }
-    if (!collections.popular?.itemListByPage[1]?.itemList) {
+    if (!isUserFetching && !collections.popular?.itemListByPage[1]?.itemList) {
       dispatch(CollectionActions.loadPopularBooksRequest({ page: 1 }));
     }
   }, [isUserFetching]);
