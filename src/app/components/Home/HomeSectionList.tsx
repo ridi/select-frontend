@@ -71,9 +71,6 @@ const HomeSectionList: React.FunctionComponent = () => {
 
   return (
     <div className="PageHome_Content">
-      <div className="PageHome_Panel">
-        <HomeSection key={spotlight.id} collection={spotlight} onScreen />
-      </div>
       {collectionIdList
         .map(collectionId => collections[collectionId])
         .reduce(groupCollections, [])
