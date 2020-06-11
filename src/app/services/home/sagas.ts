@@ -1,4 +1,4 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLatest, all } from 'redux-saga/effects';
 
 import { Actions as BookActions, Book } from 'app/services/book';
 import { Actions as CollectionActions, ReservedCollectionIds } from 'app/services/collection';
@@ -10,57 +10,44 @@ import { getIsIosInApp } from 'app/services/environment/selectors';
 import { ErrorStatus } from 'app/constants/index';
 import { isRidiselectUrl } from 'app/utils/regexHelper';
 
+const getCollectionIdList = (collections: CollectionResponse[]) => {
+  const collectionIdList: CollectionId[] = collections.map(collection => collection.collectionId);
+  // 별점 베스트, 인기도서 콜렉션을 임의의 순서로 추가
+  collectionIdList.unshift(ReservedCollectionIds.SPOTLIGHT);
+  collectionIdList.splice(3, 0, ReservedCollectionIds.POPULAR);
+  return collectionIdList;
+};
+
 export function* watchLoadHome() {
   try {
-    const response: HomeResponse = yield call(requestHome);
-    const collectionsWithoutPopular = response.collections.filter(
-      collection => collection.collectionId !== 0,
-    );
-    const responseWithoutPopular = {
-      ...response,
-      collections: collectionsWithoutPopular,
-    };
-
-    // This array might have duplicated book item
-    const books = collectionsWithoutPopular.reduce(
+    const { collections, banners }: HomeResponse = yield call(requestHome);
+    const books = collections.reduce(
       (concatedBooks: Book[], section) => concatedBooks.concat(section.books),
       [],
     );
-    yield put(BookActions.updateBooks({ books }));
-    const collections = collectionsWithoutPopular.map(
-      (section): CollectionResponse => ({
-        type: section.type,
-        collectionId: section.collectionId,
-        title: section.title,
-        books: section.books,
-        totalCount: 0, // TODO: Ask @minQ
-      }),
-    );
-    yield put(CollectionActions.updateCollections({ collections }));
     const isIosInApp: boolean = yield select(getIsIosInApp);
     const bigBannerList = isIosInApp
-      ? responseWithoutPopular.banners.filter(banner => isRidiselectUrl(banner.linkUrl))
-      : responseWithoutPopular.banners;
-    const collectionIdList: CollectionId[] = responseWithoutPopular.collections.map(
-      collection => collection.collectionId,
-    );
-    // 별점 베스트, 인기도서 콜렉션을 임의의 순서로 추가
-    collectionIdList.unshift(ReservedCollectionIds.SPOTLIGHT);
-    collectionIdList.splice(3, 0, ReservedCollectionIds.POPULAR);
-    yield put(
-      homeActions.loadHomeSuccess({
-        fetchedAt: Date.now(),
-        bigBannerList,
-        collectionIdList,
-      }),
-    );
-  } catch (e) {
-    const { data } = e.response;
+      ? banners.filter(banner => isRidiselectUrl(banner.linkUrl))
+      : banners;
+
+    yield all([
+      put(BookActions.updateBooks({ books })),
+      put(CollectionActions.updateCollections({ collections })),
+      put(
+        homeActions.loadHomeSuccess({
+          fetchedAt: Date.now(),
+          bigBannerList,
+          collectionIdList: getCollectionIdList(collections),
+        }),
+      ),
+    ]);
+  } catch (error) {
+    const { data } = error.response;
     yield put(homeActions.loadHomeFailure());
     if (data && data.status === ErrorStatus.MAINTENANCE) {
       return;
     }
-    showMessageForRequestError(e);
+    showMessageForRequestError(error);
   }
 }
 

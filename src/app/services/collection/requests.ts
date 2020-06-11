@@ -10,7 +10,7 @@ import { CollectionType, CollectionId, ReservedCollectionIds } from 'app/service
 
 export interface CollectionResponse {
   collectionId: number;
-  totalCount: number;
+  totalCount?: number;
   type: CollectionType;
   title: string;
   books: Book[];
