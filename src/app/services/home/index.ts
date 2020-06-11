@@ -1,6 +1,7 @@
 import { ImmerReducer, createActionCreators, createReducerFunction } from 'immer-reducer';
 
 import { FetchStatusFlag } from 'app/constants';
+import { ReservedCollectionIds } from 'app/services/collection';
 
 export interface BigBanner {
   id: number;
@@ -10,10 +11,11 @@ export interface BigBanner {
 }
 
 export type FetchedAt = number | null;
+export type CollectionId = number | ReservedCollectionIds;
 export interface HomeResponse {
   fetchedAt: FetchedAt;
   bigBannerList: BigBanner[];
-  collectionIdList: number[];
+  collectionIdList: CollectionId[];
 }
 
 export interface HomeState extends HomeResponse {

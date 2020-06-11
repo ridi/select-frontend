@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { RidiSelectState } from 'app/store';
 import HomeSection from 'app/components/Home/HomeSection';
 import { groupCollections } from 'app/services/home/uitls';
-import { CollectionType, ReservedCollectionIds } from 'app/services/collection';
+import { CollectionType } from 'app/services/collection';
 import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
 
 const HomeSectionList: React.FunctionComponent = () => {
@@ -75,10 +75,7 @@ const HomeSectionList: React.FunctionComponent = () => {
         <HomeSection key={spotlight.id} collection={spotlight} onScreen />
       </div>
       {collectionIdList
-        .map(
-          collectionId =>
-            collections[collectionId === 0 ? ReservedCollectionIds.POPULAR : collectionId],
-        )
+        .map(collectionId => collections[collectionId])
         .reduce(groupCollections, [])
         .map((collectionGroup, idx) => (
           <div
