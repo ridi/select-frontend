@@ -17,35 +17,23 @@ const isNeedLoad = (fetchedAt: FetchedAt) =>
   !fetchedAt || Math.abs(differenceInHours(fetchedAt, Date.now())) >= 3;
 
 const Home: React.FunctionComponent = () => {
-  let initialDispatchTimeout: number | null;
   const dispatch = useDispatch();
   const fetchedAt = useSelector(getFetchedAt);
   const isUserFetching = useSelector(getIsUserFetching);
   const collections = useSelector(getCollections);
 
   useEffect(() => {
-    initialDispatchTimeout = window.setTimeout(() => {
-      sendPostRobotInitialRendered();
-      if (isNeedLoad(fetchedAt)) {
-        dispatch(homeActions.loadHomeRequest());
-        dispatch(
-          CollectionActions.loadCollectionRequest({
-            collectionId: ReservedCollectionIds.SPOTLIGHT,
-            page: 1,
-          }),
-        );
-      }
-
-      initialDispatchTimeout = null;
-      forceCheck();
-    });
-
-    return () => {
-      if (initialDispatchTimeout) {
-        window.clearTimeout(initialDispatchTimeout);
-        initialDispatchTimeout = null;
-      }
-    };
+    sendPostRobotInitialRendered();
+    if (isNeedLoad(fetchedAt)) {
+      dispatch(homeActions.loadHomeRequest());
+      dispatch(
+        CollectionActions.loadCollectionRequest({
+          collectionId: ReservedCollectionIds.SPOTLIGHT,
+          page: 1,
+        }),
+      );
+    }
+    forceCheck();
   }, []);
 
   useEffect(() => {
