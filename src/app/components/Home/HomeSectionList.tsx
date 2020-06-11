@@ -7,14 +7,15 @@ import HomeSection from 'app/components/Home/HomeSection';
 import { groupCollections } from 'app/services/home/uitls';
 import { CollectionType } from 'app/services/collection';
 import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
+import { getFetchedAt, getCollectionIdList } from 'app/services/home/selectors';
+import { getCollections } from 'app/services/collection/selectors';
 
 const HomeSectionList: React.FunctionComponent = () => {
   const panels: HTMLElement[] = [];
 
-  const fetchedAt = useSelector((state: RidiSelectState) => state.home.fetchedAt);
-  const collections = useSelector((state: RidiSelectState) => state.collectionsById);
-  const collectionIdList = useSelector((state: RidiSelectState) => state.home.collectionIdList);
-  const { spotlight } = collections;
+  const fetchedAt = useSelector(getFetchedAt);
+  const collections = useSelector(getCollections);
+  const collectionIdList = useSelector(getCollectionIdList);
 
   const [renderedLastGroupIdx, setRenderedLastGroupIdx] = useState(0);
 

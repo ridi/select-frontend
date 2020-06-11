@@ -16,6 +16,7 @@ import { getIsMobile } from 'app/services/commonUI/selectors';
 import { SectionHeader } from 'app/components/HomeSectionHeader';
 import HomeSpotlightSection from 'app/components/Home/HomeSpotlightSection';
 import { HomeChartBooksSection } from 'app/components/Home/HomeChartBooksSection';
+import { getIsUserFetching } from 'app/services/user/selectors';
 
 interface HomeSectionProps {
   collection: DefaultCollectionState | SpotlightCollectionState;
@@ -26,7 +27,7 @@ interface HomeSectionProps {
 const HomeSection: React.FunctionComponent<HomeSectionProps> = props => {
   const isMobile = useSelector(getIsMobile);
   const books = useSelector((state: RidiSelectState) => state.booksById);
-  const isUserFetching = useSelector((state: RidiSelectState) => state.user.isFetching);
+  const isUserFetching = useSelector(getIsUserFetching);
 
   const { collection, onScreen, order } = props;
   const { type, title, id, itemListByPage } = collection;

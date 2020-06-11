@@ -4,5 +4,4 @@ export const getBooksBannerCurrentIdx = (state: RidiSelectState): number => stat
 export const getArticlesBannerCurrentIdx = (state: RidiSelectState): number =>
   state.articleHome.currentIdx;
 export const getFetchedAt = (state: RidiSelectState) => state.home.fetchedAt;
-export const getIsUserFetching = (state: RidiSelectState) => state.user.isFetching;
-export const getCollections = (state: RidiSelectState) => state.collectionsById;
+export const getCollectionIdList = (state: RidiSelectState) => state.home.collectionIdList;

@@ -11,7 +11,9 @@ import BigBanner from 'app/components/Home/BigBanner';
 import HomeSectionList from 'app/components/Home/HomeSectionList';
 import { sendPostRobotInitialRendered } from 'app/utils/inAppMessageEvents';
 import { Actions as CollectionActions, ReservedCollectionIds } from 'app/services/collection';
-import { getFetchedAt, getIsUserFetching, getCollections } from 'app/services/home/selectors';
+import { getFetchedAt } from 'app/services/home/selectors';
+import { getCollections } from 'app/services/collection/selectors';
+import { getIsUserFetching } from 'app/services/user/selectors';
 
 const isNeedLoad = (fetchedAt: FetchedAt) =>
   !fetchedAt || Math.abs(differenceInHours(fetchedAt, Date.now())) >= 3;
