@@ -39,7 +39,7 @@ const Home: React.FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
-    if (!isUserFetching && !collections.popular?.itemListByPage[1]?.itemList) {
+    if (!isUserFetching && !collections.popularBooks?.itemListByPage[1]?.itemList) {
       dispatch(CollectionActions.loadPopularBooksRequest({ page: 1 }));
     }
   }, [isUserFetching]);

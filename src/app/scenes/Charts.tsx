@@ -118,7 +118,7 @@ export class Charts extends React.Component<Props> {
 }
 
 const mapStateToProps = (rootState: RidiSelectState): CollectionStateProps => ({
-  collection: rootState.collectionsById.popular,
+  collection: rootState.collectionsById.popularBooks,
   books: rootState.booksById,
   page: getPageQuery(rootState),
 });
