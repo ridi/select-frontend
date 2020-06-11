@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest, all } from 'redux-saga/effects';
 
-import { Actions as BookActions, Book } from 'app/services/book';
+import { Actions as BookActions } from 'app/services/book';
 import { Actions as CollectionActions, ReservedCollectionIds } from 'app/services/collection';
 import { CollectionResponse } from 'app/services/collection/requests';
 import { homeActions, CollectionId } from 'app/services/home';
@@ -21,10 +21,7 @@ const getCollectionIdList = (collections: CollectionResponse[]) => {
 export function* watchLoadHome() {
   try {
     const { collections, banners }: HomeResponse = yield call(requestHome);
-    const books = collections.reduce(
-      (concatedBooks: Book[], section) => concatedBooks.concat(section.books),
-      [],
-    );
+    const books = collections.flatMap(collection => [...collection.books]);
     const isIosInApp: boolean = yield select(getIsIosInApp);
     const bigBannerList = isIosInApp
       ? banners.filter(banner => isRidiselectUrl(banner.linkUrl))
@@ -44,10 +41,9 @@ export function* watchLoadHome() {
   } catch (error) {
     const { data } = error.response;
     yield put(homeActions.loadHomeFailure());
-    if (data && data.status === ErrorStatus.MAINTENANCE) {
-      return;
+    if (!data || data.status !== ErrorStatus.MAINTENANCE) {
+      showMessageForRequestError(error);
     }
-    showMessageForRequestError(error);
   }
 }
 
