@@ -2,7 +2,7 @@ import { all, call, put, select, takeLeading } from 'redux-saga/effects';
 
 import { ErrorStatus } from 'app/constants/index';
 import { Actions } from 'app/services/articleHome';
-import { BigBanner } from 'app/services/home';
+import { BigBanner } from 'app/services/home/states';
 import { requestBanner } from 'app/services/home/requests';
 import showMessageForRequestError from 'app/utils/toastHelper';
 

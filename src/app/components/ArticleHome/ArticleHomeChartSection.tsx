@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { FetchStatusFlag } from 'app/constants';
+import { FetchStatusFlag, ARTICLE_HOME_CHART_SECTION_COUNT } from 'app/constants';
 import { articleListToPath } from 'app/utils/toPath';
 import { ArticleResponse } from 'app/services/article/requests';
 import { SectionHeader } from 'app/components/HomeSectionHeader';
@@ -15,6 +15,7 @@ import {
   getPopularArticleListFetchStatus,
 } from 'app/services/articleList/selectors';
 import { Article } from 'app/services/article';
+import { RidiSelectState } from 'app/store';
 
 interface ArticleHomeSectionProps {
   title: string;
@@ -26,7 +27,9 @@ interface ArticleHomeSectionProps {
 
 export const ArticleHomeChartSection: React.FunctionComponent<ArticleHomeSectionProps> = props => {
   const { title, order, articleListType } = props;
-  const popularArticle: Article[] = useSelector(getHomePopularArticleList);
+  const popularArticle: Article[] = useSelector((state: RidiSelectState) =>
+    getHomePopularArticleList(state, { itemLimit: ARTICLE_HOME_CHART_SECTION_COUNT }),
+  );
   const articleFetchStatus: FetchStatusFlag = useSelector(getPopularArticleListFetchStatus);
 
   const dispatch = useDispatch();

@@ -19,9 +19,12 @@ import HomeSpotlightSection from 'app/components/Home/HomeSpotlightSection';
 import { HomeChartBooksSection } from 'app/components/Home/HomeChartBooksSection';
 import { getIsUserFetching } from 'app/services/user/selectors';
 import Media from 'app/styles/mediaQuery';
+import { ArticleListType } from 'app/services/articleList';
+import PopularArticleSection from 'app/components/Home/PopularArticleSection';
+import { PopularArticleCollectionState } from 'app/services/home/states';
 
 interface HomeSectionProps {
-  collection: DefaultCollectionState | SpotlightCollectionState;
+  collection: DefaultCollectionState | SpotlightCollectionState | PopularArticleCollectionState;
   onScreen: boolean;
   order?: number;
 }
@@ -43,6 +46,9 @@ const HomeSection: React.FunctionComponent<HomeSectionProps> = props => {
   const isMobile = useSelector(getIsMobile);
   const books = useSelector((state: RidiSelectState) => state.booksById);
   const isUserFetching = useSelector(getIsUserFetching);
+  if (props.collection.type === ArticleListType.POPULAR) {
+    return <PopularArticleSection />;
+  }
 
   const { collection, onScreen, order } = props;
   const { type, title, id, itemListByPage } = collection;
