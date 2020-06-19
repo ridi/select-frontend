@@ -3,17 +3,20 @@ import { call, put, select, takeLatest, all } from 'redux-saga/effects';
 import { Actions as BookActions } from 'app/services/book';
 import { Actions as CollectionActions, ReservedCollectionIds } from 'app/services/collection';
 import { CollectionResponse } from 'app/services/collection/requests';
-import { homeActions, CollectionId } from 'app/services/home';
+import { homeActions } from 'app/services/home';
+import { CollectionIdList } from 'app/services/home/states';
 import { HomeResponse, requestHome } from 'app/services/home/requests';
 import showMessageForRequestError from 'app/utils/toastHelper';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import { ErrorStatus } from 'app/constants/index';
 import { isRidiselectUrl } from 'app/utils/regexHelper';
+import { ArticleListType } from 'app/services/articleList';
 
 const getCollectionIdList = (collections: CollectionResponse[]) => {
-  const collectionIdList: CollectionId[] = collections.map(collection => collection.collectionId);
+  const collectionIdList: CollectionIdList = collections.map(collection => collection.collectionId);
   // 별점 베스트, 인기도서 콜렉션을 임의의 순서로 추가
   collectionIdList.unshift(ReservedCollectionIds.SPOTLIGHT);
+  collectionIdList.splice(1, 0, ArticleListType.POPULAR);
   collectionIdList.splice(3, 0, ReservedCollectionIds.POPULAR);
   return collectionIdList;
 };

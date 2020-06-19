@@ -4,11 +4,9 @@ import { useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 
 import HomeSection from 'app/components/Home/HomeSection';
-import { groupCollections } from 'app/services/home/uitls';
 import { CollectionType } from 'app/services/collection';
 import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
-import { getFetchedAt, getCollectionIdList } from 'app/services/home/selectors';
-import { getCollections } from 'app/services/collection/selectors';
+import { getFetchedAt, getCollectionGrouops } from 'app/services/home/selectors';
 import Media from 'app/styles/mediaQuery';
 import Colors from 'app/styles/colors';
 
@@ -26,8 +24,7 @@ const HomeSectionList: React.FunctionComponent = () => {
   const panels: HTMLElement[] = [];
 
   const fetchedAt = useSelector(getFetchedAt);
-  const collections = useSelector(getCollections);
-  const collectionIdList = useSelector(getCollectionIdList);
+  const collectionGroups = useSelector(getCollectionGrouops);
 
   const [renderedLastGroupIdx, setRenderedLastGroupIdx] = useState(0);
 
@@ -84,32 +81,29 @@ const HomeSectionList: React.FunctionComponent = () => {
 
   return (
     <div>
-      {collectionIdList
-        .map(collectionId => collections[collectionId])
-        .reduce(groupCollections, [])
-        .map((collectionGroup, idx) => (
-          <HomePanel
-            key={`home_collection_group_${idx}`}
-            ref={ref => {
-              if (!ref) {
-                return;
-              }
-              if (panels[idx] !== ref) {
-                panels[idx] = ref;
-                checkSectionsOnViewport();
-              }
-            }}
-          >
-            {collectionGroup.map((collection, collectionIdx) => (
-              <HomeSection
-                key={`home_collection_${collection.id}`}
-                collection={collection}
-                onScreen={renderedLastGroupIdx >= idx}
-                order={idx === 0 ? collectionIdx : idx + collectionIdx + 1}
-              />
-            ))}
-          </HomePanel>
-        ))}
+      {collectionGroups.map((collectionGroup, idx) => (
+        <HomePanel
+          key={`home_collection_group_${idx}`}
+          ref={ref => {
+            if (!ref) {
+              return;
+            }
+            if (panels[idx] !== ref) {
+              panels[idx] = ref;
+              checkSectionsOnViewport();
+            }
+          }}
+        >
+          {collectionGroup.map((collection, collectionIdx) => (
+            <HomeSection
+              key={`home_collection_${collection.id}`}
+              collection={collection}
+              onScreen={renderedLastGroupIdx >= idx}
+              order={idx === 0 ? collectionIdx : idx + collectionIdx + 1}
+            />
+          ))}
+        </HomePanel>
+      ))}
     </div>
   );
 };

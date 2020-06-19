@@ -1,7 +1,7 @@
 import { createAction, createReducer } from 'redux-act';
 
 import { FetchStatusFlag } from 'app/constants';
-import { BigBanner } from 'app/services/home';
+import { BigBanner } from 'app/services/home/states';
 import { isRidiselectUrl } from 'app/utils/regexHelper';
 
 export const Actions = {

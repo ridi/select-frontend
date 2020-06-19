@@ -4,7 +4,7 @@ import * as qs from 'qs';
 
 import request from 'app/config/axios';
 import { CollectionResponse } from 'app/services/collection/requests';
-import { BigBanner } from 'app/services/home';
+import { BigBanner } from 'app/services/home/states';
 
 export interface HomeResponse {
   bigBanners: BigBanner[];

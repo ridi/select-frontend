@@ -4,7 +4,8 @@ import { forceCheck } from 'react-lazyload';
 import { useSelector, useDispatch } from 'react-redux';
 import differenceInHours from 'date-fns/differenceInHours';
 
-import { homeActions, FetchedAt } from 'app/services/home';
+import { homeActions } from 'app/services/home';
+import { FetchedAt } from 'app/services/home/states';
 import { PageTitleText } from 'app/constants';
 import { HelmetWithTitle } from 'app/components';
 import BigBanner from 'app/components/Home/BigBanner';
