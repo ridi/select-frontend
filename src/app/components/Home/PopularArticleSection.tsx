@@ -19,10 +19,9 @@ import Media from 'app/styles/mediaQuery';
 import Colors from 'app/styles/colors';
 
 const trackingProps = {
-  serviceTitleForTracking: 'select-article',
+  serviceTitleForTracking: 'select-book',
   pageTitleForTracking: 'home',
-  uiPartTitleForTracking: `${ArticleListType.POPULAR.replace('ArticleList', '')}`,
-  miscTracking: JSON.stringify({ sect_order: 3 }),
+  uiPartTitleForTracking: 'article-popular',
 };
 
 const PopularArticleSectionWrapper = styled.section`
