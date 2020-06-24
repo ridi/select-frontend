@@ -169,6 +169,7 @@ workflows:
             branches:
               only:
                 - master
+                - improvement/article-accessibility
           dev: true
       - deploy:
           name: deploy-dev
