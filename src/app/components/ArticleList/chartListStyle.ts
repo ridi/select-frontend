@@ -89,7 +89,7 @@ export const popularArticleElementTitle = css`
 
   display: block;
   margin: 0;
-  color: #000;
+  color: black;
   font-size: 15px;
   font-weight: 500;
   line-height: 20px;

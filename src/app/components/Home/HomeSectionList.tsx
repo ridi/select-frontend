@@ -1,14 +1,26 @@
+import styled from '@emotion/styled';
 import throttle from 'lodash-es/throttle';
 import { useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 
-import { RidiSelectState } from 'app/store';
 import HomeSection from 'app/components/Home/HomeSection';
 import { groupCollections } from 'app/services/home/uitls';
 import { CollectionType } from 'app/services/collection';
 import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
 import { getFetchedAt, getCollectionIdList } from 'app/services/home/selectors';
 import { getCollections } from 'app/services/collection/selectors';
+import Media from 'app/styles/mediaQuery';
+import Colors from 'app/styles/colors';
+
+const HomePanel = styled.div`
+  &:not(:first-of-type) {
+    border-bottom: 4px solid ${Colors.slategray_10};
+    @media ${Media.PC} {
+      margin-top: 0;
+      border-bottom: 0;
+    }
+  }
+`;
 
 const HomeSectionList: React.FunctionComponent = () => {
   const panels: HTMLElement[] = [];
@@ -58,26 +70,25 @@ const HomeSectionList: React.FunctionComponent = () => {
 
   if (!fetchedAt) {
     return (
-      <div className="PageHome_Content Skeleton_Wrapper">
-        <div className="PageHome_Panel">
+      <div className="Skeleton_Wrapper">
+        <HomePanel>
           <HomeSectionPlaceholder type={CollectionType.SPOTLIGHT} />
-        </div>
-        <div className="PageHome_Panel">
+        </HomePanel>
+        <HomePanel>
           <HomeSectionPlaceholder />
           <HomeSectionPlaceholder />
-        </div>
+        </HomePanel>
       </div>
     );
   }
 
   return (
-    <div className="PageHome_Content">
+    <div>
       {collectionIdList
         .map(collectionId => collections[collectionId])
         .reduce(groupCollections, [])
         .map((collectionGroup, idx) => (
-          <div
-            className="PageHome_Panel"
+          <HomePanel
             key={`home_collection_group_${idx}`}
             ref={ref => {
               if (!ref) {
@@ -97,7 +108,7 @@ const HomeSectionList: React.FunctionComponent = () => {
                 order={idx === 0 ? collectionIdx : idx + collectionIdx + 1}
               />
             ))}
-          </div>
+          </HomePanel>
         ))}
     </div>
   );

@@ -2,6 +2,7 @@ import { css, keyframes } from '@emotion/core';
 
 import { resetLayout } from './customProperties';
 import Media from './mediaQuery';
+import Colors from './colors';
 
 const skeletonSlider = keyframes`
   0% {
@@ -19,7 +20,7 @@ const skeletonSlider = keyframes`
 
 export const skeleton = css`
   ${resetLayout}
-  background: #f1f1f3;
+  background: ${Colors.slategray_5};
 `;
 
 export const skeletonWrapper = css`
@@ -57,16 +58,4 @@ export const skeletonWrapper = css`
     opacity: 0.2;
     z-index: 100;
   }
-`;
-
-export const skeletonBigBanner = css`
-  display: block;
-  width: 100%;
-  height: 100px;
-`;
-
-export const skeletonBookComponent = css`
-  width: 100px;
-  height: 300px;
-  margin: 10px;
 `;

@@ -85,12 +85,12 @@ const DisabledChannel = {
     box-sizing: border-box;
     border-radius: 999px;
     overflow: hidden;
-    background-color: #b3b3b3;
+    background-color: ${Colors.gray_30};
     cursor: pointer;
     position: relative;
   `,
   Icon: styled(DisabledIcon)`
-    fill: #e6e6e6;
+    fill: ${Colors.gray_10};
     width: 24px;
     height: 24px;
     position: absolute;

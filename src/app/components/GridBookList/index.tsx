@@ -7,13 +7,7 @@ import { useMediaQuery } from 'react-responsive';
 import { ThumbnailLinkType, ThumbnailSize } from 'app/components/BookThumbnail';
 import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
-import {
-  ResponsiveSection,
-  BookWidth,
-  MINI_PHONE_MAX_WIDTH,
-  PHONE_MAX_WIDTH,
-  PHABLET_MAX_WIDTH,
-} from 'app/constants';
+import { ResponsiveSection, BookWidth, MINI_PHONE_MAX_WIDTH, PHONE_MAX_WIDTH } from 'app/constants';
 import { Book } from 'app/services/book';
 import { StarRating } from 'app/services/review/components';
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
@@ -21,6 +15,7 @@ import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
 import { resetLayout } from 'app/styles/customProperties';
 import Media from 'app/styles/mediaQuery';
+import Colors from 'app/styles/colors';
 
 import GridBookListWrapper from './Wrapper';
 
@@ -36,6 +31,22 @@ interface Props {
   thumbnailLinkType?: ThumbnailLinkType;
   onLinkClick?: (event: React.SyntheticEvent<any>) => any;
 }
+
+export const BookRating = styled.span`
+  display: inline-block;
+  margin-top: 5px;
+  vertical-align: middle;
+`;
+
+export const BookRatingCount = styled.span`
+  display: inline-block;
+  margin-top: -1px;
+  margin-left: 3px;
+  color: ${Colors.slategray_40};
+  font-size: 12px;
+  line-height: 1em;
+  vertical-align: top;
+`;
 
 const SC = {
   GridBookListWrapper,
@@ -56,6 +67,8 @@ const SC = {
       padding: 16px 0;
     }
   `,
+  BookRating,
+  BookRatingCount,
 };
 
 export const GridBookList: React.FunctionComponent<Props> = (props: Props) => {
@@ -125,12 +138,12 @@ export const GridBookList: React.FunctionComponent<Props> = (props: Props) => {
         >
           <h3 className="GridBookList_ItemTitle">{book.title.main}</h3>
           {isChart && book.reviewSummary && (
-            <span className="HomeSection_ChartBookRating">
+            <SC.BookRating>
               <StarRating rating={book.reviewSummary.buyerRatingAverage} />
-              <span className="HomeSection_ChartBookRatingCount">
+              <SC.BookRatingCount>
                 {thousandsSeperator(book.reviewSummary.buyerRatingCount)}
-              </span>
-            </span>
+              </SC.BookRatingCount>
+            </SC.BookRating>
           )}
         </Link>
       </div>

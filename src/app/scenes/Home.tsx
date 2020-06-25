@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import styled from '@emotion/styled';
 import React, { useEffect } from 'react';
 import { forceCheck } from 'react-lazyload';
 import { useSelector, useDispatch } from 'react-redux';
@@ -14,9 +14,25 @@ import { Actions as CollectionActions, ReservedCollectionIds } from 'app/service
 import { getFetchedAt } from 'app/services/home/selectors';
 import { getCollections } from 'app/services/collection/selectors';
 import { getIsUserFetching } from 'app/services/user/selectors';
+import Media from 'app/styles/mediaQuery';
+import { Scene } from 'app/styles/globals';
 
 const isNeedLoad = (fetchedAt: FetchedAt) =>
   !fetchedAt || Math.abs(differenceInHours(fetchedAt, Date.now())) >= 3;
+
+const BooksHome = styled.main`
+  ${Scene.Wrapper}
+  ${Scene.WithGNB}
+  ${Scene.WithLNB}
+  @media ${Media.PC} {
+    padding-bottom: 80px;
+    background-color: initial;
+  }
+
+  .androidApp & {
+    padding-bottom: 0;
+  }
+`;
 
 const Home: React.FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -45,19 +61,12 @@ const Home: React.FunctionComponent = () => {
   }, [isUserFetching]);
 
   return (
-    <main
-      className={classNames(
-        'PageHome',
-        'SceneWrapper',
-        'SceneWrapper_WithGNB',
-        'SceneWrapper_WithLNB',
-      )}
-    >
+    <BooksHome>
       <HelmetWithTitle titleName={PageTitleText.HOME} />
       <h1 className="a11y">리디셀렉트 홈</h1>
       <BigBanner />
       <HomeSectionList />
-    </main>
+    </BooksHome>
   );
 };
 

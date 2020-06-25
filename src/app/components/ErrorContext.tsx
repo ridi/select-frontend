@@ -4,6 +4,7 @@ import React from 'react';
 import { ConnectedCompactPageHeader } from 'app/components/CompactPageHeader';
 import history from 'app/config/history';
 import { ErrorResponseStatus } from 'app/services/serviceStatus';
+import Colors from 'app/styles/colors';
 
 interface ErrorContextProps {
   responseState?: ErrorResponseStatus;
@@ -78,10 +79,10 @@ export const ErrorContext: React.FunctionComponent<ErrorContextProps> = props =>
           <g fill="none" fillRule="evenodd">
             <path
               d="M70.352 0c-10.195 0-19.4 4.418-23.348 9.937C43.048 4.418 33.844 0 23.648 0H5.885C2.627 0 .006 2.46.006 5.519v60.354C-.11 67.678 1.46 69.1 3.382 69.1c0 0 9.612-.164 14.21-.164 9.436 0 24.347 1.147 26.557 9.4h5.702c2.21-8.253 17.12-9.4 26.56-9.4 4.599 0 14.21.164 14.21.164 1.92 0 3.49-1.422 3.373-3.227V5.519c0-3.06-2.62-5.519-5.88-5.519H70.353z"
-              fill="#E6E8EB"
+              fill={Colors.slategray_10}
             />
             <path
-              fill="#B8BFC4"
+              fill={Colors.slategray_30}
               fillRule="nonzero"
               d="M32.674 30.736l4.308 4.308-1.938 1.938-4.308-4.308-4.308 4.308-1.938-1.938 4.308-4.308-4.308-4.308 1.938-1.938 4.308 4.308 4.308-4.308 1.938 1.938zM68.315 35.044l-1.938 1.938-4.308-4.308-4.308 4.308-1.938-1.938 4.308-4.308-4.308-4.308 1.938-1.938 4.308 4.308 4.308-4.308 1.938 1.938-4.308 4.308zM59.685 49.981v2.741h-25.37v-2.74z"
             />

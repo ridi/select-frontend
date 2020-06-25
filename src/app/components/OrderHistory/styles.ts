@@ -56,7 +56,7 @@ export const cashReceiptIssueModalIssueNumberInputWrapper = css`
   margin-top: 12px;
   border-radius: 3px;
   border: solid 1px ${Colors.slategray_20};
-  background-color: #fff;
+  background-color: white;
   box-sizing: border-box;
 `;
 

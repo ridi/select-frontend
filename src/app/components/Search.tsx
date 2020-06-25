@@ -25,6 +25,7 @@ import toast from 'app/utils/toast';
 import { setDisableScroll } from 'app/utils/utils';
 import env from 'app/config/env';
 import { articleContentToPath } from 'app/utils/toPath';
+import Colors from 'app/styles/colors';
 
 export enum SearchHelperFlag {
   NONE,
@@ -645,7 +646,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
           viewBox="0 0 24 24"
         >
           <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-            <g transform="translate(2.500000, 2.500000)" fill="#2E3847">
+            <g transform="translate(2.500000, 2.500000)" fill={Colors.bluegray_70}>
               {/* tslint:disable-next-line:max-line-length */}
               <path
                 d="M8,1.5 C4.41014913,1.5 1.5,4.41014913 1.5,8 C1.5,11.5898509 4.41014913,14.5 8,14.5 C11.5898509,14.5 14.5,11.5898509 14.5,8 C14.5,4.41014913 11.5898509,1.5 8,1.5 Z M8,0 C12.418278,-7.77156117e-16 16,3.581722 16,8 C16,12.418278 12.418278,16 8,16 C3.581722,16 4.4408921e-16,12.418278 0,8 C-5.55111512e-16,3.581722 3.581722,8.8817842e-16 8,0 Z"
