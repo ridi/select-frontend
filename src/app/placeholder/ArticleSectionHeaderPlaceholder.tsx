@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+
 import { skeleton } from 'app/styles/skeleton';
 
 const Skeleton = styled.div`
