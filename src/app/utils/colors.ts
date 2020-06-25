@@ -5,16 +5,18 @@
  * @return rgbaHex, 파라미터 오류시 magenta 반환
  */
 export const ErrorColor = 'magenta';
-const ShortColorHexLength = 4;
-const ColorHexLength = 7;
-const colorHexRE = /^#([0-9A-Fa-f]{3}){1,2}/;
+const RGBHexLength = {
+  SHORT: 4,
+  FULL: 7,
+};
+const rgbHexRE = /^#([0-9A-Fa-f]{3}){1,2}/;
 const isColorHex = (rgbHex: string) =>
-  (rgbHex.length === ShortColorHexLength || rgbHex.length === ColorHexLength) &&
-  colorHexRE.test(rgbHex);
+  (rgbHex.length === RGBHexLength.SHORT || rgbHex.length === RGBHexLength.FULL) &&
+  rgbHexRE.test(rgbHex);
 
 const toFullHex = (rgbHex: string) =>
-  rgbHex.length === ShortColorHexLength
-    ? `#${Array.from({ length: ShortColorHexLength - 1 }, (_, index) =>
+  rgbHex.length === RGBHexLength.SHORT
+    ? `#${Array.from({ length: RGBHexLength.SHORT - 1 }, (_, index) =>
         rgbHex.charAt(index + 1).repeat(2),
       ).join('')}`
     : rgbHex;

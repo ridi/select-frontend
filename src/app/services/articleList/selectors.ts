@@ -4,7 +4,6 @@ import { RidiSelectState } from 'app/store';
 import { getPageQuery } from 'app/services/routing/selectors';
 import {
   ARTICLE_HOME_SECTION_COUNT,
-  ARTICLE_HOME_CHART_SECTION_COUNT,
   ARTICLE_HOME_RECENT_SECTION_COUNT,
   FetchStatusFlag,
 } from 'app/constants';
@@ -23,12 +22,20 @@ export const getPopularArticleListItemCount = createSelector(
   articleItems => articleItems?.itemCount || 0,
 );
 
+interface PopularArticleListProps {
+  itemLimit: number;
+}
+
 export const getHomePopularArticleList = createSelector(
-  [popularArticleSelector, articleByIdSelector],
-  (articleItems, articleById) => {
+  [
+    popularArticleSelector,
+    articleByIdSelector,
+    (_: RidiSelectState, props: PopularArticleListProps) => props.itemLimit,
+  ],
+  (articleItems, articleById, itemLimit) => {
     const itemList = articleItems?.itemListByPage[1]?.itemList;
-    return itemList?.length > ARTICLE_HOME_CHART_SECTION_COUNT
-      ? itemList?.slice(0, ARTICLE_HOME_CHART_SECTION_COUNT).map(id => articleById[id].article!)
+    return itemList?.length > itemLimit
+      ? itemList?.slice(0, itemLimit).map(id => articleById[id].article!)
       : itemList?.map(id => articleById[id].article!);
   },
 );

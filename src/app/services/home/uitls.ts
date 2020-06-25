@@ -1,19 +1,16 @@
 import { Book } from 'app/services/book';
 import { DefaultCollectionState } from 'app/services/collection';
 
-export const groupCollections = (
-  groupedCollections: DefaultCollectionState[][],
-  collection: DefaultCollectionState,
-) => {
+import { PopularArticleCollectionState } from './states';
+
+type Collection = DefaultCollectionState | PopularArticleCollectionState;
+
+export const groupCollections = (groupedCollections: Collection[][], collection: Collection) => {
   const latestGroup = groupedCollections[groupedCollections.length - 1];
   // If current collection has a same type as the latest group,
   // push the current collection into the group. If it doesn't, create
   // a new group and put the current collection into it.
-  if (
-    !!latestGroup &&
-    !!latestGroup[latestGroup.length - 1] &&
-    latestGroup[latestGroup.length - 1].type === collection.type
-  ) {
+  if (latestGroup && latestGroup[latestGroup.length - 1]?.type === collection.type) {
     latestGroup.push(collection);
   } else {
     groupedCollections.push([collection]);
