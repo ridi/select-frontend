@@ -406,6 +406,8 @@ main.SceneWrapper {
 
 .RSGBookThumbnail_Link,
 .RSGBookThumbnail_Wrapper-lazyloaded {
+  display: flex;
+  align-items: flex-end;
   max-height: inherit;
 }
 
