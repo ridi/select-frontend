@@ -8,6 +8,7 @@ import { AppStatus } from 'app/services/app';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 import ArrowRight from 'svgs/ArrowNoneDashRight.svg';
 import ArrowLeft from 'svgs/ArrowNoneDashLeft.svg';
+import Colors from 'app/styles/colors';
 
 import BigBannerCarousel from './BigBannerCarousel';
 import CarouselItem from './CarouselItem';
@@ -21,7 +22,7 @@ const CarouselWrapper = styled.div<{ itemWidth: number }>`
   margin: 0 auto;
   position: relative;
   overflow: hidden;
-  background: #151829;
+  background: ${Colors.bluegray_90};
 `;
 
 const CarouselControllerWrapper = styled.div`

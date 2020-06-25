@@ -12,6 +12,7 @@ import { RidiSelectState } from 'app/store';
 import toast from 'app/utils/toast';
 import { moveToLogin } from 'app/utils/utils';
 import TicketIcon from 'svgs/Ticket.svg';
+import { getIsUserFetching } from 'app/services/user/selectors';
 
 const ticketIconStyle = css`
   fill: rgb(31, 140, 230);
@@ -24,14 +25,12 @@ const Voucher: React.FunctionComponent = () => {
   const [inputValue, setInputValue] = React.useState('');
   const dispatch = useDispatch();
 
-  const { searchQuery, isLoggedIn, isUserFetching, BASE_URL_SELECT } = useSelector(
-    (state: RidiSelectState) => ({
-      searchQuery: state.router.location.search,
-      isLoggedIn: state.user.isLoggedIn,
-      isUserFetching: state.user.isFetching,
-      BASE_URL_SELECT: state.environment.SELECT_URL,
-    }),
-  );
+  const { searchQuery, isLoggedIn, BASE_URL_SELECT } = useSelector((state: RidiSelectState) => ({
+    searchQuery: state.router.location.search,
+    isLoggedIn: state.user.isLoggedIn,
+    BASE_URL_SELECT: state.environment.SELECT_URL,
+  }));
+  const isUserFetching = useSelector(getIsUserFetching);
 
   const modifyValue = (value: string) => {
     let resultValue = value.replace(/[^\w]|_/g, '').toUpperCase();

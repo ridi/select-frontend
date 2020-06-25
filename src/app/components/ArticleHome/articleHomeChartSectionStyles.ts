@@ -108,7 +108,6 @@ export const articleChartListMetaLink = css`
 export const articleChartListMetaChannel = css`
   margin-top: 4px;
   display: block;
-  font-family: var(--defaultFontFamily);
   font-size: 13px;
   letter-spacing: -0.3px;
   color: ${Colors.slategray_60};

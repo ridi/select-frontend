@@ -14,6 +14,7 @@ import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
 import { Scene } from 'app/styles/globals';
 import Media from 'app/styles/mediaQuery';
+import Colors from 'app/styles/colors';
 
 const ChannelList = {
   SceneWrapper: styled.main`
@@ -33,7 +34,7 @@ const ChannelList = {
   `,
   Item: styled.div`
     padding: 20px 0;
-    border-bottom: 1px solid #e4e8eb;
+    border-bottom: 1px solid ${Colors.slategray_10};
     @media ${Media.PC} {
       padding: 30px 0;
     }

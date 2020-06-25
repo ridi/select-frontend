@@ -13,7 +13,7 @@ export enum CollectionType {
 }
 
 export enum ReservedCollectionIds {
-  POPULAR = 'popular',
+  POPULAR = 'popularBooks',
   RECENT = 'recent',
   SPOTLIGHT = 'spotlight',
 }
@@ -49,7 +49,7 @@ export interface SpotlightCollectionState extends Paginated<BookId>, CollectionS
 export interface CollectionsState {
   [collectionId: number]: DefaultCollectionState;
   recent: ReservedCollectionState;
-  popular: ChartCollectionState;
+  popularBooks: ChartCollectionState;
   spotlight: SpotlightCollectionState;
 }
 
@@ -91,7 +91,7 @@ export const Actions = {
 };
 
 export const INITIAL_STATE: CollectionsState = {
-  popular: {
+  popularBooks: {
     id: ReservedCollectionIds.POPULAR,
     itemListByPage: {},
   },
@@ -213,11 +213,11 @@ collectionReducer.on(
 
 collectionReducer.on(Actions.loadPopularBooksRequest, (state = INITIAL_STATE, { page = 1 }) => ({
   ...state,
-  popular: {
-    ...state.popular,
+  popularBooks: {
+    ...state.popularBooks,
     id: ReservedCollectionIds.POPULAR,
     itemListByPage: {
-      ...(state.popular && state.popular.itemListByPage),
+      ...(state.popularBooks && state.popularBooks.itemListByPage),
       [page]: {
         fetchStatus: FetchStatusFlag.FETCHING,
         itemList: [],
@@ -231,10 +231,10 @@ collectionReducer.on(
   Actions.afterLoadPopularBooks,
   (state = INITIAL_STATE, { page = 1, books, totalCount = 0 }) => ({
     ...state,
-    popular: {
-      ...state.popular,
+    popularBooks: {
+      ...state.popularBooks,
       itemListByPage: {
-        ...state.popular.itemListByPage,
+        ...state.popularBooks.itemListByPage,
         [page]: {
           fetchStatus: books ? FetchStatusFlag.IDLE : FetchStatusFlag.FETCH_ERROR,
           itemList: books ? books.map(book => book.id) : [],

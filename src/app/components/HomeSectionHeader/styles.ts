@@ -12,7 +12,7 @@ export const sectionTitle = css`
   margin: 0;
   padding-right: 13px;
   overflow: hidden;
-  color: #000;
+  color: black;
   font-size: 16px;
   text-decoration: none;
   text-overflow: ellipsis;

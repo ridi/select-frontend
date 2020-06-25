@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import React from 'react';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,6 +15,22 @@ import * as styles from 'app/components/ArticleHome/articleHomeSectionStyles';
 import { Actions as ArticleFollowingActions } from 'app/services/articleFollowing';
 import { ArticleHomeListSection } from 'app/components/ArticleHome/ArticleHomeListSection';
 import { ArticleHomeChartSection } from 'app/components/ArticleHome/ArticleHomeChartSection';
+import Media from 'app/styles/mediaQuery';
+import { Scene } from 'app/styles/globals';
+
+const Home = styled.main`
+  ${Scene.Wrapper}
+  ${Scene.WithGNB}
+  ${Scene.WithLNB}
+  @media ${Media.PC} {
+    padding-bottom: 80px;
+    background-color: initial;
+  }
+
+  .androidApp & {
+    padding-bottom: 0;
+  }
+`;
 
 const ArticleHome: React.FunctionComponent = () => {
   const { fetchedAt, hasAvailableTicket, unseenFeedsFetchStatus } = useSelector(
@@ -39,14 +56,7 @@ const ArticleHome: React.FunctionComponent = () => {
   }, [hasAvailableTicket]);
 
   return (
-    <main
-      className={classNames(
-        'PageHome',
-        'SceneWrapper',
-        'SceneWrapper_WithGNB',
-        'SceneWrapper_WithLNB',
-      )}
-    >
+    <Home>
       <HelmetWithTitle titleName={PageTitleText.ARTICLE_HOME} />
       <div className="a11y">
         <h1>리디셀렉트 아티클 홈</h1>
@@ -73,7 +83,7 @@ const ArticleHome: React.FunctionComponent = () => {
           order={2}
         />
       </div>
-    </main>
+    </Home>
   );
 };
 

@@ -78,7 +78,7 @@ const SC = {
     height: ${DefaultHeight}px;
     padding: 0 6px;
     vertical-align: middle;
-    fill: #bfc4c8;
+    fill: ${Colors.slategray_20};
   `,
   GoPrevIcon: styled(ArrowLeft)`
     ${goIconStyle}

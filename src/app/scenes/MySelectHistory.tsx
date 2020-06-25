@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import { Button, CheckBox, Empty } from '@ridi/rsg';
 import classNames from 'classnames';
 import React from 'react';
@@ -6,7 +7,7 @@ import { Link, LinkProps } from 'react-router-dom';
 
 import { ConnectedPageHeader, DTOBookThumbnail, HelmetWithTitle, Pagination } from 'app/components';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
-import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
+import { MySelectHistoryBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { ExpireRemaningTime } from 'app/components/ExpireRemainingTime';
 import { Actions as CommonUIActions } from 'app/services/commonUI';
 import { MySelectBook } from 'app/services/mySelect';
@@ -17,6 +18,7 @@ import { getNotAvailableConvertDateDiff } from 'app/utils/expiredDate';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import toast from 'app/utils/toast';
 import { getIsMobile } from 'app/services/commonUI/selectors';
+import { skeletonWrapper } from 'app/styles/skeleton';
 
 interface StateProps {
   mySelectHistory: MySelectHistroyState;
@@ -31,6 +33,10 @@ interface State {
     [mySelectBookId: number]: boolean;
   };
 }
+
+const PageMySelectHistorySkeleton = styled.div`
+  ${skeletonWrapper}
+`;
 
 class MySelectHistory extends React.Component<Props, State> {
   public state: State = {
@@ -176,9 +182,9 @@ class MySelectHistory extends React.Component<Props, State> {
         <HelmetWithTitle titleName={PageTitleText.MY_SELECT_HISTORY} />
         <ConnectedPageHeader pageTitle={PageTitleText.MY_SELECT_HISTORY} />
         {!this.isFetched() ? (
-          <div className="PageMySelectHistory Skeleton_Wrapper">
-            <LandscapeBookListSkeleton hasCheckbox />
-          </div>
+          <PageMySelectHistorySkeleton>
+            <MySelectHistoryBookListSkeleton hasCheckbox />
+          </PageMySelectHistorySkeleton>
         ) : (
           <div className="PageMySelect">
             {noHistory ? (

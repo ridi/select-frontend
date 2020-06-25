@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { ConnectedInlineHorizontalBookList } from 'app/components';
+import InlineHorizontalBookList from 'app/components/InlineHorizontalBookList';
 import { Expander } from 'app/components/BookDetail/Expander';
 import { Book } from 'app/services/book';
 import { getIsMobile } from 'app/services/commonUI/selectors';
@@ -29,7 +29,7 @@ export const ExpandableBookList: React.FunctionComponent<ExpandableBookListProps
       )}
     >
       <h2 className="ExpandableBookList_Title">{listTitle}</h2>
-      <ConnectedInlineHorizontalBookList
+      <InlineHorizontalBookList
         books={isExpanded || isMobile ? books : books.slice(0, 6)}
         serviceTitleForTracking="select-book"
         uiPartTitleForTracking={uiPartTitleForTracking}

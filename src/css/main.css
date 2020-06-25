@@ -38,9 +38,7 @@
 @import 'voucher/voucher.css';
 
 @import 'placeholder/BookListPlaceholder.css';
-@import 'placeholder/HomePlaceholder.css';
 @import 'placeholder/SubscriptionListPlaceholder.css';
-@import 'placeholder/MySelectHistoryPlaceholder.css';
 @import 'placeholder/BookDetailPlaceholder.css';
 @import 'placeholder/GridArticleListPlaceholder.css';
 @import 'placeholder/ArticleSectionChartListPlaceholder.css';

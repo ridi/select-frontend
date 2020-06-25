@@ -1,6 +1,7 @@
-import classNames from 'classnames';
+import styled from '@emotion/styled';
+import { css, SerializedStyles } from '@emotion/core';
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
@@ -9,8 +10,18 @@ import { Book } from 'app/services/book';
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { stringifyAuthors } from 'app/utils/utils';
+import Media from 'app/styles/mediaQuery';
+import Colors from 'app/styles/colors';
 
 import { ThumbnailSize } from './BookThumbnail';
+
+interface InlineHorizontalBookListStyles {
+  bookList?: SerializedStyles;
+  book?: SerializedStyles;
+  bookLink?: SerializedStyles;
+  bookTitle?: SerializedStyles;
+  bookAuthor?: SerializedStyles;
+}
 
 interface Props {
   serviceTitleForTracking?: string;
@@ -22,10 +33,117 @@ interface Props {
   lazyloadThumbnail?: boolean;
   renderAuthor?: boolean;
   bookThumbnailSize?: ThumbnailSize;
+  styles?: InlineHorizontalBookListStyles;
 }
 
-export const InlineHorizontalBookList: React.FunctionComponent<Props &
-  ReturnType<typeof mapDispatchToProps>> = props => {
+interface StyledBookProps {
+  inlineDisabled?: boolean;
+}
+
+interface StyledBookMetaProps {
+  width?: number;
+}
+
+const SC = {
+  BookList: styled.ul`
+    padding: 0;
+    @media ${Media.MOBILE} {
+      margin: 21px -20px 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+    @media ${Media.PC} {
+      display: flex;
+      flex-wrap: ${(props: StyledBookProps) => (props.inlineDisabled ? 'wrap' : 'nowrap')};
+      align-items: flex-start;
+    }
+  `,
+  Book: styled.li`
+    width: 110px;
+    list-style: none;
+    margin-left: 10px;
+
+    @media ${Media.MOBILE} {
+      margin-left: 10px;
+      display: inline-block;
+      &:first-of-type {
+        margin-left: 0;
+        padding-left: 20px;
+      }
+      &:last-of-type {
+        padding-right: 20px;
+      }
+    }
+    @media ${Media.PC} {
+      margin-left: 16px;
+      width: 120px;
+      &:first-of-type {
+        margin-left: 0;
+      }
+      &:nth-of-type(6n + 1) {
+        margin-left: ${(props: StyledBookProps) => (props.inlineDisabled ? '16px' : 0)};
+      }
+      &:nth-of-type(n + 7) {
+        ${(props: StyledBookProps) =>
+          props.inlineDisabled
+            ? css`
+                margin-top: 30px;
+              `
+            : css`
+                display: none;
+              `}
+      }
+    }
+  `,
+  BookLink: styled(Link)`
+    flex-direction: column;
+    display: flex;
+    align-items: start;
+    color: inherit;
+    text-decoration: inherit;
+  `,
+  BookTitle: styled.span`
+    display: block;
+    display: -webkit-box;
+    width: ${(props: StyledBookMetaProps) => props.width || '100%'};
+    max-height: 34px;
+    margin-top: 10px;
+    overflow: hidden;
+    color: ${Colors.slategray_80};
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 17px;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-all;
+    transition: color 0.2s;
+    word-wrap: break-word;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  `,
+  BookAuthor: styled.span`
+    display: block;
+    display: -webkit-box;
+    width: ${(props: StyledBookMetaProps) => props.width || '100%'};
+    padding-top: 4px;
+    font-size: 13px;
+    color: ${Colors.slategray_50};
+    max-height: 2.8em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-all;
+    transition: opacity 0.2s;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    -webkit-line-clamp: 1;
+  `,
+};
+
+export const InlineHorizontalBookList: React.FunctionComponent<Props> = props => {
+  const dispatch = useDispatch();
   const {
     serviceTitleForTracking,
     pageTitleForTracking,
@@ -34,7 +152,6 @@ export const InlineHorizontalBookList: React.FunctionComponent<Props &
     books,
     disableInlineOnPC,
     lazyloadThumbnail,
-    trackClick,
     renderAuthor,
     bookThumbnailSize = 120,
   } = props;
@@ -47,15 +164,15 @@ export const InlineHorizontalBookList: React.FunctionComponent<Props &
           uiPartTitleForTracking,
         )
       : undefined;
+
+  const trackClick = (trackingParams: DefaultTrackingParams) => {
+    dispatch(Actions.trackClick({ trackingParams }));
+  };
+
   return (
-    <ul
-      className={classNames([
-        'InlineHorizontalBookList',
-        disableInlineOnPC && 'InlineHorizontalBookList-disableInlineOnPC',
-      ])}
-    >
+    <SC.BookList inlineDisabled={disableInlineOnPC}>
       {books.map((book, idx) => (
-        <li className="InlineHorizontalBookList_Item" key={book.id}>
+        <SC.Book key={book.id} inlineDisabled={disableInlineOnPC} css={props.styles?.book}>
           <ConnectedTrackImpression section={section} index={idx} id={book.id} misc={miscTracking}>
             <>
               <DTOBookThumbnail
@@ -71,12 +188,11 @@ export const InlineHorizontalBookList: React.FunctionComponent<Props &
                     id: book.id,
                   })
                 }
-                imageClassName="InlineHorizontalBookList_Thumbnail"
                 lazyload={lazyloadThumbnail}
               />
-              <Link
+              <SC.BookLink
+                css={props.styles?.bookLink}
                 to={`/book/${book.id}`}
-                className="InlineHorizontalBookList_Link"
                 onClick={() =>
                   section &&
                   trackClick({
@@ -86,39 +202,21 @@ export const InlineHorizontalBookList: React.FunctionComponent<Props &
                   })
                 }
               >
-                <span
-                  className="InlineHorizontalBookList_Title"
-                  style={{
-                    width: `${bookThumbnailSize}px`,
-                  }}
-                >
+                <SC.BookTitle css={props.styles?.bookTitle} width={bookThumbnailSize}>
                   {book.title.main}
-                </span>
+                </SC.BookTitle>
                 {renderAuthor && (
-                  <span
-                    className="InlineHorizontalBookList_Author"
-                    style={{
-                      width: `${bookThumbnailSize}px`,
-                    }}
-                  >
+                  <SC.BookAuthor css={props.styles?.bookAuthor} width={bookThumbnailSize}>
                     {stringifyAuthors(book.authors, 2)}
-                  </span>
+                  </SC.BookAuthor>
                 )}
-              </Link>
+              </SC.BookLink>
             </>
           </ConnectedTrackImpression>
-        </li>
+        </SC.Book>
       ))}
-    </ul>
+    </SC.BookList>
   );
 };
 
-const mapDispatchToProps = (dispatch: any) => ({
-  trackClick: (trackingParams: DefaultTrackingParams) =>
-    dispatch(Actions.trackClick({ trackingParams })),
-});
-
-export const ConnectedInlineHorizontalBookList = connect(
-  null,
-  mapDispatchToProps,
-)(InlineHorizontalBookList);
+export default React.memo(InlineHorizontalBookList);

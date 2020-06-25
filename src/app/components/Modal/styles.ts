@@ -31,7 +31,7 @@ export const modalComponent = css`
   position: relative;
   display: block;
   margin: 0 auto;
-  background: #ffffff;
+  background: white;
   border-radius: 3px;
   z-index: 20;
 `;
@@ -48,7 +48,7 @@ export const modalTitle = css`
   font-weight: 700;
   font-size: 17px;
   line-height: 24px;
-  color: #000;
+  color: black;
   text-align: left;
 `;
 

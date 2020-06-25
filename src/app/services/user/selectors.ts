@@ -1,5 +1,4 @@
 import get from 'lodash-es/get';
-// eslint-disable-next-line import/named
 import { createSelector, OutputSelector } from 'reselect';
 
 import { SubscriptionStatus, UserState } from 'app/services/user';
@@ -63,3 +62,4 @@ export const getUnsubscriptionDate: OutputSelector<
 );
 
 export const getIsLoggedIn = (state: RidiSelectState) => state.user?.isLoggedIn;
+export const getIsUserFetching = (state: RidiSelectState) => state.user?.isFetching;

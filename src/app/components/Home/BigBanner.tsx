@@ -9,7 +9,7 @@ import TopBannerCarousel, { TopBannerCarouselProps } from 'app/components/TopBan
 import { TOP_BANNER_IMAGE_WIDTH as IMAGE_WIDTH } from 'app/constants';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { Actions as ArticleActions } from 'app/services/articleHome';
-import { Actions as HomeActions } from 'app/services/home';
+import { homeActions } from 'app/services/home';
 
 const TopBannerSkeleton = styled.div`
   width: 100%;
@@ -49,7 +49,7 @@ const BigBanner: React.FunctionComponent = () => {
   }));
   const onChangeCurrentIdx = (currentIdx: number) => {
     isBooks
-      ? dispatch(HomeActions.updateBannerIndex({ currentIdx }))
+      ? dispatch(homeActions.updateBannerIndex({ currentIdx }))
       : dispatch(ArticleActions.updateBannerIndex({ currentIdx }));
   };
   const carouselProps: TopBannerCarouselProps = {

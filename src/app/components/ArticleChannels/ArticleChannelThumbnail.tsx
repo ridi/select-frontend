@@ -7,6 +7,7 @@ import { objectfit } from 'modernizr';
 import { ImageSize } from 'app/constants';
 import getImageSrc from 'app/utils/getSelectResponsiveImageSrc';
 import DisabledIcon from 'svgs/Disabled.svg';
+import Colors from 'app/styles/colors';
 
 interface ArticleChannelThumbnailProps {
   linkUrl: string;
@@ -64,12 +65,12 @@ const Thumbnail = {
     height: 40px;
     border-radius: 999px;
     overflow: hidden;
-    background-color: #b3b3b3;
+    background-color: ${Colors.gray_30};
     line-height: 31px;
     text-align: center;
   `,
   DisabledIcon: styled(DisabledIcon)`
-    fill: #e6e6e6;
+    fill: ${Colors.gray_10};
     vertical-align: middle;
     margin-top: 4px;
     width: 24px;
@@ -82,7 +83,7 @@ const Thumbnail = {
     height: 100%;
     top: 0;
     left: 0;
-    background: #e6e8eb;
+    background: ${Colors.slategray_10};
     border: solid 1px rgba(0, 0, 0, 0.1);
     border-radius: 999px;
     box-sizing: border-box;

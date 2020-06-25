@@ -3,11 +3,12 @@ import React from 'react';
 
 import Media from 'app/styles/mediaQuery';
 import { skeleton } from 'app/styles/skeleton';
+import Colors from 'app/styles/colors';
 
 const Channel = {
   Wrapper: styled.li`
     padding: 20px 0;
-    border-bottom: 1px solid #e4e8eb;
+    border-bottom: 1px solid ${Colors.slategray_10};
     @media ${Media.PC} {
       padding: 30px 0;
     }

@@ -196,4 +196,26 @@ export default class Colors {
   static readonly brown_90: string = '#6b4a1a';
 
   static readonly brown_100: string = '#5c3f14';
+
+  static readonly scubablue_5: string = '#e9f8fa';
+
+  static readonly scubablue_10: string = '#c1ebf2';
+
+  static readonly scubablue_20: string = '#99dee9';
+
+  static readonly scubablue_30: string = '#72d2e0';
+
+  static readonly scubablue_40: string = '#4ac5d8';
+
+  static readonly scubablue_50: string = '#22b8cf';
+
+  static readonly scubablue_60: string = '#16a8be';
+
+  static readonly scubablue_70: string = '#0d96ab';
+
+  static readonly scubablue_80: string = '#058295';
+
+  static readonly scubablue_90: string = '#006d7e';
+
+  static readonly scubablue_100: string = '#005664';
 }

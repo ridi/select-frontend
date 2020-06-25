@@ -1,65 +1,52 @@
-import filter from 'lodash-es/filter';
-import { all, call, put, select, take } from 'redux-saga/effects';
+import { call, put, select, takeLatest, all } from 'redux-saga/effects';
 
-import { Actions as BookActions, Book } from 'app/services/book';
-import { Actions as CollectionActions } from 'app/services/collection';
+import { Actions as BookActions } from 'app/services/book';
+import { Actions as CollectionActions, ReservedCollectionIds } from 'app/services/collection';
 import { CollectionResponse } from 'app/services/collection/requests';
-import { Actions } from 'app/services/home';
+import { homeActions, CollectionId } from 'app/services/home';
 import { HomeResponse, requestHome } from 'app/services/home/requests';
-import { RidiSelectState } from 'app/store';
 import showMessageForRequestError from 'app/utils/toastHelper';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import { ErrorStatus } from 'app/constants/index';
+import { isRidiselectUrl } from 'app/utils/regexHelper';
+
+const getCollectionIdList = (collections: CollectionResponse[]) => {
+  const collectionIdList: CollectionId[] = collections.map(collection => collection.collectionId);
+  // 별점 베스트, 인기도서 콜렉션을 임의의 순서로 추가
+  collectionIdList.unshift(ReservedCollectionIds.SPOTLIGHT);
+  collectionIdList.splice(3, 0, ReservedCollectionIds.POPULAR);
+  return collectionIdList;
+};
 
 export function* watchLoadHome() {
-  while (true) {
-    yield take(Actions.loadHomeRequest.getType());
-    try {
-      const response: HomeResponse = yield call(requestHome);
-      const collectionsWithoutPopular = filter(
-        response.collections,
-        collection => collection.collectionId !== 0,
-      );
-      const responseWithoutPopular = {
-        ...response,
-        collections: collectionsWithoutPopular,
-      };
-      const state: RidiSelectState = yield select(s => s);
+  try {
+    const { collections, banners }: HomeResponse = yield call(requestHome);
+    const books = collections.flatMap(collection => [...collection.books]);
+    const isIosInApp: boolean = yield select(getIsIosInApp);
+    const bigBannerList = isIosInApp
+      ? banners.filter(banner => isRidiselectUrl(banner.linkUrl))
+      : banners;
 
-      // This array might have duplicated book item
-      const books = collectionsWithoutPopular.reduce(
-        (concatedBooks: Book[], section) => concatedBooks.concat(section.books),
-        [],
-      );
-      yield put(BookActions.updateBooks({ books }));
-      const collections = collectionsWithoutPopular.map(
-        (section): CollectionResponse => ({
-          type: section.type,
-          collectionId: section.collectionId,
-          title: section.title,
-          books: section.books,
-          totalCount: 0, // TODO: Ask @minQ
-        }),
-      );
-      yield put(CollectionActions.updateCollections({ collections }));
-      yield put(
-        Actions.loadHomeSuccess({
-          response: responseWithoutPopular,
+    yield all([
+      put(BookActions.updateBooks({ books })),
+      put(CollectionActions.updateCollections({ collections })),
+      put(
+        homeActions.loadHomeSuccess({
           fetchedAt: Date.now(),
-          isIosInApp: getIsIosInApp(state),
+          bigBannerList,
+          collectionIdList: getCollectionIdList(collections),
         }),
-      );
-    } catch (e) {
-      const { data } = e.response;
-      yield put(Actions.loadHomeFailure());
-      if (data && data.status === ErrorStatus.MAINTENANCE) {
-        return;
-      }
-      showMessageForRequestError(e);
+      ),
+    ]);
+  } catch (error) {
+    const { data } = error.response;
+    yield put(homeActions.loadHomeFailure());
+    if (!data || data.status !== ErrorStatus.MAINTENANCE) {
+      showMessageForRequestError(error);
     }
   }
 }
 
 export function* homeRootSaga() {
-  yield all([watchLoadHome()]);
+  yield takeLatest(homeActions.loadHomeRequest.type, watchLoadHome);
 }

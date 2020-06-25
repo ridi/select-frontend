@@ -11,7 +11,7 @@ const ArticleChannelList = {
     ${Scene.Wrapper}
     ${skeletonWrapper}
     padding: 0 20px;
-    background: #fff;
+    background: white;
   `,
   PlaceholderWrapper: styled.div`
     max-width: 800px;

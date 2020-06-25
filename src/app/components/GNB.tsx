@@ -21,6 +21,7 @@ import {
 } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import { moveToLogin } from 'app/utils/utils';
+import Colors from 'app/styles/colors';
 
 interface Props {
   gnbType: GNBColorLevel;
@@ -132,7 +133,7 @@ export class GNB extends React.Component<Props> {
           <svg className="SettingIcon_IosInApp" width="24px" height="24px" viewBox="0 0 24 24">
             <g
               transform="translate(2.000000, 2.000000)"
-              stroke="#2E3847"
+              stroke={Colors.bluegray_70}
               strokeWidth="1.5"
               fill="none"
               fillRule="evenodd"
