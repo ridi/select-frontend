@@ -14,10 +14,10 @@ import { ArticleListType } from 'app/services/articleList';
 
 const getCollectionIdList = (collections: CollectionResponse[]) => {
   const collectionIdList: CollectionIdList = collections.map(collection => collection.collectionId);
-  // 별점 베스트, 인기도서 콜렉션을 임의의 순서로 추가
+  // 별점 베스트, 인기 아티클 둘러보기, 인기 도서 콜렉션을 임의의 순서로 추가
   collectionIdList.unshift(ReservedCollectionIds.SPOTLIGHT);
-  collectionIdList.splice(1, 0, ArticleListType.POPULAR);
-  collectionIdList.splice(3, 0, ReservedCollectionIds.POPULAR);
+  collectionIdList.splice(2, 0, ArticleListType.POPULAR);
+  collectionIdList.splice(4, 0, ReservedCollectionIds.POPULAR);
   return collectionIdList;
 };
 
