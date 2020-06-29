@@ -42,7 +42,7 @@ export function* watchLoadHome() {
       ),
     ]);
   } catch (error) {
-    const { data } = error.response;
+    const data = error.response?.data;
     yield put(homeActions.loadHomeFailure());
     if (!data || data.status !== ErrorStatus.MAINTENANCE) {
       showMessageForRequestError(error);
