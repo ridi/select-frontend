@@ -181,7 +181,7 @@ export function* watchLoadMySelectHistoryFailure() {
       Actions.loadMySelectHistoryFailure.getType(),
     );
     if (page === 1) {
-      const { data } = error.response!;
+      const data = error.response?.data;
       if (!data || data.status !== ErrorStatus.MAINTENANCE) {
         toast.failureMessage('없는 페이지입니다. 다시 시도해주세요.');
       }
