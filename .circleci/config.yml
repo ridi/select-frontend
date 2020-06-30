@@ -169,6 +169,7 @@ workflows:
             branches:
               only:
                 - master
+                - staging
           dev: true
       - deploy:
           name: deploy-dev

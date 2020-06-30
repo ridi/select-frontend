@@ -46,11 +46,11 @@ const SkeletonSC = {
   `,
   SpotlightBook: styled.li`
     width: 140px;
-    @media ${Media.MOBILE} {
-      &:first-of-type {
-        padding-left: 0;
-      }
-      &:last-of-type {
+    &:first-of-type {
+      padding-left: 0;
+    }
+    &:last-of-type {
+      @media ${Media.MOBILE} {
         padding-right: 20px;
       }
     }

@@ -68,9 +68,6 @@ const Skeletons = {
       padding-top: 30px;
       overflow: hidden;
     }
-    @media ${SpotlightMedia.SLIDER} {
-      text-align: center;
-    }
   `,
   SpotlightTitle: styled.div`
     ${skeleton}
