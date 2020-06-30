@@ -1390,13 +1390,15 @@
     eslint-config-airbnb "^18.0.1"
     eslint-config-prettier "^6.10.0"
 
-"@ridi/event-tracker@^0.8.9":
-  version "0.8.9"
-  resolved "https://registry.yarnpkg.com/@ridi/event-tracker/-/event-tracker-0.8.9.tgz#55ce6afd16887df403f84a8c4db12fdb1030c15d"
-  integrity sha512-p45aoLlOb+l/f5MgPFtAj0IRT+V80KBnbldGe5DP72y1NjD3a0Ey7SKo/UTfT/YJw5j47CIJ12OteGF0G2YFlA==
+"@ridi/event-tracker@^0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@ridi/event-tracker/-/event-tracker-0.9.0.tgz#d053aa635ce55073cbc22c0afa3fb9740a6c2e6b"
+  integrity sha512-OHK9KohXwnv8XiOC2Try/OKZ5Oii+06mWqTHlKo5ulQjXELaBlcHTs3WabVnC7pkeSsoovakH/SsAlaZ3voJMw==
   dependencies:
     "@types/google.analytics" "0.0.39"
+    "@types/lodash" "^4.14.155"
     js-cookie "^2.2.1"
+    lodash "^4.17.15"
     performance-now "^2.1.0"
     url-parse "^1.4.3"
 
@@ -1755,6 +1757,11 @@
   version "4.14.149"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.149.tgz#1342d63d948c6062838fbf961012f74d4e638440"
   integrity sha512-ijGqzZt/b7BfzcK9vTrS6MFljQRPn5BFWOx8oE0GYxribu6uV+aA9zZuXI1zc/etK9E8nrgdoF2+LgUw7+9tJQ==
+
+"@types/lodash@^4.14.155":
+  version "4.14.157"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.157.tgz#fdac1c52448861dfde1a2e1515dbc46e54926dc8"
+  integrity sha512-Ft5BNFmv2pHDgxV5JDsndOWTRJ+56zte0ZpYLowp03tW+K+t8u8YMOzAnpuqPgzX6WO1XpDIUm7u04M8vdDiVQ==
 
 "@types/minimatch@*":
   version "3.0.3"
@@ -10527,6 +10534,11 @@ request@^2.87.0:
     tough-cookie "~2.4.3"
     tunnel-agent "^0.6.0"
     uuid "^3.3.2"
+
+requestidlecallback-polyfill@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/requestidlecallback-polyfill/-/requestidlecallback-polyfill-1.0.2.tgz#02eefae286ff86ef04232087dba19f005308b18e"
+  integrity sha512-zzkRzvMe7UdV0M7AIU70vl2fh4rFnNYDL8U0ISwWiOX/5MowBV1ESYCWSQP/KsgJNUOC/AS6X3DApOmxoyE6MA==
 
 require-directory@^2.1.1:
   version "2.1.1"
