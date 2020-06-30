@@ -83,7 +83,7 @@ const SC = {
         margin-left: 0;
       }
       &:nth-of-type(6n + 1) {
-        margin-left: ${(props: StyledBookProps) => (props.inlineDisabled ? '16px' : 0)};
+        margin-left: 0;
       }
       &:nth-of-type(n + 7) {
         ${(props: StyledBookProps) =>
