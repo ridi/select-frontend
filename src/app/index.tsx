@@ -1,6 +1,7 @@
 import createCache from '@emotion/cache';
 import { Global, CacheProvider } from '@emotion/core';
 import 'intersection-observer';
+import 'requestidlecallback-polyfill';
 import React from 'react';
 import Helmet from 'react-helmet';
 import { render } from 'react-dom';

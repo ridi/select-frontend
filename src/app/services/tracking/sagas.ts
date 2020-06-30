@@ -11,40 +11,24 @@ import {
 } from 'app/store';
 import { clearScrollEndHandlers } from 'app/utils/onWindowScrollEnd';
 
-export const PIXEL_ID = '417351945420295';
-let tracker: Tracker;
+const deviceType: DeviceType =
+  document.body.clientWidth < MOBILE_MAX_WIDTH ? DeviceType.Mobile : DeviceType.PC;
 
-const initializeTracker = (state: RidiSelectState) => {
-  let deviceType: DeviceType;
-  if (document.body.clientWidth < MOBILE_MAX_WIDTH) {
-    deviceType = DeviceType.Mobile;
-  } else {
-    deviceType = DeviceType.PC;
-  }
+const tracker: Tracker = new Tracker({
+  deviceType,
+  tagManagerOptions: {
+    trackingId: 'GTM-WLRHQ86',
+  },
+});
 
-  tracker = new Tracker({
-    deviceType,
-    userId: state.user.uId,
-    serviceProps: {
-      is_subscribing: String(state.user.hasAvailableTicket),
-    },
-    tagManagerOptions: {
-      trackingId: 'GTM-WLRHQ86',
-    },
-  });
-  tracker.initialize();
-};
+window.requestIdleCallback(tracker.initialize, { timeout: 500 });
 
 export function* watchLocationChange() {
   let { referrer } = document;
   while (true) {
     yield take(LOCATION_CHANGE);
-    const state: RidiSelectState = yield select(s => s);
+    const location = yield select((state: RidiSelectState) => state.router.location);
     const { href } = window.location;
-
-    if (!tracker) {
-      initializeTracker(state);
-    }
 
     clearScrollEndHandlers();
 
@@ -64,8 +48,8 @@ export function* watchLocationChange() {
       // Remove new subscription search string for tracking and move to entry page if there is one
       yield put(
         replace({
-          ...state.router.location,
-          search: state.router.location.search.replace(
+          ...location,
+          search: location.search.replace(
             /[&?](new_subscription|new_payletter_subscription)=[^&=]+/,
             '',
           ),
@@ -81,10 +65,6 @@ export function* watchTrackClick() {
       Actions.trackClick.getType(),
     );
 
-    if (!tracker) {
-      initializeTracker(yield select(s => s));
-    }
-
     tracker.sendEvent('Click', payload.trackingParams);
   }
 }
@@ -94,10 +74,6 @@ export function* watchTrackImpressions() {
     const { payload }: ReturnType<typeof Actions.trackImpression> = yield take(
       Actions.trackImpression.getType(),
     );
-
-    if (!tracker) {
-      initializeTracker(yield select(s => s));
-    }
 
     tracker.sendEvent('Impression', payload.trackingParams);
   }
@@ -111,30 +87,19 @@ export function* watchTrackMySelectAdded() {
       Actions.trackMySelectAdded.getType(),
     );
 
-    if (!tracker) {
-      initializeTracker(yield select(s => s));
-    }
-
     tracker.sendEvent(trackingParams.eventName, { b_id: trackingParams.b_id });
   }
 }
 
-export function* trackingArgsUpdate({ payload }: ReturnType<typeof Actions.trackingArgsUpdate>) {
-  if (!tracker) {
-    initializeTracker(yield select(s => s));
-  }
-
+export function trackingArgsUpdate({ payload }: ReturnType<typeof Actions.trackingArgsUpdate>) {
   tracker.set({
     [payload.updateKey]: payload.updateValue,
   });
 }
 
-export function* trackingArticleActions({
+export function trackingArticleActions({
   payload,
 }: ReturnType<typeof Actions.trackingArticleActions>) {
-  if (!tracker) {
-    initializeTracker(yield select(s => s));
-  }
   const { trackingParams } = payload;
   tracker.sendEvent(trackingParams.eventName, { id: trackingParams.id });
 }
