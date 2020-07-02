@@ -21,7 +21,12 @@ const tracker: Tracker = new Tracker({
   },
 });
 
-window.requestIdleCallback(tracker.initialize, { timeout: 500 });
+window.requestIdleCallback(
+  () => {
+    tracker.initialize();
+  },
+  { timeout: 500 },
+);
 
 export function* watchLocationChange() {
   let { referrer } = document;
