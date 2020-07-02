@@ -75,5 +75,6 @@ declare global {
       mySelectBookDeleted: (bookids: string) => void;
       openBrowser: (url: string) => void;
     };
+    requestIdleCallback: (callBack: () => void, { timeout }: { timeout: number }) => void;
   }
 }
