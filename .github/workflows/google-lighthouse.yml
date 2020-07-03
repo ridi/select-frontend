@@ -1,0 +1,42 @@
+name: Google Lighthouse
+
+on:
+  schedule:
+    - cron: '0 */4 * * *'
+  push:
+    branches:
+      - add-lighthouse-ci 
+
+jobs:
+  lighthouse:
+    name: Lighthouse CI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+
+      - name: Run Lighhouse CI
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+        run: |
+          npm install -g @lhci/cli
+          lhci autorun
+
+      - name: Upload LHCI Server
+        env:
+          LHCI_BASE_URL: ${{ secrets.LHCI_BASE_URL }}
+          LHCI_SERVER_PROJECT_TOKEN: ${{ secrets.LHCI_SERVER_PROJECT_TOKEN }}
+        run: |
+          lhci upload --serverBaseUrl=$LHCI_BASE_URL --target lhci --token $LHCI_SERVER_PROJECT_TOKEN
+
+      - name: Save Aritifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: lighthouse-results
+          path: '.lighthouseci' # This will save the Lighthouse results as .json files
+
