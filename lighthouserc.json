@@ -1,0 +1,114 @@
+{
+  "ci": {
+    "collect": {
+      "numberOfRuns": 3,
+      "url": [
+        "https://select.ridibooks.com/home",
+        "https://select.ridibooks.com/article/home"
+      ]
+    },
+    "assert": {
+      "preset": "lighthouse:recommended",
+      "assertions": {
+        "maskable-icon": [
+          "warn", {}
+        ],
+        "splash-screen": [
+          "warn", {}
+        ],
+        "themed-omnibox": [
+          "warn", {}
+        ],
+        "without-javascript": [
+          "warn", {}
+        ],
+        "image-size-responsive": [
+          "warn", {}
+        ],
+        "installable-manifest": [
+          "off", {}
+        ],
+        "unused-javascript": [
+          "warn", {}
+        ],
+        "uses-passive-event-listeners": [
+          "warn", {}
+        ],
+        "color-contrast": [
+          "warn", {}
+        ],
+        "dom-size": [
+          "warn",{}
+        ],
+        "errors-in-console": [
+          "warn",{}
+        ],
+        "image-alt": [
+          "warn",{}
+        ],
+        "image-aspect-ratio": [
+          "warn",{}
+        ],
+        "list": [
+          "warn",{}
+        ],
+        "offline-start-url": [
+          "warn",{}
+        ],
+        "offscreen-images": [
+          "warn",{}
+        ],
+        "tap-targets": [
+          "warn",{}
+        ],
+        "total-byte-weight": [
+          "warn",{}
+        ],
+        "unminified-css": [
+          "warn",{}
+        ],
+        "unused-css-rules": [
+          "warn",{}
+        ],
+        "uses-optimized-images": [
+          "warn",{}
+        ],
+        "uses-rel-preconnect": [
+          "warn",{}
+        ],
+        "uses-responsive-images": [
+          "warn",{}
+        ],
+        "works-offline": [
+          "off",{}
+        ],
+        "link-name": [
+          "warn",
+          {}
+        ],
+        "service-worker": [
+          "off",{}
+        ],
+        "first-contentful-paint": [
+          "warn",
+          {
+            "maxNumericValue": 2500,
+            "aggregationMethod": "optimistic"
+          }
+        ],
+        "interactive": [
+          "warn",
+          {
+            "maxNumericValue": 5000,
+            "aggregationMethod": "optimistic"
+          }
+        ],
+        "uses-long-cache-ttl": "off"
+      }
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    }
+  }
+}
+
