@@ -3,9 +3,6 @@ name: Google Lighthouse
 on:
   schedule:
     - cron: '0 */4 * * *'
-  push:
-    branches:
-      - add-lighthouse-ci 
 
 jobs:
   lighthouse:
