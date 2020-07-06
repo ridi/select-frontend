@@ -10,6 +10,18 @@
     "assert": {
       "preset": "lighthouse:recommended",
       "assertions": {
+        "maskable-icon": [
+          "warn", {}
+        ],
+        "splash-screen": [
+          "warn", {}
+        ],
+        "themed-omnibox": [
+          "warn", {}
+        ],
+        "without-javascript": [
+          "warn", {}
+        ],
         "image-size-responsive": [
           "warn", {}
         ],
