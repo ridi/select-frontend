@@ -65,6 +65,7 @@ export enum AuthorKeys {
   'translator' = 'translator',
   'authorPhoto' = 'authorPhoto',
   'originalAuthor' = 'originalAuthor',
+  'adapter' = 'adapter',
 }
 export const authorKeys: AuthorKeys[] = [
   AuthorKeys.author,
@@ -74,6 +75,7 @@ export const authorKeys: AuthorKeys[] = [
   AuthorKeys.translator,
   AuthorKeys.authorPhoto,
   AuthorKeys.originalAuthor,
+  AuthorKeys.adapter,
 ];
 export const authorKoreanNames = {
   [AuthorKeys.author]: '저',
@@ -83,6 +85,7 @@ export const authorKoreanNames = {
   [AuthorKeys.translator]: '역',
   [AuthorKeys.authorPhoto]: '사진',
   [AuthorKeys.originalAuthor]: '원작',
+  [AuthorKeys.adapter]: '각색',
 };
 
 export interface BookAuthor {
