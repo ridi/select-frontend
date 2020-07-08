@@ -61,28 +61,31 @@ export enum AuthorKeys {
   'author' = 'author',
   'comicAuthor' = 'comicAuthor',
   'storyWriter' = 'storyWriter',
-  'illustrator' = 'illustrator',
   'translator' = 'translator',
-  'authorPhoto' = 'authorPhoto',
+  'illustrator' = 'illustrator',
   'originalAuthor' = 'originalAuthor',
+  'authorPhoto' = 'authorPhoto',
+  'adapter' = 'adapter',
 }
 export const authorKeys: AuthorKeys[] = [
   AuthorKeys.author,
   AuthorKeys.comicAuthor,
   AuthorKeys.storyWriter,
-  AuthorKeys.illustrator,
   AuthorKeys.translator,
-  AuthorKeys.authorPhoto,
+  AuthorKeys.illustrator,
   AuthorKeys.originalAuthor,
+  AuthorKeys.authorPhoto,
+  AuthorKeys.adapter,
 ];
 export const authorKoreanNames = {
   [AuthorKeys.author]: '저',
   [AuthorKeys.comicAuthor]: '글, 그림',
   [AuthorKeys.storyWriter]: '글',
-  [AuthorKeys.illustrator]: '그림',
   [AuthorKeys.translator]: '역',
-  [AuthorKeys.authorPhoto]: '사진',
+  [AuthorKeys.illustrator]: '그림',
   [AuthorKeys.originalAuthor]: '원작',
+  [AuthorKeys.authorPhoto]: '사진',
+  [AuthorKeys.adapter]: '각색',
 };
 
 export interface BookAuthor {
