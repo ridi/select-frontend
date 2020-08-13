@@ -5,7 +5,20 @@ pull_request_rules:
       - '#approved-reviews-by>=1'
       - '#review-requested=0'
       - '#changes-requested-reviews-by=0'
-      - 'status-success=WIP'
+      - -draft
+    actions:
+      merge:
+        method: merge
+        strict: smart
+        strict_method: rebase
+      delete_head_branch:
+        force: true
+        
+  - name: automatic merge with emergency labe
+    conditions:
+      - base=master
+      - label=emergency
+      - -draft
     actions:
       merge:
         method: merge
