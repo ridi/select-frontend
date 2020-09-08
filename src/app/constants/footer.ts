@@ -52,12 +52,6 @@ export const FooterLinks: {
     href: 'https://help.ridibooks.com/hc/ko/categories/360000139267',
     section: 'select.footer.faq',
   },
-  NEWS_LETTER: {
-    label: '뉴스레터 구독',
-    href:
-      'https://page.stibee.com/subscriptions/59319?utm_source=operation&utm_medium=banner&utm_campaign=inhouse&utm_content=letter',
-    section: 'select.footer.news-letter',
-  },
   INSTA: {
     label: '인스타그램',
     href: 'https://www.instagram.com/ridiselect/',
