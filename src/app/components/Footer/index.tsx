@@ -17,13 +17,7 @@ const FooterInfo: {
 }[] = [
   {
     key: FooterListKey.TopLinks,
-    items: [
-      FooterLinks.DOWNLOAD,
-      FooterLinks.GUIDE,
-      FooterLinks.VOUCHER,
-      FooterLinks.FAQ,
-      FooterLinks.NEWS_LETTER,
-    ],
+    items: [FooterLinks.DOWNLOAD, FooterLinks.GUIDE, FooterLinks.VOUCHER, FooterLinks.FAQ],
   },
   {
     key: FooterListKey.SocialLinks,
