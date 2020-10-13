@@ -35,7 +35,7 @@ commands:
     parameters:
       channel:
         type: string
-        default: deploy-select
+        default: deploy
       prefix:
         type: string
         default: ''
