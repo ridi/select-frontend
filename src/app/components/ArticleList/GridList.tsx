@@ -37,7 +37,7 @@ const ArticleGridList: React.FunctionComponent<ArticleGridListProps> = props => 
         <>
           <GridArticleList
             serviceTitleForTracking="select-article"
-            pageTitleForTracking="channel-detail"
+            pageTitleForTracking="recent"
             uiPartTitleForTracking="article-list"
             renderChannelMeta
             miscTracking={JSON.stringify({ sect_page: page })}
